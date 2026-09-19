@@ -74,6 +74,9 @@ void main() {
       when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
         (realInvocation) => const BorderSide(color: MockData.color0),
       );
+      when(mockUtils.normalizeBorder(any, any)).thenAnswer(
+        (realInvocation) => realInvocation.positionalArguments[0] as Border?,
+      );
 
       final mockBuildContext = MockBuildContext();
       final mockCanvasWrapper = MockCanvasWrapper();
@@ -110,6 +113,9 @@ void main() {
           .thenAnswer((realInvocation) => BorderRadius.zero);
       when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
         (realInvocation) => const BorderSide(color: MockData.color0),
+      );
+      when(mockUtils.normalizeBorder(any, any)).thenAnswer(
+        (realInvocation) => realInvocation.positionalArguments[0] as Border?,
       );
     });
 
@@ -749,6 +755,100 @@ void main() {
   });
 
   group('drawBars()', () {
+    ({
+      RRect rodRRect,
+      List<Path> borderPaths,
+      List<Color> borderColors,
+      List<StrokeCap> borderStrokeCaps,
+      List<Rect> clipRects,
+      List<({RRect outer, RRect inner, Color color})> drRects,
+    }) drawSingleBorderedRod({
+      required Border border,
+      BorderRadius borderRadius = BorderRadius.zero,
+      List<int>? borderDashArray,
+    }) {
+      const viewSize = Size(200, 100);
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              fromY: 0,
+              toY: 10,
+              borderRadius: borderRadius,
+              border: border,
+              borderDashArray: borderDashArray,
+              color: Colors.transparent,
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(
+        barGroups: barGroups,
+        minY: 0,
+        maxY: 10,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvas = MockCanvas();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((_) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(mockCanvas);
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      RRect? rodRRect;
+      final borderPaths = <Path>[];
+      final borderColors = <Color>[];
+      final borderStrokeCaps = <StrokeCap>[];
+      final clipRects = <Rect>[];
+      final drRects = <({RRect outer, RRect inner, Color color})>[];
+
+      when(mockCanvasWrapper.drawRRect(captureAny, captureAny))
+          .thenAnswer((inv) {
+        rodRRect ??= inv.positionalArguments[0] as RRect;
+      });
+      when(mockCanvasWrapper.drawPath(captureAny, captureAny))
+          .thenAnswer((inv) {
+        final path = inv.positionalArguments[0] as Path;
+        final paint = inv.positionalArguments[1] as Paint;
+        borderPaths.add(path);
+        borderColors.add(paint.color);
+        borderStrokeCaps.add(paint.strokeCap);
+      });
+      when(mockCanvasWrapper.clipRect(captureAny)).thenAnswer((inv) {
+        final rect = inv.positionalArguments[0] as Rect;
+        clipRects.add(rect);
+      });
+      when(mockCanvas.drawDRRect(captureAny, captureAny, captureAny))
+          .thenAnswer((inv) {
+        final outer = inv.positionalArguments[0] as RRect;
+        final inner = inv.positionalArguments[1] as RRect;
+        final paint = inv.positionalArguments[2] as Paint;
+        drRects.add((outer: outer, inner: inner, color: paint.color));
+      });
+
+      barChartPainter.drawBars(mockCanvasWrapper, barGroupsPosition, holder);
+
+      return (
+        rodRRect: rodRRect!,
+        borderPaths: borderPaths,
+        borderColors: borderColors,
+        borderStrokeCaps: borderStrokeCaps,
+        clipRects: clipRects,
+        drRects: drRects,
+      );
+    }
+
     test('test 1', () {
       const viewSize = Size(200, 100);
 
@@ -1385,6 +1485,7 @@ void main() {
               fromY: 0,
               toY: 15,
               borderDashArray: [4, 4],
+              // ignore: deprecated_member_use_from_same_package, keep coverage for deprecated legacy borderSide behavior.
               borderSide: const BorderSide(
                 color: Colors.white,
                 width: 2,
@@ -1439,6 +1540,7 @@ void main() {
         borderResult.add({
           'path': path,
           'paint_color': paint.color,
+          'stroke_cap': paint.strokeCap,
         });
       });
 
@@ -1490,6 +1592,7 @@ void main() {
             BarChartRodData(
               fromY: 0,
               toY: 15,
+              // ignore: deprecated_member_use_from_same_package, keep coverage for deprecated legacy borderSide behavior.
               borderSide: const BorderSide(
                 color: Colors.white,
                 width: 2,
@@ -1544,6 +1647,7 @@ void main() {
         borderResult.add({
           'path': path,
           'paint_color': paint.color,
+          'stroke_cap': paint.strokeCap,
         });
       });
 
@@ -1561,6 +1665,130 @@ void main() {
       final currentPath = borderResult[0]['path'] as Path;
 
       expect(HelperMethods.equalsPaths(expectedPath, currentPath), true);
+    });
+
+    test('renders top border side inside with Container-style smooth edge', () {
+      final result = drawSingleBorderedRod(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(4),
+          topRight: Radius.circular(4),
+        ),
+        border: const Border(
+          top: BorderSide(color: Colors.white, width: 2),
+        ),
+      );
+
+      expect(result.borderPaths, isEmpty);
+      expect(result.clipRects, isEmpty);
+      expect(result.drRects.length, 1);
+
+      final rrect = result.rodRRect;
+      final drRect = result.drRects.single;
+      expect(drRect.color, Colors.white);
+      expect(HelperMethods.equalsRRects(drRect.outer, rrect), true);
+      expect(drRect.inner.left, closeTo(rrect.left, tolerance));
+      expect(drRect.inner.top, closeTo(rrect.top + 2, tolerance));
+      expect(drRect.inner.right, closeTo(rrect.right, tolerance));
+      expect(drRect.inner.bottom, closeTo(rrect.bottom, tolerance));
+      expect(drRect.inner.tlRadius.x, closeTo(4, tolerance));
+      expect(drRect.inner.tlRadius.y, closeTo(2, tolerance));
+    });
+
+    test('renders full non-uniform border with default centered strokes', () {
+      final result = drawSingleBorderedRod(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(4),
+          topRight: Radius.circular(4),
+        ),
+        border: const Border(
+          top: BorderSide(color: Colors.white),
+          right: BorderSide(color: Colors.white, width: 2),
+          bottom: BorderSide(color: Colors.white, width: 3),
+          left: BorderSide(color: Colors.white, width: 4),
+        ),
+      );
+
+      expect(result.borderPaths.length, 4);
+      expect(result.clipRects.length, 4);
+      expect(result.drRects, isEmpty);
+
+      final rrect = result.rodRRect;
+
+      final topRect = result.clipRects[0];
+      expect(topRect.left, closeTo(rrect.left - 0.5, tolerance));
+      expect(topRect.top, closeTo(rrect.top - 0.5, tolerance));
+      expect(topRect.right, closeTo(rrect.right + 0.5, tolerance));
+      expect(topRect.bottom, closeTo(rrect.top + 0.5, tolerance));
+
+      final rightRect = result.clipRects[1];
+      expect(rightRect.left, closeTo(rrect.right - 1, tolerance));
+      expect(rightRect.top, closeTo(rrect.top - 1, tolerance));
+      expect(rightRect.right, closeTo(rrect.right + 1, tolerance));
+      expect(rightRect.bottom, closeTo(rrect.bottom + 1, tolerance));
+
+      final bottomRect = result.clipRects[2];
+      expect(bottomRect.left, closeTo(rrect.left - 1.5, tolerance));
+      expect(bottomRect.top, closeTo(rrect.bottom - 1.5, tolerance));
+      expect(bottomRect.right, closeTo(rrect.right + 1.5, tolerance));
+      expect(bottomRect.bottom, closeTo(rrect.bottom + 1.5, tolerance));
+
+      final leftRect = result.clipRects[3];
+      expect(leftRect.left, closeTo(rrect.left - 2, tolerance));
+      expect(leftRect.top, closeTo(rrect.top - 2, tolerance));
+      expect(leftRect.right, closeTo(rrect.left + 2, tolerance));
+      expect(leftRect.bottom, closeTo(rrect.bottom + 2, tolerance));
+    });
+
+    test('renders uniform border in a single pass when border is uniform', () {
+      final result = drawSingleBorderedRod(
+        border: Border.all(color: Colors.white, width: 2),
+      );
+
+      expect(result.borderPaths.length, 1);
+      expect(result.borderColors.single, Colors.white);
+      expect(result.clipRects, isEmpty);
+      expect(result.drRects, isEmpty);
+    });
+
+    test('smooths connected curved joins inside the bar body', () {
+      final result = drawSingleBorderedRod(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(4),
+        ),
+        border: const Border(
+          top: BorderSide(color: Colors.red, width: 2),
+          left: BorderSide(color: Colors.red, width: 4),
+        ),
+      );
+
+      expect(result.borderPaths, isEmpty);
+      expect(result.clipRects, isEmpty);
+      expect(result.drRects.length, 1);
+      final rrect = result.rodRRect;
+      final drRect = result.drRects.single;
+
+      expect(drRect.color.toARGB32(), Colors.red.shade500.toARGB32());
+      expect(HelperMethods.equalsRRects(drRect.outer, rrect), true);
+      expect(drRect.inner.left, closeTo(rrect.left + 4, tolerance));
+      expect(drRect.inner.top, closeTo(rrect.top + 2, tolerance));
+      expect(drRect.inner.right, closeTo(rrect.right, tolerance));
+      expect(drRect.inner.bottom, closeTo(rrect.bottom, tolerance));
+      expect(drRect.inner.tlRadius.x, closeTo(0, tolerance));
+      expect(drRect.inner.tlRadius.y, closeTo(2, tolerance));
+    });
+
+    test('uses butt stroke cap for dashed per-side border', () {
+      final result = drawSingleBorderedRod(
+        border: const Border(
+          top: BorderSide(color: Colors.white, width: 2),
+        ),
+        borderDashArray: [4, 4],
+      );
+
+      expect(result.borderPaths.length, 1);
+      expect(result.borderColors.single, Colors.white);
+      expect(result.borderStrokeCaps.single, StrokeCap.butt);
+      expect(result.drRects, isEmpty);
     });
 
     test('test small bar values with large border radius (issue #1757)', () {
@@ -1694,6 +1922,9 @@ void main() {
           .thenAnswer((realInvocation) => BorderRadius.zero);
       when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
         (realInvocation) => const BorderSide(color: MockData.color0),
+      );
+      when(mockUtils.normalizeBorder(any, any)).thenAnswer(
+        (realInvocation) => realInvocation.positionalArguments[0] as Border?,
       );
     });
 
@@ -1926,6 +2157,9 @@ void main() {
       when(mockUtils.normalizeBorderRadius(any, any))
           .thenReturn(BorderRadius.zero);
       when(mockUtils.normalizeBorderSide(any, any)).thenReturn(BorderSide.none);
+      when(mockUtils.normalizeBorder(any, any)).thenAnswer(
+        (realInvocation) => realInvocation.positionalArguments[0] as Border?,
+      );
       when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
       when(mockUtils.getBestInitialIntervalValue(any, any, any)).thenReturn(0);
       when(mockUtils.formatNumber(any, any, captureAny)).thenAnswer((inv) {
@@ -2123,6 +2357,9 @@ void main() {
       when(mockUtils.normalizeBorderRadius(any, any))
           .thenReturn(BorderRadius.zero);
       when(mockUtils.normalizeBorderSide(any, any)).thenReturn(BorderSide.none);
+      when(mockUtils.normalizeBorder(any, any)).thenAnswer(
+        (realInvocation) => realInvocation.positionalArguments[0] as Border?,
+      );
       when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
       when(mockUtils.getBestInitialIntervalValue(any, any, any)).thenReturn(0);
       when(mockUtils.formatNumber(any, any, captureAny)).thenAnswer((inv) {
@@ -2332,6 +2569,9 @@ void main() {
       when(mockUtils.normalizeBorderRadius(any, any))
           .thenReturn(BorderRadius.zero);
       when(mockUtils.normalizeBorderSide(any, any)).thenReturn(BorderSide.none);
+      when(mockUtils.normalizeBorder(any, any)).thenAnswer(
+        (realInvocation) => realInvocation.positionalArguments[0] as Border?,
+      );
       when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
       when(mockUtils.getBestInitialIntervalValue(any, any, any)).thenReturn(0);
       when(mockUtils.formatNumber(any, any, captureAny)).thenAnswer((inv) {
@@ -2494,6 +2734,9 @@ void main() {
       when(mockUtils.normalizeBorderRadius(any, any))
           .thenReturn(BorderRadius.zero);
       when(mockUtils.normalizeBorderSide(any, any)).thenReturn(BorderSide.none);
+      when(mockUtils.normalizeBorder(any, any)).thenAnswer(
+        (realInvocation) => realInvocation.positionalArguments[0] as Border?,
+      );
       when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
       when(mockUtils.getBestInitialIntervalValue(any, any, any)).thenReturn(0);
       Utils.changeInstance(mockUtils);
@@ -2653,6 +2896,9 @@ void main() {
       when(mockUtils.normalizeBorderRadius(any, any))
           .thenReturn(BorderRadius.zero);
       when(mockUtils.normalizeBorderSide(any, any)).thenReturn(BorderSide.none);
+      when(mockUtils.normalizeBorder(any, any)).thenAnswer(
+        (realInvocation) => realInvocation.positionalArguments[0] as Border?,
+      );
       when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
       when(mockUtils.getBestInitialIntervalValue(any, any, any)).thenReturn(0);
       Utils.changeInstance(mockUtils);
@@ -3562,6 +3808,9 @@ void main() {
       when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
         (realInvocation) => const BorderSide(color: MockData.color0),
       );
+      when(mockUtils.normalizeBorder(any, any)).thenAnswer(
+        (realInvocation) => realInvocation.positionalArguments[0] as Border?,
+      );
 
       final mockBuildContext = MockBuildContext();
       final mockCanvasWrapper = MockCanvasWrapper();
@@ -3658,6 +3907,9 @@ void main() {
           .thenAnswer((realInvocation) => BorderRadius.zero);
       when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
         (realInvocation) => const BorderSide(color: MockData.color0),
+      );
+      when(mockUtils.normalizeBorder(any, any)).thenAnswer(
+        (realInvocation) => realInvocation.positionalArguments[0] as Border?,
       );
 
       final mockBuildContext = MockBuildContext();
@@ -3757,6 +4009,9 @@ void main() {
           .thenAnswer((realInvocation) => BorderRadius.zero);
       when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
         (realInvocation) => const BorderSide(color: MockData.color0),
+      );
+      when(mockUtils.normalizeBorder(any, any)).thenAnswer(
+        (realInvocation) => realInvocation.positionalArguments[0] as Border?,
       );
 
       final mockBuildContext = MockBuildContext();
@@ -3889,6 +4144,9 @@ void main() {
           .thenAnswer((realInvocation) => BorderRadius.zero);
       when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
         (realInvocation) => const BorderSide(color: MockData.color0),
+      );
+      when(mockUtils.normalizeBorder(any, any)).thenAnswer(
+        (realInvocation) => realInvocation.positionalArguments[0] as Border?,
       );
     });
 

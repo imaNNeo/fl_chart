@@ -932,6 +932,19 @@ class MockUtils extends _i1.Mock implements _i6.Utils {
       ) as _i4.BorderSide);
 
   @override
+  _i4.Border? normalizeBorder(
+    _i4.Border? border,
+    double? width,
+  ) =>
+      (super.noSuchMethod(Invocation.method(
+        #normalizeBorder,
+        [
+          border,
+          width,
+        ],
+      )) as _i4.Border?);
+
+  @override
   double getEfficientInterval(
     double? axisViewSize,
     double? diffInAxis, {

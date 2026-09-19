@@ -29,6 +29,25 @@ void main() {
       expect(barChartRodData1 == barChartRodData8, false);
     });
 
+    test('BarChartRodData border equality test', () {
+      final rodData1 = BarChartRodData(
+        toY: 10,
+        color: Colors.blue,
+        border: const Border(
+          top: BorderSide(color: Colors.red, width: 2),
+        ),
+      );
+      final rodData2 = rodData1.copyWith();
+      final rodData3 = rodData1.copyWith(
+        border: const Border(
+          bottom: BorderSide(color: Colors.red, width: 2),
+        ),
+      );
+
+      expect(rodData1 == rodData2, true);
+      expect(rodData1 == rodData3, false);
+    });
+
     test('BarChartRodStackItem equality test', () {
       expect(barChartRodStackItem1 == barChartRodStackItem1Clone, true);
       expect(

@@ -12,6 +12,8 @@ import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
+enum _BarBorderEdge { top, right, bottom, left }
+
 /// Paints [BarChartData] in the canvas, it can be used in a [CustomPainter]
 class BarChartPainter extends AxisChartPainter<BarChartData> {
   /// Paints [dataList] into canvas, it is the animating [BarChartData],
@@ -396,24 +398,246 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             }
           }
 
-          // draw border stroke
-          if (borderSide.width > 0 && borderSide.color.a > 0) {
-            _barStrokePaint
-              ..color = borderSide.color
-              ..strokeWidth = borderSide.width;
-
-            final borderPath = Path()..addRRect(barRRect);
-
-            canvasWrapper.drawPath(
-              borderPath.toDashedPath(
-                barRod.borderDashArray,
-              ),
-              _barStrokePaint,
-            );
-          }
+          _drawBarBorderStroke(canvasWrapper, barRRect, barRod, borderSide);
         }
       }
     }
+  }
+
+  void _drawBarBorderStroke(
+    CanvasWrapper canvasWrapper,
+    RRect barRRect,
+    BarChartRodData barRod,
+    BorderSide fallbackBorderSide,
+  ) {
+    final dashArray = barRod.borderDashArray;
+    final border = barRod.border;
+    if (border == null) {
+      _drawUniformBarBorderStroke(
+        canvasWrapper: canvasWrapper,
+        barRRect: barRRect,
+        borderSide: fallbackBorderSide,
+        dashArray: dashArray,
+      );
+      return;
+    }
+
+    if (border.isUniform) {
+      _drawUniformBarBorderStroke(
+        canvasWrapper: canvasWrapper,
+        barRRect: barRRect,
+        borderSide: border.top,
+        dashArray: dashArray,
+      );
+      return;
+    }
+
+    _drawPerSideBarBorderStroke(
+      canvasWrapper: canvasWrapper,
+      barRRect: barRRect,
+      border: border,
+      dashArray: dashArray,
+    );
+  }
+
+  void _drawUniformBarBorderStroke({
+    required CanvasWrapper canvasWrapper,
+    required RRect barRRect,
+    required BorderSide borderSide,
+    required List<int>? dashArray,
+  }) {
+    if (borderSide.width <= 0 || borderSide.color.a <= 0) {
+      return;
+    }
+
+    _barStrokePaint
+      ..style = PaintingStyle.stroke
+      ..color = borderSide.color
+      ..strokeWidth = borderSide.width
+      ..strokeCap = StrokeCap.butt
+      ..strokeJoin = StrokeJoin.miter;
+
+    final borderPath = Path()..addRRect(barRRect);
+    canvasWrapper.drawPath(
+      borderPath.toDashedPath(dashArray),
+      _barStrokePaint,
+    );
+  }
+
+  void _drawPerSideBarBorderStroke({
+    required CanvasWrapper canvasWrapper,
+    required RRect barRRect,
+    required Border border,
+    required List<int>? dashArray,
+  }) {
+    if (dashArray == null && !_hasFullVisibleBorder(border)) {
+      _drawInsideNonUniformBorderUsingBoxBorder(
+        canvasWrapper: canvasWrapper,
+        barRRect: barRRect,
+        border: border,
+      );
+      return;
+    }
+
+    for (final edge in _BarBorderEdge.values) {
+      final borderSide = _borderSideForEdge(border, edge);
+      _drawPerSideBorderWithClipping(
+        canvasWrapper: canvasWrapper,
+        barRRect: barRRect,
+        borderSide: borderSide,
+        borderRect: _borderRectForEdge(
+          barRRect: barRRect,
+          border: border,
+          edge: edge,
+          width: borderSide.width,
+        ),
+        dashArray: dashArray,
+      );
+    }
+  }
+
+  BorderSide _borderSideForEdge(Border border, _BarBorderEdge edge) =>
+      switch (edge) {
+        _BarBorderEdge.top => border.top,
+        _BarBorderEdge.right => border.right,
+        _BarBorderEdge.bottom => border.bottom,
+        _BarBorderEdge.left => border.left,
+      };
+
+  bool _isVisibleBorderSide(BorderSide side) =>
+      side.width > 0 && side.color.a > 0;
+
+  bool _hasFullVisibleBorder(Border border) =>
+      _BarBorderEdge.values.every((edge) {
+        return _isVisibleBorderSide(_borderSideForEdge(border, edge));
+      });
+
+  void _drawInsideNonUniformBorderUsingBoxBorder({
+    required CanvasWrapper canvasWrapper,
+    required RRect barRRect,
+    required Border border,
+  }) {
+    final colors = <Color>{};
+    for (final edge in _BarBorderEdge.values) {
+      final side = _borderSideForEdge(border, edge);
+      if (_isVisibleBorderSide(side)) {
+        colors.add(side.color);
+      }
+    }
+
+    for (final color in colors) {
+      BoxBorder.paintNonUniformBorder(
+        canvasWrapper.canvas,
+        barRRect.getRect(),
+        borderRadius: BorderRadius.only(
+          topLeft: barRRect.tlRadius,
+          topRight: barRRect.trRadius,
+          bottomRight: barRRect.brRadius,
+          bottomLeft: barRRect.blRadius,
+        ),
+        textDirection: TextDirection.ltr,
+        top: _borderSideForColor(border.top, color),
+        right: _borderSideForColor(border.right, color),
+        bottom: _borderSideForColor(border.bottom, color),
+        left: _borderSideForColor(border.left, color),
+        color: color,
+      );
+    }
+  }
+
+  BorderSide _borderSideForColor(BorderSide side, Color color) {
+    if (!_isVisibleBorderSide(side) || side.color != color) {
+      return BorderSide.none;
+    }
+    return side;
+  }
+
+  (BorderSide start, BorderSide end) _edgeNeighbors(
+    Border border,
+    _BarBorderEdge edge,
+  ) =>
+      switch (edge) {
+        _BarBorderEdge.top => (
+            border.left,
+            border.right,
+          ),
+        _BarBorderEdge.right => (
+            border.top,
+            border.bottom,
+          ),
+        _BarBorderEdge.bottom => (
+            border.left,
+            border.right,
+          ),
+        _BarBorderEdge.left => (
+            border.top,
+            border.bottom,
+          ),
+      };
+
+  Rect _borderRectForEdge({
+    required RRect barRRect,
+    required Border border,
+    required double width,
+    required _BarBorderEdge edge,
+  }) {
+    final halfWidth = width / 2;
+    final neighbors = _edgeNeighbors(border, edge);
+    final extendStart = _isVisibleBorderSide(neighbors.$1);
+    final extendEnd = _isVisibleBorderSide(neighbors.$2);
+    return switch (edge) {
+      _BarBorderEdge.top => Rect.fromLTRB(
+          barRRect.left - (extendStart ? halfWidth : 0),
+          barRRect.top - halfWidth,
+          barRRect.right + (extendEnd ? halfWidth : 0),
+          barRRect.top + halfWidth,
+        ),
+      _BarBorderEdge.right => Rect.fromLTRB(
+          barRRect.right - halfWidth,
+          barRRect.top - (extendStart ? halfWidth : 0),
+          barRRect.right + halfWidth,
+          barRRect.bottom + (extendEnd ? halfWidth : 0),
+        ),
+      _BarBorderEdge.bottom => Rect.fromLTRB(
+          barRRect.left - (extendStart ? halfWidth : 0),
+          barRRect.bottom - halfWidth,
+          barRRect.right + (extendEnd ? halfWidth : 0),
+          barRRect.bottom + halfWidth,
+        ),
+      _BarBorderEdge.left => Rect.fromLTRB(
+          barRRect.left - halfWidth,
+          barRRect.top - (extendStart ? halfWidth : 0),
+          barRRect.left + halfWidth,
+          barRRect.bottom + (extendEnd ? halfWidth : 0),
+        ),
+    };
+  }
+
+  void _drawPerSideBorderWithClipping({
+    required CanvasWrapper canvasWrapper,
+    required RRect barRRect,
+    required BorderSide borderSide,
+    required Rect borderRect,
+    required List<int>? dashArray,
+  }) {
+    if (borderSide.width <= 0 || borderSide.color.a <= 0) {
+      return;
+    }
+
+    _barStrokePaint
+      ..style = PaintingStyle.stroke
+      ..color = borderSide.color
+      ..strokeWidth = borderSide.width
+      ..strokeCap = StrokeCap.butt
+      ..strokeJoin = StrokeJoin.miter;
+
+    final borderPath = Path()..addRRect(barRRect);
+
+    canvasWrapper
+      ..save()
+      ..clipRect(borderRect)
+      ..drawPath(borderPath.toDashedPath(dashArray), _barStrokePaint)
+      ..restore();
   }
 
   @visibleForTesting
@@ -813,8 +1037,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       );
     }
     _barStrokePaint
+      ..style = PaintingStyle.stroke
       ..color = stackItem.borderSide.color
-      ..strokeWidth = min(stackItem.borderSide.width, barThickSize / 2);
+      ..strokeWidth = min(stackItem.borderSide.width, barThickSize / 2)
+      ..strokeCap = StrokeCap.butt
+      ..strokeJoin = StrokeJoin.miter;
     canvasWrapper.drawRRect(strokeBarRect, _barStrokePaint);
   }
 
