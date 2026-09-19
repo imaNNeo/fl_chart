@@ -1967,6 +1967,386 @@
       }
     ]
   },
+  "ScatterChartData": {
+    "page": "scatter_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "scatterSpots",
+        "type": "List<ScatterSpot>?",
+        "defaultValue": "const []",
+        "description": "The spots to draw on the chart, see [`ScatterSpot`](#scatterspot)."
+      },
+      {
+        "name": "titlesData",
+        "type": "FlTitlesData?",
+        "defaultValue": "const FlTitlesData()",
+        "description": "Holds data to draw the titles around the chart, see [`FlTitlesData`](base_chart.md#fltitlesdata)."
+      },
+      {
+        "name": "scatterTouchData",
+        "type": "ScatterTouchData?",
+        "defaultValue": "ScatterTouchData()",
+        "description": "Handles touch behaviors and responses, see [`ScatterTouchData`](#scattertouchdata-read-about-touch-handling)."
+      },
+      {
+        "name": "showingTooltipIndicators",
+        "type": "List<int>?",
+        "defaultValue": "const []",
+        "description": "you can show some tooltipIndicators (a popup with an information)\non top of each [`ScatterSpot`](#scatterspot) using `showingTooltipIndicators`,\njust put indices you want to show it on top of them.\n\nAn important point is that you have to disable the default touch behaviour\nto show the tooltip manually, see [`ScatterTouchData.handleBuiltInTouches`](#scattertouchdata-read-about-touch-handling)."
+      },
+      {
+        "name": "gridData",
+        "type": "FlGridData?",
+        "defaultValue": "const FlGridData()",
+        "description": "Holds data to draw the grid lines behind the chart, see [`FlGridData`](base_chart.md#flgriddata)."
+      },
+      {
+        "name": "borderData",
+        "type": "FlBorderData?",
+        "defaultValue": "FlBorderData()",
+        "description": "Holds data to draw the border around the chart, see [`FlBorderData`](base_chart.md#flborderdata)."
+      },
+      {
+        "name": "minX",
+        "type": "double?",
+        "description": "Minimum x value of the chart. If you don't provide it, it is calculated\nfrom the chart's data (providing it is more performant)."
+      },
+      {
+        "name": "maxX",
+        "type": "double?",
+        "description": "Maximum x value of the chart. If you don't provide it, it is calculated\nfrom the chart's data (providing it is more performant)."
+      },
+      {
+        "name": "baselineX",
+        "type": "double?",
+        "defaultValue": "0",
+        "description": "The x value that the vertical grid lines and the titles are aligned to,\nthey are drawn at every `baselineX + n * interval`."
+      },
+      {
+        "name": "minY",
+        "type": "double?",
+        "description": "Minimum y value of the chart. If you don't provide it, it is calculated\nfrom the chart's data (providing it is more performant)."
+      },
+      {
+        "name": "maxY",
+        "type": "double?",
+        "description": "Maximum y value of the chart. If you don't provide it, it is calculated\nfrom the chart's data (providing it is more performant)."
+      },
+      {
+        "name": "baselineY",
+        "type": "double?",
+        "defaultValue": "0",
+        "description": "The y value that the horizontal grid lines and the titles are aligned to,\nthey are drawn at every `baselineY + n * interval`."
+      },
+      {
+        "name": "clipData",
+        "type": "FlClipData?",
+        "defaultValue": "const FlClipData.none()",
+        "description": "Clips the chart to its border (prevents drawing outside of the border),\nsee [`FlClipData`](https://pub.dev/documentation/fl_chart/latest/fl_chart/FlClipData-class.html)."
+      },
+      {
+        "name": "backgroundColor",
+        "type": "Color?",
+        "defaultValue": "Colors.transparent",
+        "description": "A background color which is drawn behind the chart."
+      },
+      {
+        "name": "scatterLabelSettings",
+        "type": "ScatterLabelSettings?",
+        "defaultValue": "ScatterLabelSettings()",
+        "description": "Shows a label on each spot, see [`ScatterLabelSettings`](#scatterlabelsettings)."
+      },
+      {
+        "name": "rotationQuarterTurns",
+        "type": "int",
+        "defaultValue": "0",
+        "description": "Rotates the chart 90 degrees (clockwise) in every quarter turn.\nIt works like the [`RotatedBox`](https://api.flutter.dev/flutter/widgets/RotatedBox-class.html) widget."
+      },
+      {
+        "name": "errorIndicatorData",
+        "type": "FlErrorIndicatorData<ScatterChartSpotErrorRangeCallbackInput>",
+        "defaultValue": "const FlErrorIndicatorData<ScatterChartSpotErrorRangeCallbackInput>()",
+        "description": "Holds data for showing error indicators on the `scatterSpots`"
+      }
+    ]
+  },
+  "ScatterLabelSettings": {
+    "page": "scatter_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "showLabel",
+        "type": "bool?",
+        "defaultValue": "false",
+        "description": "Determines whether to show or hide the labels."
+      },
+      {
+        "name": "getLabelTextStyleFunction",
+        "type": "TextStyle? Function(int, ScatterSpot)?",
+        "defaultValue": "getDefaultLabelTextStyleFunction",
+        "description": "This function gives you the index value of the spot in the list and returns the text style."
+      },
+      {
+        "name": "getLabelFunction",
+        "type": "String Function(int, ScatterSpot)?",
+        "defaultValue": "getDefaultLabelFunction",
+        "description": "This function gives you the index value of the spot in the list and returns the label."
+      },
+      {
+        "name": "textDirection",
+        "type": "TextDirection?",
+        "defaultValue": "TextDirection.ltr",
+        "description": "Determines the direction of the text for the labels."
+      }
+    ]
+  },
+  "ScatterSpot": {
+    "page": "scatter_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "x",
+        "type": "double",
+        "required": true,
+        "description": "The x value of the spot, on the horizontal axis (from left to right)."
+      },
+      {
+        "name": "y",
+        "type": "double",
+        "required": true,
+        "description": "The y value of the spot, on the vertical axis (from bottom to top)."
+      },
+      {
+        "name": "show",
+        "type": "bool?",
+        "defaultValue": "true",
+        "description": "Determines show or hide the spot."
+      },
+      {
+        "name": "renderPriority",
+        "type": "int?",
+        "defaultValue": "0",
+        "description": "Meant to determine which spots are drawn on top when they overlap.\n\nNote that the chart doesn't use it yet: the spots are drawn in the\norder of [`ScatterChartData.scatterSpots`](#scatterchartdata) (the last one on top)."
+      },
+      {
+        "name": "dotPainter",
+        "type": "FlDotPainter?",
+        "description": "Draws the spot, like a [`FlDotCirclePainter`](https://pub.dev/documentation/fl_chart/latest/fl_chart/FlDotCirclePainter-class.html) (the shape, size and color).\n\nDefaults to a circle with a radius of 6, and a color of\n[`Colors.primaries`](https://api.flutter.dev/flutter/material/Colors-class.html) picked from the `x` and `y` of the spot."
+      },
+      {
+        "name": "xError",
+        "type": "FlErrorRange?",
+        "defaultValue": "null",
+        "description": "The error range of the spot on the x axis, drawn by the\n`errorIndicatorData` of the chart, see [`FlErrorRange`](base_chart.md#flerrorrange)."
+      },
+      {
+        "name": "yError",
+        "type": "FlErrorRange?",
+        "defaultValue": "null",
+        "description": "The error range of the spot on the y axis, drawn by the\n`errorIndicatorData` of the chart, see [`FlErrorRange`](base_chart.md#flerrorrange)."
+      }
+    ]
+  },
+  "ScatterTooltipItem": {
+    "page": "scatter_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "text",
+        "type": "String",
+        "required": true,
+        "description": "Text of the tooltip."
+      },
+      {
+        "name": "textStyle",
+        "type": "TextStyle?",
+        "defaultValue": "null",
+        "description": "[`TextStyle`](https://api.flutter.dev/flutter/painting/TextStyle-class.html) of the `text`."
+      },
+      {
+        "name": "bottomMargin",
+        "type": "double?",
+        "defaultValue": "8",
+        "description": "The space between the tooltip and the top of the spot."
+      },
+      {
+        "name": "textAlign",
+        "type": "TextAlign?",
+        "defaultValue": "TextAlign.center",
+        "description": "TextAlign of the showing content."
+      },
+      {
+        "name": "textDirection",
+        "type": "TextDirection?",
+        "defaultValue": "TextDirection.ltr",
+        "description": "Direction of showing text."
+      },
+      {
+        "name": "children",
+        "type": "List<TextSpan>?",
+        "defaultValue": "null",
+        "description": "Add further style and format to the text of the tooltip"
+      }
+    ]
+  },
+  "ScatterTouchData": {
+    "page": "scatter_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "enabled",
+        "type": "bool?",
+        "defaultValue": "true",
+        "description": "Determines whether to enable or disable touch behaviors."
+      },
+      {
+        "name": "touchCallback",
+        "type": "void Function(FlTouchEvent, ScatterTouchResponse?)?",
+        "defaultValue": "null",
+        "description": "`touchCallback` notifies you about the happened touch/pointer events.\nIt gives you a [`FlTouchEvent`](base_chart.md#fltouchevent) which is the happened event such as [`FlPointerHoverEvent`](https://pub.dev/documentation/fl_chart/latest/fl_chart/FlPointerHoverEvent-class.html), [`FlTapUpEvent`](https://pub.dev/documentation/fl_chart/latest/fl_chart/FlTapUpEvent-class.html), ...\nIt also gives you a [`BaseTouchResponse`](https://pub.dev/documentation/fl_chart/latest/fl_chart/BaseTouchResponse-class.html) which is the chart specific type and contains information\nabout the elements that has touched."
+      },
+      {
+        "name": "mouseCursorResolver",
+        "type": "MouseCursor Function(FlTouchEvent, ScatterTouchResponse?)?",
+        "defaultValue": "null",
+        "description": "Using `mouseCursorResolver` you can change the mouse cursor\nbased on the provided [`FlTouchEvent`](base_chart.md#fltouchevent) and [`BaseTouchResponse`](https://pub.dev/documentation/fl_chart/latest/fl_chart/BaseTouchResponse-class.html)"
+      },
+      {
+        "name": "longPressDuration",
+        "type": "Duration?",
+        "defaultValue": "null",
+        "description": "This property that allows to customize the duration of the longPress gesture.\nIf null, it uses [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html) (500 milliseconds)."
+      },
+      {
+        "name": "touchTooltipData",
+        "type": "ScatterTouchTooltipData?",
+        "defaultValue": "const ScatterTouchTooltipData()",
+        "description": "Determines how the tooltip looks on top of the touched spot,\nsee [`ScatterTouchTooltipData`](#scattertouchtooltipdata)."
+      },
+      {
+        "name": "touchSpotThreshold",
+        "type": "double?",
+        "defaultValue": "0",
+        "description": "Extends the touchable area of each spot by this distance (in pixels)."
+      },
+      {
+        "name": "handleBuiltInTouches",
+        "type": "bool?",
+        "defaultValue": "true",
+        "description": "If true, the chart handles touches by itself: it shows a tooltip bubble\non top of the touched spot."
+      }
+    ]
+  },
+  "ScatterTouchResponse": {
+    "page": "scatter_chart.md",
+    "mode": "fields",
+    "members": [
+      {
+        "name": "touchLocation",
+        "type": "Offset",
+        "description": "The location of the touch in pixels on the screen."
+      },
+      {
+        "name": "touchChartCoordinate",
+        "type": "Offset",
+        "description": "The axis coordinate of the touch in chart's coordinate system."
+      },
+      {
+        "name": "touchedSpot",
+        "type": "ScatterTouchedSpot?",
+        "description": "The touched spot, null if no spot is touched."
+      }
+    ]
+  },
+  "ScatterTouchTooltipData": {
+    "page": "scatter_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "tooltipBorderRadius",
+        "type": "BorderRadius?",
+        "defaultValue": "BorderRadius.circular(4)",
+        "description": "Sets a rounded radius for the tooltip."
+      },
+      {
+        "name": "tooltipPadding",
+        "type": "EdgeInsets?",
+        "defaultValue": "const EdgeInsets.symmetric(horizontal: 16, vertical: 8)",
+        "description": "Applies a padding for showing contents inside the tooltip."
+      },
+      {
+        "name": "tooltipHorizontalAlignment",
+        "type": "FLHorizontalAlignment?",
+        "defaultValue": "FLHorizontalAlignment.center",
+        "description": "Controls showing tooltip on left side, right side or center aligned with spot."
+      },
+      {
+        "name": "tooltipHorizontalOffset",
+        "type": "double?",
+        "defaultValue": "0",
+        "description": "Applies horizontal offset for showing tooltip."
+      },
+      {
+        "name": "maxContentWidth",
+        "type": "double?",
+        "defaultValue": "120",
+        "description": "Maximum width of the tooltip's content, a text row which is wider than\nthis breaks into a new line."
+      },
+      {
+        "name": "getTooltipItems",
+        "type": "ScatterTooltipItem? Function(ScatterSpot)?",
+        "defaultValue": "defaultScatterTooltipItem",
+        "description": "Retrieves data for showing content inside the tooltip."
+      },
+      {
+        "name": "fitInsideHorizontally",
+        "type": "bool?",
+        "defaultValue": "false",
+        "description": "Forces the tooltip to shift horizontally inside the chart, if overflow happens."
+      },
+      {
+        "name": "fitInsideVertically",
+        "type": "bool?",
+        "defaultValue": "false",
+        "description": "Forces the tooltip to shift vertically inside the chart, if overflow happens."
+      },
+      {
+        "name": "rotateAngle",
+        "type": "double?",
+        "defaultValue": "0.0",
+        "description": "Controls the rotation of the tooltip."
+      },
+      {
+        "name": "tooltipBorder",
+        "type": "BorderSide?",
+        "defaultValue": "BorderSide.none",
+        "description": "Border of the tooltip bubble."
+      },
+      {
+        "name": "getTooltipColor",
+        "type": "Color Function(ScatterSpot)?",
+        "defaultValue": "defaultScatterTooltipColor",
+        "description": "Retrieves the background color of the tooltip for each touched spot."
+      }
+    ]
+  },
+  "ScatterTouchedSpot": {
+    "page": "scatter_chart.md",
+    "mode": "fields",
+    "members": [
+      {
+        "name": "spot",
+        "type": "ScatterSpot",
+        "description": "Touch happened on this spot"
+      },
+      {
+        "name": "spotIndex",
+        "type": "int",
+        "description": "Touch happened on this spot index"
+      }
+    ]
+  },
   "ShowingTooltipIndicators": {
     "page": "line_chart.md",
     "mode": "constructor",

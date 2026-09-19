@@ -2002,6 +2002,419 @@ final apiRegistry = <String, ClassSpec>{
     read: _readRangeAnnotations,
     copy: _copyRangeAnnotations,
   ),
+  'ScatterChartData': ClassSpec(
+    name: 'ScatterChartData',
+    properties: const [
+      PropertySpec(
+        name: 'scatterSpots',
+        type: 'List<ScatterSpot>?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'const []',
+      ),
+      PropertySpec(
+        name: 'titlesData',
+        type: 'FlTitlesData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'FlTitlesData',
+        defaultCode: 'const FlTitlesData()',
+      ),
+      PropertySpec(
+        name: 'scatterTouchData',
+        type: 'ScatterTouchData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'ScatterTouchData',
+        defaultCode: 'ScatterTouchData()',
+      ),
+      PropertySpec(
+        name: 'showingTooltipIndicators',
+        type: 'List<int>?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'const []',
+      ),
+      PropertySpec(
+        name: 'gridData',
+        type: 'FlGridData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'FlGridData',
+        defaultCode: 'const FlGridData()',
+      ),
+      PropertySpec(
+        name: 'borderData',
+        type: 'FlBorderData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'FlBorderData',
+        defaultCode: 'FlBorderData()',
+      ),
+      PropertySpec(
+        name: 'minX',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+      ),
+      PropertySpec(
+        name: 'maxX',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+      ),
+      PropertySpec(
+        name: 'baselineX',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'minY',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+      ),
+      PropertySpec(
+        name: 'maxY',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+      ),
+      PropertySpec(
+        name: 'baselineY',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'clipData',
+        type: 'FlClipData?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'const FlClipData.none()',
+      ),
+      PropertySpec(
+        name: 'backgroundColor',
+        type: 'Color?',
+        kind: PropertyKind.color,
+        isNullable: true,
+        defaultCode: 'Colors.transparent',
+      ),
+      PropertySpec(
+        name: 'scatterLabelSettings',
+        type: 'ScatterLabelSettings?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'ScatterLabelSettings',
+        defaultCode: 'ScatterLabelSettings()',
+      ),
+      PropertySpec(
+        name: 'rotationQuarterTurns',
+        type: 'int',
+        kind: PropertyKind.integer,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'errorIndicatorData',
+        type: 'FlErrorIndicatorData<ScatterChartSpotErrorRangeCallbackInput>',
+        kind: PropertyKind.nested,
+        nestedType: 'FlErrorIndicatorData',
+        defaultCode:
+            'const FlErrorIndicatorData<ScatterChartSpotErrorRangeCallbackInput>()',
+      ),
+    ],
+    read: _readScatterChartData,
+    copy: _copyScatterChartData,
+  ),
+  'ScatterLabelSettings': ClassSpec(
+    name: 'ScatterLabelSettings',
+    properties: const [
+      PropertySpec(
+        name: 'showLabel',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'false',
+      ),
+      PropertySpec(
+        name: 'getLabelTextStyleFunction',
+        type: 'TextStyle? Function(int, ScatterSpot)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'getDefaultLabelTextStyleFunction',
+      ),
+      PropertySpec(
+        name: 'getLabelFunction',
+        type: 'String Function(int, ScatterSpot)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'getDefaultLabelFunction',
+      ),
+      PropertySpec(
+        name: 'textDirection',
+        type: 'TextDirection?',
+        kind: PropertyKind.enumeration,
+        isNullable: true,
+        values: TextDirection.values,
+        defaultCode: 'TextDirection.ltr',
+      ),
+    ],
+    read: _readScatterLabelSettings,
+    copy: _copyScatterLabelSettings,
+  ),
+  'ScatterSpot': ClassSpec(
+    name: 'ScatterSpot',
+    properties: const [
+      PropertySpec(
+        name: 'x',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        isRequired: true,
+        isPositional: true,
+      ),
+      PropertySpec(
+        name: 'y',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        isRequired: true,
+        isPositional: true,
+      ),
+      PropertySpec(
+        name: 'show',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'true',
+      ),
+      PropertySpec(
+        name: 'renderPriority',
+        type: 'int?',
+        kind: PropertyKind.integer,
+        isNullable: true,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'dotPainter',
+        type: 'FlDotPainter?',
+        kind: PropertyKind.other,
+        isNullable: true,
+      ),
+      PropertySpec(
+        name: 'xError',
+        type: 'FlErrorRange?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'FlErrorRange',
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'yError',
+        type: 'FlErrorRange?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'FlErrorRange',
+        defaultCode: 'null',
+      ),
+    ],
+    read: _readScatterSpot,
+    copy: _copyScatterSpot,
+  ),
+  'ScatterTooltipItem': ClassSpec(
+    name: 'ScatterTooltipItem',
+    properties: const [
+      PropertySpec(
+        name: 'text',
+        type: 'String',
+        kind: PropertyKind.text,
+        isRequired: true,
+        isPositional: true,
+      ),
+      PropertySpec(
+        name: 'textStyle',
+        type: 'TextStyle?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'bottomMargin',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '8',
+      ),
+      PropertySpec(
+        name: 'textAlign',
+        type: 'TextAlign?',
+        kind: PropertyKind.enumeration,
+        isNullable: true,
+        values: TextAlign.values,
+        defaultCode: 'TextAlign.center',
+      ),
+      PropertySpec(
+        name: 'textDirection',
+        type: 'TextDirection?',
+        kind: PropertyKind.enumeration,
+        isNullable: true,
+        values: TextDirection.values,
+        defaultCode: 'TextDirection.ltr',
+      ),
+      PropertySpec(
+        name: 'children',
+        type: 'List<TextSpan>?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+    ],
+    read: _readScatterTooltipItem,
+    copy: _copyScatterTooltipItem,
+  ),
+  'ScatterTouchData': ClassSpec(
+    name: 'ScatterTouchData',
+    properties: const [
+      PropertySpec(
+        name: 'enabled',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'true',
+      ),
+      PropertySpec(
+        name: 'touchCallback',
+        type: 'void Function(FlTouchEvent, ScatterTouchResponse?)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'mouseCursorResolver',
+        type: 'MouseCursor Function(FlTouchEvent, ScatterTouchResponse?)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'longPressDuration',
+        type: 'Duration?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'touchTooltipData',
+        type: 'ScatterTouchTooltipData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'ScatterTouchTooltipData',
+        defaultCode: 'const ScatterTouchTooltipData()',
+      ),
+      PropertySpec(
+        name: 'touchSpotThreshold',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'handleBuiltInTouches',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'true',
+      ),
+    ],
+    read: _readScatterTouchData,
+    copy: _copyScatterTouchData,
+  ),
+  'ScatterTouchTooltipData': ClassSpec(
+    name: 'ScatterTouchTooltipData',
+    properties: const [
+      PropertySpec(
+        name: 'tooltipBorderRadius',
+        type: 'BorderRadius?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'BorderRadius.circular(4)',
+      ),
+      PropertySpec(
+        name: 'tooltipPadding',
+        type: 'EdgeInsets?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'const EdgeInsets.symmetric(horizontal: 16, vertical: 8)',
+      ),
+      PropertySpec(
+        name: 'tooltipHorizontalAlignment',
+        type: 'FLHorizontalAlignment?',
+        kind: PropertyKind.enumeration,
+        isNullable: true,
+        values: FLHorizontalAlignment.values,
+        defaultCode: 'FLHorizontalAlignment.center',
+      ),
+      PropertySpec(
+        name: 'tooltipHorizontalOffset',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'maxContentWidth',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '120',
+      ),
+      PropertySpec(
+        name: 'getTooltipItems',
+        type: 'ScatterTooltipItem? Function(ScatterSpot)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'defaultScatterTooltipItem',
+      ),
+      PropertySpec(
+        name: 'fitInsideHorizontally',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'false',
+      ),
+      PropertySpec(
+        name: 'fitInsideVertically',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'false',
+      ),
+      PropertySpec(
+        name: 'rotateAngle',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '0.0',
+      ),
+      PropertySpec(
+        name: 'tooltipBorder',
+        type: 'BorderSide?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'BorderSide.none',
+      ),
+      PropertySpec(
+        name: 'getTooltipColor',
+        type: 'Color Function(ScatterSpot)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'defaultScatterTooltipColor',
+      ),
+    ],
+    read: _readScatterTouchTooltipData,
+    copy: _copyScatterTouchTooltipData,
+  ),
   'ShowingTooltipIndicators': ClassSpec(
     name: 'ShowingTooltipIndicators',
     properties: const [
@@ -3738,6 +4151,312 @@ RangeAnnotations _copyRangeAnnotations(
       values,
       'verticalRangeAnnotations',
       o.verticalRangeAnnotations,
+    ),
+  );
+}
+
+Object? _readScatterChartData(Object instance, String property) {
+  final o = instance as ScatterChartData;
+  return switch (property) {
+    'scatterSpots' => o.scatterSpots,
+    'titlesData' => o.titlesData,
+    'scatterTouchData' => o.scatterTouchData,
+    'showingTooltipIndicators' => o.showingTooltipIndicators,
+    'gridData' => o.gridData,
+    'borderData' => o.borderData,
+    'minX' => o.minX,
+    'maxX' => o.maxX,
+    'baselineX' => o.baselineX,
+    'minY' => o.minY,
+    'maxY' => o.maxY,
+    'baselineY' => o.baselineY,
+    'clipData' => o.clipData,
+    'backgroundColor' => o.backgroundColor,
+    'scatterLabelSettings' => o.scatterLabelSettings,
+    'rotationQuarterTurns' => o.rotationQuarterTurns,
+    'errorIndicatorData' => o.errorIndicatorData,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+ScatterChartData _copyScatterChartData(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as ScatterChartData;
+  return ScatterChartData(
+    scatterSpots: _value<List<ScatterSpot>?>(
+      values,
+      'scatterSpots',
+      o.scatterSpots,
+    ),
+    titlesData: _value<FlTitlesData?>(values, 'titlesData', o.titlesData),
+    scatterTouchData: _value<ScatterTouchData?>(
+      values,
+      'scatterTouchData',
+      o.scatterTouchData,
+    ),
+    showingTooltipIndicators: _value<List<int>?>(
+      values,
+      'showingTooltipIndicators',
+      o.showingTooltipIndicators,
+    ),
+    gridData: _value<FlGridData?>(values, 'gridData', o.gridData),
+    borderData: _value<FlBorderData?>(values, 'borderData', o.borderData),
+    minX: _value<double?>(values, 'minX', o.minX),
+    maxX: _value<double?>(values, 'maxX', o.maxX),
+    baselineX: _value<double?>(values, 'baselineX', o.baselineX),
+    minY: _value<double?>(values, 'minY', o.minY),
+    maxY: _value<double?>(values, 'maxY', o.maxY),
+    baselineY: _value<double?>(values, 'baselineY', o.baselineY),
+    clipData: _value<FlClipData?>(values, 'clipData', o.clipData),
+    backgroundColor: _value<ui.Color?>(
+      values,
+      'backgroundColor',
+      o.backgroundColor,
+    ),
+    scatterLabelSettings: _value<ScatterLabelSettings?>(
+      values,
+      'scatterLabelSettings',
+      o.scatterLabelSettings,
+    ),
+    rotationQuarterTurns: _value<int>(
+      values,
+      'rotationQuarterTurns',
+      o.rotationQuarterTurns,
+    ),
+    errorIndicatorData:
+        _value<FlErrorIndicatorData<ScatterChartSpotErrorRangeCallbackInput>>(
+          values,
+          'errorIndicatorData',
+          o.errorIndicatorData,
+        ),
+  );
+}
+
+Object? _readScatterLabelSettings(Object instance, String property) {
+  final o = instance as ScatterLabelSettings;
+  return switch (property) {
+    'showLabel' => o.showLabel,
+    'getLabelTextStyleFunction' => o.getLabelTextStyleFunction,
+    'getLabelFunction' => o.getLabelFunction,
+    'textDirection' => o.textDirection,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+ScatterLabelSettings _copyScatterLabelSettings(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as ScatterLabelSettings;
+  return ScatterLabelSettings(
+    showLabel: _value<bool?>(values, 'showLabel', o.showLabel),
+    getLabelTextStyleFunction: _value<GetLabelTextStyleFunction?>(
+      values,
+      'getLabelTextStyleFunction',
+      o.getLabelTextStyleFunction,
+    ),
+    getLabelFunction: _value<GetLabelFunction?>(
+      values,
+      'getLabelFunction',
+      o.getLabelFunction,
+    ),
+    textDirection: _value<ui.TextDirection?>(
+      values,
+      'textDirection',
+      o.textDirection,
+    ),
+  );
+}
+
+Object? _readScatterSpot(Object instance, String property) {
+  final o = instance as ScatterSpot;
+  return switch (property) {
+    'x' => o.x,
+    'y' => o.y,
+    'show' => o.show,
+    'renderPriority' => o.renderPriority,
+    'dotPainter' => o.dotPainter,
+    'xError' => o.xError,
+    'yError' => o.yError,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+ScatterSpot _copyScatterSpot(Object instance, Map<String, Object?> values) {
+  final o = instance as ScatterSpot;
+  return ScatterSpot(
+    _value<double>(values, 'x', o.x),
+    _value<double>(values, 'y', o.y),
+    show: _value<bool?>(values, 'show', o.show),
+    renderPriority: _value<int?>(values, 'renderPriority', o.renderPriority),
+    dotPainter: _value<FlDotPainter?>(values, 'dotPainter', o.dotPainter),
+    xError: _value<FlErrorRange?>(values, 'xError', o.xError),
+    yError: _value<FlErrorRange?>(values, 'yError', o.yError),
+  );
+}
+
+Object? _readScatterTooltipItem(Object instance, String property) {
+  final o = instance as ScatterTooltipItem;
+  return switch (property) {
+    'text' => o.text,
+    'textStyle' => o.textStyle,
+    'bottomMargin' => o.bottomMargin,
+    'textAlign' => o.textAlign,
+    'textDirection' => o.textDirection,
+    'children' => o.children,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+ScatterTooltipItem _copyScatterTooltipItem(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as ScatterTooltipItem;
+  return ScatterTooltipItem(
+    _value<String>(values, 'text', o.text),
+    textStyle: _value<TextStyle?>(values, 'textStyle', o.textStyle),
+    bottomMargin: _value<double?>(values, 'bottomMargin', o.bottomMargin),
+    textAlign: _value<ui.TextAlign?>(values, 'textAlign', o.textAlign),
+    textDirection: _value<ui.TextDirection?>(
+      values,
+      'textDirection',
+      o.textDirection,
+    ),
+    children: _value<List<TextSpan>?>(values, 'children', o.children),
+  );
+}
+
+Object? _readScatterTouchData(Object instance, String property) {
+  final o = instance as ScatterTouchData;
+  return switch (property) {
+    'enabled' => o.enabled,
+    'touchCallback' => o.touchCallback,
+    'mouseCursorResolver' => o.mouseCursorResolver,
+    'longPressDuration' => o.longPressDuration,
+    'touchTooltipData' => o.touchTooltipData,
+    'touchSpotThreshold' => o.touchSpotThreshold,
+    'handleBuiltInTouches' => o.handleBuiltInTouches,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+ScatterTouchData _copyScatterTouchData(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as ScatterTouchData;
+  return ScatterTouchData(
+    enabled: _value<bool?>(values, 'enabled', o.enabled),
+    touchCallback: _value<BaseTouchCallback<ScatterTouchResponse>?>(
+      values,
+      'touchCallback',
+      o.touchCallback,
+    ),
+    mouseCursorResolver: _value<MouseCursorResolver<ScatterTouchResponse>?>(
+      values,
+      'mouseCursorResolver',
+      o.mouseCursorResolver,
+    ),
+    longPressDuration: _value<Duration?>(
+      values,
+      'longPressDuration',
+      o.longPressDuration,
+    ),
+    touchTooltipData: _value<ScatterTouchTooltipData?>(
+      values,
+      'touchTooltipData',
+      o.touchTooltipData,
+    ),
+    touchSpotThreshold: _value<double?>(
+      values,
+      'touchSpotThreshold',
+      o.touchSpotThreshold,
+    ),
+    handleBuiltInTouches: _value<bool?>(
+      values,
+      'handleBuiltInTouches',
+      o.handleBuiltInTouches,
+    ),
+  );
+}
+
+Object? _readScatterTouchTooltipData(Object instance, String property) {
+  final o = instance as ScatterTouchTooltipData;
+  return switch (property) {
+    'tooltipBorderRadius' => o.tooltipBorderRadius,
+    'tooltipPadding' => o.tooltipPadding,
+    'tooltipHorizontalAlignment' => o.tooltipHorizontalAlignment,
+    'tooltipHorizontalOffset' => o.tooltipHorizontalOffset,
+    'maxContentWidth' => o.maxContentWidth,
+    'getTooltipItems' => o.getTooltipItems,
+    'fitInsideHorizontally' => o.fitInsideHorizontally,
+    'fitInsideVertically' => o.fitInsideVertically,
+    'rotateAngle' => o.rotateAngle,
+    'tooltipBorder' => o.tooltipBorder,
+    'getTooltipColor' => o.getTooltipColor,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+ScatterTouchTooltipData _copyScatterTouchTooltipData(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as ScatterTouchTooltipData;
+  return ScatterTouchTooltipData(
+    tooltipBorderRadius: _value<BorderRadius?>(
+      values,
+      'tooltipBorderRadius',
+      o.tooltipBorderRadius,
+    ),
+    tooltipPadding: _value<EdgeInsets?>(
+      values,
+      'tooltipPadding',
+      o.tooltipPadding,
+    ),
+    tooltipHorizontalAlignment: _value<FLHorizontalAlignment?>(
+      values,
+      'tooltipHorizontalAlignment',
+      o.tooltipHorizontalAlignment,
+    ),
+    tooltipHorizontalOffset: _value<double?>(
+      values,
+      'tooltipHorizontalOffset',
+      o.tooltipHorizontalOffset,
+    ),
+    maxContentWidth: _value<double?>(
+      values,
+      'maxContentWidth',
+      o.maxContentWidth,
+    ),
+    getTooltipItems: _value<GetScatterTooltipItems?>(
+      values,
+      'getTooltipItems',
+      o.getTooltipItems,
+    ),
+    fitInsideHorizontally: _value<bool?>(
+      values,
+      'fitInsideHorizontally',
+      o.fitInsideHorizontally,
+    ),
+    fitInsideVertically: _value<bool?>(
+      values,
+      'fitInsideVertically',
+      o.fitInsideVertically,
+    ),
+    rotateAngle: _value<double?>(values, 'rotateAngle', o.rotateAngle),
+    tooltipBorder: _value<BorderSide?>(
+      values,
+      'tooltipBorder',
+      o.tooltipBorder,
+    ),
+    getTooltipColor: _value<GetScatterTooltipColor?>(
+      values,
+      'getTooltipColor',
+      o.getTooltipColor,
     ),
   );
 }
