@@ -1,4 +1,6 @@
-// Generates the API tables of the markdown docs from the dartdoc comments.
+// Generates the API docs from the dartdoc comments:
+// - the API tables of the markdown docs (repo_files/documentations/*.md),
+// - the API data of the website (website/src/data/api.json).
 //
 // Usage (from the repo root):
 //   dart run tool/api_docs/generate.dart          # update the docs
@@ -11,6 +13,7 @@ import 'package:path/path.dart' as p;
 
 import 'src/api_extractor.dart';
 import 'src/api_model.dart';
+import 'src/json_writer.dart';
 import 'src/markdown_tables.dart';
 
 Future<void> main(List<String> args) async {
@@ -28,14 +31,17 @@ Future<void> main(List<String> args) async {
   final anchors = headingAnchors(files);
   final extractor = await ApiExtractor.create(root);
   final types = <String, ApiType>{};
-  for (final markdown in files.values) {
+  final pages = <String, String>{};
+  for (final MapEntry(key: fileName, value: markdown) in files.entries) {
     for (final marker in markersIn(markdown)) {
       final type = await extractor.extract(
         marker.typeName,
         marker.mode,
         isDocumented: anchors.containsKey,
       );
-      if (type != null) types[type.name] = type;
+      if (type == null) continue;
+      types[type.name] = type;
+      pages[type.name] = fileName;
     }
   }
   if (extractor.errors.isNotEmpty) {
@@ -44,13 +50,22 @@ Future<void> main(List<String> args) async {
     exit(1);
   }
 
+  final outputs = {
+    for (final MapEntry(key: fileName, value: markdown) in files.entries)
+      p.join(docsDir.path, fileName):
+          replaceTables(markdown, fileName, types, anchors),
+    p.join(root, 'website', 'src', 'data', 'api.json'):
+        apiJson(types.values, pages, anchors),
+  };
   final stale = <String>[];
-  for (final MapEntry(key: fileName, value: markdown) in files.entries) {
-    final updated = replaceTables(markdown, fileName, types, anchors);
-    if (updated == markdown) continue;
-    stale.add(fileName);
+  for (final MapEntry(key: path, value: content) in outputs.entries) {
+    final file = File(path);
+    if (file.existsSync() && file.readAsStringSync() == content) continue;
+    stale.add(p.relative(path, from: root));
     if (!check) {
-      File(p.join(docsDir.path, fileName)).writeAsStringSync(updated);
+      file
+        ..createSync(recursive: true)
+        ..writeAsStringSync(content);
     }
   }
 

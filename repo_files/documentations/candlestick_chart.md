@@ -22,7 +22,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |candlestickSpots| Holds the data for the candlestick chart, which is a list of [CandlestickSpot](#CandlestickSpot) objects. Each [CandlestickSpot](#CandlestickSpot) represents a single data point in the chart.|[]|
 |candlestickPainter| It is a painter that is used to draw each individual candlestick. You can use this to customize the appearance of the candlesticks (Or you can implement your own painter).|DefaultCandlestickPainter()|
 |titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)| FlTitlesData()|
-|candlestickTouchData| [CandlestickTouchData](#CandlestickTouchData) holds the touch interactivity details| CandlestickTouchData()|
+|candlestickTouchData| [CandlestickTouchData](#candlesticktouchdata-read-about-touch-handling) holds the touch interactivity details| CandlestickTouchData()|
 |showingTooltipIndicators| indices of showing tooltip, The point is that you need to disable touches to show these tooltips manually|[]|
 |gridData|check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
 |borderData|check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
@@ -36,7 +36,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |clipData|clip the chart to the border (prevent drawing outside the border) | FlClipData.none()|
 |backgroundColor|a background color which is drawn behind the chart| null |
 |rotationQuarterTurns|Rotates the chart 90 degrees (clockwise) in every quarter turn. This feature works like the [RotatedBox](https://api.flutter.dev/flutter/widgets/RotatedBox-class.html) widget|0|
-|touchedPointIndicator|Shows the touched point in the chart, by default it shows a horizontal and vertical line exactly on the touched candle. If the `handleBuiltInTouches` is true in [CandlestickTouchData](#CandlestickTouchData), this parameter is used under the hood to highlight the selected point. But you can disable the `handleBuiltInTouches` and implement your own way to highlight the point. Look at [AxisSpotIndicator](base_chart.md#AxisSpotIndicator) for more information |null|
+|touchedPointIndicator|Shows the touched point in the chart, by default it shows a horizontal and vertical line exactly on the touched candle. If the `handleBuiltInTouches` is true in [CandlestickTouchData](#candlesticktouchdata-read-about-touch-handling), this parameter is used under the hood to highlight the selected point. But you can disable the `handleBuiltInTouches` and implement your own way to highlight the point. Look at [AxisSpotIndicator](base_chart.md#AxisSpotIndicator) for more information |null|
 
 ### CandlestickSpot
 |PropName		|Description	|default value|

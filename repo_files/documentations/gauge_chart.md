@@ -119,7 +119,7 @@ GaugeChart(
 |ticks| optional tick configuration; see [GaugeTicks](#GaugeTicks)|null|
 |pointers| list of [GaugePointer](#GaugePointer)s drawn on top of the rings and ticks. Empty by default; each pointer carries its own `value` on the shared scale|`[]`|
 |markers| list of [GaugeMarker](#GaugeMarker)s anchored at arbitrary continuous values along the gauge's scale. Empty by default|`[]`|
-|touchData| [GaugeTouchData](#GaugeTouchData) holds the touch interactivity details|GaugeTouchData()|
+|touchData| [GaugeTouchData](#gaugetouchdata-read-about-touch-handling) holds the touch interactivity details|GaugeTouchData()|
 |borderData| shows a border around the chart, see [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
 
 ### GaugeRing

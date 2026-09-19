@@ -1,0 +1,62 @@
+name: Website
+
+on:
+  pull_request:
+    paths:
+      - 'repo_files/documentations/**'
+      - 'website/**'
+      - '.github/workflows/website.yml'
+  # Deploys are manual until the docs launch, then they'll run on each release.
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build website
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: website
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - run: npm ci
+
+      # Fails on broken links, broken anchors and invalid markdown.
+      - run: npm run build
+
+      - uses: actions/upload-artifact@v4
+        if: github.event_name == 'workflow_dispatch'
+        with:
+          name: website
+          path: website/build
+
+  deploy:
+    name: Deploy to flchart.dev
+    if: github.event_name == 'workflow_dispatch'
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: website
+          path: build
+
+      # flchart.dev is served from the gh-pages branch of imaNNeo/fl_chart_landing.
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.LANDING_DEPLOY_KEY }}
+          external_repository: imaNNeo/fl_chart_landing
+          publish_branch: gh-pages
+          publish_dir: ./build
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com

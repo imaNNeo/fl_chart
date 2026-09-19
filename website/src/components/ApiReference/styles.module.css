@@ -1,0 +1,140 @@
+.reference {
+  --api-border: rgba(255, 255, 255, 0.08);
+  --api-muted: #a3aecb;
+  --api-accent-soft: rgba(80, 228, 255, 0.08);
+  --api-accent-border: rgba(80, 228, 255, 0.22);
+
+  margin: 1rem 0 2.5rem;
+  border: 1px solid var(--api-border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  overflow: hidden;
+}
+
+.property {
+  padding: 0.9rem 1.1rem;
+  border-top: 1px solid var(--api-border);
+  scroll-margin-top: calc(var(--ifm-navbar-height) + 0.75rem);
+}
+
+.property:first-child {
+  border-top: none;
+}
+
+.property:target {
+  background: var(--api-accent-soft);
+}
+
+.signature {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.75rem;
+}
+
+.signature code {
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 0.875rem;
+}
+
+.name {
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+  font-size: 0.95rem !important;
+}
+
+.type {
+  color: var(--api-muted);
+  word-break: break-word;
+}
+
+.hashLink {
+  opacity: 0;
+  color: var(--api-muted);
+  font-size: 0.85rem;
+  transition: opacity 0.15s;
+}
+
+.property:hover .hashLink,
+.hashLink:focus {
+  opacity: 1;
+  text-decoration: none;
+}
+
+.badges {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: auto;
+}
+
+.badge {
+  padding: 0.05rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.requiredBadge {
+  color: #ffd666;
+  background: rgba(255, 196, 0, 0.1);
+  border: 1px solid rgba(255, 196, 0, 0.25);
+}
+
+.deprecatedBadge {
+  color: #ff8f8f;
+  background: rgba(255, 90, 90, 0.1);
+  border: 1px solid rgba(255, 90, 90, 0.25);
+}
+
+.default {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  max-width: 100%;
+}
+
+.defaultLabel {
+  color: var(--api-muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.signature .defaultValue {
+  padding: 0.05rem 0.45rem;
+  border: 1px solid var(--api-accent-border);
+  border-radius: 6px;
+  background: var(--api-accent-soft);
+  color: #b4f4ff;
+  font-size: 0.8rem;
+  word-break: break-word;
+}
+
+.description {
+  margin-top: 0.4rem;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 0.95rem;
+}
+
+.description p {
+  margin-bottom: 0.5rem;
+}
+
+.description > :last-child {
+  margin-bottom: 0;
+}
+
+.deprecated .name {
+  text-decoration: line-through;
+  opacity: 0.75;
+}
+
+.deprecationMessage {
+  color: #ff8f8f;
+}
