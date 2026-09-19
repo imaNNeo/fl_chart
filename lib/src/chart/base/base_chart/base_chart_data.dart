@@ -40,7 +40,11 @@ class FlBorderData with EquatableMixin {
     Border? border,
   })  : show = show ?? true,
         border = border ?? Border.all();
+
+  /// Determines whether to show or hide the border.
   final bool show;
+
+  /// Determines which sides of the border are drawn, and how, see [Border].
   final Border border;
 
   /// returns false if all borders have 0 width or 0 opacity
@@ -208,6 +212,9 @@ class FlLabel with EquatableMixin {
   final String text;
 
   /// The text style of the label.
+  ///
+  /// When null (or when its `inherit` is true), it is merged with the ambient
+  /// [DefaultTextStyle], and it respects the bold text setting of the platform.
   final TextStyle? style;
 
   /// Rotation angle of the label in degrees.

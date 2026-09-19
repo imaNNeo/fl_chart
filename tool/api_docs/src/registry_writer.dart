@@ -24,6 +24,8 @@ String registryDart(Iterable<ApiType> types) {
     ..writeln(header)
     ..writeln(usesDeprecated ? '// ignore_for_file: deprecated_member_use' : '')
     ..writeln()
+    ..writeln("import 'dart:ui' as ui;")
+    ..writeln()
     ..writeln("import 'package:fl_chart/fl_chart.dart';")
     ..writeln("import 'package:flutter/material.dart';")
     ..writeln()
@@ -78,7 +80,8 @@ String registryDart(Iterable<ApiType> types) {
       ..writeln('final o = instance as $name;')
       ..writeln('return $name(');
     for (final m in type.members) {
-      final value = '_value<${m.type}>(values, ${_str(m.name)}, o.${m.name})';
+      final value =
+          '_value<${m.typeCode}>(values, ${_str(m.name)}, o.${m.name})';
       out.writeln(m.isPositional ? '$value,' : '${m.name}: $value,');
     }
     out

@@ -94,6 +94,7 @@ class ApiExtractor {
         ApiMember(
           name: paramName,
           type: param.type.getDisplayString(),
+          typeCode: _typeCode(param.type),
           defaultValue: await _defaultValue(param, ctor),
           isRequired: param.isRequired,
           isPositional: param.isPositional,
@@ -118,6 +119,8 @@ class ApiExtractor {
   /// The playground copies an instance by passing its getters back to the
   /// constructor, it needs a getter for each parameter, with the same type.
   String? _copyIssue(ClassElement cls, FormalParameterElement param) {
+    // A copy would lose the type argument (`Foo<Bar>` would become `Foo`).
+    if (cls.typeParameters.isNotEmpty) return 'the class is generic';
     final getter = cls.thisType.lookUpGetter(param.name!, cls.library);
     if (getter == null || getter.isPrivate) {
       return 'the `${param.name}` parameter has no matching getter';
@@ -126,6 +129,28 @@ class ApiExtractor {
       return 'the `${param.name}` getter is not a `${param.type}`';
     }
     return null;
+  }
+
+  /// [type] as Dart code, with `dart:ui` types prefixed by `ui.`.
+  String _typeCode(DartType type) {
+    final suffix =
+        type.nullabilitySuffix == NullabilitySuffix.question ? '?' : '';
+    String named(Element element, List<DartType> arguments) {
+      final prefix = element.library?.uri.toString() == 'dart:ui' ? 'ui.' : '';
+      final typeArguments =
+          arguments.isEmpty ? '' : '<${arguments.map(_typeCode).join(', ')}>';
+      return '$prefix${element.name}$typeArguments$suffix';
+    }
+
+    final alias = type.alias;
+    if (alias != null) return named(alias.element, alias.typeArguments);
+    return switch (type) {
+      InterfaceType() => named(type.element, type.typeArguments),
+      FunctionType() => '${_typeCode(type.returnType)} Function('
+          '${type.formalParameters.map((p) => _typeCode(p.type)).join(', ')})'
+          '$suffix',
+      _ => type.getDisplayString(),
+    };
   }
 
   (PropertyKind, String?) _kindOf(
@@ -234,7 +259,8 @@ class ApiExtractor {
       final superParam = param.superConstructorParameter;
       final superCtor = superParam?.enclosingElement;
       if (superParam != null && superCtor is ConstructorElement) {
-        return _defaultValue(superParam, superCtor);
+        final inherited = await _defaultValue(superParam, superCtor);
+        if (inherited != null) return inherited;
       }
     }
     final node = await _declarationNode(ctor);

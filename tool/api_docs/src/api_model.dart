@@ -65,12 +65,17 @@ class ApiMember {
     this.kind = PropertyKind.other,
     this.isNullable = false,
     this.kindType,
+    this.typeCode,
   });
 
   final String name;
 
-  /// Display string of the type (valid Dart code), null for enum values.
+  /// Display string of the type, null for enum values.
   final String? type;
+
+  /// The type as Dart code for the playground registry, where `dart:ui` is
+  /// imported as `ui` (`ui.Image` is not the `Image` widget).
+  final String? typeCode;
 
   /// Source code of the default value, null if there's none (or unknown).
   final String? defaultValue;

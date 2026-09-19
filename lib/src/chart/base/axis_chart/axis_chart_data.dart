@@ -140,7 +140,17 @@ enum AxisSide {
 }
 
 /// Represents where the [SideTitles] are drawn in relation to the chart.
-enum SideTitleAlignment { outside, border, inside }
+/// Where the side titles are placed, relative to the border of the chart.
+enum SideTitleAlignment {
+  /// Places the titles outside of the chart area.
+  outside,
+
+  /// Places the titles on the border of the chart area.
+  border,
+
+  /// Places the titles inside of the chart area.
+  inside,
+}
 
 /// Contains meta information about the drawing title.
 class TitleMeta {
@@ -374,10 +384,10 @@ class SideTitleFitInsideData with EquatableMixin {
 
 /// Holds data for showing each side titles (left, top, right, bottom)
 class AxisTitles with EquatableMixin {
-  /// you can provide [axisName] if you want to show a general
+  /// you can provide [axisNameWidget] if you want to show a general
   /// label on this axis,
   ///
-  /// [axisNameSize] determines the maximum size that [axisName] can use
+  /// [axisNameSize] determines the maximum size that [axisNameWidget] can use
   ///
   /// [sideTitles] property is responsible to show your axis side labels
   const AxisTitles({
@@ -388,7 +398,7 @@ class AxisTitles with EquatableMixin {
     this.sideTitleAlignment = SideTitleAlignment.outside,
   });
 
-  /// Determines the size of [axisName]
+  /// Determines the size of [axisNameWidget].
   final double axisNameSize;
 
   /// It shows the name of axis, for example your x-axis shows year,
@@ -483,10 +493,23 @@ class FlTitlesData with EquatableMixin {
     ),
   });
 
+  /// Determines whether to show or hide the titles around the chart.
   final bool show;
+
+  /// Holds data to draw the titles on the left side of the chart,
+  /// see [AxisTitles].
   final AxisTitles leftTitles;
+
+  /// Holds data to draw the titles on the top side of the chart,
+  /// see [AxisTitles].
   final AxisTitles topTitles;
+
+  /// Holds data to draw the titles on the right side of the chart,
+  /// see [AxisTitles].
   final AxisTitles rightTitles;
+
+  /// Holds data to draw the titles on the bottom side of the chart,
+  /// see [AxisTitles].
   final AxisTitles bottomTitles;
 
   /// Lerps a [FlTitlesData] based on [t] value, check [Tween.lerp].
@@ -542,9 +565,18 @@ class FlSpot {
     this.yError,
   });
 
+  /// The x value of the spot, on the horizontal axis (from left to right).
   final double x;
+
+  /// The y value of the spot, on the vertical axis (from bottom to top).
   final double y;
+
+  /// The error range of the spot on the x axis, drawn by the
+  /// `errorIndicatorData` of the chart, see [FlErrorRange].
   final FlErrorRange? xError;
+
+  /// The error range of the spot on the y axis, drawn by the
+  /// `errorIndicatorData` of the chart, see [FlErrorRange].
   final FlErrorRange? yError;
 
   /// Copies current [FlSpot] to a new [FlSpot],
@@ -644,7 +676,7 @@ class FlErrorRange with EquatableMixin {
   /// the main value. So it is non-negative and it is relative to the main value
   final double lowerBy;
 
-  /// determines the lower bound of the error range, it will be added to
+  /// determines the upper bound of the error range, it will be added to
   /// the main value. So it is non-negative and it is relative to the main value
   final double upperBy;
 
@@ -828,6 +860,8 @@ class FlLine with EquatableMixin {
             ((color == null && gradient == null) ? Colors.black : null);
 
   /// Defines color of the line.
+  ///
+  /// Defaults to [Colors.black] if neither [color] nor [gradient] is provided.
   final Color? color;
 
   /// Defines the gradient of the line.
@@ -913,7 +947,10 @@ class RangeAnnotations with EquatableMixin {
     this.verticalRangeAnnotations = const [],
   });
 
+  /// Horizontal ranges to highlight, see [HorizontalRangeAnnotation].
   final List<HorizontalRangeAnnotation> horizontalRangeAnnotations;
+
+  /// Vertical ranges to highlight, see [VerticalRangeAnnotation].
   final List<VerticalRangeAnnotation> verticalRangeAnnotations;
 
   /// Lerps a [RangeAnnotations] based on [t] value, check [Tween.lerp].
@@ -1429,8 +1466,14 @@ class ExtraLinesData with EquatableMixin {
     this.extraLinesOnTop = true,
   });
 
+  /// Horizontal lines to draw on the chart, see [HorizontalLine].
   final List<HorizontalLine> horizontalLines;
+
+  /// Vertical lines to draw on the chart, see [VerticalLine].
   final List<VerticalLine> verticalLines;
+
+  /// If true, the extra lines are drawn above the data of the chart,
+  /// otherwise below it.
   final bool extraLinesOnTop;
 
   /// Lerps a [ExtraLinesData] based on [t] value, check [Tween.lerp].
@@ -2142,8 +2185,14 @@ class AxisSpotIndicator with EquatableMixin {
     required this.painter,
   });
 
+  /// The x value where the indicator is drawn.
   final double? x;
+
+  /// The y value where the indicator is drawn.
   final double? y;
+
+  /// Draws the indicator, like [AxisLinesIndicatorPainter] (you can implement
+  /// your own [AxisSpotIndicatorPainter] to customize it).
   final AxisSpotIndicatorPainter painter;
 
   /// Lerps a [AxisSpotIndicator] based on [t] value, check [Tween.lerp].
