@@ -19,7 +19,7 @@ abstract class BaseChartData with EquatableMixin {
     FlBorderData? borderData,
   }) : borderData = borderData ?? FlBorderData();
 
-  /// Holds data to drawing border around the chart.
+  /// Holds data to draw the border around the chart, see [FlBorderData].
   final FlBorderData borderData;
 
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t);
@@ -86,7 +86,7 @@ abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
     this.longPressDuration,
   );
 
-  /// You can disable or enable the touch system using [enabled] flag,
+  /// Determines whether to enable or disable touch behaviors.
   final bool enabled;
 
   /// [touchCallback] notifies you about the happened touch/pointer events.
@@ -100,7 +100,7 @@ abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
   final MouseCursorResolver<R>? mouseCursorResolver;
 
   /// This property that allows to customize the duration of the longPress gesture.
-  /// default to 500 milliseconds refer to [kLongPressTimeout].
+  /// If null, it uses [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html) (500 milliseconds).
   final Duration? longPressDuration;
 
   /// Used for equality check, see [EquatableMixin].

@@ -39,18 +39,43 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         clipData = clipData ?? const FlClipData.none(),
         backgroundColor = backgroundColor ?? Colors.transparent,
         extraLinesData = extraLinesData ?? const ExtraLinesData();
+
+  /// Holds data to draw the grid lines behind the chart, see [FlGridData].
   final FlGridData gridData;
+
+  /// Holds data to draw the titles around the chart, see [FlTitlesData].
   final FlTitlesData titlesData;
+
+  /// Highlights some horizontal or vertical ranges behind the chart,
+  /// see [RangeAnnotations].
   final RangeAnnotations rangeAnnotations;
 
+  /// Minimum x value of the chart. If you don't provide it, it is calculated
+  /// from the chart's data (providing it is more performant).
   final double minX;
+
+  /// Maximum x value of the chart. If you don't provide it, it is calculated
+  /// from the chart's data (providing it is more performant).
   final double maxX;
+
+  /// The x value that the vertical grid lines and the titles are aligned to,
+  /// they are drawn at every `baselineX + n * interval`.
   final double baselineX;
+
+  /// Minimum y value of the chart. If you don't provide it, it is calculated
+  /// from the chart's data (providing it is more performant).
   final double minY;
+
+  /// Maximum y value of the chart. If you don't provide it, it is calculated
+  /// from the chart's data (providing it is more performant).
   final double maxY;
+
+  /// The y value that the horizontal grid lines and the titles are aligned to,
+  /// they are drawn at every `baselineY + n * interval`.
   final double baselineY;
 
-  /// clip the chart to the border (prevent draw outside the border)
+  /// Clips the chart to its border (prevents drawing outside of the border),
+  /// see [FlClipData].
   final FlClipData clipData;
 
   /// A background color which is drawn behind the chart.
@@ -62,10 +87,12 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   /// Difference of [maxX] and [minX]
   double get horizontalDiff => maxX - minX;
 
-  /// Extra horizontal or vertical lines to draw on the chart.
+  /// Extra horizontal or vertical lines to draw on the chart,
+  /// see [ExtraLinesData].
   final ExtraLinesData extraLinesData;
 
-  /// Rotates the chart by 90 degrees clockwise in each turn
+  /// Rotates the chart 90 degrees (clockwise) in every quarter turn.
+  /// It works like the [RotatedBox] widget.
   final int rotationQuarterTurns;
 
   /// Used for equality check, see [EquatableMixin].
