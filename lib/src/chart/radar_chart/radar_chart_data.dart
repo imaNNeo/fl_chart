@@ -28,10 +28,11 @@ class RadarChartTitle {
   /// [text] is used to draw titles outside the [RadarChart]
   final String text;
 
-  /// [children] is used to draw additional titles outside the [RadarChart]
+  /// Additional spans after [text], to have texts with different styles
+  /// (like the children of a [TextSpan]).
   final List<InlineSpan>? children;
 
-  /// [angle] is used to rotate the title
+  /// Rotates the title (in degrees).
   final double angle;
 
   /// [positionPercentageOffset] is the place of showing title on the [RadarChart]
@@ -112,7 +113,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
 
   /// [getTitle] is used to draw titles outside the [RadarChart]
   /// [getTitle] is type of [GetTitleByIndexFunction] so you should return a valid [RadarChartTitle]
-  /// for each [index] (we provide a default [angle] = index * 360 / titleCount)
+  /// for each `index` (we provide a default `angle` = index * 360 / titleCount)
   ///
   /// ```dart
   /// getTitle: (index, angle) {
@@ -310,11 +311,11 @@ class RadarDataSet with EquatableMixin {
   /// defines the color that fills the [RadarDataSet].
   final Color fillColor;
 
-  // defines the gradient color that fills the [RadarDataSet].
+  /// defines the gradient that fills the [RadarDataSet], if provided it is
+  /// used instead of [fillColor].
   final Gradient? fillGradient;
 
   /// defines the border color of the [RadarDataSet].
-  /// if [borderColor] is not defined it will replaced with [fillColor].
   final Color borderColor;
 
   /// defines the width of [RadarDataSet] border.
@@ -475,10 +476,17 @@ class RadarTouchedSpot extends TouchedSpot with EquatableMixin {
     FlSpot spot,
     Offset offset,
   ) : super(spot, offset);
+
+  /// The [RadarDataSet] of the touched entry.
   final RadarDataSet touchedDataSet;
+
+  /// The index of [touchedDataSet] in [RadarChartData.dataSets].
   final int touchedDataSetIndex;
 
+  /// The touched [RadarEntry].
   final RadarEntry touchedRadarEntry;
+
+  /// The index of [touchedRadarEntry] in [RadarDataSet.dataEntries].
   final int touchedRadarEntryIndex;
 
   /// Used for equality check, see [EquatableMixin].

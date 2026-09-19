@@ -1949,6 +1949,262 @@
       }
     ]
   },
+  "RadarChartData": {
+    "page": "radar_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "dataSets",
+        "type": "List<RadarDataSet>?",
+        "required": true,
+        "description": "[`RadarChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/RadarChart-class.html) draw `dataSets` that each of them showing a list of [`RadarEntry`](#radarentry)"
+      },
+      {
+        "name": "radarBackgroundColor",
+        "type": "Color?",
+        "defaultValue": "Colors.transparent",
+        "description": "`radarBackgroundColor` draw the background color of the [`RadarChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/RadarChart-class.html)"
+      },
+      {
+        "name": "radarBorderData",
+        "type": "BorderSide?",
+        "defaultValue": "const BorderSide(width: 2)",
+        "description": "`radarBorderData` is used to draw [`RadarChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/RadarChart-class.html) border"
+      },
+      {
+        "name": "radarShape",
+        "type": "RadarShape?",
+        "defaultValue": "RadarShape.circle",
+        "description": "`radarShape` is used to draw [`RadarChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/RadarChart-class.html) border and background"
+      },
+      {
+        "name": "getTitle",
+        "type": "RadarChartTitle Function(int, double)?",
+        "defaultValue": "null",
+        "description": "`getTitle` is used to draw titles outside the [`RadarChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/RadarChart-class.html)\n`getTitle` is type of [`GetTitleByIndexFunction`](https://pub.dev/documentation/fl_chart/latest/fl_chart/GetTitleByIndexFunction.html) so you should return a valid [`RadarChartTitle`](#radarcharttitle)\nfor each `index` (we provide a default `angle` = index * 360 / titleCount)\n\n```dart\ngetTitle: (index, angle) {\n  switch (index) {\n    case 0:\n      return RadarChartTitle(text: 'Mobile or Tablet', angle: angle);\n    case 2:\n      return RadarChartTitle(text: 'Desktop', angle: angle);\n    case 1:\n      return RadarChartTitle(text: 'TV', angle: angle);\n    default:\n      return const RadarChartTitle(text: '');\n  }\n}\n```"
+      },
+      {
+        "name": "titleTextStyle",
+        "type": "TextStyle?",
+        "defaultValue": "null",
+        "description": "Defines style of showing [`RadarChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/RadarChart-class.html) titles."
+      },
+      {
+        "name": "titlePositionPercentageOffset",
+        "type": "double?",
+        "defaultValue": "0.2",
+        "description": "the `titlePositionPercentageOffset` is the place of showing title on the [`RadarChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/RadarChart-class.html)\nThe higher the value of this field, the more titles move away from the chart.\nthis field should be between 0 and 1,\nif it is 0 the title will be drawn near the inside section,\nif it is 1 the title will be drawn near the outside of section,\nthe default value is 0.2."
+      },
+      {
+        "name": "tickCount",
+        "type": "int?",
+        "defaultValue": "1",
+        "description": "Defines the number of ticks that should be paint in [`RadarChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/RadarChart-class.html)\nthe default &amp; minimum value of this field is 1."
+      },
+      {
+        "name": "ticksTextStyle",
+        "type": "TextStyle?",
+        "defaultValue": "null",
+        "description": "Defines style of showing [`RadarChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/RadarChart-class.html) tick titles."
+      },
+      {
+        "name": "tickBorderData",
+        "type": "BorderSide?",
+        "defaultValue": "const BorderSide(width: 2)",
+        "description": "Defines style of showing [`RadarChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/RadarChart-class.html) tick borders."
+      },
+      {
+        "name": "gridBorderData",
+        "type": "BorderSide?",
+        "defaultValue": "const BorderSide(width: 2)",
+        "description": "Defines style of showing [`RadarChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/RadarChart-class.html) grid borders."
+      },
+      {
+        "name": "radarTouchData",
+        "type": "RadarTouchData?",
+        "defaultValue": "RadarTouchData()",
+        "description": "Handles touch behaviors and responses."
+      },
+      {
+        "name": "isMinValueAtCenter",
+        "type": "bool",
+        "defaultValue": "false",
+        "description": "If `isMinValueAtCenter` is true, the minimum value of the [`RadarChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/RadarChart-class.html) will be at the center of the chart."
+      },
+      {
+        "name": "borderData",
+        "type": "FlBorderData?",
+        "defaultValue": "FlBorderData()",
+        "description": "Holds data to draw the border around the chart, see [`FlBorderData`](base_chart.md#flborderdata)."
+      }
+    ]
+  },
+  "RadarChartTitle": {
+    "page": "radar_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "text",
+        "type": "String",
+        "required": true,
+        "description": "`text` is used to draw titles outside the [`RadarChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/RadarChart-class.html)"
+      },
+      {
+        "name": "children",
+        "type": "List<InlineSpan>?",
+        "defaultValue": "null",
+        "description": "Additional spans after `text`, to have texts with different styles\n(like the children of a [`TextSpan`](https://api.flutter.dev/flutter/painting/TextSpan-class.html))."
+      },
+      {
+        "name": "angle",
+        "type": "double",
+        "defaultValue": "0",
+        "description": "Rotates the title (in degrees)."
+      },
+      {
+        "name": "positionPercentageOffset",
+        "type": "double?",
+        "defaultValue": "null",
+        "description": "`positionPercentageOffset` is the place of showing title on the [`RadarChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/RadarChart-class.html)\nThe higher the value of this field, the more titles move away from the chart.\nThe value of `positionPercentageOffset` takes precedence over the value of\n[`RadarChartData.titlePositionPercentageOffset`](#radarchartdata), even if it is set."
+      }
+    ]
+  },
+  "RadarDataSet": {
+    "page": "radar_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "dataEntries",
+        "type": "List<RadarEntry>?",
+        "defaultValue": "const []",
+        "description": "each section or dataSets consists of a set of `dataEntries`."
+      },
+      {
+        "name": "fillColor",
+        "type": "Color?",
+        "defaultValue": "Colors.cyan",
+        "description": "defines the color that fills the [`RadarDataSet`](#radardataset)."
+      },
+      {
+        "name": "fillGradient",
+        "type": "Gradient?",
+        "defaultValue": "null",
+        "description": "defines the gradient that fills the [`RadarDataSet`](#radardataset), if provided it is\nused instead of `fillColor`."
+      },
+      {
+        "name": "borderColor",
+        "type": "Color?",
+        "defaultValue": "Colors.cyan",
+        "description": "defines the border color of the [`RadarDataSet`](#radardataset)."
+      },
+      {
+        "name": "borderWidth",
+        "type": "double?",
+        "defaultValue": "2.0",
+        "description": "defines the width of [`RadarDataSet`](#radardataset) border.\nthe default value of this field is 2.0"
+      },
+      {
+        "name": "entryRadius",
+        "type": "double?",
+        "defaultValue": "5.0",
+        "description": "defines the radius of each entry\nthe default value of this field is 5.0"
+      }
+    ]
+  },
+  "RadarEntry": {
+    "page": "radar_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "value",
+        "type": "double",
+        "required": true,
+        "description": "[`RadarChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/RadarChart-class.html) uses this field to render every point in chart."
+      }
+    ]
+  },
+  "RadarTouchData": {
+    "page": "radar_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "enabled",
+        "type": "bool?",
+        "defaultValue": "true",
+        "description": "Determines whether to enable or disable touch behaviors."
+      },
+      {
+        "name": "touchCallback",
+        "type": "void Function(FlTouchEvent, RadarTouchResponse?)?",
+        "defaultValue": "null",
+        "description": "`touchCallback` notifies you about the happened touch/pointer events.\nIt gives you a [`FlTouchEvent`](base_chart.md#fltouchevent) which is the happened event such as [`FlPointerHoverEvent`](https://pub.dev/documentation/fl_chart/latest/fl_chart/FlPointerHoverEvent-class.html), [`FlTapUpEvent`](https://pub.dev/documentation/fl_chart/latest/fl_chart/FlTapUpEvent-class.html), ...\nIt also gives you a [`BaseTouchResponse`](https://pub.dev/documentation/fl_chart/latest/fl_chart/BaseTouchResponse-class.html) which is the chart specific type and contains information\nabout the elements that has touched."
+      },
+      {
+        "name": "mouseCursorResolver",
+        "type": "MouseCursor Function(FlTouchEvent, RadarTouchResponse?)?",
+        "defaultValue": "null",
+        "description": "Using `mouseCursorResolver` you can change the mouse cursor\nbased on the provided [`FlTouchEvent`](base_chart.md#fltouchevent) and [`BaseTouchResponse`](https://pub.dev/documentation/fl_chart/latest/fl_chart/BaseTouchResponse-class.html)"
+      },
+      {
+        "name": "longPressDuration",
+        "type": "Duration?",
+        "defaultValue": "null",
+        "description": "This property that allows to customize the duration of the longPress gesture.\nIf null, it uses [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html) (500 milliseconds)."
+      },
+      {
+        "name": "touchSpotThreshold",
+        "type": "double?",
+        "defaultValue": "10",
+        "description": "we find the nearest spots on touched position based on this threshold"
+      }
+    ]
+  },
+  "RadarTouchResponse": {
+    "page": "radar_chart.md",
+    "mode": "fields",
+    "members": [
+      {
+        "name": "touchLocation",
+        "type": "Offset",
+        "description": "The location of the touch in pixels on the screen."
+      },
+      {
+        "name": "touchedSpot",
+        "type": "RadarTouchedSpot?",
+        "description": "touch happened on this spot. this spot has useful information about spot or entry"
+      }
+    ]
+  },
+  "RadarTouchedSpot": {
+    "page": "radar_chart.md",
+    "mode": "fields",
+    "inheritsFrom": {
+      "name": "TouchedSpot",
+      "link": "base_chart.md#touchedspot"
+    },
+    "members": [
+      {
+        "name": "touchedDataSet",
+        "type": "RadarDataSet",
+        "description": "The [`RadarDataSet`](#radardataset) of the touched entry."
+      },
+      {
+        "name": "touchedDataSetIndex",
+        "type": "int",
+        "description": "The index of `touchedDataSet` in [`RadarChartData.dataSets`](#radarchartdata)."
+      },
+      {
+        "name": "touchedRadarEntry",
+        "type": "RadarEntry",
+        "description": "The touched [`RadarEntry`](#radarentry)."
+      },
+      {
+        "name": "touchedRadarEntryIndex",
+        "type": "int",
+        "description": "The index of `touchedRadarEntry` in [`RadarDataSet.dataEntries`](#radardataset)."
+      }
+    ]
+  },
   "RangeAnnotations": {
     "page": "base_chart.md",
     "mode": "constructor",

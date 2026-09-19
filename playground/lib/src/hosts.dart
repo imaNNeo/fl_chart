@@ -4,6 +4,7 @@ import 'hosts/bar.dart';
 import 'hosts/base.dart';
 import 'hosts/line.dart';
 import 'hosts/pie.dart';
+import 'hosts/radar.dart';
 import 'hosts/scatter.dart';
 
 /// How the properties of a documented class are shown: an [instance] to
@@ -25,4 +26,5 @@ final hosts = <String, Host>{
   ...barHosts,
   ...pieHosts,
   ...scatterHosts,
+  ...radarHosts,
 };

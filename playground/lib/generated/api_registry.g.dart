@@ -1983,6 +1983,250 @@ final apiRegistry = <String, ClassSpec>{
     read: _readPieTouchData,
     copy: _copyPieTouchData,
   ),
+  'RadarChartData': ClassSpec(
+    name: 'RadarChartData',
+    properties: const [
+      PropertySpec(
+        name: 'dataSets',
+        type: 'List<RadarDataSet>?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        isRequired: true,
+      ),
+      PropertySpec(
+        name: 'radarBackgroundColor',
+        type: 'Color?',
+        kind: PropertyKind.color,
+        isNullable: true,
+        defaultCode: 'Colors.transparent',
+      ),
+      PropertySpec(
+        name: 'radarBorderData',
+        type: 'BorderSide?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'const BorderSide(width: 2)',
+      ),
+      PropertySpec(
+        name: 'radarShape',
+        type: 'RadarShape?',
+        kind: PropertyKind.enumeration,
+        isNullable: true,
+        values: RadarShape.values,
+        defaultCode: 'RadarShape.circle',
+      ),
+      PropertySpec(
+        name: 'getTitle',
+        type: 'RadarChartTitle Function(int, double)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'titleTextStyle',
+        type: 'TextStyle?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'titlePositionPercentageOffset',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '0.2',
+      ),
+      PropertySpec(
+        name: 'tickCount',
+        type: 'int?',
+        kind: PropertyKind.integer,
+        isNullable: true,
+        defaultCode: '1',
+      ),
+      PropertySpec(
+        name: 'ticksTextStyle',
+        type: 'TextStyle?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'tickBorderData',
+        type: 'BorderSide?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'const BorderSide(width: 2)',
+      ),
+      PropertySpec(
+        name: 'gridBorderData',
+        type: 'BorderSide?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'const BorderSide(width: 2)',
+      ),
+      PropertySpec(
+        name: 'radarTouchData',
+        type: 'RadarTouchData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'RadarTouchData',
+        defaultCode: 'RadarTouchData()',
+      ),
+      PropertySpec(
+        name: 'isMinValueAtCenter',
+        type: 'bool',
+        kind: PropertyKind.boolean,
+        defaultCode: 'false',
+      ),
+      PropertySpec(
+        name: 'borderData',
+        type: 'FlBorderData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'FlBorderData',
+        defaultCode: 'FlBorderData()',
+      ),
+    ],
+    read: _readRadarChartData,
+    copy: _copyRadarChartData,
+  ),
+  'RadarChartTitle': ClassSpec(
+    name: 'RadarChartTitle',
+    properties: const [
+      PropertySpec(
+        name: 'text',
+        type: 'String',
+        kind: PropertyKind.text,
+        isRequired: true,
+      ),
+      PropertySpec(
+        name: 'children',
+        type: 'List<InlineSpan>?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'angle',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'positionPercentageOffset',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+    ],
+    read: _readRadarChartTitle,
+    copy: _copyRadarChartTitle,
+  ),
+  'RadarDataSet': ClassSpec(
+    name: 'RadarDataSet',
+    properties: const [
+      PropertySpec(
+        name: 'dataEntries',
+        type: 'List<RadarEntry>?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'const []',
+      ),
+      PropertySpec(
+        name: 'fillColor',
+        type: 'Color?',
+        kind: PropertyKind.color,
+        isNullable: true,
+        defaultCode: 'Colors.cyan',
+      ),
+      PropertySpec(
+        name: 'fillGradient',
+        type: 'Gradient?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'borderColor',
+        type: 'Color?',
+        kind: PropertyKind.color,
+        isNullable: true,
+        defaultCode: 'Colors.cyan',
+      ),
+      PropertySpec(
+        name: 'borderWidth',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '2.0',
+      ),
+      PropertySpec(
+        name: 'entryRadius',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '5.0',
+      ),
+    ],
+    read: _readRadarDataSet,
+    copy: _copyRadarDataSet,
+  ),
+  'RadarEntry': ClassSpec(
+    name: 'RadarEntry',
+    properties: const [
+      PropertySpec(
+        name: 'value',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        isRequired: true,
+      ),
+    ],
+    read: _readRadarEntry,
+    copy: _copyRadarEntry,
+  ),
+  'RadarTouchData': ClassSpec(
+    name: 'RadarTouchData',
+    properties: const [
+      PropertySpec(
+        name: 'enabled',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'true',
+      ),
+      PropertySpec(
+        name: 'touchCallback',
+        type: 'void Function(FlTouchEvent, RadarTouchResponse?)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'mouseCursorResolver',
+        type: 'MouseCursor Function(FlTouchEvent, RadarTouchResponse?)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'longPressDuration',
+        type: 'Duration?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'touchSpotThreshold',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '10',
+      ),
+    ],
+    read: _readRadarTouchData,
+    copy: _copyRadarTouchData,
+  ),
   'RangeAnnotations': ClassSpec(
     name: 'RangeAnnotations',
     properties: const [
@@ -4123,6 +4367,198 @@ PieTouchData _copyPieTouchData(Object instance, Map<String, Object?> values) {
       values,
       'longPressDuration',
       o.longPressDuration,
+    ),
+  );
+}
+
+Object? _readRadarChartData(Object instance, String property) {
+  final o = instance as RadarChartData;
+  return switch (property) {
+    'dataSets' => o.dataSets,
+    'radarBackgroundColor' => o.radarBackgroundColor,
+    'radarBorderData' => o.radarBorderData,
+    'radarShape' => o.radarShape,
+    'getTitle' => o.getTitle,
+    'titleTextStyle' => o.titleTextStyle,
+    'titlePositionPercentageOffset' => o.titlePositionPercentageOffset,
+    'tickCount' => o.tickCount,
+    'ticksTextStyle' => o.ticksTextStyle,
+    'tickBorderData' => o.tickBorderData,
+    'gridBorderData' => o.gridBorderData,
+    'radarTouchData' => o.radarTouchData,
+    'isMinValueAtCenter' => o.isMinValueAtCenter,
+    'borderData' => o.borderData,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+RadarChartData _copyRadarChartData(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as RadarChartData;
+  return RadarChartData(
+    dataSets: _value<List<RadarDataSet>?>(values, 'dataSets', o.dataSets),
+    radarBackgroundColor: _value<ui.Color?>(
+      values,
+      'radarBackgroundColor',
+      o.radarBackgroundColor,
+    ),
+    radarBorderData: _value<BorderSide?>(
+      values,
+      'radarBorderData',
+      o.radarBorderData,
+    ),
+    radarShape: _value<RadarShape?>(values, 'radarShape', o.radarShape),
+    getTitle: _value<GetTitleByIndexFunction?>(values, 'getTitle', o.getTitle),
+    titleTextStyle: _value<TextStyle?>(
+      values,
+      'titleTextStyle',
+      o.titleTextStyle,
+    ),
+    titlePositionPercentageOffset: _value<double?>(
+      values,
+      'titlePositionPercentageOffset',
+      o.titlePositionPercentageOffset,
+    ),
+    tickCount: _value<int?>(values, 'tickCount', o.tickCount),
+    ticksTextStyle: _value<TextStyle?>(
+      values,
+      'ticksTextStyle',
+      o.ticksTextStyle,
+    ),
+    tickBorderData: _value<BorderSide?>(
+      values,
+      'tickBorderData',
+      o.tickBorderData,
+    ),
+    gridBorderData: _value<BorderSide?>(
+      values,
+      'gridBorderData',
+      o.gridBorderData,
+    ),
+    radarTouchData: _value<RadarTouchData?>(
+      values,
+      'radarTouchData',
+      o.radarTouchData,
+    ),
+    isMinValueAtCenter: _value<bool>(
+      values,
+      'isMinValueAtCenter',
+      o.isMinValueAtCenter,
+    ),
+    borderData: _value<FlBorderData?>(values, 'borderData', o.borderData),
+  );
+}
+
+Object? _readRadarChartTitle(Object instance, String property) {
+  final o = instance as RadarChartTitle;
+  return switch (property) {
+    'text' => o.text,
+    'children' => o.children,
+    'angle' => o.angle,
+    'positionPercentageOffset' => o.positionPercentageOffset,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+RadarChartTitle _copyRadarChartTitle(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as RadarChartTitle;
+  return RadarChartTitle(
+    text: _value<String>(values, 'text', o.text),
+    children: _value<List<InlineSpan>?>(values, 'children', o.children),
+    angle: _value<double>(values, 'angle', o.angle),
+    positionPercentageOffset: _value<double?>(
+      values,
+      'positionPercentageOffset',
+      o.positionPercentageOffset,
+    ),
+  );
+}
+
+Object? _readRadarDataSet(Object instance, String property) {
+  final o = instance as RadarDataSet;
+  return switch (property) {
+    'dataEntries' => o.dataEntries,
+    'fillColor' => o.fillColor,
+    'fillGradient' => o.fillGradient,
+    'borderColor' => o.borderColor,
+    'borderWidth' => o.borderWidth,
+    'entryRadius' => o.entryRadius,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+RadarDataSet _copyRadarDataSet(Object instance, Map<String, Object?> values) {
+  final o = instance as RadarDataSet;
+  return RadarDataSet(
+    dataEntries: _value<List<RadarEntry>?>(
+      values,
+      'dataEntries',
+      o.dataEntries,
+    ),
+    fillColor: _value<ui.Color?>(values, 'fillColor', o.fillColor),
+    fillGradient: _value<Gradient?>(values, 'fillGradient', o.fillGradient),
+    borderColor: _value<ui.Color?>(values, 'borderColor', o.borderColor),
+    borderWidth: _value<double?>(values, 'borderWidth', o.borderWidth),
+    entryRadius: _value<double?>(values, 'entryRadius', o.entryRadius),
+  );
+}
+
+Object? _readRadarEntry(Object instance, String property) {
+  final o = instance as RadarEntry;
+  return switch (property) {
+    'value' => o.value,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+RadarEntry _copyRadarEntry(Object instance, Map<String, Object?> values) {
+  final o = instance as RadarEntry;
+  return RadarEntry(value: _value<double>(values, 'value', o.value));
+}
+
+Object? _readRadarTouchData(Object instance, String property) {
+  final o = instance as RadarTouchData;
+  return switch (property) {
+    'enabled' => o.enabled,
+    'touchCallback' => o.touchCallback,
+    'mouseCursorResolver' => o.mouseCursorResolver,
+    'longPressDuration' => o.longPressDuration,
+    'touchSpotThreshold' => o.touchSpotThreshold,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+RadarTouchData _copyRadarTouchData(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as RadarTouchData;
+  return RadarTouchData(
+    enabled: _value<bool?>(values, 'enabled', o.enabled),
+    touchCallback: _value<BaseTouchCallback<RadarTouchResponse>?>(
+      values,
+      'touchCallback',
+      o.touchCallback,
+    ),
+    mouseCursorResolver: _value<MouseCursorResolver<RadarTouchResponse>?>(
+      values,
+      'mouseCursorResolver',
+      o.mouseCursorResolver,
+    ),
+    longPressDuration: _value<Duration?>(
+      values,
+      'longPressDuration',
+      o.longPressDuration,
+    ),
+    touchSpotThreshold: _value<double?>(
+      values,
+      'touchSpotThreshold',
+      o.touchSpotThreshold,
     ),
   );
 }
