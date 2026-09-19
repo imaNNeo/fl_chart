@@ -12,6 +12,7 @@ import 'bar/bar_chart_sample5.dart';
 import 'bar/bar_chart_sample6.dart';
 import 'bar/bar_chart_sample7.dart';
 import 'bar/bar_chart_sample8.dart';
+import 'bar/bar_chart_sample9.dart';
 import 'chart_sample.dart';
 import 'gauge/gauge_chart_sample2.dart';
 import 'line/line_chart_sample1.dart';
@@ -61,6 +62,7 @@ class ChartSamples {
       BarChartSample(6, (context) => const BarChartSample6()),
       BarChartSample(7, (context) => BarChartSample7()),
       BarChartSample(8, (context) => BarChartSample8()),
+      BarChartSample(9, (context) => const BarChartSample9()),
     ],
     ChartType.pie: [
       PieChartSample(1, (context) => const PieChartSample1()),
