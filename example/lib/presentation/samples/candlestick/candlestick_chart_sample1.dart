@@ -314,7 +314,7 @@ class CandlestickChartSample1State extends State<CandlestickChartSample1> {
   }
 }
 
-class _BtcCandlestickData with Equatable{
+class _BtcCandlestickData with Equatable {
   _BtcCandlestickData({
     required this.datetime,
     required this.open,

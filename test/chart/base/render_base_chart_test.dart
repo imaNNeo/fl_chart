@@ -150,11 +150,11 @@ class TestRenderBaseChart extends RenderBaseChart<LineTouchResponse> {
   TestRenderBaseChart(
     BuildContext context,
     FlTouchData<LineTouchResponse>? touchData, {
-    required bool canBeScaled,
+    required super.canBeScaled,
     required this.panGestureRecognizerOverride,
     required this.tapGestureRecognizerOverride,
     required this.longPressGestureRecognizerOverride,
-  }) : super(touchData, context, canBeScaled: canBeScaled);
+  }) : super(touchData, context);
 
   final PanGestureRecognizer panGestureRecognizerOverride;
   final TapGestureRecognizer tapGestureRecognizerOverride;
