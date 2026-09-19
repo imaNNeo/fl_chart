@@ -1,6 +1,7 @@
 // Generates the API docs from the dartdoc comments:
 // - the API tables of the markdown docs (repo_files/documentations/*.md),
-// - the API data of the website (website/src/data/api.json).
+// - the API data of the website (website/src/data/api.json),
+// - the property specs of the playground (playground/lib/generated/).
 //
 // Usage (from the repo root):
 //   dart run tool/api_docs/generate.dart          # update the docs
@@ -15,6 +16,7 @@ import 'src/api_extractor.dart';
 import 'src/api_model.dart';
 import 'src/json_writer.dart';
 import 'src/markdown_tables.dart';
+import 'src/registry_writer.dart';
 
 Future<void> main(List<String> args) async {
   final check = args.contains('--check');
@@ -56,6 +58,8 @@ Future<void> main(List<String> args) async {
           replaceTables(markdown, fileName, types, anchors),
     p.join(root, 'website', 'src', 'data', 'api.json'):
         apiJson(types.values, pages, anchors),
+    p.join(root, 'playground', 'lib', 'generated', 'api_registry.g.dart'):
+        registryDart(types.values),
   };
   final stale = <String>[];
   for (final MapEntry(key: path, value: content) in outputs.entries) {

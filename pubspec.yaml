@@ -23,10 +23,12 @@ dependencies:
 dev_dependencies:
   analyzer: ^14.4.0
   build_runner: ^2.8.0
+  dart_style: ^3.1.0
   flutter_test:
     sdk: flutter
   mockito: ^5.5.1
   path: ^1.9.0
+  pub_semver: ^2.2.0
   very_good_analysis: ^10.2.0
 
 screenshots:

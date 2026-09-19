@@ -37,10 +37,12 @@ function apiReferenceMdx(typeName, api) {
     const {name, link} = type.inheritsFrom;
     lines.push(mdxSafe(`Also has the properties of [\`${name}\`](${link}).`), '');
   }
-  lines.push(`<ApiReference mode=${js(type.mode)}>`, '');
+  lines.push(`<ApiReference typeName=${js(typeName)} mode=${js(type.mode)}>`, '');
   for (const member of type.members) {
     const attributes = [
       `id=${js(`${typeName}-${member.name}`.toLowerCase())}`,
+      `typeName=${js(typeName)}`,
+      `mode=${js(type.mode)}`,
       `name=${js(member.name)}`,
       member.type && `type=${js(member.type)}`,
       member.defaultValue && `defaultValue=${js(member.defaultValue)}`,
@@ -86,6 +88,18 @@ function mdxSafeText(text) {
         target.startsWith('http') ? `](${target}${anchor})` : `](${target}${anchor.toLowerCase()})`,
       )
   );
+}
+
+/**
+ * The class a page shows in its playground panel before a property is picked:
+ * its first API block of a class (not an enum, nor a read-only class).
+ */
+export function playgroundType(fileContent, apiJsonPath) {
+  const api = JSON.parse(fs.readFileSync(apiJsonPath, 'utf8'));
+  for (const [, typeName] of fileContent.matchAll(apiMarker)) {
+    if (api[typeName]?.mode === 'constructor') return typeName;
+  }
+  return undefined;
 }
 
 /**

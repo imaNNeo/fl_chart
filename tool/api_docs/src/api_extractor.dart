@@ -7,6 +7,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
+import 'package:analyzer/dart/element/type.dart';
 import 'package:path/path.dart' as p;
 
 import 'api_model.dart';
@@ -69,11 +70,14 @@ class ApiExtractor {
     }
     return switch (mode ?? TableMode.constructor) {
       TableMode.fields => _fieldsType(element, isDocumented),
-      _ => _constructorType(element),
+      _ => _constructorType(element, isDocumented),
     };
   }
 
-  Future<ApiType?> _constructorType(ClassElement cls) async {
+  Future<ApiType?> _constructorType(
+    ClassElement cls,
+    bool Function(String typeName) isDocumented,
+  ) async {
     final name = cls.name!;
     final ctor = cls.unnamedConstructor;
     if (ctor == null) {
@@ -81,21 +85,68 @@ class ApiExtractor {
       return null;
     }
     final members = <ApiMember>[];
+    String? copyIssue;
     for (final param in ctor.formalParameters) {
       final paramName = param.name!;
       final field = _findField(cls, paramName);
+      final (kind, kindType) = _kindOf(param.type, isDocumented);
       members.add(
         ApiMember(
           name: paramName,
           type: param.type.getDisplayString(),
           defaultValue: await _defaultValue(param, ctor),
           isRequired: param.isRequired,
+          isPositional: param.isPositional,
           deprecationMessage: _deprecation(param) ?? _deprecation(field),
+          kind: kind,
+          kindType: kindType,
+          isNullable:
+              param.type.nullabilitySuffix == NullabilitySuffix.question,
           doc: _doc(name, paramName, field ?? param),
         ),
       );
+      copyIssue ??= _copyIssue(cls, param);
     }
-    return ApiType(name: name, mode: TableMode.constructor, members: members);
+    return ApiType(
+      name: name,
+      mode: TableMode.constructor,
+      members: members,
+      copyIssue: copyIssue,
+    );
+  }
+
+  /// The playground copies an instance by passing its getters back to the
+  /// constructor, it needs a getter for each parameter, with the same type.
+  String? _copyIssue(ClassElement cls, FormalParameterElement param) {
+    final getter = cls.thisType.lookUpGetter(param.name!, cls.library);
+    if (getter == null || getter.isPrivate) {
+      return 'the `${param.name}` parameter has no matching getter';
+    }
+    if (!cls.library.typeSystem.isAssignableTo(getter.returnType, param.type)) {
+      return 'the `${param.name}` getter is not a `${param.type}`';
+    }
+    return null;
+  }
+
+  (PropertyKind, String?) _kindOf(
+    DartType type,
+    bool Function(String typeName) isDocumented,
+  ) {
+    final element = type.element;
+    if (type.isDartCoreBool) return (PropertyKind.boolean, null);
+    if (type.isDartCoreInt) return (PropertyKind.integer, null);
+    if (type.isDartCoreDouble) return (PropertyKind.decimal, null);
+    if (type.isDartCoreString) return (PropertyKind.text, null);
+    if (element?.name == 'Color' && element?.library?.uri.path == 'ui') {
+      return (PropertyKind.color, null);
+    }
+    if (element is EnumElement) return (PropertyKind.enumeration, element.name);
+    if (element is ClassElement &&
+        _isFlChart(element) &&
+        isDocumented(element.name!)) {
+      return (PropertyKind.nested, element.name);
+    }
+    return (PropertyKind.other, null);
   }
 
   ApiType _fieldsType(

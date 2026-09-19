@@ -6,7 +6,11 @@
 
 import path from 'node:path';
 
-import {docFrontMatter, preprocessDoc} from './config/docsMarkdown.js';
+import {
+  docFrontMatter,
+  playgroundType,
+  preprocessDoc,
+} from './config/docsMarkdown.js';
 
 // The docs live in the fl_chart repository, next to the code they document.
 const docsDir = path.resolve(__dirname, '../repo_files/documentations');
@@ -40,8 +44,11 @@ const config = {
     parseFrontMatter: async (params) => {
       const result = await params.defaultParseFrontMatter(params);
       if (params.filePath.startsWith(docsDir)) {
+        const playground = playgroundType(params.fileContent, apiJsonPath);
         result.frontMatter = {
           ...docFrontMatter(params.filePath, docsDir),
+          // Pages with API blocks get a live preview panel (see DocItem/Layout).
+          ...(playground && {playground}),
           ...result.frontMatter,
         };
       }

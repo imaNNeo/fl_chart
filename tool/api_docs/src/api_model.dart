@@ -1,5 +1,5 @@
 /// Output-agnostic model of the documented API, filled by the extractor and
-/// rendered by the writers (markdown tables today, json/playground later).
+/// rendered by the writers (markdown tables, website data and playground).
 library;
 
 import 'package:analyzer/dart/element/element.dart';
@@ -16,12 +16,29 @@ enum TableMode {
   enumValues,
 }
 
+/// Which control the playground can show for a property, from its type.
+///
+/// Mirrors `PropertyKind` in playground/lib/src/api.dart.
+enum PropertyKind {
+  boolean,
+  integer,
+  decimal,
+  text,
+  color,
+  enumeration,
+
+  /// Another documented class, which has its own properties.
+  nested,
+  other,
+}
+
 class ApiType {
   ApiType({
     required this.name,
     required this.mode,
     required this.members,
     this.inheritsFrom,
+    this.copyIssue,
   });
 
   final String name;
@@ -30,6 +47,10 @@ class ApiType {
 
   /// A documented superclass whose fields are not repeated (fields mode).
   final String? inheritsFrom;
+
+  /// Why an instance can't be copied with a changed property (constructor
+  /// mode), null if it can: every parameter must have a matching getter.
+  final String? copyIssue;
 }
 
 class ApiMember {
@@ -39,12 +60,16 @@ class ApiMember {
     this.type,
     this.defaultValue,
     this.isRequired = false,
+    this.isPositional = false,
     this.deprecationMessage,
+    this.kind = PropertyKind.other,
+    this.isNullable = false,
+    this.kindType,
   });
 
   final String name;
 
-  /// Display string of the type, null for enum values.
+  /// Display string of the type (valid Dart code), null for enum values.
   final String? type;
 
   /// Source code of the default value, null if there's none (or unknown).
@@ -52,8 +77,19 @@ class ApiMember {
 
   final bool isRequired;
 
+  /// Whether it's a positional (not named) constructor parameter.
+  final bool isPositional;
+
   /// Non-null if deprecated (empty when there's no message).
   final String? deprecationMessage;
+
+  final PropertyKind kind;
+
+  final bool isNullable;
+
+  /// The enum ([PropertyKind.enumeration]) or the documented class
+  /// ([PropertyKind.nested]) of the type.
+  final String? kindType;
 
   final DocText doc;
 }

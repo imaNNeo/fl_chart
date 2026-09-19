@@ -3,7 +3,10 @@ name: Website
 on:
   pull_request:
     paths:
+      - 'lib/**'
+      - 'playground/**'
       - 'repo_files/documentations/**'
+      - 'tool/api_docs/**'
       - 'website/**'
       - '.github/workflows/website.yml'
   # Deploys are manual until the docs launch, then they'll run on each release.
@@ -13,13 +16,25 @@ jobs:
   build:
     name: Build website
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     defaults:
       run:
         working-directory: website
 
     steps:
       - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      # Renders every value of every control of the playground.
+      - name: Test the playground
+        working-directory: playground
+        run: |
+          flutter pub get
+          flutter analyze
+          flutter test
 
       - uses: actions/setup-node@v4
         with:
@@ -28,6 +43,9 @@ jobs:
           cache-dependency-path: website/package-lock.json
 
       - run: npm ci
+
+      - name: Build the playground
+        run: npm run build:playground
 
       # Fails on broken links, broken anchors and invalid markdown.
       - run: npm run build

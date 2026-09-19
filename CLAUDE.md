@@ -81,6 +81,7 @@ Key test utilities:
 - The dartdoc comments (`///`) of the data classes in `lib/` are the single source of truth of the API docs. `make docs` (`tool/api_docs/`) generates the property tables between `<!-- api:ClassName -->` and `<!-- /api -->` markers in `repo_files/documentations/*.md`, and `website/src/data/api.json`. Never edit them by hand: update the `///` comment and run `make docs`.
 - The rest of the markdown docs (guides, samples) is hand-written.
 - `website/` is the Docusaurus site of flchart.dev. It renders `repo_files/documentations` in place (see `website/config/docsMarkdown.js`).
+- `playground/` is the Flutter web app of the live previews of the docs (`/playground/#/LineChartBarData/isCurved`). `make docs` generates `playground/lib/generated/api_registry.g.dart`; the demo of each class (`lib/src/hosts.dart`) and the hints of its properties (`lib/src/hints.dart`) are hand-written. Run `flutter test` in `playground/` after changing them.
 
 ## PR Conventions
 

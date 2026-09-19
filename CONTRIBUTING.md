@@ -107,6 +107,8 @@ To document a new class, add a heading and an empty marker for it in the related
 ```
 By default, the table lists the parameters of the class constructor. For read-only classes (like touch responses), use `<!-- api:MyNewClass fields -->` to list their fields instead.
 
+On the website, each documented property can be tried in a live chart, with a control chosen from its type (a switch for a `bool`, a dropdown for an enum, ...). Types without a control of their own (like gradients or callbacks) can get a few values to pick from in [playground/lib/src/hints.dart](playground/lib/src/hints.dart), see [playground/README.md](playground/README.md).
+
 To preview the website on your machine, see [website/README.md](website/README.md).
 
 ## Creating a Pull Request

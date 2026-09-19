@@ -2,6 +2,8 @@ include: package:very_good_analysis/analysis_options.yaml
 analyzer:
   exclude:
     - "**.mocks.dart"
+    # A separate package, analyzed by the website workflow.
+    - "playground/**"
 linter:
   rules:
     always_put_required_named_parameters_first: false

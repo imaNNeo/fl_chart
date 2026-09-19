@@ -1,6 +1,8 @@
 import React from 'react';
 import clsx from 'clsx';
 
+import {usePlayground} from '@site/src/components/Playground';
+
 import styles from './styles.module.css';
 
 /**
@@ -13,6 +15,8 @@ export default function ApiReference({children}) {
 
 export function ApiProperty({
   id,
+  typeName,
+  mode,
   name,
   type,
   defaultValue,
@@ -21,10 +25,39 @@ export function ApiProperty({
   children,
 }) {
   const isDeprecated = deprecated != null;
+  const playground = usePlayground();
+  // The properties of classes (not enums or read-only classes) can be tried
+  // in the playground panel of the page.
+  const canTry = playground != null && mode === 'constructor';
+  const isSelected =
+    canTry &&
+    playground.target.typeName === typeName &&
+    playground.target.property === name;
+  const tryIt = (event) => {
+    if (event.target.closest('a')) return;
+    if (event.type === 'keydown') {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+    }
+    playground.select(typeName, name);
+  };
   return (
     <div
       id={id}
-      className={clsx(styles.property, isDeprecated && styles.deprecated)}>
+      className={clsx(
+        styles.property,
+        isDeprecated && styles.deprecated,
+        canTry && styles.tryable,
+        isSelected && styles.selected,
+      )}
+      {...(canTry && {
+        role: 'button',
+        tabIndex: 0,
+        'aria-pressed': isSelected,
+        title: `Try ${name} in the live preview`,
+        onClick: tryIt,
+        onKeyDown: tryIt,
+      })}>
       <div className={styles.signature}>
         <code className={styles.name}>{name}</code>
         {type && <code className={styles.type}>{type}</code>}
