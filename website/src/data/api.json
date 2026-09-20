@@ -759,6 +759,363 @@
       }
     ]
   },
+  "CandlestickChartData": {
+    "page": "candlestick_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "candlestickSpots",
+        "type": "List<CandlestickSpot>?",
+        "defaultValue": "const []",
+        "description": "Contains the data for the candlestick chart.\n\nEach [`CandlestickSpot`](#candlestickspot) represents a candlestick in the chart\nthat contains [open, high, low, close] values."
+      },
+      {
+        "name": "candlestickPainter",
+        "type": "FlCandlestickPainter?",
+        "defaultValue": "DefaultCandlestickPainter()",
+        "description": "The painter used to draw the candlestick.\nYou can use the [`DefaultCandlestickPainter`](https://pub.dev/documentation/fl_chart/latest/fl_chart/DefaultCandlestickPainter-class.html) or implement your own."
+      },
+      {
+        "name": "titlesData",
+        "type": "FlTitlesData?",
+        "defaultValue": "const FlTitlesData()",
+        "description": "Holds data to draw the titles around the chart, see [`FlTitlesData`](base_chart.md#fltitlesdata)."
+      },
+      {
+        "name": "candlestickTouchData",
+        "type": "CandlestickTouchData?",
+        "defaultValue": "CandlestickTouchData()",
+        "description": "Handles touch behaviors and responses."
+      },
+      {
+        "name": "showingTooltipIndicators",
+        "type": "List<int>?",
+        "defaultValue": "const []",
+        "description": "you can show some tooltipIndicators (a popup with an information)\non top of each [`CandlestickSpot`](#candlestickspot) using `showingTooltipIndicators`,\njust put indices you want to show it on top of them.\n\nAn important point is that you have to disable the default touch behaviour\nto show the tooltip manually, see [`CandlestickTouchData.handleBuiltInTouches`](#candlesticktouchdata-read-about-touch-handling)."
+      },
+      {
+        "name": "gridData",
+        "type": "FlGridData?",
+        "defaultValue": "const FlGridData()",
+        "description": "Holds data to draw the grid lines behind the chart, see [`FlGridData`](base_chart.md#flgriddata)."
+      },
+      {
+        "name": "borderData",
+        "type": "FlBorderData?",
+        "defaultValue": "FlBorderData()",
+        "description": "Holds data to draw the border around the chart, see [`FlBorderData`](base_chart.md#flborderdata)."
+      },
+      {
+        "name": "minX",
+        "type": "double?",
+        "description": "Minimum x value of the chart. If you don't provide it, it is calculated\nfrom the chart's data (providing it is more performant)."
+      },
+      {
+        "name": "maxX",
+        "type": "double?",
+        "description": "Maximum x value of the chart. If you don't provide it, it is calculated\nfrom the chart's data (providing it is more performant)."
+      },
+      {
+        "name": "baselineX",
+        "type": "double?",
+        "defaultValue": "0",
+        "description": "The x value that the vertical grid lines and the titles are aligned to,\nthey are drawn at every `baselineX + n * interval`."
+      },
+      {
+        "name": "minY",
+        "type": "double?",
+        "description": "Minimum y value of the chart. If you don't provide it, it is calculated\nfrom the chart's data (providing it is more performant)."
+      },
+      {
+        "name": "maxY",
+        "type": "double?",
+        "description": "Maximum y value of the chart. If you don't provide it, it is calculated\nfrom the chart's data (providing it is more performant)."
+      },
+      {
+        "name": "baselineY",
+        "type": "double?",
+        "defaultValue": "0",
+        "description": "The y value that the horizontal grid lines and the titles are aligned to,\nthey are drawn at every `baselineY + n * interval`."
+      },
+      {
+        "name": "rangeAnnotations",
+        "type": "RangeAnnotations?",
+        "defaultValue": "const RangeAnnotations()",
+        "description": "Highlights some horizontal or vertical ranges behind the chart,\nsee [`RangeAnnotations`](base_chart.md#rangeannotations)."
+      },
+      {
+        "name": "clipData",
+        "type": "FlClipData?",
+        "defaultValue": "const FlClipData.none()",
+        "description": "Clips the chart to its border (prevents drawing outside of the border),\nsee [`FlClipData`](https://pub.dev/documentation/fl_chart/latest/fl_chart/FlClipData-class.html)."
+      },
+      {
+        "name": "backgroundColor",
+        "type": "Color?",
+        "defaultValue": "Colors.transparent",
+        "description": "A background color which is drawn behind the chart."
+      },
+      {
+        "name": "rotationQuarterTurns",
+        "type": "int",
+        "defaultValue": "0",
+        "description": "Rotates the chart 90 degrees (clockwise) in every quarter turn.\nIt works like the [`RotatedBox`](https://api.flutter.dev/flutter/widgets/RotatedBox-class.html) widget."
+      },
+      {
+        "name": "touchedPointIndicator",
+        "type": "AxisSpotIndicator?",
+        "defaultValue": "null",
+        "description": "Shows an indicator on the touched / hovered point\n\nWe manage to set it by default\nwhen [`CandlestickTouchData.handleBuiltInTouches`](#candlesticktouchdata-read-about-touch-handling) is true,\nso nothing happens if you change this property as long as\nthe handleBuiltInTouches property is true.\n\nBut you can set [`CandlestickTouchData.handleBuiltInTouches`](#candlesticktouchdata-read-about-touch-handling) to false\nif you want to have customized `touchedPointIndicator`"
+      }
+    ]
+  },
+  "CandlestickSpot": {
+    "page": "candlestick_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "x",
+        "type": "double",
+        "required": true,
+        "description": "The x value of the spot, on the horizontal axis (from left to right)."
+      },
+      {
+        "name": "open",
+        "type": "double",
+        "required": true,
+        "description": "The open value of the candlestick, see the\n[OHLC standard](https://en.wikipedia.org/wiki/Open-high-low-close_chart)."
+      },
+      {
+        "name": "high",
+        "type": "double",
+        "required": true,
+        "description": "The highest value of the candlestick (the top of its wick)."
+      },
+      {
+        "name": "low",
+        "type": "double",
+        "required": true,
+        "description": "The lowest value of the candlestick (the bottom of its wick)."
+      },
+      {
+        "name": "close",
+        "type": "double",
+        "required": true,
+        "description": "The close value of the candlestick, see the\n[OHLC standard](https://en.wikipedia.org/wiki/Open-high-low-close_chart)."
+      },
+      {
+        "name": "show",
+        "type": "bool?",
+        "defaultValue": "true",
+        "description": "Determines show or hide the spot."
+      }
+    ]
+  },
+  "CandlestickTooltipItem": {
+    "page": "candlestick_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "text",
+        "type": "String",
+        "required": true,
+        "description": "Showing text."
+      },
+      {
+        "name": "textStyle",
+        "type": "TextStyle?",
+        "defaultValue": "null",
+        "description": "Style of showing text."
+      },
+      {
+        "name": "bottomMargin",
+        "type": "double?",
+        "defaultValue": "8",
+        "description": "Defines bottom space from spot."
+      },
+      {
+        "name": "textAlign",
+        "type": "TextAlign?",
+        "defaultValue": "TextAlign.center",
+        "description": "TextAlign of the showing content."
+      },
+      {
+        "name": "textDirection",
+        "type": "TextDirection?",
+        "defaultValue": "TextDirection.ltr",
+        "description": "Direction of showing text."
+      },
+      {
+        "name": "children",
+        "type": "List<TextSpan>?",
+        "defaultValue": "null",
+        "description": "Add further style and format to the text of the tooltip"
+      }
+    ]
+  },
+  "CandlestickTouchData": {
+    "page": "candlestick_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "enabled",
+        "type": "bool?",
+        "defaultValue": "true",
+        "description": "Determines whether to enable or disable touch behaviors."
+      },
+      {
+        "name": "touchCallback",
+        "type": "void Function(FlTouchEvent, CandlestickTouchResponse?)?",
+        "defaultValue": "null",
+        "description": "`touchCallback` notifies you about the happened touch/pointer events.\nIt gives you a [`FlTouchEvent`](base_chart.md#fltouchevent) which is the happened event such as [`FlPointerHoverEvent`](https://pub.dev/documentation/fl_chart/latest/fl_chart/FlPointerHoverEvent-class.html), [`FlTapUpEvent`](https://pub.dev/documentation/fl_chart/latest/fl_chart/FlTapUpEvent-class.html), ...\nIt also gives you a [`BaseTouchResponse`](https://pub.dev/documentation/fl_chart/latest/fl_chart/BaseTouchResponse-class.html) which is the chart specific type and contains information\nabout the elements that has touched."
+      },
+      {
+        "name": "mouseCursorResolver",
+        "type": "MouseCursor Function(FlTouchEvent, CandlestickTouchResponse?)?",
+        "defaultValue": "null",
+        "description": "Using `mouseCursorResolver` you can change the mouse cursor\nbased on the provided [`FlTouchEvent`](base_chart.md#fltouchevent) and [`BaseTouchResponse`](https://pub.dev/documentation/fl_chart/latest/fl_chart/BaseTouchResponse-class.html)"
+      },
+      {
+        "name": "longPressDuration",
+        "type": "Duration?",
+        "defaultValue": "null",
+        "description": "This property that allows to customize the duration of the longPress gesture.\nIf null, it uses [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html) (500 milliseconds)."
+      },
+      {
+        "name": "touchTooltipData",
+        "type": "CandlestickTouchTooltipData?",
+        "defaultValue": "CandlestickTouchTooltipData()",
+        "description": "Determines how the tooltip looks on top of the touched candlestick,\nsee [`CandlestickTouchTooltipData`](#candlesticktouchtooltipdata)."
+      },
+      {
+        "name": "handleBuiltInTouches",
+        "type": "bool?",
+        "defaultValue": "true",
+        "description": "If true, the chart handles touches by itself: it shows a tooltip bubble\nand an indicator on the touched (or hovered) candlestick."
+      },
+      {
+        "name": "touchSpotThreshold",
+        "type": "double?",
+        "defaultValue": "4",
+        "description": "Extends the touchable area of each candlestick by this distance\n(in pixels)."
+      }
+    ]
+  },
+  "CandlestickTouchResponse": {
+    "page": "candlestick_chart.md",
+    "mode": "fields",
+    "members": [
+      {
+        "name": "touchLocation",
+        "type": "Offset",
+        "description": "The location of the touch in pixels on the screen."
+      },
+      {
+        "name": "touchChartCoordinate",
+        "type": "Offset",
+        "description": "The axis coordinate of the touch in chart's coordinate system."
+      },
+      {
+        "name": "touchedSpot",
+        "type": "CandlestickTouchedSpot?",
+        "description": "The touched spot, null if no candle is touched."
+      }
+    ]
+  },
+  "CandlestickTouchTooltipData": {
+    "page": "candlestick_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "tooltipBorderRadius",
+        "type": "BorderRadius?",
+        "defaultValue": "BorderRadius.circular(4)",
+        "description": "Sets a border radius for the tooltip."
+      },
+      {
+        "name": "tooltipPadding",
+        "type": "EdgeInsets?",
+        "defaultValue": "const EdgeInsets.symmetric(horizontal: 16, vertical: 8)",
+        "description": "Applies a padding for showing contents inside the tooltip."
+      },
+      {
+        "name": "tooltipHorizontalAlignment",
+        "type": "FLHorizontalAlignment?",
+        "defaultValue": "FLHorizontalAlignment.center",
+        "description": "Controls showing tooltip on left side, right side or center aligned with spot."
+      },
+      {
+        "name": "tooltipHorizontalOffset",
+        "type": "double?",
+        "defaultValue": "0",
+        "description": "Applies horizontal offset for showing tooltip."
+      },
+      {
+        "name": "maxContentWidth",
+        "type": "double?",
+        "defaultValue": "120",
+        "description": "Maximum width of the tooltip's content, a text row which is wider than\nthis breaks into a new line."
+      },
+      {
+        "name": "getTooltipItems",
+        "type": "CandlestickTooltipItem? Function(FlCandlestickPainter, CandlestickSpot, int)?",
+        "defaultValue": "defaultCandlestickTooltipItem",
+        "description": "Retrieves data for showing content inside the tooltip."
+      },
+      {
+        "name": "fitInsideHorizontally",
+        "type": "bool?",
+        "defaultValue": "false",
+        "description": "Forces the tooltip to shift horizontally inside the chart, if overflow happens."
+      },
+      {
+        "name": "fitInsideVertically",
+        "type": "bool?",
+        "defaultValue": "false",
+        "description": "Forces the tooltip to shift vertically inside the chart, if overflow happens."
+      },
+      {
+        "name": "showOnTopOfTheChartBoxArea",
+        "type": "bool?",
+        "defaultValue": "false",
+        "description": "Forces the tooltip container to top of the line, default 'false'"
+      },
+      {
+        "name": "rotateAngle",
+        "type": "double?",
+        "defaultValue": "0.0",
+        "description": "Controls the rotation of the tooltip."
+      },
+      {
+        "name": "tooltipBorder",
+        "type": "BorderSide?",
+        "defaultValue": "BorderSide.none",
+        "description": "Border of the tooltip bubble."
+      },
+      {
+        "name": "getTooltipColor",
+        "type": "Color Function(CandlestickSpot)?",
+        "defaultValue": "defaultCandlestickTooltipColor",
+        "description": "Retrieves the background color of the tooltip for each touched\ncandlestick."
+      }
+    ]
+  },
+  "CandlestickTouchedSpot": {
+    "page": "candlestick_chart.md",
+    "mode": "fields",
+    "members": [
+      {
+        "name": "spot",
+        "type": "CandlestickSpot",
+        "description": "Touch happened on this spot"
+      },
+      {
+        "name": "spotIndex",
+        "type": "int",
+        "description": "Touch happened on this spot index"
+      }
+    ]
+  },
   "ExtraLinesData": {
     "page": "base_chart.md",
     "mode": "constructor",

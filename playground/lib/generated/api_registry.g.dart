@@ -784,6 +784,385 @@ final apiRegistry = <String, ClassSpec>{
     read: _readBetweenBarsData,
     copy: _copyBetweenBarsData,
   ),
+  'CandlestickChartData': ClassSpec(
+    name: 'CandlestickChartData',
+    properties: const [
+      PropertySpec(
+        name: 'candlestickSpots',
+        type: 'List<CandlestickSpot>?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'const []',
+      ),
+      PropertySpec(
+        name: 'candlestickPainter',
+        type: 'FlCandlestickPainter?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'DefaultCandlestickPainter()',
+      ),
+      PropertySpec(
+        name: 'titlesData',
+        type: 'FlTitlesData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'FlTitlesData',
+        defaultCode: 'const FlTitlesData()',
+      ),
+      PropertySpec(
+        name: 'candlestickTouchData',
+        type: 'CandlestickTouchData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'CandlestickTouchData',
+        defaultCode: 'CandlestickTouchData()',
+      ),
+      PropertySpec(
+        name: 'showingTooltipIndicators',
+        type: 'List<int>?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'const []',
+      ),
+      PropertySpec(
+        name: 'gridData',
+        type: 'FlGridData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'FlGridData',
+        defaultCode: 'const FlGridData()',
+      ),
+      PropertySpec(
+        name: 'borderData',
+        type: 'FlBorderData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'FlBorderData',
+        defaultCode: 'FlBorderData()',
+      ),
+      PropertySpec(
+        name: 'minX',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+      ),
+      PropertySpec(
+        name: 'maxX',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+      ),
+      PropertySpec(
+        name: 'baselineX',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'minY',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+      ),
+      PropertySpec(
+        name: 'maxY',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+      ),
+      PropertySpec(
+        name: 'baselineY',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'rangeAnnotations',
+        type: 'RangeAnnotations?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'RangeAnnotations',
+        defaultCode: 'const RangeAnnotations()',
+      ),
+      PropertySpec(
+        name: 'clipData',
+        type: 'FlClipData?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'const FlClipData.none()',
+      ),
+      PropertySpec(
+        name: 'backgroundColor',
+        type: 'Color?',
+        kind: PropertyKind.color,
+        isNullable: true,
+        defaultCode: 'Colors.transparent',
+      ),
+      PropertySpec(
+        name: 'rotationQuarterTurns',
+        type: 'int',
+        kind: PropertyKind.integer,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'touchedPointIndicator',
+        type: 'AxisSpotIndicator?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'AxisSpotIndicator',
+        defaultCode: 'null',
+      ),
+    ],
+    read: _readCandlestickChartData,
+    copy: _copyCandlestickChartData,
+  ),
+  'CandlestickSpot': ClassSpec(
+    name: 'CandlestickSpot',
+    properties: const [
+      PropertySpec(
+        name: 'x',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        isRequired: true,
+      ),
+      PropertySpec(
+        name: 'open',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        isRequired: true,
+      ),
+      PropertySpec(
+        name: 'high',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        isRequired: true,
+      ),
+      PropertySpec(
+        name: 'low',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        isRequired: true,
+      ),
+      PropertySpec(
+        name: 'close',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        isRequired: true,
+      ),
+      PropertySpec(
+        name: 'show',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'true',
+      ),
+    ],
+    read: _readCandlestickSpot,
+    copy: _copyCandlestickSpot,
+  ),
+  'CandlestickTooltipItem': ClassSpec(
+    name: 'CandlestickTooltipItem',
+    properties: const [
+      PropertySpec(
+        name: 'text',
+        type: 'String',
+        kind: PropertyKind.text,
+        isRequired: true,
+        isPositional: true,
+      ),
+      PropertySpec(
+        name: 'textStyle',
+        type: 'TextStyle?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'bottomMargin',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '8',
+      ),
+      PropertySpec(
+        name: 'textAlign',
+        type: 'TextAlign?',
+        kind: PropertyKind.enumeration,
+        isNullable: true,
+        values: TextAlign.values,
+        defaultCode: 'TextAlign.center',
+      ),
+      PropertySpec(
+        name: 'textDirection',
+        type: 'TextDirection?',
+        kind: PropertyKind.enumeration,
+        isNullable: true,
+        values: TextDirection.values,
+        defaultCode: 'TextDirection.ltr',
+      ),
+      PropertySpec(
+        name: 'children',
+        type: 'List<TextSpan>?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+    ],
+    read: _readCandlestickTooltipItem,
+    copy: _copyCandlestickTooltipItem,
+  ),
+  'CandlestickTouchData': ClassSpec(
+    name: 'CandlestickTouchData',
+    properties: const [
+      PropertySpec(
+        name: 'enabled',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'true',
+      ),
+      PropertySpec(
+        name: 'touchCallback',
+        type: 'void Function(FlTouchEvent, CandlestickTouchResponse?)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'mouseCursorResolver',
+        type: 'MouseCursor Function(FlTouchEvent, CandlestickTouchResponse?)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'longPressDuration',
+        type: 'Duration?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'touchTooltipData',
+        type: 'CandlestickTouchTooltipData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'CandlestickTouchTooltipData',
+        defaultCode: 'CandlestickTouchTooltipData()',
+      ),
+      PropertySpec(
+        name: 'handleBuiltInTouches',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'true',
+      ),
+      PropertySpec(
+        name: 'touchSpotThreshold',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '4',
+      ),
+    ],
+    read: _readCandlestickTouchData,
+    copy: _copyCandlestickTouchData,
+  ),
+  'CandlestickTouchTooltipData': ClassSpec(
+    name: 'CandlestickTouchTooltipData',
+    properties: const [
+      PropertySpec(
+        name: 'tooltipBorderRadius',
+        type: 'BorderRadius?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'BorderRadius.circular(4)',
+      ),
+      PropertySpec(
+        name: 'tooltipPadding',
+        type: 'EdgeInsets?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'const EdgeInsets.symmetric(horizontal: 16, vertical: 8)',
+      ),
+      PropertySpec(
+        name: 'tooltipHorizontalAlignment',
+        type: 'FLHorizontalAlignment?',
+        kind: PropertyKind.enumeration,
+        isNullable: true,
+        values: FLHorizontalAlignment.values,
+        defaultCode: 'FLHorizontalAlignment.center',
+      ),
+      PropertySpec(
+        name: 'tooltipHorizontalOffset',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'maxContentWidth',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '120',
+      ),
+      PropertySpec(
+        name: 'getTooltipItems',
+        type:
+            'CandlestickTooltipItem? Function(FlCandlestickPainter, CandlestickSpot, int)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'defaultCandlestickTooltipItem',
+      ),
+      PropertySpec(
+        name: 'fitInsideHorizontally',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'false',
+      ),
+      PropertySpec(
+        name: 'fitInsideVertically',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'false',
+      ),
+      PropertySpec(
+        name: 'showOnTopOfTheChartBoxArea',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'false',
+      ),
+      PropertySpec(
+        name: 'rotateAngle',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '0.0',
+      ),
+      PropertySpec(
+        name: 'tooltipBorder',
+        type: 'BorderSide?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'BorderSide.none',
+      ),
+      PropertySpec(
+        name: 'getTooltipColor',
+        type: 'Color Function(CandlestickSpot)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'defaultCandlestickTooltipColor',
+      ),
+    ],
+    read: _readCandlestickTouchTooltipData,
+    copy: _copyCandlestickTouchTooltipData,
+  ),
   'ExtraLinesData': ClassSpec(
     name: 'ExtraLinesData',
     properties: const [
@@ -3491,6 +3870,288 @@ BetweenBarsData _copyBetweenBarsData(
     toIndex: _value<int>(values, 'toIndex', o.toIndex),
     color: _value<ui.Color?>(values, 'color', o.color),
     gradient: _value<Gradient?>(values, 'gradient', o.gradient),
+  );
+}
+
+Object? _readCandlestickChartData(Object instance, String property) {
+  final o = instance as CandlestickChartData;
+  return switch (property) {
+    'candlestickSpots' => o.candlestickSpots,
+    'candlestickPainter' => o.candlestickPainter,
+    'titlesData' => o.titlesData,
+    'candlestickTouchData' => o.candlestickTouchData,
+    'showingTooltipIndicators' => o.showingTooltipIndicators,
+    'gridData' => o.gridData,
+    'borderData' => o.borderData,
+    'minX' => o.minX,
+    'maxX' => o.maxX,
+    'baselineX' => o.baselineX,
+    'minY' => o.minY,
+    'maxY' => o.maxY,
+    'baselineY' => o.baselineY,
+    'rangeAnnotations' => o.rangeAnnotations,
+    'clipData' => o.clipData,
+    'backgroundColor' => o.backgroundColor,
+    'rotationQuarterTurns' => o.rotationQuarterTurns,
+    'touchedPointIndicator' => o.touchedPointIndicator,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+CandlestickChartData _copyCandlestickChartData(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as CandlestickChartData;
+  return CandlestickChartData(
+    candlestickSpots: _value<List<CandlestickSpot>?>(
+      values,
+      'candlestickSpots',
+      o.candlestickSpots,
+    ),
+    candlestickPainter: _value<FlCandlestickPainter?>(
+      values,
+      'candlestickPainter',
+      o.candlestickPainter,
+    ),
+    titlesData: _value<FlTitlesData?>(values, 'titlesData', o.titlesData),
+    candlestickTouchData: _value<CandlestickTouchData?>(
+      values,
+      'candlestickTouchData',
+      o.candlestickTouchData,
+    ),
+    showingTooltipIndicators: _value<List<int>?>(
+      values,
+      'showingTooltipIndicators',
+      o.showingTooltipIndicators,
+    ),
+    gridData: _value<FlGridData?>(values, 'gridData', o.gridData),
+    borderData: _value<FlBorderData?>(values, 'borderData', o.borderData),
+    minX: _value<double?>(values, 'minX', o.minX),
+    maxX: _value<double?>(values, 'maxX', o.maxX),
+    baselineX: _value<double?>(values, 'baselineX', o.baselineX),
+    minY: _value<double?>(values, 'minY', o.minY),
+    maxY: _value<double?>(values, 'maxY', o.maxY),
+    baselineY: _value<double?>(values, 'baselineY', o.baselineY),
+    rangeAnnotations: _value<RangeAnnotations?>(
+      values,
+      'rangeAnnotations',
+      o.rangeAnnotations,
+    ),
+    clipData: _value<FlClipData?>(values, 'clipData', o.clipData),
+    backgroundColor: _value<ui.Color?>(
+      values,
+      'backgroundColor',
+      o.backgroundColor,
+    ),
+    rotationQuarterTurns: _value<int>(
+      values,
+      'rotationQuarterTurns',
+      o.rotationQuarterTurns,
+    ),
+    touchedPointIndicator: _value<AxisSpotIndicator?>(
+      values,
+      'touchedPointIndicator',
+      o.touchedPointIndicator,
+    ),
+  );
+}
+
+Object? _readCandlestickSpot(Object instance, String property) {
+  final o = instance as CandlestickSpot;
+  return switch (property) {
+    'x' => o.x,
+    'open' => o.open,
+    'high' => o.high,
+    'low' => o.low,
+    'close' => o.close,
+    'show' => o.show,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+CandlestickSpot _copyCandlestickSpot(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as CandlestickSpot;
+  return CandlestickSpot(
+    x: _value<double>(values, 'x', o.x),
+    open: _value<double>(values, 'open', o.open),
+    high: _value<double>(values, 'high', o.high),
+    low: _value<double>(values, 'low', o.low),
+    close: _value<double>(values, 'close', o.close),
+    show: _value<bool?>(values, 'show', o.show),
+  );
+}
+
+Object? _readCandlestickTooltipItem(Object instance, String property) {
+  final o = instance as CandlestickTooltipItem;
+  return switch (property) {
+    'text' => o.text,
+    'textStyle' => o.textStyle,
+    'bottomMargin' => o.bottomMargin,
+    'textAlign' => o.textAlign,
+    'textDirection' => o.textDirection,
+    'children' => o.children,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+CandlestickTooltipItem _copyCandlestickTooltipItem(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as CandlestickTooltipItem;
+  return CandlestickTooltipItem(
+    _value<String>(values, 'text', o.text),
+    textStyle: _value<TextStyle?>(values, 'textStyle', o.textStyle),
+    bottomMargin: _value<double?>(values, 'bottomMargin', o.bottomMargin),
+    textAlign: _value<ui.TextAlign?>(values, 'textAlign', o.textAlign),
+    textDirection: _value<ui.TextDirection?>(
+      values,
+      'textDirection',
+      o.textDirection,
+    ),
+    children: _value<List<TextSpan>?>(values, 'children', o.children),
+  );
+}
+
+Object? _readCandlestickTouchData(Object instance, String property) {
+  final o = instance as CandlestickTouchData;
+  return switch (property) {
+    'enabled' => o.enabled,
+    'touchCallback' => o.touchCallback,
+    'mouseCursorResolver' => o.mouseCursorResolver,
+    'longPressDuration' => o.longPressDuration,
+    'touchTooltipData' => o.touchTooltipData,
+    'handleBuiltInTouches' => o.handleBuiltInTouches,
+    'touchSpotThreshold' => o.touchSpotThreshold,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+CandlestickTouchData _copyCandlestickTouchData(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as CandlestickTouchData;
+  return CandlestickTouchData(
+    enabled: _value<bool?>(values, 'enabled', o.enabled),
+    touchCallback: _value<BaseTouchCallback<CandlestickTouchResponse>?>(
+      values,
+      'touchCallback',
+      o.touchCallback,
+    ),
+    mouseCursorResolver: _value<MouseCursorResolver<CandlestickTouchResponse>?>(
+      values,
+      'mouseCursorResolver',
+      o.mouseCursorResolver,
+    ),
+    longPressDuration: _value<Duration?>(
+      values,
+      'longPressDuration',
+      o.longPressDuration,
+    ),
+    touchTooltipData: _value<CandlestickTouchTooltipData?>(
+      values,
+      'touchTooltipData',
+      o.touchTooltipData,
+    ),
+    handleBuiltInTouches: _value<bool?>(
+      values,
+      'handleBuiltInTouches',
+      o.handleBuiltInTouches,
+    ),
+    touchSpotThreshold: _value<double?>(
+      values,
+      'touchSpotThreshold',
+      o.touchSpotThreshold,
+    ),
+  );
+}
+
+Object? _readCandlestickTouchTooltipData(Object instance, String property) {
+  final o = instance as CandlestickTouchTooltipData;
+  return switch (property) {
+    'tooltipBorderRadius' => o.tooltipBorderRadius,
+    'tooltipPadding' => o.tooltipPadding,
+    'tooltipHorizontalAlignment' => o.tooltipHorizontalAlignment,
+    'tooltipHorizontalOffset' => o.tooltipHorizontalOffset,
+    'maxContentWidth' => o.maxContentWidth,
+    'getTooltipItems' => o.getTooltipItems,
+    'fitInsideHorizontally' => o.fitInsideHorizontally,
+    'fitInsideVertically' => o.fitInsideVertically,
+    'showOnTopOfTheChartBoxArea' => o.showOnTopOfTheChartBoxArea,
+    'rotateAngle' => o.rotateAngle,
+    'tooltipBorder' => o.tooltipBorder,
+    'getTooltipColor' => o.getTooltipColor,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+CandlestickTouchTooltipData _copyCandlestickTouchTooltipData(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as CandlestickTouchTooltipData;
+  return CandlestickTouchTooltipData(
+    tooltipBorderRadius: _value<BorderRadius?>(
+      values,
+      'tooltipBorderRadius',
+      o.tooltipBorderRadius,
+    ),
+    tooltipPadding: _value<EdgeInsets?>(
+      values,
+      'tooltipPadding',
+      o.tooltipPadding,
+    ),
+    tooltipHorizontalAlignment: _value<FLHorizontalAlignment?>(
+      values,
+      'tooltipHorizontalAlignment',
+      o.tooltipHorizontalAlignment,
+    ),
+    tooltipHorizontalOffset: _value<double?>(
+      values,
+      'tooltipHorizontalOffset',
+      o.tooltipHorizontalOffset,
+    ),
+    maxContentWidth: _value<double?>(
+      values,
+      'maxContentWidth',
+      o.maxContentWidth,
+    ),
+    getTooltipItems: _value<GetCandlestickTooltipItems?>(
+      values,
+      'getTooltipItems',
+      o.getTooltipItems,
+    ),
+    fitInsideHorizontally: _value<bool?>(
+      values,
+      'fitInsideHorizontally',
+      o.fitInsideHorizontally,
+    ),
+    fitInsideVertically: _value<bool?>(
+      values,
+      'fitInsideVertically',
+      o.fitInsideVertically,
+    ),
+    showOnTopOfTheChartBoxArea: _value<bool?>(
+      values,
+      'showOnTopOfTheChartBoxArea',
+      o.showOnTopOfTheChartBoxArea,
+    ),
+    rotateAngle: _value<double?>(values, 'rotateAngle', o.rotateAngle),
+    tooltipBorder: _value<BorderSide?>(
+      values,
+      'tooltipBorder',
+      o.tooltipBorder,
+    ),
+    getTooltipColor: _value<GetCandlestickTooltipColor?>(
+      values,
+      'getTooltipColor',
+      o.getTooltipColor,
+    ),
   );
 }
 

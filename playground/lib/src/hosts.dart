@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import 'hosts/bar.dart';
 import 'hosts/base.dart';
+import 'hosts/candlestick.dart';
 import 'hosts/line.dart';
 import 'hosts/pie.dart';
 import 'hosts/radar.dart';
@@ -27,4 +28,5 @@ final hosts = <String, Host>{
   ...pieHosts,
   ...scatterHosts,
   ...radarHosts,
+  ...candlestickHosts,
 };
