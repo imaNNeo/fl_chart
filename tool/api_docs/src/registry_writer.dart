@@ -67,7 +67,7 @@ String registryDart(Iterable<ApiType> types) {
       ..writeln('final o = instance as $name;')
       ..writeln('return switch (property) {');
     for (final m in type.members) {
-      out.writeln('${_str(m.name)} => o.${m.name},');
+      out.writeln('${_str(m.name)} => o.${m.fieldName},');
     }
     out
       ..writeln("_ => throw ArgumentError.value(property, 'property'),")
@@ -81,7 +81,7 @@ String registryDart(Iterable<ApiType> types) {
       ..writeln('return $name(');
     for (final m in type.members) {
       final value =
-          '_value<${m.typeCode}>(values, ${_str(m.name)}, o.${m.name})';
+          '_value<${m.typeCode}>(values, ${_str(m.name)}, o.${m.fieldName})';
       out.writeln(m.isPositional ? '$value,' : '${m.name}: $value,');
     }
     out

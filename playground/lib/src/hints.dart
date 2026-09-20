@@ -1,6 +1,7 @@
 import 'hints/bar.dart';
 import 'hints/base.dart';
 import 'hints/candlestick.dart';
+import 'hints/gauge.dart';
 import 'hints/line.dart';
 import 'hints/pie.dart';
 import 'hints/radar.dart';
@@ -53,4 +54,5 @@ final hints = <String, PropertyHint>{
   ...scatterHints,
   ...radarHints,
   ...candlestickHints,
+  ...gaugeHints,
 };

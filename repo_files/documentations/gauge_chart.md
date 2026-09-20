@@ -106,85 +106,101 @@ GaugeChart(
 ```
 
 ### GaugeChartData
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|rings| list of [GaugeRing](#GaugeRing) rings, innermost first. All rings share the same `minValue`/`maxValue` scale|required|
-|minValue| lower bound of the gauge scale (inclusive), shared by every ring|0.0|
-|maxValue| upper bound of the gauge scale (inclusive), shared by every ring|1.0|
-|startDegreeOffset| starting angle of the arc, in degrees. `0°` points right, same convention as [PieChartData.startDegreeOffset](pie_chart.md#PieChartData)|-225.0|
-|sweepAngle| length of the arc in degrees, must be in `(0, 360]`|270.0|
-|direction| whether the arc travels clockwise or counter-clockwise from `startDegreeOffset` — see [GaugeDirection](#GaugeDirection)|GaugeDirection.clockwise|
-|defaultRingWidth| width used for rings that don't specify their own `width`|10.0|
-|ringsSpace| radial pixel gap between adjacent rings|0.0|
-|ticks| optional tick configuration; see [GaugeTicks](#GaugeTicks)|null|
-|pointers| list of [GaugePointer](#GaugePointer)s drawn on top of the rings and ticks. Empty by default; each pointer carries its own `value` on the shared scale|`[]`|
-|markers| list of [GaugeMarker](#GaugeMarker)s anchored at arbitrary continuous values along the gauge's scale. Empty by default|`[]`|
-|touchData| [GaugeTouchData](#gaugetouchdata-read-about-touch-handling) holds the touch interactivity details|GaugeTouchData()|
-|borderData| shows a border around the chart, see [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
+<!-- api:GaugeChartData -->
+|Property|Type|Default|Description|
+|:-------|:---|:------|:----------|
+|rings|`List<GaugeRing>`|required|The rings drawn by the chart, innermost first.|
+|minValue|`double`|`0.0`|Lower bound of the gauge scale (inclusive). Shared by every ring. default is 0.0|
+|maxValue|`double`|`1.0`|Upper bound of the gauge scale (inclusive). Shared by every ring. default is 1.0|
+|startDegreeOffset|`double`|`-225.0`|Starting angle of the arc, in degrees. 0° points right, matching [`PieChartData.startDegreeOffset`](pie_chart.md#piechartdata) and [`Canvas.drawArc`](https://api.flutter.dev/flutter/dart-ui/Canvas-class.html).|
+|sweepAngle|`double`|`270.0`|Length of the arc, in degrees. Must be in (0, 360].|
+|direction|`GaugeDirection`|`GaugeDirection.clockwise`|Whether the arc travels clockwise or counter-clockwise from `startDegreeOffset`.|
+|defaultRingWidth|`double`|`10.0`|Width used for rings that don't specify their own [`GaugeRing.width`](#gaugering).|
+|ringsSpace|`double`|`0.0`|Radial gap in pixels between adjacent rings.|
+|ticks|`GaugeTicks?`|`null`|Optional tick configuration drawn along the gauge's scale. Ticks reference the ring stack as a whole (outer edge of the outermost ring, inner edge of the innermost ring, or radially centered) and are not owned by any individual ring.|
+|pointers|`List<GaugePointer>`|`const []`|Pointers drawn on top of the rings. Each [`GaugePointer`](#gaugepointer) carries its own `value` on the same scale as the rings; the painter is pre-transformed so `+x` points radially toward that value. Empty by default.|
+|markers|`List<GaugeMarker>`|`const []`|Markers anchored at arbitrary continuous values along the gauge's scale. Like `ticks` in shape and local frame — but each marker carries its own `value` on `[minValue, maxValue]` instead of being constrained to an evenly-spaced index. Use this to highlight thresholds, targets, or annotations at non-grid positions. Empty by default.|
+|touchData|`GaugeTouchData?`|`GaugeTouchData()`|Touch configuration and callback.|
+|borderData|`FlBorderData?`|`FlBorderData()`|Holds data to draw the border around the chart, see [`FlBorderData`](base_chart.md#flborderdata).|
+<!-- /api -->
 
 ### GaugeRing
 `GaugeRing` is a sealed base type — every ring is one of the two concrete shapes below. You can pattern-match on the concrete type in touch callbacks. All rings share:
 
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|width| stroke width in pixels. If null, `GaugeChartData.defaultRingWidth` is used|null|
+<!-- api:GaugeRing fields -->
+|Property|Type|Description|
+|:-------|:---|:----------|
+|width|`double?`|Stroke width in pixels. If null, [`GaugeChartData.defaultRingWidth`](#gaugechartdata) is used.|
+<!-- /api -->
 
 ### GaugeProgressRing
 A ring filled from `GaugeChartData.minValue` up to `value`. The unfilled portion (`value..maxValue`) is painted in `backgroundColor` when provided. Its two arcs (background + filled) share one `strokeCap`.
 
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|value| current progress on the gauge scale|required|
-|color| stroke color of the filled portion|required|
-|backgroundColor| optional stroke color for the unfilled portion. If null, no background is drawn|null|
-|strokeCap| cap style for both the background and filled arcs of this ring. Use `StrokeCap.round` for a rounded "tip" where the value ends|StrokeCap.butt|
-|width| inherited from [GaugeRing](#GaugeRing)|null|
+<!-- api:GaugeProgressRing -->
+|Property|Type|Default|Description|
+|:-------|:---|:------|:----------|
+|value|`double`|required|Current value on the gauge scale. The ring fills from [`GaugeChartData.minValue`](#gaugechartdata) up to this value.|
+|color|`Color`|required|Stroke color for the filled portion of the ring.|
+|backgroundColor|`Color?`|`null`|Optional stroke color for the unfilled portion. When null, no background is drawn for this ring.|
+|strokeCap|`StrokeCap`|`StrokeCap.butt`|Cap style applied to the ends of both the background and filled arcs of this ring. For the typical battery-meter / progress-bar look, use [`StrokeCap.round`](https://api.flutter.dev/flutter/dart-ui/StrokeCap.html).|
+|width|`double?`|`null`|Stroke width in pixels. If null, [`GaugeChartData.defaultRingWidth`](#gaugechartdata) is used.|
+<!-- /api -->
 
 ### GaugeZonesRing
 A ring divided into fixed colored [GaugeZone](#GaugeZone) bands. Zones are bounds-checked against the chart's `minValue`/`maxValue` but are not required to be sorted, contiguous, or non-overlapping — they're drawn in list order, so later zones paint on top of overlapping earlier ones. Cap style is configured **per zone** via [GaugeZone.strokeCap](#GaugeZone), not at the ring level.
 
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|zones| list of [GaugeZone](#GaugeZone) bands painted along this ring's arc|required|
-|zonesSpace| visible gap between adjacent zones, in pixels, measured **perpendicular to the ring** — so the gap has the same width at the ring's inner and outer edges regardless of how thick the ring is. Applied **only between zones** (in list order) by carving a rectangular strip at each internal boundary. The first zone's leading edge and the last zone's trailing edge are left flush to the gauge's angular extremes. Per-zone `StrokeCap.round` is preserved: rounded neighbors keep a pill look across the gap (effective visible gap = `zonesSpace − width`), so set `zonesSpace > width` to keep a visible separator when caps are rounded.|0.0|
-|width| inherited from [GaugeRing](#GaugeRing)|null|
+<!-- api:GaugeZonesRing -->
+|Property|Type|Default|Description|
+|:-------|:---|:------|:----------|
+|zones|`List<GaugeZone>`|required|The colored bands drawn along this ring's arc. Each band controls its own [`GaugeZone.strokeCap`](#gaugezone).|
+|zonesSpace|`double`|`0.0`|Visible gap between adjacent zones, in pixels, measured perpendicular to the ring (so the gap has the same width at the inner and outer edges regardless of ring thickness).<br><br>Applied only *between* zones (in list order): a `zonesSpace`-wide rectangular strip is carved at each internal boundary. The first zone's leading edge and the last zone's trailing edge are not touched, so zones stay flush to the gauge's angular extremes.<br><br>Per-zone `StrokeCap.round` is preserved: after the strip is carved, each neighbor's internal end is re-drawn as a filled circle so zones with rounded caps keep their pill look across the gap. The visible gap between two rounded neighbors is `zonesSpace − width`, so set `zonesSpace > width` to keep a visible separator when caps are rounded.|
+|width|`double?`|`null`|Stroke width in pixels. If null, [`GaugeChartData.defaultRingWidth`](#gaugechartdata) is used.|
+<!-- /api -->
 
 ### GaugeZone
 A single colored band within a [GaugeZonesRing](#GaugeZonesRing).
 
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|from| lower bound of the zone on the gauge scale (inclusive)|required|
-|to| upper bound of the zone on the gauge scale (inclusive); must be `>= from`|required|
-|color| fill color of this band|required|
-|strokeCap| cap style for this band's two ends. Adjacent zones paint in list order, so a later zone's `butt` start paints over an earlier zone's rounded end-cap bulge — useful for getting rounded outer extremes with clean internal boundaries|StrokeCap.butt|
+<!-- api:GaugeZone -->
+|Property|Type|Default|Description|
+|:-------|:---|:------|:----------|
+|from|`double`|required|Lower bound of the zone on the gauge's scale (inclusive).|
+|to|`double`|required|Upper bound of the zone on the gauge's scale (inclusive), it must be `>= from`.|
+|color|`Color`|required|Fill color of this band.|
+|strokeCap|`StrokeCap`|`StrokeCap.butt`|Cap style applied to this band's two ends. Independent per zone — adjacent zones paint in list order, so a later zone's butt start paints over an earlier zone's rounded end-cap bulge.|
+<!-- /api -->
 
 ### GaugeDirection
-|Value|Behavior|
-|:----|:-------|
-|`clockwise`| arc travels clockwise from `startDegreeOffset`.|
-|`counterClockwise`| arc travels counter-clockwise from `startDegreeOffset`.|
+<!-- api:GaugeDirection -->
+|Value|Description|
+|:----|:----------|
+|clockwise|The arc travels clockwise from [`GaugeChartData.startDegreeOffset`](#gaugechartdata).|
+|counterClockwise|The arc travels counter-clockwise from [`GaugeChartData.startDegreeOffset`](#gaugechartdata).|
+<!-- /api -->
 
 ### GaugeTicks
 Tick marks drawn along the gauge's scale. Ticks frame the gauge as a whole — they reference the ring stack's outer edge, inner edge, or radial center — and are not owned by any individual ring. Ticks are evenly spaced from `startDegreeOffset` across the sweep (endpoints included).
 
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|count| number of ticks drawn, including both sweep endpoints; must be `>= 2`|3|
-|position| where ticks sit — see [GaugeTickPosition](#GaugeTickPosition)|GaugeTickPosition.outer|
-|offset| **signed** pixel delta from the natural tick anchor, measured along the `position`'s outward axis (away from center for `outer`, toward center for `inner`, toward outer for `center`). Positive extends the tick farther in that direction; negative pulls it back toward / across the ring stack.|0|
-|painter| [GaugeTickPainter](#GaugeTickPainter) that renders each tick|GaugeTickLinePainter()|
-|CheckToShowGaugeTick| `bool Function(CheckToShowGaugeTickInfo info)` — predicate called per tick. Returning `false` skips both the tick mark and its label. Receives the tick's `index`, the total `count`, its scale `value`, and the chart's `minValue` / `maxValue`. Two predefined predicates ship on `GaugeTicks`: `GaugeTicks.showAll` (the default) and `GaugeTicks.hideEndpoints` (skip the first and last tick — handy when the arc already visually anchors its extremes via rounded zone caps). Use top-level / static references rather than anonymous closures so equality holds across rebuilds.|GaugeTicks.showAll|
-|labelBuilder| optional `String Function(double value)` returning the label for each tick's scale value. `null` means no labels.|null|
-|labelStyle| style applied to labels, merged with the current theme via `getThemeAwareTextStyle`. `null` inherits the theme's default text style.|null|
-|labelOffset| **signed** pixel delta between the tick's far edge and the label center, along the same outward axis as `offset`. Positive pushes the label further outward; negative pulls it toward / across the tick.|0|
+<!-- api:GaugeTicks -->
+|Property|Type|Default|Description|
+|:-------|:---|:------|:----------|
+|count|`int`|`3`|Number of ticks drawn, including both sweep endpoints. Minimum 2.|
+|position|`GaugeTickPosition`|`GaugeTickPosition.outer`|Where ticks sit relative to the gauge's outer / inner bounds.|
+|offset|`double`|`0`|Signed pixel delta from the natural tick anchor, measured along the `position`'s outward axis (away from center for [`GaugeTickPosition.outer`](#gaugetickposition), toward center for [`GaugeTickPosition.inner`](#gaugetickposition), toward outer for [`GaugeTickPosition.center`](#gaugetickposition)). Positive extends the tick farther in that direction; negative pulls it back toward (or across) the ring stack.|
+|painter|`GaugeTickPainter`|`const GaugeTickLinePainter()`|Renders each tick. The canvas is pre-translated and pre-rotated so the painter just draws a horizontal, right-facing shape at the origin — see [`GaugeTickPainter.draw`](#gaugetickpainter).|
+|checkToShowTick|`bool Function(GaugeTickInfo)`|`GaugeTicks.showAll`|Predicate deciding whether each tick is drawn. Receives a [`GaugeTickInfo`](https://pub.dev/documentation/fl_chart/latest/fl_chart/GaugeTickInfo-class.html) with the tick's index, the total `count`, its scale value, and the chart's `minValue` / `maxValue`. Returning `false` skips both the tick mark and its label.<br><br>Defaults to [`GaugeTicks.showAll`](#gaugeticks). Use [`GaugeTicks.hideEndpoints`](#gaugeticks) to skip the first and last ticks — handy when the arc already visually anchors its extremes (e.g. rounded zone caps). Users can pass any predicate for custom behaviour.<br><br>Pass a top-level or static function when possible; anonymous closures compare by identity, which breaks equality across rebuilds and causes unnecessary tween animations.|
+|labelBuilder|`String Function(double)?`|`null`|Returns the text painted as a label next to each tick. The input is the tick's scale value on `[minValue, maxValue]`. When `null`, no labels are drawn. To keep a tick mark but drop its label at a specific value, return an empty string from this builder.|
+|labelStyle|`TextStyle?`|`null`|Style applied to labels, merged with the chart's current theme. When `null`, the theme's default text style is used.|
+|labelOffset|`double`|`0`|Signed pixel delta between the tick's far edge and its label, along the same outward axis as `offset`. Positive pushes the label further outward; negative pulls it toward (or across) the tick.|
+<!-- /api -->
 
 ### GaugeTickPosition
-|Value|Behavior|
-|:----|:-------|
-|`outer`| ticks sit outside the outermost ring; reserves radial padding so the ring stack fits inside the widget bounds.|
-|`inner`| ticks sit inside the innermost ring's inner edge, toward the gauge center.|
-|`center`| ticks are radially centered between the outermost and innermost ring edges.|
+<!-- api:GaugeTickPosition -->
+|Value|Description|
+|:----|:----------|
+|outer|Outside the outermost ring. Reserves radial padding so rings shrink to fit ticks (and labels, when present).|
+|inner|Inside the innermost ring's inner edge, toward the gauge center.|
+|center|Radially centered between the outermost ring's outer edge and the innermost ring's inner edge.|
+<!-- /api -->
 
 ### GaugeTickPainter
 Interface for rendering a single tick mark. Subclass it to draw custom tick shapes. Mirrors the [FlDotPainter](line_chart.md) pattern.
@@ -204,10 +220,12 @@ Built-in implementations:
 ### GaugePointer
 A single pointer rendered on top of the rings and ticks, indicating a value on the gauge's scale. Each pointer carries its own `value` — independent from any ring — so you can stack multiple pointers (clock hands, dual readings, a needle plus a pivot cap) by adding more entries to `GaugeChartData.pointers`.
 
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|value| position on the gauge scale the pointer points at. Values outside `[minValue, maxValue]` simply extend past the sweep endpoints|required|
-|painter| [GaugePointerPainter](#GaugePointerPainter) that renders the pointer's shape|GaugePointerNeedlePainter()|
+<!-- api:GaugePointer -->
+|Property|Type|Default|Description|
+|:-------|:---|:------|:----------|
+|value|`double`|required|Position on the gauge scale the pointer points at. Values outside `[GaugeChartData.minValue, maxValue]` are not asserted — the pointer simply extends past the sweep endpoints.|
+|painter|`GaugePointerPainter`|`const GaugePointerNeedlePainter()`|Renders the pointer's shape. The canvas is pre-transformed by the gauge painter — see [`GaugePointerPainter.draw`](#gaugepointerpainter).|
+<!-- /api -->
 
 ### GaugePointerPainter
 Interface for rendering a single [GaugePointer](#GaugePointer). Subclass it to draw custom pointer shapes. Mirrors the [GaugeTickPainter](#GaugeTickPainter) pattern.
@@ -244,12 +262,14 @@ A marker anchored at an arbitrary continuous value along the gauge's scale. Conc
 
 Use markers for thresholds, targets, or annotations that fall at non-grid positions (e.g. a "min" marker at `0.234` or a "target" at `0.71`). For things that emanate from the gauge's center (needles, hands), use [GaugePointer](#GaugePointer) instead.
 
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|value| position on the gauge scale where the marker is anchored. Values outside `[minValue, maxValue]` simply extend past the sweep endpoints|required|
-|position| where the marker sits relative to the gauge's outer / inner bounds — same semantics as [GaugeTickPosition](#GaugeTickPosition)|GaugeTickPosition.outer|
-|offset| signed pixel delta from the natural marker anchor, along the position's outward axis — same semantics as `GaugeTicks.offset`|0|
-|painter| [GaugeMarkerPainter](#GaugeMarkerPainter) that renders the marker's shape|GaugeMarkerLinePainter()|
+<!-- api:GaugeMarker -->
+|Property|Type|Default|Description|
+|:-------|:---|:------|:----------|
+|value|`double`|required|Position on the gauge scale where the marker is anchored. Values outside `[GaugeChartData.minValue, maxValue]` are not asserted — the marker simply extends past the sweep endpoints.|
+|position|`GaugeTickPosition`|`GaugeTickPosition.outer`|Where the marker sits relative to the gauge's outer / inner bounds. Same semantics as [`GaugeTicks.position`](#gaugeticks).|
+|offset|`double`|`0`|Signed pixel delta from the natural marker anchor, measured along the `position`'s outward axis. Same semantics as [`GaugeTicks.offset`](#gaugeticks).|
+|painter|`GaugeMarkerPainter`|`const GaugeMarkerLinePainter()`|Renders the marker. The canvas is pre-translated and pre-rotated so the painter just draws a horizontal, right-facing shape at the origin — see [`GaugeMarkerPainter.draw`](#gaugemarkerpainter).|
+<!-- /api -->
 
 When `position: outer`, the gauge reserves padding so the rings shrink to keep the marker on canvas (the same way it does for outer ticks). The reserved padding is the **max** outward extent across all outer overlays, since they sit at different angles.
 
@@ -305,18 +325,22 @@ Built-in implementations:
 `getSize()` reports only the line's outward extent. If you place a long label on `GaugeMarkerLabelSide.outward` and want the rings to shrink to make room, add `offset: labelOffset + estimatedLabelWidth` on the [GaugeMarker](#GaugeMarker) itself.
 
 ### GaugeTouchData ([read about touch handling](handle_touches.md))
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|enabled|determines whether to enable or disable touch behaviors|true|
-|mouseCursorResolver|you can change the mouse cursor based on the provided [FlTouchEvent](base_chart.md#fltouchevent) and [GaugeTouchResponse](#GaugeTouchResponse)|MouseCursor.defer|
-|touchCallback| listen to this callback to retrieve touch/pointer events and responses|null|
-|longPressDuration| allows you to customize the duration of the longPress gesture. If null, the duration is [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html)|null|
+<!-- api:GaugeTouchData -->
+|Property|Type|Default|Description|
+|:-------|:---|:------|:----------|
+|enabled|`bool?`|`true`|Determines whether to enable or disable touch behaviors.|
+|touchCallback|`void Function(FlTouchEvent, GaugeTouchResponse?)?`|`null`|`touchCallback` notifies you about the happened touch/pointer events. It gives you a [`FlTouchEvent`](base_chart.md#fltouchevent) which is the happened event such as [`FlPointerHoverEvent`](https://pub.dev/documentation/fl_chart/latest/fl_chart/FlPointerHoverEvent-class.html), [`FlTapUpEvent`](https://pub.dev/documentation/fl_chart/latest/fl_chart/FlTapUpEvent-class.html), ... It also gives you a [`BaseTouchResponse`](https://pub.dev/documentation/fl_chart/latest/fl_chart/BaseTouchResponse-class.html) which is the chart specific type and contains information about the elements that has touched.|
+|mouseCursorResolver|`MouseCursor Function(FlTouchEvent, GaugeTouchResponse?)?`|`null`|Using `mouseCursorResolver` you can change the mouse cursor based on the provided [`FlTouchEvent`](base_chart.md#fltouchevent) and [`BaseTouchResponse`](https://pub.dev/documentation/fl_chart/latest/fl_chart/BaseTouchResponse-class.html)|
+|longPressDuration|`Duration?`|`null`|This property that allows to customize the duration of the longPress gesture. If null, it uses [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html) (500 milliseconds).|
+<!-- /api -->
 
 ### GaugeTouchResponse
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|touchLocation|the location of the touch event in device pixel coordinates|required|
-|touchedRing|Instance of [GaugeTouchedRing](#GaugeTouchedRing) describing what the touch hit, or null when the touch fell entirely outside the arc's angular range|null|
+<!-- api:GaugeTouchResponse fields -->
+|Property|Type|Description|
+|:-------|:---|:----------|
+|touchLocation|`Offset`|The location of the touch in pixels on the screen.|
+|touchedRing|`GaugeTouchedRing?`|Details of the touch, or null if the touch fell entirely outside the arc's angular range.|
+<!-- /api -->
 
 ### GaugeTouchedRing
 A touch inside the arc's angular range always produces a `GaugeTouchedRing` — even when it falls in the gap between rings (`ringsSpace`) or outside every ring's radial band. In those cases `touchedRing` is null and `touchedRingIndex` is `-1`, but `touchValue` is still filled in.
@@ -325,13 +349,15 @@ When the hit ring is a [GaugeProgressRing](#GaugeProgressRing), `isOnValue` is `
 
 When the hit ring is a [GaugeZonesRing](#GaugeZonesRing), `touchedZone` / `touchedZoneIndex` report the specific band the touch angle falls into (or null when it's in a gap between zones).
 
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|touchedRing|the [GaugeRing](#GaugeRing) (ring) that was hit, or null if the touch missed all rings|null|
-|touchedRingIndex| index of the hit ring, or `-1` when no ring was hit|required|
-|touchAngle| angle of the touch in degrees (same convention as `startDegreeOffset`: 0° points right)|required|
-|touchRadius| distance from the gauge's center to the touch in pixels|required|
-|touchValue| touch position interpolated along the gauge's scale, in `[minValue, maxValue]`|required|
-|isOnValue| true when a [GaugeProgressRing](#GaugeProgressRing) was hit AND the touch sits on its filled portion; false otherwise (including zones-ring hits and misses)|required|
-|touchedZone| the [GaugeZone](#GaugeZone) hit when the touched ring is a [GaugeZonesRing](#GaugeZonesRing) and the touch falls inside one of its bands|null|
-|touchedZoneIndex| index of `touchedZone` in the hit ring's `zones` list, or `-1`|-1|
+<!-- api:GaugeTouchedRing fields -->
+|Property|Type|Description|
+|:-------|:---|:----------|
+|touchedRing|`GaugeRing?`|The ring that was touched, or null if the touch fell between / outside rings.|
+|touchedRingIndex|`int`|Index of the touched ring in [`GaugeChartData.rings`](#gaugechartdata), or -1 if no ring was hit.|
+|touchAngle|`double`|Angle of the touch in degrees, using the same convention as [`GaugeChartData.startDegreeOffset`](#gaugechartdata) (0° points right).|
+|touchRadius|`double`|Distance from the gauge's center to the touch, in pixels.|
+|touchValue|`double`|Touch position interpolated along the shared gauge scale, in [[`GaugeChartData.minValue`](#gaugechartdata), [`GaugeChartData.maxValue`](#gaugechartdata)].|
+|isOnValue|`bool`|True when a [`GaugeProgressRing`](#gaugeprogressring) was hit AND the touch sits on its filled portion (`touchValue <= ring.value`). False otherwise, including for [`GaugeZonesRing`](#gaugezonesring) hits and misses.|
+|touchedZone|`GaugeZone?`|The zone that was touched when the hit ring is a [`GaugeZonesRing`](#gaugezonesring) and the touch angle falls inside one of its zones. Null for progress-ring hits and for touches in gaps between zones.|
+|touchedZoneIndex|`int`|Index of `touchedZone` in the hit ring's `zones` list, or -1.|
+<!-- /api -->

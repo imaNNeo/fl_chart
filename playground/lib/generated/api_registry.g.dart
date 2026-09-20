@@ -1487,6 +1487,343 @@ final apiRegistry = <String, ClassSpec>{
     read: _readFlTitlesData,
     copy: _copyFlTitlesData,
   ),
+  'GaugeChartData': ClassSpec(
+    name: 'GaugeChartData',
+    properties: const [
+      PropertySpec(
+        name: 'rings',
+        type: 'List<GaugeRing>',
+        kind: PropertyKind.other,
+        isRequired: true,
+      ),
+      PropertySpec(
+        name: 'minValue',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        defaultCode: '0.0',
+      ),
+      PropertySpec(
+        name: 'maxValue',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        defaultCode: '1.0',
+      ),
+      PropertySpec(
+        name: 'startDegreeOffset',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        defaultCode: '-225.0',
+      ),
+      PropertySpec(
+        name: 'sweepAngle',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        defaultCode: '270.0',
+      ),
+      PropertySpec(
+        name: 'direction',
+        type: 'GaugeDirection',
+        kind: PropertyKind.enumeration,
+        values: GaugeDirection.values,
+        defaultCode: 'GaugeDirection.clockwise',
+      ),
+      PropertySpec(
+        name: 'defaultRingWidth',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        defaultCode: '10.0',
+      ),
+      PropertySpec(
+        name: 'ringsSpace',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        defaultCode: '0.0',
+      ),
+      PropertySpec(
+        name: 'ticks',
+        type: 'GaugeTicks?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'GaugeTicks',
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'pointers',
+        type: 'List<GaugePointer>',
+        kind: PropertyKind.other,
+        defaultCode: 'const []',
+      ),
+      PropertySpec(
+        name: 'markers',
+        type: 'List<GaugeMarker>',
+        kind: PropertyKind.other,
+        defaultCode: 'const []',
+      ),
+      PropertySpec(
+        name: 'touchData',
+        type: 'GaugeTouchData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'GaugeTouchData',
+        defaultCode: 'GaugeTouchData()',
+      ),
+      PropertySpec(
+        name: 'borderData',
+        type: 'FlBorderData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'FlBorderData',
+        defaultCode: 'FlBorderData()',
+      ),
+    ],
+    read: _readGaugeChartData,
+    copy: _copyGaugeChartData,
+  ),
+  'GaugeMarker': ClassSpec(
+    name: 'GaugeMarker',
+    properties: const [
+      PropertySpec(
+        name: 'value',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        isRequired: true,
+      ),
+      PropertySpec(
+        name: 'position',
+        type: 'GaugeTickPosition',
+        kind: PropertyKind.enumeration,
+        values: GaugeTickPosition.values,
+        defaultCode: 'GaugeTickPosition.outer',
+      ),
+      PropertySpec(
+        name: 'offset',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'painter',
+        type: 'GaugeMarkerPainter',
+        kind: PropertyKind.nested,
+        nestedType: 'GaugeMarkerPainter',
+        defaultCode: 'const GaugeMarkerLinePainter()',
+      ),
+    ],
+    read: _readGaugeMarker,
+    copy: _copyGaugeMarker,
+  ),
+  'GaugePointer': ClassSpec(
+    name: 'GaugePointer',
+    properties: const [
+      PropertySpec(
+        name: 'value',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        isRequired: true,
+      ),
+      PropertySpec(
+        name: 'painter',
+        type: 'GaugePointerPainter',
+        kind: PropertyKind.nested,
+        nestedType: 'GaugePointerPainter',
+        defaultCode: 'const GaugePointerNeedlePainter()',
+      ),
+    ],
+    read: _readGaugePointer,
+    copy: _copyGaugePointer,
+  ),
+  'GaugeProgressRing': ClassSpec(
+    name: 'GaugeProgressRing',
+    properties: const [
+      PropertySpec(
+        name: 'value',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        isRequired: true,
+      ),
+      PropertySpec(
+        name: 'color',
+        type: 'Color',
+        kind: PropertyKind.color,
+        isRequired: true,
+      ),
+      PropertySpec(
+        name: 'backgroundColor',
+        type: 'Color?',
+        kind: PropertyKind.color,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'strokeCap',
+        type: 'StrokeCap',
+        kind: PropertyKind.enumeration,
+        values: StrokeCap.values,
+        defaultCode: 'StrokeCap.butt',
+      ),
+      PropertySpec(
+        name: 'width',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+    ],
+    read: _readGaugeProgressRing,
+    copy: _copyGaugeProgressRing,
+  ),
+  'GaugeTicks': ClassSpec(
+    name: 'GaugeTicks',
+    properties: const [
+      PropertySpec(
+        name: 'count',
+        type: 'int',
+        kind: PropertyKind.integer,
+        defaultCode: '3',
+      ),
+      PropertySpec(
+        name: 'position',
+        type: 'GaugeTickPosition',
+        kind: PropertyKind.enumeration,
+        values: GaugeTickPosition.values,
+        defaultCode: 'GaugeTickPosition.outer',
+      ),
+      PropertySpec(
+        name: 'offset',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'painter',
+        type: 'GaugeTickPainter',
+        kind: PropertyKind.nested,
+        nestedType: 'GaugeTickPainter',
+        defaultCode: 'const GaugeTickLinePainter()',
+      ),
+      PropertySpec(
+        name: 'checkToShowTick',
+        type: 'bool Function(GaugeTickInfo)',
+        kind: PropertyKind.other,
+        defaultCode: 'GaugeTicks.showAll',
+      ),
+      PropertySpec(
+        name: 'labelBuilder',
+        type: 'String Function(double)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'labelStyle',
+        type: 'TextStyle?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'labelOffset',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        defaultCode: '0',
+      ),
+    ],
+    read: _readGaugeTicks,
+    copy: _copyGaugeTicks,
+  ),
+  'GaugeTouchData': ClassSpec(
+    name: 'GaugeTouchData',
+    properties: const [
+      PropertySpec(
+        name: 'enabled',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'true',
+      ),
+      PropertySpec(
+        name: 'touchCallback',
+        type: 'void Function(FlTouchEvent, GaugeTouchResponse?)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'mouseCursorResolver',
+        type: 'MouseCursor Function(FlTouchEvent, GaugeTouchResponse?)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'longPressDuration',
+        type: 'Duration?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+    ],
+    read: _readGaugeTouchData,
+    copy: _copyGaugeTouchData,
+  ),
+  'GaugeZone': ClassSpec(
+    name: 'GaugeZone',
+    properties: const [
+      PropertySpec(
+        name: 'from',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        isRequired: true,
+      ),
+      PropertySpec(
+        name: 'to',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        isRequired: true,
+      ),
+      PropertySpec(
+        name: 'color',
+        type: 'Color',
+        kind: PropertyKind.color,
+        isRequired: true,
+      ),
+      PropertySpec(
+        name: 'strokeCap',
+        type: 'StrokeCap',
+        kind: PropertyKind.enumeration,
+        values: StrokeCap.values,
+        defaultCode: 'StrokeCap.butt',
+      ),
+    ],
+    read: _readGaugeZone,
+    copy: _copyGaugeZone,
+  ),
+  'GaugeZonesRing': ClassSpec(
+    name: 'GaugeZonesRing',
+    properties: const [
+      PropertySpec(
+        name: 'zones',
+        type: 'List<GaugeZone>',
+        kind: PropertyKind.other,
+        isRequired: true,
+      ),
+      PropertySpec(
+        name: 'zonesSpace',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        defaultCode: '0.0',
+      ),
+      PropertySpec(
+        name: 'width',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+    ],
+    read: _readGaugeZonesRing,
+    copy: _copyGaugeZonesRing,
+  ),
   'HorizontalLine': ClassSpec(
     name: 'HorizontalLine',
     properties: const [
@@ -4398,6 +4735,240 @@ FlTitlesData _copyFlTitlesData(Object instance, Map<String, Object?> values) {
     topTitles: _value<AxisTitles>(values, 'topTitles', o.topTitles),
     rightTitles: _value<AxisTitles>(values, 'rightTitles', o.rightTitles),
     bottomTitles: _value<AxisTitles>(values, 'bottomTitles', o.bottomTitles),
+  );
+}
+
+Object? _readGaugeChartData(Object instance, String property) {
+  final o = instance as GaugeChartData;
+  return switch (property) {
+    'rings' => o.rings,
+    'minValue' => o.minValue,
+    'maxValue' => o.maxValue,
+    'startDegreeOffset' => o.startDegreeOffset,
+    'sweepAngle' => o.sweepAngle,
+    'direction' => o.direction,
+    'defaultRingWidth' => o.defaultRingWidth,
+    'ringsSpace' => o.ringsSpace,
+    'ticks' => o.ticks,
+    'pointers' => o.pointers,
+    'markers' => o.markers,
+    'touchData' => o.gaugeTouchData,
+    'borderData' => o.borderData,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+GaugeChartData _copyGaugeChartData(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as GaugeChartData;
+  return GaugeChartData(
+    rings: _value<List<GaugeRing>>(values, 'rings', o.rings),
+    minValue: _value<double>(values, 'minValue', o.minValue),
+    maxValue: _value<double>(values, 'maxValue', o.maxValue),
+    startDegreeOffset: _value<double>(
+      values,
+      'startDegreeOffset',
+      o.startDegreeOffset,
+    ),
+    sweepAngle: _value<double>(values, 'sweepAngle', o.sweepAngle),
+    direction: _value<GaugeDirection>(values, 'direction', o.direction),
+    defaultRingWidth: _value<double>(
+      values,
+      'defaultRingWidth',
+      o.defaultRingWidth,
+    ),
+    ringsSpace: _value<double>(values, 'ringsSpace', o.ringsSpace),
+    ticks: _value<GaugeTicks?>(values, 'ticks', o.ticks),
+    pointers: _value<List<GaugePointer>>(values, 'pointers', o.pointers),
+    markers: _value<List<GaugeMarker>>(values, 'markers', o.markers),
+    touchData: _value<GaugeTouchData?>(values, 'touchData', o.gaugeTouchData),
+    borderData: _value<FlBorderData?>(values, 'borderData', o.borderData),
+  );
+}
+
+Object? _readGaugeMarker(Object instance, String property) {
+  final o = instance as GaugeMarker;
+  return switch (property) {
+    'value' => o.value,
+    'position' => o.position,
+    'offset' => o.offset,
+    'painter' => o.painter,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+GaugeMarker _copyGaugeMarker(Object instance, Map<String, Object?> values) {
+  final o = instance as GaugeMarker;
+  return GaugeMarker(
+    value: _value<double>(values, 'value', o.value),
+    position: _value<GaugeTickPosition>(values, 'position', o.position),
+    offset: _value<double>(values, 'offset', o.offset),
+    painter: _value<GaugeMarkerPainter>(values, 'painter', o.painter),
+  );
+}
+
+Object? _readGaugePointer(Object instance, String property) {
+  final o = instance as GaugePointer;
+  return switch (property) {
+    'value' => o.value,
+    'painter' => o.painter,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+GaugePointer _copyGaugePointer(Object instance, Map<String, Object?> values) {
+  final o = instance as GaugePointer;
+  return GaugePointer(
+    value: _value<double>(values, 'value', o.value),
+    painter: _value<GaugePointerPainter>(values, 'painter', o.painter),
+  );
+}
+
+Object? _readGaugeProgressRing(Object instance, String property) {
+  final o = instance as GaugeProgressRing;
+  return switch (property) {
+    'value' => o.value,
+    'color' => o.color,
+    'backgroundColor' => o.backgroundColor,
+    'strokeCap' => o.strokeCap,
+    'width' => o.width,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+GaugeProgressRing _copyGaugeProgressRing(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as GaugeProgressRing;
+  return GaugeProgressRing(
+    value: _value<double>(values, 'value', o.value),
+    color: _value<ui.Color>(values, 'color', o.color),
+    backgroundColor: _value<ui.Color?>(
+      values,
+      'backgroundColor',
+      o.backgroundColor,
+    ),
+    strokeCap: _value<ui.StrokeCap>(values, 'strokeCap', o.strokeCap),
+    width: _value<double?>(values, 'width', o.width),
+  );
+}
+
+Object? _readGaugeTicks(Object instance, String property) {
+  final o = instance as GaugeTicks;
+  return switch (property) {
+    'count' => o.count,
+    'position' => o.position,
+    'offset' => o.offset,
+    'painter' => o.painter,
+    'checkToShowTick' => o.checkToShowTick,
+    'labelBuilder' => o.labelBuilder,
+    'labelStyle' => o.labelStyle,
+    'labelOffset' => o.labelOffset,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+GaugeTicks _copyGaugeTicks(Object instance, Map<String, Object?> values) {
+  final o = instance as GaugeTicks;
+  return GaugeTicks(
+    count: _value<int>(values, 'count', o.count),
+    position: _value<GaugeTickPosition>(values, 'position', o.position),
+    offset: _value<double>(values, 'offset', o.offset),
+    painter: _value<GaugeTickPainter>(values, 'painter', o.painter),
+    checkToShowTick: _value<CheckToShowGaugeTick>(
+      values,
+      'checkToShowTick',
+      o.checkToShowTick,
+    ),
+    labelBuilder: _value<String Function(double)?>(
+      values,
+      'labelBuilder',
+      o.labelBuilder,
+    ),
+    labelStyle: _value<TextStyle?>(values, 'labelStyle', o.labelStyle),
+    labelOffset: _value<double>(values, 'labelOffset', o.labelOffset),
+  );
+}
+
+Object? _readGaugeTouchData(Object instance, String property) {
+  final o = instance as GaugeTouchData;
+  return switch (property) {
+    'enabled' => o.enabled,
+    'touchCallback' => o.touchCallback,
+    'mouseCursorResolver' => o.mouseCursorResolver,
+    'longPressDuration' => o.longPressDuration,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+GaugeTouchData _copyGaugeTouchData(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as GaugeTouchData;
+  return GaugeTouchData(
+    enabled: _value<bool?>(values, 'enabled', o.enabled),
+    touchCallback: _value<BaseTouchCallback<GaugeTouchResponse>?>(
+      values,
+      'touchCallback',
+      o.touchCallback,
+    ),
+    mouseCursorResolver: _value<MouseCursorResolver<GaugeTouchResponse>?>(
+      values,
+      'mouseCursorResolver',
+      o.mouseCursorResolver,
+    ),
+    longPressDuration: _value<Duration?>(
+      values,
+      'longPressDuration',
+      o.longPressDuration,
+    ),
+  );
+}
+
+Object? _readGaugeZone(Object instance, String property) {
+  final o = instance as GaugeZone;
+  return switch (property) {
+    'from' => o.from,
+    'to' => o.to,
+    'color' => o.color,
+    'strokeCap' => o.strokeCap,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+GaugeZone _copyGaugeZone(Object instance, Map<String, Object?> values) {
+  final o = instance as GaugeZone;
+  return GaugeZone(
+    from: _value<double>(values, 'from', o.from),
+    to: _value<double>(values, 'to', o.to),
+    color: _value<ui.Color>(values, 'color', o.color),
+    strokeCap: _value<ui.StrokeCap>(values, 'strokeCap', o.strokeCap),
+  );
+}
+
+Object? _readGaugeZonesRing(Object instance, String property) {
+  final o = instance as GaugeZonesRing;
+  return switch (property) {
+    'zones' => o.zones,
+    'zonesSpace' => o.zonesSpace,
+    'width' => o.width,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+GaugeZonesRing _copyGaugeZonesRing(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as GaugeZonesRing;
+  return GaugeZonesRing(
+    zones: _value<List<GaugeZone>>(values, 'zones', o.zones),
+    zonesSpace: _value<double>(values, 'zonesSpace', o.zonesSpace),
+    width: _value<double?>(values, 'width', o.width),
   );
 }
 

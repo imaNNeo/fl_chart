@@ -1427,6 +1427,417 @@
       }
     ]
   },
+  "GaugeChartData": {
+    "page": "gauge_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "rings",
+        "type": "List<GaugeRing>",
+        "required": true,
+        "description": "The rings drawn by the chart, innermost first."
+      },
+      {
+        "name": "minValue",
+        "type": "double",
+        "defaultValue": "0.0",
+        "description": "Lower bound of the gauge scale (inclusive). Shared by every ring.\ndefault is 0.0"
+      },
+      {
+        "name": "maxValue",
+        "type": "double",
+        "defaultValue": "1.0",
+        "description": "Upper bound of the gauge scale (inclusive). Shared by every ring.\ndefault is 1.0"
+      },
+      {
+        "name": "startDegreeOffset",
+        "type": "double",
+        "defaultValue": "-225.0",
+        "description": "Starting angle of the arc, in degrees. 0° points right, matching\n[`PieChartData.startDegreeOffset`](pie_chart.md#piechartdata) and [`Canvas.drawArc`](https://api.flutter.dev/flutter/dart-ui/Canvas-class.html)."
+      },
+      {
+        "name": "sweepAngle",
+        "type": "double",
+        "defaultValue": "270.0",
+        "description": "Length of the arc, in degrees. Must be in (0, 360]."
+      },
+      {
+        "name": "direction",
+        "type": "GaugeDirection",
+        "defaultValue": "GaugeDirection.clockwise",
+        "description": "Whether the arc travels clockwise or counter-clockwise from\n`startDegreeOffset`."
+      },
+      {
+        "name": "defaultRingWidth",
+        "type": "double",
+        "defaultValue": "10.0",
+        "description": "Width used for rings that don't specify their own\n[`GaugeRing.width`](#gaugering)."
+      },
+      {
+        "name": "ringsSpace",
+        "type": "double",
+        "defaultValue": "0.0",
+        "description": "Radial gap in pixels between adjacent rings."
+      },
+      {
+        "name": "ticks",
+        "type": "GaugeTicks?",
+        "defaultValue": "null",
+        "description": "Optional tick configuration drawn along the gauge's scale. Ticks\nreference the ring stack as a whole (outer edge of the outermost\nring, inner edge of the innermost ring, or radially centered) and\nare not owned by any individual ring."
+      },
+      {
+        "name": "pointers",
+        "type": "List<GaugePointer>",
+        "defaultValue": "const []",
+        "description": "Pointers drawn on top of the rings. Each [`GaugePointer`](#gaugepointer) carries\nits own `value` on the same scale as the rings; the painter is\npre-transformed so `+x` points radially toward that value. Empty\nby default."
+      },
+      {
+        "name": "markers",
+        "type": "List<GaugeMarker>",
+        "defaultValue": "const []",
+        "description": "Markers anchored at arbitrary continuous values along the gauge's\nscale. Like `ticks` in shape and local frame — but each marker\ncarries its own `value` on `[minValue, maxValue]` instead of being\nconstrained to an evenly-spaced index. Use this to highlight\nthresholds, targets, or annotations at non-grid positions. Empty\nby default."
+      },
+      {
+        "name": "touchData",
+        "type": "GaugeTouchData?",
+        "defaultValue": "GaugeTouchData()",
+        "description": "Touch configuration and callback."
+      },
+      {
+        "name": "borderData",
+        "type": "FlBorderData?",
+        "defaultValue": "FlBorderData()",
+        "description": "Holds data to draw the border around the chart, see [`FlBorderData`](base_chart.md#flborderdata)."
+      }
+    ]
+  },
+  "GaugeDirection": {
+    "page": "gauge_chart.md",
+    "mode": "enumValues",
+    "members": [
+      {
+        "name": "clockwise",
+        "description": "The arc travels clockwise from [`GaugeChartData.startDegreeOffset`](#gaugechartdata)."
+      },
+      {
+        "name": "counterClockwise",
+        "description": "The arc travels counter-clockwise from\n[`GaugeChartData.startDegreeOffset`](#gaugechartdata)."
+      }
+    ]
+  },
+  "GaugeMarker": {
+    "page": "gauge_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "value",
+        "type": "double",
+        "required": true,
+        "description": "Position on the gauge scale where the marker is anchored. Values\noutside `[GaugeChartData.minValue, maxValue]` are not asserted —\nthe marker simply extends past the sweep endpoints."
+      },
+      {
+        "name": "position",
+        "type": "GaugeTickPosition",
+        "defaultValue": "GaugeTickPosition.outer",
+        "description": "Where the marker sits relative to the gauge's outer / inner\nbounds. Same semantics as [`GaugeTicks.position`](#gaugeticks)."
+      },
+      {
+        "name": "offset",
+        "type": "double",
+        "defaultValue": "0",
+        "description": "Signed pixel delta from the natural marker anchor, measured along\nthe `position`'s outward axis. Same semantics as\n[`GaugeTicks.offset`](#gaugeticks)."
+      },
+      {
+        "name": "painter",
+        "type": "GaugeMarkerPainter",
+        "defaultValue": "const GaugeMarkerLinePainter()",
+        "description": "Renders the marker. The canvas is pre-translated and pre-rotated\nso the painter just draws a horizontal, right-facing shape at\nthe origin — see [`GaugeMarkerPainter.draw`](#gaugemarkerpainter)."
+      }
+    ]
+  },
+  "GaugePointer": {
+    "page": "gauge_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "value",
+        "type": "double",
+        "required": true,
+        "description": "Position on the gauge scale the pointer points at. Values outside\n`[GaugeChartData.minValue, maxValue]` are not asserted — the\npointer simply extends past the sweep endpoints."
+      },
+      {
+        "name": "painter",
+        "type": "GaugePointerPainter",
+        "defaultValue": "const GaugePointerNeedlePainter()",
+        "description": "Renders the pointer's shape. The canvas is pre-transformed by\nthe gauge painter — see [`GaugePointerPainter.draw`](#gaugepointerpainter)."
+      }
+    ]
+  },
+  "GaugeProgressRing": {
+    "page": "gauge_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "value",
+        "type": "double",
+        "required": true,
+        "description": "Current value on the gauge scale. The ring fills from\n[`GaugeChartData.minValue`](#gaugechartdata) up to this value."
+      },
+      {
+        "name": "color",
+        "type": "Color",
+        "required": true,
+        "description": "Stroke color for the filled portion of the ring."
+      },
+      {
+        "name": "backgroundColor",
+        "type": "Color?",
+        "defaultValue": "null",
+        "description": "Optional stroke color for the unfilled portion. When null, no\nbackground is drawn for this ring."
+      },
+      {
+        "name": "strokeCap",
+        "type": "StrokeCap",
+        "defaultValue": "StrokeCap.butt",
+        "description": "Cap style applied to the ends of both the background and filled\narcs of this ring. For the typical battery-meter / progress-bar\nlook, use [`StrokeCap.round`](https://api.flutter.dev/flutter/dart-ui/StrokeCap.html)."
+      },
+      {
+        "name": "width",
+        "type": "double?",
+        "defaultValue": "null",
+        "description": "Stroke width in pixels. If null,\n[`GaugeChartData.defaultRingWidth`](#gaugechartdata) is used."
+      }
+    ]
+  },
+  "GaugeRing": {
+    "page": "gauge_chart.md",
+    "mode": "fields",
+    "members": [
+      {
+        "name": "width",
+        "type": "double?",
+        "description": "Stroke width in pixels. If null,\n[`GaugeChartData.defaultRingWidth`](#gaugechartdata) is used."
+      }
+    ]
+  },
+  "GaugeTickPosition": {
+    "page": "gauge_chart.md",
+    "mode": "enumValues",
+    "members": [
+      {
+        "name": "outer",
+        "description": "Outside the outermost ring. Reserves radial padding so rings\nshrink to fit ticks (and labels, when present)."
+      },
+      {
+        "name": "inner",
+        "description": "Inside the innermost ring's inner edge, toward the gauge center."
+      },
+      {
+        "name": "center",
+        "description": "Radially centered between the outermost ring's outer edge and\nthe innermost ring's inner edge."
+      }
+    ]
+  },
+  "GaugeTicks": {
+    "page": "gauge_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "count",
+        "type": "int",
+        "defaultValue": "3",
+        "description": "Number of ticks drawn, including both sweep endpoints. Minimum 2."
+      },
+      {
+        "name": "position",
+        "type": "GaugeTickPosition",
+        "defaultValue": "GaugeTickPosition.outer",
+        "description": "Where ticks sit relative to the gauge's outer / inner bounds."
+      },
+      {
+        "name": "offset",
+        "type": "double",
+        "defaultValue": "0",
+        "description": "Signed pixel delta from the natural tick anchor, measured along\nthe `position`'s outward axis (away from center for\n[`GaugeTickPosition.outer`](#gaugetickposition), toward center for [`GaugeTickPosition.inner`](#gaugetickposition),\ntoward outer for [`GaugeTickPosition.center`](#gaugetickposition)). Positive\nextends the tick farther in that direction; negative pulls it\nback toward (or across) the ring stack."
+      },
+      {
+        "name": "painter",
+        "type": "GaugeTickPainter",
+        "defaultValue": "const GaugeTickLinePainter()",
+        "description": "Renders each tick. The canvas is pre-translated and pre-rotated\nso the painter just draws a horizontal, right-facing shape at\nthe origin — see [`GaugeTickPainter.draw`](#gaugetickpainter)."
+      },
+      {
+        "name": "checkToShowTick",
+        "type": "bool Function(GaugeTickInfo)",
+        "defaultValue": "GaugeTicks.showAll",
+        "description": "Predicate deciding whether each tick is drawn. Receives a\n[`GaugeTickInfo`](https://pub.dev/documentation/fl_chart/latest/fl_chart/GaugeTickInfo-class.html) with the tick's index, the total `count`, its\nscale value, and the chart's `minValue` / `maxValue`. Returning\n`false` skips both the tick mark and its label.\n\nDefaults to [`GaugeTicks.showAll`](#gaugeticks). Use [`GaugeTicks.hideEndpoints`](#gaugeticks)\nto skip the first and last ticks — handy when the arc already\nvisually anchors its extremes (e.g. rounded zone caps). Users\ncan pass any predicate for custom behaviour.\n\nPass a top-level or static function when possible; anonymous\nclosures compare by identity, which breaks equality across\nrebuilds and causes unnecessary tween animations."
+      },
+      {
+        "name": "labelBuilder",
+        "type": "String Function(double)?",
+        "defaultValue": "null",
+        "description": "Returns the text painted as a label next to each tick. The input\nis the tick's scale value on `[minValue, maxValue]`. When `null`,\nno labels are drawn. To keep a tick mark but drop its label at a\nspecific value, return an empty string from this builder."
+      },
+      {
+        "name": "labelStyle",
+        "type": "TextStyle?",
+        "defaultValue": "null",
+        "description": "Style applied to labels, merged with the chart's current theme.\nWhen `null`, the theme's default text style is used."
+      },
+      {
+        "name": "labelOffset",
+        "type": "double",
+        "defaultValue": "0",
+        "description": "Signed pixel delta between the tick's far edge and its label,\nalong the same outward axis as `offset`. Positive pushes the\nlabel further outward; negative pulls it toward (or across) the\ntick."
+      }
+    ]
+  },
+  "GaugeTouchData": {
+    "page": "gauge_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "enabled",
+        "type": "bool?",
+        "defaultValue": "true",
+        "description": "Determines whether to enable or disable touch behaviors."
+      },
+      {
+        "name": "touchCallback",
+        "type": "void Function(FlTouchEvent, GaugeTouchResponse?)?",
+        "defaultValue": "null",
+        "description": "`touchCallback` notifies you about the happened touch/pointer events.\nIt gives you a [`FlTouchEvent`](base_chart.md#fltouchevent) which is the happened event such as [`FlPointerHoverEvent`](https://pub.dev/documentation/fl_chart/latest/fl_chart/FlPointerHoverEvent-class.html), [`FlTapUpEvent`](https://pub.dev/documentation/fl_chart/latest/fl_chart/FlTapUpEvent-class.html), ...\nIt also gives you a [`BaseTouchResponse`](https://pub.dev/documentation/fl_chart/latest/fl_chart/BaseTouchResponse-class.html) which is the chart specific type and contains information\nabout the elements that has touched."
+      },
+      {
+        "name": "mouseCursorResolver",
+        "type": "MouseCursor Function(FlTouchEvent, GaugeTouchResponse?)?",
+        "defaultValue": "null",
+        "description": "Using `mouseCursorResolver` you can change the mouse cursor\nbased on the provided [`FlTouchEvent`](base_chart.md#fltouchevent) and [`BaseTouchResponse`](https://pub.dev/documentation/fl_chart/latest/fl_chart/BaseTouchResponse-class.html)"
+      },
+      {
+        "name": "longPressDuration",
+        "type": "Duration?",
+        "defaultValue": "null",
+        "description": "This property that allows to customize the duration of the longPress gesture.\nIf null, it uses [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html) (500 milliseconds)."
+      }
+    ]
+  },
+  "GaugeTouchResponse": {
+    "page": "gauge_chart.md",
+    "mode": "fields",
+    "members": [
+      {
+        "name": "touchLocation",
+        "type": "Offset",
+        "description": "The location of the touch in pixels on the screen."
+      },
+      {
+        "name": "touchedRing",
+        "type": "GaugeTouchedRing?",
+        "description": "Details of the touch, or null if the touch fell entirely outside\nthe arc's angular range."
+      }
+    ]
+  },
+  "GaugeTouchedRing": {
+    "page": "gauge_chart.md",
+    "mode": "fields",
+    "members": [
+      {
+        "name": "touchedRing",
+        "type": "GaugeRing?",
+        "description": "The ring that was touched, or null if the touch fell between /\noutside rings."
+      },
+      {
+        "name": "touchedRingIndex",
+        "type": "int",
+        "description": "Index of the touched ring in [`GaugeChartData.rings`](#gaugechartdata), or -1 if\nno ring was hit."
+      },
+      {
+        "name": "touchAngle",
+        "type": "double",
+        "description": "Angle of the touch in degrees, using the same convention as\n[`GaugeChartData.startDegreeOffset`](#gaugechartdata) (0° points right)."
+      },
+      {
+        "name": "touchRadius",
+        "type": "double",
+        "description": "Distance from the gauge's center to the touch, in pixels."
+      },
+      {
+        "name": "touchValue",
+        "type": "double",
+        "description": "Touch position interpolated along the shared gauge scale, in\n[[`GaugeChartData.minValue`](#gaugechartdata), [`GaugeChartData.maxValue`](#gaugechartdata)]."
+      },
+      {
+        "name": "isOnValue",
+        "type": "bool",
+        "description": "True when a [`GaugeProgressRing`](#gaugeprogressring) was hit AND the touch sits on\nits filled portion (`touchValue <= ring.value`). False\notherwise, including for [`GaugeZonesRing`](#gaugezonesring) hits and misses."
+      },
+      {
+        "name": "touchedZone",
+        "type": "GaugeZone?",
+        "description": "The zone that was touched when the hit ring is a\n[`GaugeZonesRing`](#gaugezonesring) and the touch angle falls inside one of its\nzones. Null for progress-ring hits and for touches in gaps\nbetween zones."
+      },
+      {
+        "name": "touchedZoneIndex",
+        "type": "int",
+        "description": "Index of `touchedZone` in the hit ring's `zones` list, or -1."
+      }
+    ]
+  },
+  "GaugeZone": {
+    "page": "gauge_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "from",
+        "type": "double",
+        "required": true,
+        "description": "Lower bound of the zone on the gauge's scale (inclusive)."
+      },
+      {
+        "name": "to",
+        "type": "double",
+        "required": true,
+        "description": "Upper bound of the zone on the gauge's scale (inclusive),\nit must be `>= from`."
+      },
+      {
+        "name": "color",
+        "type": "Color",
+        "required": true,
+        "description": "Fill color of this band."
+      },
+      {
+        "name": "strokeCap",
+        "type": "StrokeCap",
+        "defaultValue": "StrokeCap.butt",
+        "description": "Cap style applied to this band's two ends. Independent per zone —\nadjacent zones paint in list order, so a later zone's butt start\npaints over an earlier zone's rounded end-cap bulge."
+      }
+    ]
+  },
+  "GaugeZonesRing": {
+    "page": "gauge_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "zones",
+        "type": "List<GaugeZone>",
+        "required": true,
+        "description": "The colored bands drawn along this ring's arc. Each band controls\nits own [`GaugeZone.strokeCap`](#gaugezone)."
+      },
+      {
+        "name": "zonesSpace",
+        "type": "double",
+        "defaultValue": "0.0",
+        "description": "Visible gap between adjacent zones, in pixels, measured\nperpendicular to the ring (so the gap has the same width at the\ninner and outer edges regardless of ring thickness).\n\nApplied only *between* zones (in list order): a `zonesSpace`-wide\nrectangular strip is carved at each internal boundary. The first\nzone's leading edge and the last zone's trailing edge are not\ntouched, so zones stay flush to the gauge's angular extremes.\n\nPer-zone `StrokeCap.round` is preserved: after the strip is\ncarved, each neighbor's internal end is re-drawn as a filled\ncircle so zones with rounded caps keep their pill look across\nthe gap. The visible gap between two rounded neighbors is\n`zonesSpace − width`, so set `zonesSpace > width` to keep a\nvisible separator when caps are rounded."
+      },
+      {
+        "name": "width",
+        "type": "double?",
+        "defaultValue": "null",
+        "description": "Stroke width in pixels. If null,\n[`GaugeChartData.defaultRingWidth`](#gaugechartdata) is used."
+      }
+    ]
+  },
   "HorizontalLine": {
     "page": "base_chart.md",
     "mode": "constructor",

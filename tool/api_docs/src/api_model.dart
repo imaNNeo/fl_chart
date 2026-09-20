@@ -57,6 +57,7 @@ class ApiMember {
   ApiMember({
     required this.name,
     required this.doc,
+    String? fieldName,
     this.type,
     this.defaultValue,
     this.isRequired = false,
@@ -66,9 +67,13 @@ class ApiMember {
     this.isNullable = false,
     this.kindType,
     this.typeCode,
-  });
+  }) : fieldName = fieldName ?? name;
 
   final String name;
+
+  /// The field the parameter is assigned to, when the constructor renames
+  /// it (`gaugeTouchData = touchData ?? ...`), else its own name.
+  final String fieldName;
 
   /// Display string of the type, null for enum values.
   final String? type;

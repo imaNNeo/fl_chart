@@ -86,13 +86,17 @@ class ApiExtractor {
     }
     final members = <ApiMember>[];
     String? copyIssue;
+    final fieldNames = await _fieldNames(ctor);
     for (final param in ctor.formalParameters) {
       final paramName = param.name!;
-      final field = _findField(cls, paramName);
+      // The field can have another name (`gaugeTouchData = touchData ?? ...`).
+      final fieldName = fieldNames[paramName] ?? paramName;
+      final field = _findField(cls, fieldName);
       final (kind, kindType) = _kindOf(param.type, isDocumented);
       members.add(
         ApiMember(
           name: paramName,
+          fieldName: fieldName,
           type: param.type.getDisplayString(),
           typeCode: _typeCode(param.type),
           defaultValue: await _defaultValue(param, ctor),
@@ -106,7 +110,7 @@ class ApiExtractor {
           doc: _doc(name, paramName, field ?? param),
         ),
       );
-      copyIssue ??= _copyIssue(cls, param);
+      copyIssue ??= _copyIssue(cls, param, fieldName);
     }
     return ApiType(
       name: name,
@@ -118,10 +122,14 @@ class ApiExtractor {
 
   /// The playground copies an instance by passing its getters back to the
   /// constructor, it needs a getter for each parameter, with the same type.
-  String? _copyIssue(ClassElement cls, FormalParameterElement param) {
+  String? _copyIssue(
+    ClassElement cls,
+    FormalParameterElement param,
+    String fieldName,
+  ) {
     // A copy would lose the type argument (`Foo<Bar>` would become `Foo`).
     if (cls.typeParameters.isNotEmpty) return 'the class is generic';
-    final getter = cls.thisType.lookUpGetter(param.name!, cls.library);
+    final getter = cls.thisType.lookUpGetter(fieldName, cls.library);
     if (getter == null || getter.isPrivate) {
       return 'the `${param.name}` parameter has no matching getter';
     }
@@ -129,6 +137,30 @@ class ApiExtractor {
       return 'the `${param.name}` getter is not a `${param.type}`';
     }
     return null;
+  }
+
+  /// The field each parameter of [ctor] is assigned to, when it doesn't
+  /// have the same name (`gaugeTouchData = touchData ?? GaugeTouchData()`).
+  Future<Map<String, String>> _fieldNames(ConstructorElement ctor) async {
+    final node = await _declarationNode(ctor);
+    if (node is! ConstructorDeclaration) return const {};
+    final cls = ctor.enclosingElement;
+    final names = <String, String>{};
+    for (final initializer in node.initializers) {
+      if (initializer is! ConstructorFieldInitializer) continue;
+      final fieldName = initializer.fieldName.name;
+      for (final param in ctor.formalParameters) {
+        final name = param.name;
+        if (name == null || name == fieldName) continue;
+        // A parameter that has a field of its own isn't renamed, it's only
+        // read by this one (`color = color ?? (gradient == null ? ... )`).
+        if (cls.thisType.lookUpGetter(name, cls.library) != null) continue;
+        if (RegExp('\\b$name\\b').hasMatch(initializer.expression.toSource())) {
+          names[name] = fieldName;
+        }
+      }
+    }
+    return names;
   }
 
   /// [type] as Dart code, with `dart:ui` types prefixed by `ui.`.
@@ -251,8 +283,12 @@ class ApiExtractor {
     if (param.isRequired) return null;
     final code = param.defaultValueCode;
     if (code != null) {
-      // `stepDirectionMiddle` reads as `LineChartStepData.stepDirectionMiddle`.
-      final isStatic = ctor.enclosingElement.getField(code)?.isStatic ?? false;
+      // `stepDirectionMiddle` reads as `LineChartStepData.stepDirectionMiddle`,
+      // and `showAll` (a static method) as `GaugeTicks.showAll`.
+      final cls = ctor.enclosingElement;
+      final isStatic =
+          (cls.getField(code)?.isStatic ?? false) ||
+          (cls.getMethod(code)?.isStatic ?? false);
       return isStatic ? '${ctor.enclosingElement.name}.$code' : code;
     }
     if (param is SuperFormalParameterElement) {
