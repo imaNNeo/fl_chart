@@ -120,6 +120,7 @@ class PieChartData extends BaseChartData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         sections,
         centerSpaceRadius,
         centerSpaceColor,
@@ -309,6 +310,7 @@ class PieChartSectionData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         value,
         color,
         gradient,
@@ -407,6 +409,7 @@ class PieChartStackSegmentData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         fromRadius,
         toRadius,
         color,
@@ -444,6 +447,7 @@ class PieTouchData extends FlTouchData<PieTouchResponse> with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         enabled,
         touchCallback,
         mouseCursorResolver,
@@ -478,6 +482,7 @@ class PieTouchedSection with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         touchedSection,
         touchedSectionIndex,
         touchAngle,

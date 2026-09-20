@@ -662,7 +662,7 @@ void main() {
       );
       expect(a == b, true);
       expect(a == c, false);
-      expect(a.props.length, 5);
+      expect(a.props.length, 6);
     });
 
     test('GaugeMarker equality, copyWith, lerp', () {
@@ -728,7 +728,7 @@ void main() {
       expect(a == b, true);
       expect(a == c, false);
       expect(a == d, false);
-      expect(a.props.length, 4);
+      expect(a.props.length, 5);
     });
 
     test('GaugeMarkerLinePainter equality, getSize, lerp', () {

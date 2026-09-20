@@ -162,6 +162,7 @@ class LineChartData extends AxisChartData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         lineBarsData,
         betweenBarsData,
         titlesData,
@@ -483,6 +484,7 @@ class LineChartBarData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         spots,
         show,
         color,
@@ -536,7 +538,7 @@ class LineChartStepData with Equatable {
 
   /// Used for equality check, see [Equatable].
   @override
-  List<Object?> get props => [stepDirection];
+  List<Object?> get props => [runtimeType, stepDirection];
 }
 
 /// Holds data for filling an area (above or below) of the line with a color or gradient.
@@ -602,6 +604,7 @@ class BarAreaData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         show,
         color,
         gradient,
@@ -652,6 +655,7 @@ class BetweenBarsData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         fromIndex,
         toIndex,
         color,
@@ -699,6 +703,7 @@ class BarAreaSpotsLine with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         show,
         flLineStyle,
         checkToShowSpotLine,
@@ -813,6 +818,7 @@ class FlDotData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         show,
         checkToShowDot,
         getDotPainter,
@@ -868,6 +874,7 @@ abstract class FlLineLabel with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         show,
         padding,
         style,
@@ -975,6 +982,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         enabled,
         touchCallback,
         mouseCursorResolver,
@@ -1130,6 +1138,7 @@ class LineTouchTooltipData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         _tooltipBorderRadius,
         tooltipPadding,
         tooltipMargin,
@@ -1209,6 +1218,7 @@ class LineBarSpot extends FlSpot with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         bar,
         barIndex,
         spotIndex,
@@ -1260,6 +1270,7 @@ class LineTooltipItem with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         text,
         textStyle,
         textAlign,
@@ -1291,6 +1302,7 @@ class TouchedSpotIndicatorData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         indicatorBelowLine,
         touchedSpotDotData,
       ];
@@ -1307,7 +1319,7 @@ class ShowingTooltipIndicators with Equatable {
 
   /// Used for equality check, see [Equatable].
   @override
-  List<Object?> get props => [showingSpots];
+  List<Object?> get props => [runtimeType, showingSpots];
 }
 
 /// Holds information about touch response in the [LineChart].
@@ -1362,6 +1374,7 @@ class LineChartSpotErrorRangeCallbackInput
 
   @override
   List<Object?> get props => [
+        runtimeType,
         spot,
         bar,
         spotIndex,

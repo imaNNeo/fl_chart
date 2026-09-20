@@ -179,6 +179,7 @@ class ScatterChartData extends AxisChartData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         scatterSpots,
         scatterTouchData,
         showingTooltipIndicators,
@@ -278,6 +279,7 @@ class ScatterSpot extends FlSpot with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         x,
         y,
         show,
@@ -362,6 +364,7 @@ class ScatterTouchData extends FlTouchData<ScatterTouchResponse>
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         enabled,
         touchCallback,
         mouseCursorResolver,
@@ -422,6 +425,7 @@ class ScatterTouchedSpot with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         spot,
         spotIndex,
       ];
@@ -516,6 +520,7 @@ class ScatterTouchTooltipData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         _tooltipBorderRadius,
         tooltipPadding,
         tooltipHorizontalAlignment,
@@ -639,6 +644,7 @@ class ScatterTooltipItem with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         text,
         textStyle,
         bottomMargin,
@@ -764,6 +770,7 @@ class ScatterLabelSettings with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         showLabel,
         getLabelTextStyleFunction,
         getLabelFunction,
@@ -789,6 +796,7 @@ class ScatterChartSpotErrorRangeCallbackInput
 
   @override
   List<Object?> get props => [
+        runtimeType,
         spot,
         spotIndex,
       ];

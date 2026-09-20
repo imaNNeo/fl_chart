@@ -260,6 +260,7 @@ class RadarChartData extends BaseChartData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         borderData,
         dataSets,
         radarBackgroundColor,
@@ -358,6 +359,7 @@ class RadarDataSet with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         dataEntries,
         fillColor,
         fillGradient,
@@ -385,7 +387,7 @@ class RadarEntry with Equatable {
 
   /// Used for equality check, see [Equatable].
   @override
-  List<Object?> get props => [value];
+  List<Object?> get props => [runtimeType, value];
 }
 
 /// Holds data to handle touch events, and touch responses in the [RadarChart].
@@ -423,6 +425,7 @@ class RadarTouchData extends FlTouchData<RadarTouchResponse> with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         enabled,
         touchCallback,
         mouseCursorResolver,
@@ -483,6 +486,7 @@ class RadarTouchedSpot extends TouchedSpot with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         spot,
         offset,
         touchedDataSet,

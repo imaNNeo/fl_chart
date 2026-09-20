@@ -169,6 +169,7 @@ class GaugeChartData extends BaseChartData with Equatable {
 
   @override
   List<Object?> get props => [
+        runtimeType,
         rings,
         minValue,
         maxValue,
@@ -326,7 +327,8 @@ final class GaugeProgressRing extends GaugeRing {
       );
 
   @override
-  List<Object?> get props => [value, color, width, backgroundColor, strokeCap];
+  List<Object?> get props =>
+      [runtimeType, value, color, width, backgroundColor, strokeCap];
 }
 
 /// A ring displaying one or more fixed colored [GaugeZone]s along the
@@ -389,7 +391,7 @@ final class GaugeZonesRing extends GaugeRing {
       );
 
   @override
-  List<Object?> get props => [zones, zonesSpace, width];
+  List<Object?> get props => [runtimeType, zones, zonesSpace, width];
 }
 
 /// A single colored band within a [GaugeZonesRing]. [from] and [to]
@@ -434,7 +436,7 @@ class GaugeZone with Equatable {
       );
 
   @override
-  List<Object?> get props => [from, to, color, strokeCap];
+  List<Object?> get props => [runtimeType, from, to, color, strokeCap];
 }
 
 /// It lerps a [GaugeChartData] to another [GaugeChartData] (handles
@@ -566,6 +568,7 @@ class GaugeTicks with Equatable {
 
   @override
   List<Object?> get props => [
+        runtimeType,
         count,
         position,
         offset,
@@ -609,7 +612,8 @@ class GaugeTickInfo with Equatable {
   final double maxValue;
 
   @override
-  List<Object?> get props => [index, count, value, minValue, maxValue];
+  List<Object?> get props =>
+      [runtimeType, index, count, value, minValue, maxValue];
 }
 
 /// Interface for rendering a single tick mark on a [GaugeChart].
@@ -685,7 +689,7 @@ class GaugeTickLinePainter extends GaugeTickPainter {
   }
 
   @override
-  List<Object?> get props => [length, thickness, color];
+  List<Object?> get props => [runtimeType, length, thickness, color];
 }
 
 /// [GaugeTickPainter] that draws each tick as a filled circle,
@@ -742,7 +746,8 @@ class GaugeTickCirclePainter extends GaugeTickPainter {
   }
 
   @override
-  List<Object?> get props => [radius, color, strokeWidth, strokeColor];
+  List<Object?> get props =>
+      [runtimeType, radius, color, strokeWidth, strokeColor];
 }
 
 /// A single pointer drawn on top of the gauge, indicating a specific
@@ -781,7 +786,7 @@ class GaugePointer with Equatable {
       );
 
   @override
-  List<Object?> get props => [value, painter];
+  List<Object?> get props => [runtimeType, value, painter];
 }
 
 /// Interface for rendering a single [GaugePointer].
@@ -877,7 +882,7 @@ class GaugePointerNeedlePainter extends GaugePointerPainter {
   }
 
   @override
-  List<Object?> get props => [length, width, tailLength, color];
+  List<Object?> get props => [runtimeType, length, width, tailLength, color];
 }
 
 /// [GaugePointerPainter] that draws a filled circle at
@@ -955,7 +960,7 @@ class GaugePointerCirclePainter extends GaugePointerPainter {
 
   @override
   List<Object?> get props =>
-      [radius, anchorRadius, color, strokeWidth, strokeColor];
+      [runtimeType, radius, anchorRadius, color, strokeWidth, strokeColor];
 }
 
 /// A single marker drawn along the gauge's arc at an arbitrary
@@ -1019,7 +1024,7 @@ class GaugeMarker with Equatable {
       );
 
   @override
-  List<Object?> get props => [value, position, offset, painter];
+  List<Object?> get props => [runtimeType, value, position, offset, painter];
 }
 
 /// Context passed to [GaugeMarkerPainter.draw].
@@ -1050,7 +1055,8 @@ class GaugeMarkerInfo with Equatable {
   final double angleDegrees;
 
   @override
-  List<Object?> get props => [value, minValue, maxValue, angleDegrees];
+  List<Object?> get props =>
+      [runtimeType, value, minValue, maxValue, angleDegrees];
 }
 
 /// Interface for rendering a single [GaugeMarker].
@@ -1256,6 +1262,7 @@ class GaugeMarkerLinePainter extends GaugeMarkerPainter {
 
   @override
   List<Object?> get props => [
+        runtimeType,
         length,
         thickness,
         color,
@@ -1283,6 +1290,7 @@ class GaugeTouchData extends FlTouchData<GaugeTouchResponse> with Equatable {
 
   @override
   List<Object?> get props => [
+        runtimeType,
         enabled,
         touchCallback,
         mouseCursorResolver,
@@ -1352,6 +1360,7 @@ class GaugeTouchedRing with Equatable {
 
   @override
   List<Object?> get props => [
+        runtimeType,
         touchedRing,
         touchedRingIndex,
         touchAngle,
