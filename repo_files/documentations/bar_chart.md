@@ -23,8 +23,8 @@ When you change the chart's state, it animates to the new state internally (usin
 |alignment|`BarChartAlignment?`|`BarChartAlignment.spaceEvenly`|Arrange the `barGroups`, see [`BarChartAlignment`](#barchartalignment).|
 |titlesData|`FlTitlesData?`|`const FlTitlesData(topTitles: AxisTitles())`|Holds data to draw the titles around the chart, see [`FlTitlesData`](base_chart.md#fltitlesdata).|
 |barTouchData|`BarTouchData?`|`const BarTouchData()`|Handles touch behaviors and responses.|
-|maxY|`double?`|`null`|Maximum y value of the chart. If you don't provide it, it is calculated from the chart's data (providing it is more performant).|
-|minY|`double?`|`null`|Minimum y value of the chart. If you don't provide it, it is calculated from the chart's data (providing it is more performant).|
+|maxY|`double?`||Maximum y value of the chart. If you don't provide it, it is calculated from the chart's data (providing it is more performant).|
+|minY|`double?`||Minimum y value of the chart. If you don't provide it, it is calculated from the chart's data (providing it is more performant).|
 |baselineY|`double?`|`0`|The y value that the horizontal grid lines and the titles are aligned to, they are drawn at every `baselineY + n * interval`.|
 |gridData|`FlGridData?`|`const FlGridData()`|Holds data to draw the grid lines behind the chart, see [`FlGridData`](base_chart.md#flgriddata).|
 |borderData|`FlBorderData?`|`FlBorderData()`|Holds data to draw the border around the chart, see [`FlBorderData`](base_chart.md#flborderdata).|
@@ -72,7 +72,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |width|`double?`|`8`|The width of the rod.|
 |borderRadius|`BorderRadius?`|`null`|The rounding of the corners of the rod. When null, the rod is fully rounded (with a radius of half of its `width`).|
 |borderDashArray|`List<int>?`|`null`|Draws the `borderSide` dashed, it's a circular array of dash lengths and gaps. For example, `[5, 10]` results in dashes 5 pixels long followed by gaps 10 pixels long.|
-|borderSide|`BorderSide?`|`null`|The border stroke around the rod, see [`BorderSide`](https://api.flutter.dev/flutter/painting/BorderSide-class.html).|
+|borderSide|`BorderSide?`||The border stroke around the rod, see [`BorderSide`](https://api.flutter.dev/flutter/painting/BorderSide-class.html).<br><br>When null, the rod has no border (a [`BorderSide`](https://api.flutter.dev/flutter/painting/BorderSide-class.html) with a width of `0`). The width of the border is capped to half of the rod's `width`.|
 |backDrawRodData|`BackgroundBarChartRodData?`|`BackgroundBarChartRodData()`|If you want to have a bar drawn in rear of this rod, use `backDrawRodData`, it uses to have a bar with a passive color in rear of the rod, for example you can use it as the maximum value place holder.|
 |rodStackItems|`List<BarChartRodStackItem>?`|`const []`|If you are a fan of stacked charts (If you don't know what is it, google it), you can fill up the `rodStackItems` to have a Stacked Chart.|
 |label|`BarChartRodLabel`|`const BarChartRodLabel(show: false)`|Optional label to display near the rod tip.|

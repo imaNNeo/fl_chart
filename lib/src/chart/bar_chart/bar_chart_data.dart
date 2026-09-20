@@ -409,6 +409,9 @@ class BarChartRodData with EquatableMixin {
   final List<int>? borderDashArray;
 
   /// The border stroke around the rod, see [BorderSide].
+  ///
+  /// When null, the rod has no border (a [BorderSide] with a width of `0`).
+  /// The width of the border is capped to half of the rod's [width].
   final BorderSide borderSide;
 
   /// If you want to have a bar drawn in rear of this rod, use [backDrawRodData],

@@ -7,6 +7,8 @@ import '../hints.dart';
 final pieHints = <String, PropertyHint>{
   // PieChartData
   'PieChartData.sections': PropertyHint(
+    sample:
+        "[PieChartSectionData(value: 35, title: 'A', color: Color(0xff50e4ff), radius: 60, ...), PieChartSectionData(value: 25, title: 'B', ...), ...]",
     presets: [
       Preset(
         "[PieChartSectionData(value: 70, title: '70%', color: Colors.cyan), PieChartSectionData(value: 30, title: '30%', color: Colors.pinkAccent)]",
@@ -50,6 +52,7 @@ final pieHints = <String, PropertyHint>{
   ),
   'PieChartSectionData.radius': const PropertyHint(min: 20, max: 100),
   'PieChartSectionData.titleStyle': const PropertyHint(
+    sample: 'TextStyle(color: Colors.black, fontWeight: FontWeight.bold)',
     presets: [
       Preset(
         'TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)',

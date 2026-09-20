@@ -9,6 +9,8 @@ import '../theme.dart';
 final gaugeHints = <String, PropertyHint>{
   // GaugeChartData
   'GaugeChartData.rings': PropertyHint(
+    sample:
+        '[GaugeProgressRing(value: 72, color: Color(0xff50e4ff), backgroundColor: Color(0x2650e4ff), strokeCap: StrokeCap.round), GaugeZonesRing(zones: [...])]',
     presets: [
       Preset(
         '[GaugeProgressRing(value: 72, color: Colors.cyan, strokeCap: StrokeCap.round)]',
@@ -100,6 +102,8 @@ final gaugeHints = <String, PropertyHint>{
 
   // GaugeZonesRing
   'GaugeZonesRing.zones': PropertyHint(
+    sample:
+        '[GaugeZone(from: 0, to: 45, color: Color(0xff4cd964)), GaugeZone(from: 45, to: 80, color: Colors.amber), GaugeZone(from: 80, to: 100, color: Color(0xffff6b6b))]',
     presets: [
       Preset(
         '[GaugeZone(from: 0, to: 60, color: Colors.green), GaugeZone(from: 60, to: 100, color: Colors.red)]',
@@ -125,6 +129,7 @@ final gaugeHints = <String, PropertyHint>{
   'GaugeTicks.count': const PropertyHint(min: 2, max: 12),
   'GaugeTicks.offset': const PropertyHint(min: -30, max: 30),
   'GaugeTicks.painter': const PropertyHint(
+    sample: 'GaugeTickLinePainter(color: Color(0xffa3aecb))',
     presets: [
       Preset(
         'GaugeTickLinePainter(length: 12, thickness: 3, color: Colors.white)',
@@ -143,12 +148,14 @@ final gaugeHints = <String, PropertyHint>{
     ],
   ),
   'GaugeTicks.labelBuilder': const PropertyHint(
+    sample: '(value) => value.toStringAsFixed(0)',
     presets: [
       Preset('(value) => value.toStringAsFixed(0)', _wholeNumber),
       Preset("(value) => '\${value.toStringAsFixed(0)}%'", _percent),
     ],
   ),
   'GaugeTicks.labelStyle': const PropertyHint(
+    sample: 'TextStyle(color: Color(0xffa3aecb), fontSize: 11)',
     presets: [
       Preset(
         'TextStyle(color: Colors.cyan, fontSize: 14, fontWeight: FontWeight.bold)',
@@ -165,6 +172,7 @@ final gaugeHints = <String, PropertyHint>{
   // GaugePointer
   'GaugePointer.value': const PropertyHint(min: 0, max: 100),
   'GaugePointer.painter': const PropertyHint(
+    sample: 'GaugePointerNeedlePainter(color: Color(0xff50e4ff))',
     presets: [
       Preset(
         'GaugePointerNeedlePainter(length: 60, width: 8, tailLength: 14, color: Colors.white)',
@@ -186,6 +194,8 @@ final gaugeHints = <String, PropertyHint>{
   'GaugeMarker.value': const PropertyHint(min: 0, max: 100),
   'GaugeMarker.offset': const PropertyHint(min: -30, max: 30),
   'GaugeMarker.painter': const PropertyHint(
+    sample:
+        "GaugeMarkerLinePainter(color: Colors.white, length: 26, label: 'target', labelStyle: TextStyle(color: Color(0xffa3aecb), fontSize: 11))",
     presets: [
       Preset(
         'GaugeMarkerLinePainter(length: 26, color: Colors.white, alignment: GaugeMarkerLineAlignment.centered)',

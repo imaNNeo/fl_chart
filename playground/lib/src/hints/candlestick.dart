@@ -8,6 +8,8 @@ import '../hints.dart';
 final candlestickHints = <String, PropertyHint>{
   // CandlestickChartData
   'CandlestickChartData.candlestickSpots': PropertyHint(
+    sample:
+        '[CandlestickSpot(x: 1, open: 3.2, high: 4, low: 3, close: 3.8), CandlestickSpot(x: 2, open: 3.8, high: 4.4, low: 3.6, close: 4.2), ...]',
     presets: [
       Preset(
         '[CandlestickSpot(x: 1, open: 3, high: 5, low: 2.5, close: 4.5), CandlestickSpot(x: 2, open: 4.5, high: 6, low: 4, close: 4.2)]',
@@ -27,6 +29,8 @@ final candlestickHints = <String, PropertyHint>{
     ],
   ),
   'CandlestickChartData.titlesData': const PropertyHint(
+    sample:
+        'FlTitlesData(topTitles: AxisTitles(), rightTitles: AxisTitles(), leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 28, interval: 1)), bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 24, interval: 2)))',
     presets: [Preset('FlTitlesData(show: false)', FlTitlesData(show: false))],
   ),
   'CandlestickChartData.candlestickTouchData': PropertyHint(
@@ -50,12 +54,15 @@ final candlestickHints = <String, PropertyHint>{
     ],
   ),
   'CandlestickChartData.gridData': const PropertyHint(
+    sample:
+        'FlGridData(drawVerticalLine: false, horizontalInterval: 1, getDrawingHorizontalLine: (_) => FlLine(color: Color(0x1affffff), strokeWidth: 1))',
     presets: [
       Preset('FlGridData(show: false)', FlGridData(show: false)),
       Preset('FlGridData()', FlGridData()),
     ],
   ),
   'CandlestickChartData.borderData': PropertyHint(
+    sample: 'FlBorderData(show: false)',
     presets: [
       Preset(
         'FlBorderData(border: Border.all(color: Colors.white24))',
@@ -212,6 +219,7 @@ final candlestickHints = <String, PropertyHint>{
 
   // CandlestickTooltipItem
   'CandlestickTooltipItem.textStyle': const PropertyHint(
+    sample: 'TextStyle(color: Colors.white, fontWeight: FontWeight.bold)',
     presets: [
       Preset(
         'TextStyle(color: Colors.amber, fontSize: 16, fontWeight: FontWeight.bold)',
@@ -242,6 +250,8 @@ final candlestickHints = <String, PropertyHint>{
   'AxisSpotIndicator.x': const PropertyHint(min: 1, max: 10),
   'AxisSpotIndicator.y': const PropertyHint(min: 2, max: 7),
   'AxisSpotIndicator.painter': PropertyHint(
+    sample:
+        'AxisLinesIndicatorPainter(verticalLineProvider: (x) => VerticalLine(x: x, color: Colors.white54, dashArray: [4, 4]), horizontalLineProvider: (y) => HorizontalLine(y: y, color: Colors.white54, dashArray: [4, 4]))',
     presets: [
       Preset(
         'AxisLinesIndicatorPainter(verticalLineProvider: (x) => VerticalLine(x: x, color: Colors.amber, strokeWidth: 3), horizontalLineProvider: (y) => null)',

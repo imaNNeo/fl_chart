@@ -16,6 +16,7 @@ class PropertyHint {
     this.requires = const {},
     this.note,
     this.nullable = true,
+    this.sample,
   });
 
   /// The range of the slider of a number.
@@ -35,6 +36,15 @@ class PropertyHint {
   /// False when `null` is not a valid value, even if the type is nullable
   /// (like the color of a stack item that has no gradient).
   final bool nullable;
+
+  /// The code of the value the demo starts from, when the demo doesn't use
+  /// the default of the constructor (the sample data of the chart, for
+  /// example).
+  ///
+  /// A value that has no obvious code (a list of spots, a callback, a
+  /// `TextStyle`, ...) is otherwise shown as the default, which would be a
+  /// lie: the chart of the demo draws the sample, not the default.
+  final String? sample;
 }
 
 /// A value, with the Dart code that creates it.

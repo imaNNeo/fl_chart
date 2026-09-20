@@ -83,6 +83,39 @@ void main() {
     missing.forEach(print);
   });
 
+  test('writes out the demo values that are not the default', () {
+    // The code of a value that has none (a list of spots, a callback, ...)
+    // falls back to the default of the constructor, which is a lie when the
+    // demo doesn't use it: `PropertyHint.sample` is then the way to say what
+    // the chart really draws.
+    for (final MapEntry(key: className, value: host) in hosts.entries) {
+      final spec = apiRegistry[className]!;
+      final instance = host.instance();
+      for (final property in spec.properties) {
+        final value = spec.read?.call(instance, property.name);
+        final isWritten =
+            dartCode(
+              value,
+              isDouble: property.kind == PropertyKind.decimal,
+            ) !=
+            '...';
+        final isDefault = switch (property.defaultCode) {
+          'null' => value == null,
+          'const []' || '[]' => value is List && value.isEmpty,
+          _ => true, // Can't be told apart, it's reviewed by hand.
+        };
+        if (isWritten || isDefault) continue;
+        expect(
+          hints['$className.${property.name}']?.sample,
+          isNotNull,
+          reason:
+              'The demo of $className.${property.name} is not the default '
+              '(${property.defaultCode}), it needs a PropertyHint.sample',
+        );
+      }
+    }
+  });
+
   test('parses the target from the URL', () {
     expect(
       PlaygroundTarget.fromUri(Uri.parse('/LineChartBarData/isCurved')),

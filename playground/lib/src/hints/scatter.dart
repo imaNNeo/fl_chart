@@ -48,6 +48,8 @@ final scatterHints = <String, PropertyHint>{
     ],
   ),
   'ScatterChartData.scatterSpots': PropertyHint(
+    sample:
+        '[ScatterSpot(1.5, 2.2, dotPainter: FlDotCirclePainter(radius: 10, ...)), ScatterSpot(2.8, 4.6, ...), ...]',
     presets: [
       Preset('[ScatterSpot(2, 2), ScatterSpot(5, 5), ScatterSpot(8, 3)]', [
         ScatterSpot(2, 2),
@@ -57,6 +59,8 @@ final scatterHints = <String, PropertyHint>{
     ],
   ),
   'ScatterChartData.titlesData': const PropertyHint(
+    sample:
+        'FlTitlesData(topTitles: AxisTitles(), rightTitles: AxisTitles(), leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 28, interval: 1)), bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 24, interval: 2)))',
     presets: [Preset('FlTitlesData(show: false)', FlTitlesData(show: false))],
   ),
   'ScatterChartData.scatterTouchData': PropertyHint(
@@ -80,12 +84,15 @@ final scatterHints = <String, PropertyHint>{
     ],
   ),
   'ScatterChartData.gridData': const PropertyHint(
+    sample:
+        'FlGridData(horizontalInterval: 1, verticalInterval: 1, getDrawingHorizontalLine: (_) => FlLine(color: Color(0x1affffff), strokeWidth: 1), getDrawingVerticalLine: (_) => FlLine(color: Color(0x1affffff), strokeWidth: 1))',
     presets: [
       Preset('FlGridData(show: false)', FlGridData(show: false)),
       Preset('FlGridData()', FlGridData()),
     ],
   ),
   'ScatterChartData.borderData': PropertyHint(
+    sample: 'FlBorderData(show: false)',
     presets: [
       Preset(
         'FlBorderData(border: Border.all(color: Colors.white24))',
@@ -120,6 +127,7 @@ final scatterHints = <String, PropertyHint>{
   'ScatterSpot.x': const PropertyHint(min: 0, max: 10),
   'ScatterSpot.y': const PropertyHint(min: 0, max: 7),
   'ScatterSpot.dotPainter': PropertyHint(
+    sample: 'FlDotCirclePainter(radius: 14, color: Color(0xd9ffc107))',
     presets: [
       Preset(
         'FlDotCirclePainter(radius: 20, color: Colors.cyan, strokeWidth: 3, strokeColor: Colors.white)',
@@ -239,6 +247,7 @@ final scatterHints = <String, PropertyHint>{
 
   // ScatterTooltipItem
   'ScatterTooltipItem.textStyle': const PropertyHint(
+    sample: 'TextStyle(color: Colors.white, fontWeight: FontWeight.bold)',
     presets: [
       Preset(
         'TextStyle(color: Colors.amber, fontSize: 16, fontWeight: FontWeight.bold)',
@@ -270,6 +279,7 @@ final scatterHints = <String, PropertyHint>{
 
   // ScatterLabelSettings
   'ScatterLabelSettings.getLabelTextStyleFunction': const PropertyHint(
+    sample: '(index, spot) => TextStyle(color: Colors.white, fontSize: 11)',
     requires: {'showLabel': true},
     presets: [
       Preset(
@@ -279,6 +289,7 @@ final scatterHints = <String, PropertyHint>{
     ],
   ),
   'ScatterLabelSettings.getLabelFunction': const PropertyHint(
+    sample: "(index, spot) => '\${spot.y}'",
     requires: {'showLabel': true},
     presets: [Preset("(index, spot) => '#\$index'", _indexLabel)],
   ),

@@ -240,14 +240,12 @@ final apiRegistry = <String, ClassSpec>{
         type: 'double?',
         kind: PropertyKind.decimal,
         isNullable: true,
-        defaultCode: 'null',
       ),
       PropertySpec(
         name: 'minY',
         type: 'double?',
         kind: PropertyKind.decimal,
         isNullable: true,
-        defaultCode: 'null',
       ),
       PropertySpec(
         name: 'baselineY',
@@ -416,7 +414,6 @@ final apiRegistry = <String, ClassSpec>{
         type: 'BorderSide?',
         kind: PropertyKind.other,
         isNullable: true,
-        defaultCode: 'null',
       ),
       PropertySpec(
         name: 'backDrawRodData',
@@ -2187,14 +2184,12 @@ final apiRegistry = <String, ClassSpec>{
         type: 'double?',
         kind: PropertyKind.decimal,
         isNullable: true,
-        defaultCode: 'null',
       ),
       PropertySpec(
         name: 'maxX',
         type: 'double?',
         kind: PropertyKind.decimal,
         isNullable: true,
-        defaultCode: 'null',
       ),
       PropertySpec(
         name: 'baselineX',
@@ -2208,14 +2203,12 @@ final apiRegistry = <String, ClassSpec>{
         type: 'double?',
         kind: PropertyKind.decimal,
         isNullable: true,
-        defaultCode: 'null',
       ),
       PropertySpec(
         name: 'maxY',
         type: 'double?',
         kind: PropertyKind.decimal,
         isNullable: true,
-        defaultCode: 'null',
       ),
       PropertySpec(
         name: 'baselineY',

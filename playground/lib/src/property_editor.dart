@@ -34,7 +34,9 @@ class PropertyEditor extends StatelessWidget {
       return _PresetEditor(
         presets: presets,
         value: value,
-        defaultLabel: spec.defaultCode ?? 'default',
+        // The first item goes back to the value the demo starts from, which
+        // is the sample of the demo when it doesn't use the default.
+        defaultLabel: hint?.sample ?? spec.defaultCode ?? 'default',
         onChanged: onChanged,
         onReset: onReset,
       );

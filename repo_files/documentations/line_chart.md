@@ -27,11 +27,11 @@ When you change the chart's state, it animates to the new state internally (usin
 |gridData|`FlGridData?`|`const FlGridData()`|Holds data to draw the grid lines behind the chart, see [`FlGridData`](base_chart.md#flgriddata).|
 |borderData|`FlBorderData?`|`FlBorderData()`|Holds data to draw the border around the chart, see [`FlBorderData`](base_chart.md#flborderdata).|
 |rangeAnnotations|`RangeAnnotations?`|`const RangeAnnotations()`|Highlights some horizontal or vertical ranges behind the chart, see [`RangeAnnotations`](base_chart.md#rangeannotations).|
-|minX|`double?`|`null`|Minimum x value of the chart. If you don't provide it, it is calculated from the chart's data (providing it is more performant).|
-|maxX|`double?`|`null`|Maximum x value of the chart. If you don't provide it, it is calculated from the chart's data (providing it is more performant).|
+|minX|`double?`||Minimum x value of the chart. If you don't provide it, it is calculated from the chart's data (providing it is more performant).|
+|maxX|`double?`||Maximum x value of the chart. If you don't provide it, it is calculated from the chart's data (providing it is more performant).|
 |baselineX|`double?`|`0`|The x value that the vertical grid lines and the titles are aligned to, they are drawn at every `baselineX + n * interval`.|
-|minY|`double?`|`null`|Minimum y value of the chart. If you don't provide it, it is calculated from the chart's data (providing it is more performant).|
-|maxY|`double?`|`null`|Maximum y value of the chart. If you don't provide it, it is calculated from the chart's data (providing it is more performant).|
+|minY|`double?`||Minimum y value of the chart. If you don't provide it, it is calculated from the chart's data (providing it is more performant).|
+|maxY|`double?`||Maximum y value of the chart. If you don't provide it, it is calculated from the chart's data (providing it is more performant).|
 |baselineY|`double?`|`0`|The y value that the horizontal grid lines and the titles are aligned to, they are drawn at every `baselineY + n * interval`.|
 |clipData|`FlClipData?`|`const FlClipData.none()`|Clips the chart to its border (prevents drawing outside of the border), see [`FlClipData`](https://pub.dev/documentation/fl_chart/latest/fl_chart/FlClipData-class.html).|
 |backgroundColor|`Color?`|`Colors.transparent`|A background color which is drawn behind the chart.|

@@ -8,6 +8,7 @@ import '../hosts/base.dart';
 final baseHints = <String, PropertyHint>{
   // FlBorderData
   'FlBorderData.border': const PropertyHint(
+    sample: 'Border.all(color: Colors.white24)',
     presets: [
       Preset(
         'Border(bottom: BorderSide(color: Colors.white54, width: 2), left: BorderSide(color: Colors.white54, width: 2))',
@@ -24,14 +25,30 @@ final baseHints = <String, PropertyHint>{
   ),
 
   // FlTitlesData
-  'FlTitlesData.leftTitles': _axisTitlesPresets,
-  'FlTitlesData.topTitles': _axisTitlesPresets,
-  'FlTitlesData.rightTitles': _axisTitlesPresets,
-  'FlTitlesData.bottomTitles': _axisTitlesPresets,
+  'FlTitlesData.leftTitles': const PropertyHint(
+    sample:
+        'AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 28, interval: 1))',
+    presets: _axisTitlesPresets,
+  ),
+  // The demo hides them, the chart shows them by default.
+  'FlTitlesData.topTitles': const PropertyHint(
+    sample: 'AxisTitles()',
+    presets: _axisTitlesPresets,
+  ),
+  'FlTitlesData.rightTitles': const PropertyHint(
+    sample: 'AxisTitles()',
+    presets: _axisTitlesPresets,
+  ),
+  'FlTitlesData.bottomTitles': const PropertyHint(
+    sample:
+        'AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 24, interval: 2))',
+    presets: _axisTitlesPresets,
+  ),
 
   // AxisTitles
   'AxisTitles.axisNameSize': const PropertyHint(min: 0, max: 40),
   'AxisTitles.axisNameWidget': const PropertyHint(
+    sample: "Text('Sales')",
     presets: [
       Preset(
         "Text('Revenue (\$k)', style: TextStyle(color: Colors.amber))",
@@ -40,6 +57,7 @@ final baseHints = <String, PropertyHint>{
     ],
   ),
   'AxisTitles.sideTitles': const PropertyHint(
+    sample: 'SideTitles(showTitles: true, reservedSize: 28, interval: 1)',
     presets: [Preset('SideTitles()', SideTitles())],
   ),
 
@@ -127,6 +145,8 @@ final baseHints = <String, PropertyHint>{
 
   // RangeAnnotations
   'RangeAnnotations.horizontalRangeAnnotations': PropertyHint(
+    sample:
+        '[HorizontalRangeAnnotation(y1: 2, y2: 4, color: Color(0x2650e4ff))]',
     presets: [
       Preset(
         '[HorizontalRangeAnnotation(y1: 5, y2: 6, color: Colors.green.withValues(alpha: 0.2))]',
@@ -173,6 +193,8 @@ final baseHints = <String, PropertyHint>{
 
   // ExtraLinesData
   'ExtraLinesData.horizontalLines': PropertyHint(
+    sample:
+        '[HorizontalLine(y: 4.5, color: Colors.amber, strokeWidth: 2, dashArray: [6, 4])]',
     presets: [
       Preset('[HorizontalLine(y: 2, color: Colors.green, strokeWidth: 3)]', [
         HorizontalLine(y: 2, color: Colors.green, strokeWidth: 3),
@@ -180,6 +202,8 @@ final baseHints = <String, PropertyHint>{
     ],
   ),
   'ExtraLinesData.verticalLines': PropertyHint(
+    sample:
+        '[VerticalLine(x: 7, color: Colors.pinkAccent, strokeWidth: 2, dashArray: [6, 4])]',
     presets: [
       Preset('[VerticalLine(x: 3, color: Colors.green, strokeWidth: 3)]', [
         VerticalLine(x: 3, color: Colors.green, strokeWidth: 3),
@@ -189,6 +213,7 @@ final baseHints = <String, PropertyHint>{
 
   // SizedPicture
   'SizedPicture.picture': PropertyHint(
+    sample: 'myPicture',
     presets: [
       Preset('myPicture // a rounded amber square', samplePicture().picture),
     ],
@@ -275,7 +300,10 @@ final baseHints = <String, PropertyHint>{
 
   // HorizontalLineLabel
   'HorizontalLineLabel.padding': const PropertyHint(presets: _paddings),
-  'HorizontalLineLabel.style': const PropertyHint(presets: _labelStyles),
+  'HorizontalLineLabel.style': const PropertyHint(
+    sample: 'TextStyle(color: Colors.amber, fontWeight: FontWeight.bold)',
+    presets: _labelStyles,
+  ),
   'HorizontalLineLabel.alignment': const PropertyHint(presets: _alignments),
   'HorizontalLineLabel.labelResolver': const PropertyHint(
     presets: [Preset("(line) => 'Target: \${line.y}'", _horizontalTarget)],
@@ -283,22 +311,23 @@ final baseHints = <String, PropertyHint>{
 
   // VerticalLineLabel
   'VerticalLineLabel.padding': const PropertyHint(presets: _paddings),
-  'VerticalLineLabel.style': const PropertyHint(presets: _labelStyles),
+  'VerticalLineLabel.style': const PropertyHint(
+    sample: 'TextStyle(color: Colors.pinkAccent, fontWeight: FontWeight.bold)',
+    presets: _labelStyles,
+  ),
   'VerticalLineLabel.alignment': const PropertyHint(presets: _alignments),
   'VerticalLineLabel.labelResolver': const PropertyHint(
     presets: [Preset("(line) => 'x = \${line.x}'", _verticalTarget)],
   ),
 };
 
-const _axisTitlesPresets = PropertyHint(
-  presets: [
-    Preset('AxisTitles()', AxisTitles()),
-    Preset(
-      'AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 28))',
-      AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 28)),
-    ),
-  ],
-);
+const _axisTitlesPresets = [
+  Preset('AxisTitles()', AxisTitles()),
+  Preset(
+    'AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 28))',
+    AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 28)),
+  ),
+];
 
 const _rangeGradient = Preset(
   'LinearGradient(colors: [Colors.cyan, Colors.transparent])',

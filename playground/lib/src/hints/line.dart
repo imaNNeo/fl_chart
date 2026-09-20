@@ -8,6 +8,8 @@ import '../theme.dart';
 /// The hints of the line chart properties.
 final lineHints = <String, PropertyHint>{
   'LineChartData.lineBarsData': PropertyHint(
+    sample:
+        '[LineChartBarData(spots: [FlSpot(0, 3), FlSpot(1, 1.8), ...], color: Color(0xff50e4ff), barWidth: 3)]',
     presets: [
       Preset('[bar1, bar2]', [sampleBar(), otherBar()]),
     ],
@@ -23,6 +25,8 @@ final lineHints = <String, PropertyHint>{
     ],
   ),
   'LineChartData.titlesData': const PropertyHint(
+    sample:
+        'FlTitlesData(topTitles: AxisTitles(), rightTitles: AxisTitles(), leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 28, interval: 1)), bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 24, interval: 2)))',
     presets: [
       Preset('FlTitlesData(show: false)', FlTitlesData(show: false)),
       Preset('FlTitlesData()', FlTitlesData()),
@@ -65,12 +69,15 @@ final lineHints = <String, PropertyHint>{
     ],
   ),
   'LineChartData.gridData': const PropertyHint(
+    sample:
+        'FlGridData(drawVerticalLine: false, horizontalInterval: 1, getDrawingHorizontalLine: (_) => FlLine(color: Color(0x1affffff), strokeWidth: 1))',
     presets: [
       Preset('FlGridData(show: false)', FlGridData(show: false)),
       Preset('FlGridData()', FlGridData()),
     ],
   ),
   'LineChartData.borderData': PropertyHint(
+    sample: 'FlBorderData(show: false)',
     presets: [
       Preset('FlBorderData()', FlBorderData()),
       Preset(
@@ -130,6 +137,7 @@ final lineHints = <String, PropertyHint>{
     note: 'The spots of the line carry an `yError` range here.',
   ),
   'LineChartBarData.spots': const PropertyHint(
+    sample: '[FlSpot(0, 3), FlSpot(1, 1.8), FlSpot(2, 4.2), ...]',
     presets: [
       Preset(
         '[FlSpot(0, 3), FlSpot(1, 1.8), FlSpot(2, 4.2), FlSpot.nullSpot, FlSpot(4, 5.4), FlSpot(5, 3.8)]',
@@ -410,6 +418,7 @@ final lineHints = <String, PropertyHint>{
 
   // LineTooltipItem
   'LineTooltipItem.textStyle': const PropertyHint(
+    sample: 'TextStyle(color: Colors.white, fontWeight: FontWeight.bold)',
     presets: [
       Preset(
         'TextStyle(color: Colors.amber, fontSize: 16, fontWeight: FontWeight.bold)',
@@ -444,6 +453,7 @@ final lineHints = <String, PropertyHint>{
 
   // TouchedSpotIndicatorData
   'TouchedSpotIndicatorData.indicatorBelowLine': const PropertyHint(
+    sample: 'FlLine(color: Colors.white70, strokeWidth: 2, dashArray: [4, 4])',
     presets: [
       Preset(
         'FlLine(color: Colors.amber, strokeWidth: 4)',
@@ -452,11 +462,14 @@ final lineHints = <String, PropertyHint>{
     ],
   ),
   'TouchedSpotIndicatorData.touchedSpotDotData': const PropertyHint(
+    sample:
+        'FlDotData(getDotPainter: (spot, percent, bar, index) => FlDotCirclePainter(radius: 6, color: Color(0xff50e4ff), strokeWidth: 2, strokeColor: Colors.white))',
     presets: [Preset('FlDotData(show: false)', FlDotData(show: false))],
   ),
 
   // ShowingTooltipIndicators
   'ShowingTooltipIndicators.showingSpots': PropertyHint(
+    sample: '[LineBarSpot(bar, 0, bar.spots[4])]',
     presets: [
       Preset(
         '[LineBarSpot(bar, 0, bar.spots[2]), LineBarSpot(bar, 0, bar.spots[3])]',

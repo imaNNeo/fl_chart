@@ -275,7 +275,9 @@ class ApiExtractor {
   /// - the default of the super constructor parameter (`super.gridData`),
   /// - `field = param ?? value` in the initializer list,
   /// - or a getter like `get radius => _radius ?? value`.
-  /// Returns null when the default depends on other parameters.
+  /// Returns null when the default depends on other parameters, or when a
+  /// nullable parameter is turned into a value the constructor computes
+  /// (`borderSide = Utils().normalizeBorderSide(borderSide, width)`).
   Future<String?> _defaultValue(
     FormalParameterElement param,
     ConstructorElement ctor,
@@ -337,9 +339,17 @@ class ApiExtractor {
         return expression.rightOperand.toSource();
       }
     }
-    return param.type.nullabilitySuffix == NullabilitySuffix.question
-        ? 'null'
-        : null;
+    if (param.type.nullabilitySuffix != NullabilitySuffix.question) {
+      return null;
+    }
+    // Omitting it only leaves it null when the field can hold null: a
+    // non-nullable field is filled with something the constructor computes.
+    final cls = ctor.enclosingElement;
+    final field = cls.thisType.lookUpGetter(param.name!, cls.library);
+    final holdsNull =
+        field == null ||
+        field.returnType.nullabilitySuffix == NullabilitySuffix.question;
+    return holdsNull ? 'null' : null;
   }
 
   /// The AST node that declares [element] (only for declarations in lib/).

@@ -8,12 +8,18 @@ import '../hosts/radar.dart';
 final radarHints = <String, PropertyHint>{
   // RadarChartData
   'RadarChartData.dataSets': PropertyHint(
+    sample:
+        '[RadarDataSet(dataEntries: [RadarEntry(value: 4), RadarEntry(value: 3), ...], borderColor: Color(0xff50e4ff), ...), RadarDataSet(...)]',
     presets: [
       Preset('[dataSet1]', [sampleDataSets().first]),
     ],
   ),
-  'RadarChartData.radarBorderData': const PropertyHint(presets: [_thickBorder]),
+  'RadarChartData.radarBorderData': const PropertyHint(
+    sample: 'BorderSide(color: Colors.white24)',
+    presets: [_thickBorder],
+  ),
   'RadarChartData.getTitle': const PropertyHint(
+    sample: '(index, angle) => RadarChartTitle(text: titles[index])',
     presets: [
       Preset(
         "(index, angle) => RadarChartTitle(text: 'Axis \$index', angle: angle)",
@@ -21,15 +27,27 @@ final radarHints = <String, PropertyHint>{
       ),
     ],
   ),
-  'RadarChartData.titleTextStyle': const PropertyHint(presets: [_amberText]),
+  'RadarChartData.titleTextStyle': const PropertyHint(
+    sample: 'TextStyle(color: Colors.white, fontSize: 12)',
+    presets: [_amberText],
+  ),
   'RadarChartData.titlePositionPercentageOffset': const PropertyHint(
     min: 0,
     max: 1,
   ),
   'RadarChartData.tickCount': const PropertyHint(min: 1, max: 6),
-  'RadarChartData.ticksTextStyle': const PropertyHint(presets: [_amberText]),
-  'RadarChartData.tickBorderData': const PropertyHint(presets: [_thickBorder]),
-  'RadarChartData.gridBorderData': const PropertyHint(presets: [_thickBorder]),
+  'RadarChartData.ticksTextStyle': const PropertyHint(
+    sample: 'TextStyle(color: Color(0xffa3aecb), fontSize: 10)',
+    presets: [_amberText],
+  ),
+  'RadarChartData.tickBorderData': const PropertyHint(
+    sample: 'BorderSide(color: Colors.white10)',
+    presets: [_thickBorder],
+  ),
+  'RadarChartData.gridBorderData': const PropertyHint(
+    sample: 'BorderSide(color: Colors.white24)',
+    presets: [_thickBorder],
+  ),
   'RadarChartData.radarTouchData': PropertyHint(
     presets: [
       Preset('RadarTouchData(enabled: false)', RadarTouchData(enabled: false)),
@@ -46,6 +64,8 @@ final radarHints = <String, PropertyHint>{
 
   // RadarDataSet
   'RadarDataSet.dataEntries': const PropertyHint(
+    sample:
+        '[RadarEntry(value: 4), RadarEntry(value: 3), RadarEntry(value: 5), ...]',
     presets: [
       Preset(
         '[RadarEntry(value: 5), RadarEntry(value: 5), RadarEntry(value: 5), RadarEntry(value: 5), RadarEntry(value: 5), RadarEntry(value: 5)]',

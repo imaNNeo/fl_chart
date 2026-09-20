@@ -188,8 +188,13 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
   String _code(ClassSpec spec, PropertySpec property) => constructorCode(
     spec,
     {..._values, property.name: _value(spec, property)},
-    fallbackCodes: {property.name: property.defaultCode ?? '...'},
+    fallbackCodes: {property.name: _startCode(property)},
   );
+
+  /// What the value the demo starts from is written as, when it has no
+  /// obvious code: the sample of the demo, else the default it uses.
+  String _startCode(PropertySpec property) =>
+      _hint?.sample ?? property.defaultCode ?? '...';
 }
 
 class _CodeCard extends StatelessWidget {

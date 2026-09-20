@@ -29,6 +29,8 @@ final barHints = <String, PropertyHint>{
     note: 'The rods carry a `toYErrorRange` here.',
   ),
   'BarChartData.barGroups': PropertyHint(
+    sample:
+        '[BarChartGroupData(x: 0, barRods: [BarChartRodData(toY: 4.2, ...)]), BarChartGroupData(x: 1, barRods: [BarChartRodData(toY: 2.8, ...)]), ...]',
     presets: [
       Preset(
         '[BarChartGroupData(x: 0, barRods: [BarChartRodData(toY: 3), BarChartRodData(toY: 5)]), ...]',
@@ -51,6 +53,8 @@ final barHints = <String, PropertyHint>{
   'BarChartData.minY': const PropertyHint(min: -3, max: 0),
   'BarChartData.baselineY': const PropertyHint(min: 0, max: 1),
   'BarChartData.titlesData': const PropertyHint(
+    sample:
+        'FlTitlesData(topTitles: AxisTitles(), rightTitles: AxisTitles(), leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 28, interval: 1)), bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 24)))',
     presets: [Preset('FlTitlesData(show: false)', FlTitlesData(show: false))],
   ),
   'BarChartData.barTouchData': const PropertyHint(
@@ -60,12 +64,15 @@ final barHints = <String, PropertyHint>{
     note: 'Hover or touch the bars.',
   ),
   'BarChartData.gridData': const PropertyHint(
+    sample:
+        'FlGridData(drawVerticalLine: false, horizontalInterval: 1, getDrawingHorizontalLine: (_) => FlLine(color: Color(0x1affffff), strokeWidth: 1))',
     presets: [
       Preset('FlGridData(show: false)', FlGridData(show: false)),
       Preset('FlGridData()', FlGridData()),
     ],
   ),
   'BarChartData.borderData': PropertyHint(
+    sample: 'FlBorderData(show: false)',
     presets: [
       Preset(
         'FlBorderData(border: Border.all(color: Colors.white24))',
@@ -106,6 +113,8 @@ final barHints = <String, PropertyHint>{
   // BarChartGroupData
   'BarChartGroupData.x': const PropertyHint(min: 0, max: 9),
   'BarChartGroupData.barRods': PropertyHint(
+    sample:
+        '[BarChartRodData(toY: 5.6, color: Color(0xff50e4ff), ...), BarChartRodData(toY: 3.2, color: Color(0xffb57bff), ...)]',
     presets: [
       Preset(
         '[BarChartRodData(toY: 6.5), BarChartRodData(toY: 4), BarChartRodData(toY: 2)]',
@@ -147,12 +156,16 @@ final barHints = <String, PropertyHint>{
   ),
   'BarChartRodData.width': const PropertyHint(min: 2, max: 40),
   'BarChartRodData.borderRadius': const PropertyHint(
+    sample: 'BorderRadius.vertical(top: Radius.circular(4))',
     presets: [
       Preset('BorderRadius.zero', BorderRadius.zero),
       Preset('null', null),
     ],
   ),
-  'BarChartRodData.borderSide': const PropertyHint(presets: [_border]),
+  'BarChartRodData.borderSide': const PropertyHint(
+    sample: 'BorderSide(width: 0)',
+    presets: [_border],
+  ),
   'BarChartRodData.borderDashArray': const PropertyHint(
     requires: {'borderSide': _border},
     presets: [
@@ -323,7 +336,10 @@ final barHints = <String, PropertyHint>{
   'BarTouchTooltipData.tooltipBorder': const PropertyHint(presets: [_border]),
 
   // BarTooltipItem
-  'BarTooltipItem.textStyle': const PropertyHint(presets: _labelStyles),
+  'BarTooltipItem.textStyle': const PropertyHint(
+    sample: 'TextStyle(color: Colors.white, fontWeight: FontWeight.bold)',
+    presets: _labelStyles,
+  ),
   'BarTooltipItem.children': const PropertyHint(
     presets: [
       Preset(

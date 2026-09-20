@@ -233,13 +233,11 @@
       {
         "name": "maxY",
         "type": "double?",
-        "defaultValue": "null",
         "description": "Maximum y value of the chart. If you don't provide it, it is calculated\nfrom the chart's data (providing it is more performant)."
       },
       {
         "name": "minY",
         "type": "double?",
-        "defaultValue": "null",
         "description": "Minimum y value of the chart. If you don't provide it, it is calculated\nfrom the chart's data (providing it is more performant)."
       },
       {
@@ -382,8 +380,7 @@
       {
         "name": "borderSide",
         "type": "BorderSide?",
-        "defaultValue": "null",
-        "description": "The border stroke around the rod, see [`BorderSide`](https://api.flutter.dev/flutter/painting/BorderSide-class.html)."
+        "description": "The border stroke around the rod, see [`BorderSide`](https://api.flutter.dev/flutter/painting/BorderSide-class.html).\n\nWhen null, the rod has no border (a [`BorderSide`](https://api.flutter.dev/flutter/painting/BorderSide-class.html) with a width of `0`).\nThe width of the border is capped to half of the rod's `width`."
       },
       {
         "name": "backDrawRodData",
@@ -2186,13 +2183,11 @@
       {
         "name": "minX",
         "type": "double?",
-        "defaultValue": "null",
         "description": "Minimum x value of the chart. If you don't provide it, it is calculated\nfrom the chart's data (providing it is more performant)."
       },
       {
         "name": "maxX",
         "type": "double?",
-        "defaultValue": "null",
         "description": "Maximum x value of the chart. If you don't provide it, it is calculated\nfrom the chart's data (providing it is more performant)."
       },
       {
@@ -2204,13 +2199,11 @@
       {
         "name": "minY",
         "type": "double?",
-        "defaultValue": "null",
         "description": "Minimum y value of the chart. If you don't provide it, it is calculated\nfrom the chart's data (providing it is more performant)."
       },
       {
         "name": "maxY",
         "type": "double?",
-        "defaultValue": "null",
         "description": "Maximum y value of the chart. If you don't provide it, it is calculated\nfrom the chart's data (providing it is more performant)."
       },
       {
