@@ -124,6 +124,38 @@ final candlestickHints = <String, PropertyHint>{
   'CandlestickSpot.close': const PropertyHint(min: 2, max: 7),
 
   // CandlestickTouchData
+  'CandlestickTouchData.touchTooltipData': PropertyHint(
+    presets: [
+      Preset(
+        'CandlestickTouchTooltipData(getTooltipColor: (spot) => Colors.deepPurple, tooltipBorderRadius: BorderRadius.all(Radius.circular(16)))',
+        CandlestickTouchTooltipData(
+          getTooltipColor: _deepPurple,
+          tooltipBorderRadius: BorderRadius.all(Radius.circular(16)),
+        ),
+      ),
+    ],
+  ),
+  'CandlestickTouchData.mouseCursorResolver': const PropertyHint(
+    presets: [
+      Preset('(event, response) => SystemMouseCursors.click', _clickCursor),
+    ],
+    note: 'Hover the chart to see the cursor.',
+  ),
+  'CandlestickTouchData.longPressDuration': const PropertyHint(
+    presets: [
+      Preset('Duration(milliseconds: 100)', Duration(milliseconds: 100)),
+      Preset('Duration(seconds: 2)', Duration(seconds: 2)),
+    ],
+  ),
+  'CandlestickTouchData.touchCallback': const PropertyHint(
+    presets: [
+      Preset(
+        "(event, response) => debugPrint('\${event.runtimeType}')",
+        _printTouch,
+      ),
+    ],
+    note: 'It prints into the browser console, it changes nothing here.',
+  ),
   'CandlestickTouchData.touchSpotThreshold': const PropertyHint(
     min: 0,
     max: 40,
@@ -167,6 +199,15 @@ final candlestickHints = <String, PropertyHint>{
   ),
   'CandlestickTouchTooltipData.getTooltipColor': const PropertyHint(
     presets: [Preset('(spot) => Colors.deepPurple', _deepPurple)],
+  ),
+
+  'CandlestickTouchTooltipData.getTooltipItems': const PropertyHint(
+    presets: [
+      Preset(
+        "(painter, spot, index) => CandlestickTooltipItem('close \${spot.close}', textStyle: TextStyle(color: Colors.amber))",
+        _tooltipItem,
+      ),
+    ],
   ),
 
   // CandlestickTooltipItem
@@ -228,3 +269,20 @@ CandlestickStyle _greenAndRed(CandlestickSpot spot, int index) {
 }
 
 Color _deepPurple(CandlestickSpot spot) => Colors.deepPurple;
+
+MouseCursor _clickCursor(
+  FlTouchEvent event,
+  CandlestickTouchResponse? response,
+) => SystemMouseCursors.click;
+
+void _printTouch(FlTouchEvent event, CandlestickTouchResponse? response) =>
+    debugPrint('${event.runtimeType}');
+
+CandlestickTooltipItem? _tooltipItem(
+  FlCandlestickPainter painter,
+  CandlestickSpot spot,
+  int index,
+) => CandlestickTooltipItem(
+  'close ${spot.close}',
+  textStyle: const TextStyle(color: Colors.amber),
+);

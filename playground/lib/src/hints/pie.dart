@@ -106,6 +106,29 @@ final pieHints = <String, PropertyHint>{
       ),
     ],
   ),
+
+  // PieTouchData
+  'PieTouchData.mouseCursorResolver': const PropertyHint(
+    presets: [
+      Preset('(event, response) => SystemMouseCursors.click', _clickCursor),
+    ],
+    note: 'Hover the chart to see the cursor.',
+  ),
+  'PieTouchData.longPressDuration': const PropertyHint(
+    presets: [
+      Preset('Duration(milliseconds: 100)', Duration(milliseconds: 100)),
+      Preset('Duration(seconds: 2)', Duration(seconds: 2)),
+    ],
+  ),
+  'PieTouchData.touchCallback': const PropertyHint(
+    presets: [
+      Preset(
+        "(event, response) => debugPrint('\${event.runtimeType}')",
+        _printTouch,
+      ),
+    ],
+    note: 'It prints into the browser console, it changes nothing here.',
+  ),
 };
 
 const _badge = Preset(
@@ -116,3 +139,9 @@ const _badge = Preset(
     child: Icon(Icons.star, size: 18, color: Colors.amber),
   ),
 );
+
+MouseCursor _clickCursor(FlTouchEvent event, PieTouchResponse? response) =>
+    SystemMouseCursors.click;
+
+void _printTouch(FlTouchEvent event, PieTouchResponse? response) =>
+    debugPrint('${event.runtimeType}');

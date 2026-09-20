@@ -7,6 +7,27 @@ import '../hosts/bar.dart';
 /// The hints of the bar chart properties.
 final barHints = <String, PropertyHint>{
   // BarChartData
+  'BarChartData.errorIndicatorData': PropertyHint(
+    requires: {
+      'barGroups': Preset(
+        '[BarChartGroupData(x: 0, barRods: [BarChartRodData(toY: 3.4, toYErrorRange: FlErrorRange.symmetric(0.6))]), ...]',
+        _groupsWithError,
+      ),
+    },
+    presets: const [
+      Preset(
+        'FlErrorIndicatorData(painter: (input) => FlSimpleErrorPainter(lineColor: Colors.amber, capLength: 14))',
+        FlErrorIndicatorData<BarChartSpotErrorRangeCallbackInput>(
+          painter: _amberErrorPainter,
+        ),
+      ),
+      Preset(
+        'FlErrorIndicatorData(show: false)',
+        FlErrorIndicatorData<BarChartSpotErrorRangeCallbackInput>(show: false),
+      ),
+    ],
+    note: 'The rods carry a `toYErrorRange` here.',
+  ),
   'BarChartData.barGroups': PropertyHint(
     presets: [
       Preset(
@@ -226,6 +247,38 @@ final barHints = <String, PropertyHint>{
   'FlLabel.angle': const PropertyHint(min: -90, max: 90),
 
   // BarTouchData
+  'BarTouchData.touchTooltipData': const PropertyHint(
+    presets: [
+      Preset(
+        'BarTouchTooltipData(getTooltipColor: (group) => Colors.deepPurple, tooltipBorderRadius: BorderRadius.all(Radius.circular(16)))',
+        BarTouchTooltipData(
+          getTooltipColor: _deepPurple,
+          tooltipBorderRadius: BorderRadius.all(Radius.circular(16)),
+        ),
+      ),
+    ],
+  ),
+  'BarTouchData.mouseCursorResolver': const PropertyHint(
+    presets: [
+      Preset('(event, response) => SystemMouseCursors.click', _clickCursor),
+    ],
+    note: 'Hover the chart to see the cursor.',
+  ),
+  'BarTouchData.longPressDuration': const PropertyHint(
+    presets: [
+      Preset('Duration(milliseconds: 100)', Duration(milliseconds: 100)),
+      Preset('Duration(seconds: 2)', Duration(seconds: 2)),
+    ],
+  ),
+  'BarTouchData.touchCallback': const PropertyHint(
+    presets: [
+      Preset(
+        "(event, response) => debugPrint('\${event.runtimeType}')",
+        _printTouch,
+      ),
+    ],
+    note: 'It prints into the browser console, it changes nothing here.',
+  ),
   'BarTouchData.touchExtraThreshold': const PropertyHint(
     presets: [Preset('EdgeInsets.all(24)', EdgeInsets.all(24))],
   ),
@@ -306,3 +359,25 @@ BarTooltipItem _amberTooltipItem(
 ) => BarTooltipItem('${rod.toY}', const TextStyle(color: Colors.amber));
 
 Color _deepPurple(BarChartGroupData group) => Colors.deepPurple;
+
+MouseCursor _clickCursor(FlTouchEvent event, BarTouchResponse? response) =>
+    SystemMouseCursors.click;
+
+void _printTouch(FlTouchEvent event, BarTouchResponse? response) =>
+    debugPrint('${event.runtimeType}');
+
+final _groupsWithError = [
+  for (final (index, value) in [3.4, 5.1, 4.2, 6.0, 4.6].indexed)
+    BarChartGroupData(
+      x: index,
+      barRods: [
+        sampleRod(
+          value,
+        ).copyWith(toYErrorRange: const FlErrorRange.symmetric(0.6)),
+      ],
+    ),
+];
+
+FlSpotErrorRangePainter _amberErrorPainter(
+  BarChartSpotErrorRangeCallbackInput input,
+) => FlSimpleErrorPainter(lineColor: Colors.amber, capLength: 14);

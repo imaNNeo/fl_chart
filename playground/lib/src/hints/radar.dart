@@ -75,6 +75,27 @@ final radarHints = <String, PropertyHint>{
   'RadarEntry.value': const PropertyHint(min: 0, max: 6),
 
   // RadarTouchData
+  'RadarTouchData.mouseCursorResolver': const PropertyHint(
+    presets: [
+      Preset('(event, response) => SystemMouseCursors.click', _clickCursor),
+    ],
+    note: 'Hover the chart to see the cursor.',
+  ),
+  'RadarTouchData.longPressDuration': const PropertyHint(
+    presets: [
+      Preset('Duration(milliseconds: 100)', Duration(milliseconds: 100)),
+      Preset('Duration(seconds: 2)', Duration(seconds: 2)),
+    ],
+  ),
+  'RadarTouchData.touchCallback': const PropertyHint(
+    presets: [
+      Preset(
+        "(event, response) => debugPrint('\${event.runtimeType}')",
+        _printTouch,
+      ),
+    ],
+    note: 'It prints into the browser console, it changes nothing here.',
+  ),
   'RadarTouchData.touchSpotThreshold': const PropertyHint(min: 0, max: 40),
 
   // RadarChartTitle
@@ -110,3 +131,9 @@ const _amberText = Preset(
 
 RadarChartTitle _rotatedTitle(int index, double angle) =>
     RadarChartTitle(text: 'Axis $index', angle: angle);
+
+MouseCursor _clickCursor(FlTouchEvent event, RadarTouchResponse? response) =>
+    SystemMouseCursors.click;
+
+void _printTouch(FlTouchEvent event, RadarTouchResponse? response) =>
+    debugPrint('${event.runtimeType}');

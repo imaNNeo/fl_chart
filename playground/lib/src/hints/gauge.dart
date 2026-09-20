@@ -108,7 +108,10 @@ final gaugeHints = <String, PropertyHint>{
           GaugeZone(from: 60, to: 100, color: Color(0xFFFF6B6B)),
         ],
       ),
-      Preset('three zones', sampleZones()),
+      Preset(
+        '[GaugeZone(from: 0, to: 45, color: Colors.green), GaugeZone(from: 45, to: 80, color: Colors.amber), GaugeZone(from: 80, to: 100, color: Colors.red)]',
+        sampleZones(),
+      ),
     ],
   ),
   'GaugeZonesRing.zonesSpace': const PropertyHint(min: 0, max: 30),
@@ -199,8 +202,37 @@ final gaugeHints = <String, PropertyHint>{
       ),
     ],
   ),
+
+  // GaugeTouchData
+  'GaugeTouchData.mouseCursorResolver': const PropertyHint(
+    presets: [
+      Preset('(event, response) => SystemMouseCursors.click', _clickCursor),
+    ],
+    note: 'Hover the chart to see the cursor.',
+  ),
+  'GaugeTouchData.longPressDuration': const PropertyHint(
+    presets: [
+      Preset('Duration(milliseconds: 100)', Duration(milliseconds: 100)),
+      Preset('Duration(seconds: 2)', Duration(seconds: 2)),
+    ],
+  ),
+  'GaugeTouchData.touchCallback': const PropertyHint(
+    presets: [
+      Preset(
+        "(event, response) => debugPrint('\${event.runtimeType}')",
+        _printTouch,
+      ),
+    ],
+    note: 'It prints into the browser console, it changes nothing here.',
+  ),
 };
 
 String _wholeNumber(double value) => value.toStringAsFixed(0);
 
 String _percent(double value) => '${value.toStringAsFixed(0)}%';
+
+MouseCursor _clickCursor(FlTouchEvent event, GaugeTouchResponse? response) =>
+    SystemMouseCursors.click;
+
+void _printTouch(FlTouchEvent event, GaugeTouchResponse? response) =>
+    debugPrint('${event.runtimeType}');

@@ -6,6 +6,47 @@ import '../hints.dart';
 /// The hints of the scatter chart properties.
 final scatterHints = <String, PropertyHint>{
   // ScatterChartData
+  'ScatterChartData.errorIndicatorData': PropertyHint(
+    requires: {
+      'scatterSpots': Preset(
+        '[ScatterSpot(2, 2.4, xError: FlErrorRange.symmetric(0.4), yError: FlErrorRange.symmetric(0.6)), ...]',
+        [
+          ScatterSpot(
+            2,
+            2.4,
+            xError: const FlErrorRange.symmetric(0.4),
+            yError: const FlErrorRange.symmetric(0.6),
+          ),
+          ScatterSpot(
+            5,
+            5,
+            xError: const FlErrorRange.symmetric(0.7),
+            yError: const FlErrorRange(lowerBy: 1, upperBy: 0.3),
+          ),
+          ScatterSpot(
+            8,
+            3.2,
+            xError: const FlErrorRange.symmetric(0.5),
+            yError: const FlErrorRange.symmetric(0.5),
+          ),
+        ],
+      ),
+    },
+    presets: const [
+      Preset(
+        'FlErrorIndicatorData(painter: (input) => FlSimpleErrorPainter(lineColor: Colors.amber, capLength: 14))',
+        FlErrorIndicatorData<ScatterChartSpotErrorRangeCallbackInput>(
+          painter: _amberErrorPainter,
+        ),
+      ),
+      Preset(
+        'FlErrorIndicatorData(show: false)',
+        FlErrorIndicatorData<ScatterChartSpotErrorRangeCallbackInput>(
+          show: false,
+        ),
+      ),
+    ],
+  ),
   'ScatterChartData.scatterSpots': PropertyHint(
     presets: [
       Preset('[ScatterSpot(2, 2), ScatterSpot(5, 5), ScatterSpot(8, 3)]', [
@@ -117,6 +158,38 @@ final scatterHints = <String, PropertyHint>{
   ),
 
   // ScatterTouchData
+  'ScatterTouchData.touchTooltipData': const PropertyHint(
+    presets: [
+      Preset(
+        'ScatterTouchTooltipData(getTooltipColor: (spot) => Colors.deepPurple, tooltipBorderRadius: BorderRadius.all(Radius.circular(16)))',
+        ScatterTouchTooltipData(
+          getTooltipColor: _deepPurple,
+          tooltipBorderRadius: BorderRadius.all(Radius.circular(16)),
+        ),
+      ),
+    ],
+  ),
+  'ScatterTouchData.mouseCursorResolver': const PropertyHint(
+    presets: [
+      Preset('(event, response) => SystemMouseCursors.click', _clickCursor),
+    ],
+    note: 'Hover the chart to see the cursor.',
+  ),
+  'ScatterTouchData.longPressDuration': const PropertyHint(
+    presets: [
+      Preset('Duration(milliseconds: 100)', Duration(milliseconds: 100)),
+      Preset('Duration(seconds: 2)', Duration(seconds: 2)),
+    ],
+  ),
+  'ScatterTouchData.touchCallback': const PropertyHint(
+    presets: [
+      Preset(
+        "(event, response) => debugPrint('\${event.runtimeType}')",
+        _printTouch,
+      ),
+    ],
+    note: 'It prints into the browser console, it changes nothing here.',
+  ),
   'ScatterTouchData.touchSpotThreshold': const PropertyHint(min: 0, max: 40),
 
   // ScatterTouchTooltipData
@@ -222,3 +295,13 @@ TextStyle _amberLabel(int index, ScatterSpot spot) =>
     const TextStyle(color: Colors.amber, fontWeight: FontWeight.bold);
 
 String _indexLabel(int index, ScatterSpot spot) => '#$index';
+
+MouseCursor _clickCursor(FlTouchEvent event, ScatterTouchResponse? response) =>
+    SystemMouseCursors.click;
+
+void _printTouch(FlTouchEvent event, ScatterTouchResponse? response) =>
+    debugPrint('${event.runtimeType}');
+
+FlSpotErrorRangePainter _amberErrorPainter(
+  ScatterChartSpotErrorRangeCallbackInput input,
+) => FlSimpleErrorPainter(lineColor: Colors.amber, capLength: 14);

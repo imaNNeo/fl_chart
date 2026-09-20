@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../hints.dart';
+import '../hosts/base.dart';
 
 /// The hints of the properties of the classes shared by the charts.
 final baseHints = <String, PropertyHint>{
@@ -186,6 +187,30 @@ final baseHints = <String, PropertyHint>{
     ],
   ),
 
+  // SizedPicture
+  'SizedPicture.picture': PropertyHint(
+    presets: [
+      Preset('myPicture // a rounded amber square', samplePicture().picture),
+    ],
+  ),
+  'SizedPicture.width': const PropertyHint(min: 8, max: 48),
+  'SizedPicture.height': const PropertyHint(min: 8, max: 48),
+
+  // SideTitleFitInsideData
+  'SideTitleFitInsideData.distanceFromEdge': const PropertyHint(
+    min: 0,
+    max: 24,
+    requires: {'enabled': true},
+  ),
+  'SideTitleFitInsideData.axisPosition': const PropertyHint(
+    note:
+        'It comes from the `TitleMeta` of the title, editing it does nothing here.',
+  ),
+  'SideTitleFitInsideData.parentAxisSize': const PropertyHint(
+    note:
+        'It comes from the `TitleMeta` of the title, editing it does nothing here.',
+  ),
+
   // HorizontalLine
   'HorizontalLine.y': const PropertyHint(min: 0, max: 7),
   'HorizontalLine.gradient': const PropertyHint(
@@ -193,6 +218,17 @@ final baseHints = <String, PropertyHint>{
     presets: [_lineGradient],
   ),
   'HorizontalLine.strokeWidth': const PropertyHint(min: 0, max: 8),
+  'HorizontalLine.sizedPicture': PropertyHint(
+    presets: [
+      Preset(
+        'mySizedPicture // a rounded amber square, 18 by 18',
+        samplePicture(),
+      ),
+    ],
+  ),
+  'HorizontalLine.image': PropertyHint(
+    presets: [Preset('myImage // a purple circle, 18 by 18', sampleImage())],
+  ),
   'HorizontalLine.dashArray': const PropertyHint(presets: [_dashes]),
   'HorizontalLine.label': PropertyHint(
     presets: [
@@ -213,6 +249,17 @@ final baseHints = <String, PropertyHint>{
     presets: [_lineGradient],
   ),
   'VerticalLine.strokeWidth': const PropertyHint(min: 0, max: 8),
+  'VerticalLine.sizedPicture': PropertyHint(
+    presets: [
+      Preset(
+        'SizedPicture(picture, 18, 18) // a rounded amber square',
+        samplePicture(),
+      ),
+    ],
+  ),
+  'VerticalLine.image': PropertyHint(
+    presets: [Preset('ui.Image // a purple circle, 18 by 18', sampleImage())],
+  ),
   'VerticalLine.dashArray': const PropertyHint(presets: [_dashes]),
   'VerticalLine.label': PropertyHint(
     presets: [

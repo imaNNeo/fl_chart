@@ -108,6 +108,27 @@ final lineHints = <String, PropertyHint>{
   'LineChartData.rotationQuarterTurns': const PropertyHint(min: 0, max: 3),
 
   // LineChartBarData
+  'LineChartBarData.errorIndicatorData': const PropertyHint(
+    requires: {
+      'spots': Preset(
+        '[FlSpot(0, 3, yError: FlErrorRange.symmetric(0.5)), FlSpot(2, 4.2, yError: FlErrorRange.symmetric(0.8)), ...]',
+        _spotsWithError,
+      ),
+    },
+    presets: [
+      Preset(
+        'FlErrorIndicatorData(painter: (input) => FlSimpleErrorPainter(lineColor: Colors.amber, capLength: 14))',
+        FlErrorIndicatorData<LineChartSpotErrorRangeCallbackInput>(
+          painter: _amberErrorPainter,
+        ),
+      ),
+      Preset(
+        'FlErrorIndicatorData(show: false)',
+        FlErrorIndicatorData<LineChartSpotErrorRangeCallbackInput>(show: false),
+      ),
+    ],
+    note: 'The spots of the line carry an `yError` range here.',
+  ),
   'LineChartBarData.spots': const PropertyHint(
     presets: [
       Preset(
@@ -281,6 +302,46 @@ final lineHints = <String, PropertyHint>{
 
   // LineTouchData
   'LineTouchData.touchSpotThreshold': const PropertyHint(min: 0, max: 60),
+  'LineTouchData.touchTooltipData': PropertyHint(
+    presets: [
+      Preset(
+        'LineTouchTooltipData(getTooltipColor: (spot) => Colors.deepPurple, tooltipBorderRadius: BorderRadius.all(Radius.circular(16)))',
+        const LineTouchTooltipData(
+          getTooltipColor: _deepPurple,
+          tooltipBorderRadius: BorderRadius.all(Radius.circular(16)),
+        ),
+      ),
+    ],
+  ),
+  'LineTouchData.getTouchedSpotIndicator': const PropertyHint(
+    presets: [
+      Preset(
+        '(bar, indexes) => [for (final _ in indexes) TouchedSpotIndicatorData(FlLine(color: Colors.amber, strokeWidth: 3), FlDotData())]',
+        _amberIndicators,
+      ),
+    ],
+  ),
+  'LineTouchData.mouseCursorResolver': const PropertyHint(
+    presets: [
+      Preset('(event, response) => SystemMouseCursors.click', _clickCursor),
+    ],
+    note: 'Hover the chart to see the cursor.',
+  ),
+  'LineTouchData.longPressDuration': const PropertyHint(
+    presets: [
+      Preset('Duration(milliseconds: 100)', Duration(milliseconds: 100)),
+      Preset('Duration(seconds: 2)', Duration(seconds: 2)),
+    ],
+  ),
+  'LineTouchData.touchCallback': const PropertyHint(
+    presets: [
+      Preset(
+        '(event, response) => debugPrint("\${event.runtimeType} on \${response?.lineBarSpots?.first.y}")',
+        _printTouch,
+      ),
+    ],
+    note: 'It prints into the browser console, it changes nothing here.',
+  ),
   'LineTouchData.distanceCalculator': const PropertyHint(
     presets: [
       Preset(
@@ -486,3 +547,36 @@ List<LineTooltipItem> _amberTooltipItems(List<LineBarSpot> spots) => [
 ];
 
 Color _deepPurple(LineBarSpot spot) => Colors.deepPurple;
+
+const _spotsWithError = [
+  FlSpot(0, 3, yError: FlErrorRange.symmetric(0.5)),
+  FlSpot(2, 4.2, yError: FlErrorRange.symmetric(0.8)),
+  FlSpot(4, 5.4, yError: FlErrorRange(lowerBy: 1, upperBy: 0.4)),
+  FlSpot(6, 4.6, yError: FlErrorRange.symmetric(0.6)),
+  FlSpot(8, 5.2, yError: FlErrorRange.symmetric(0.3)),
+];
+
+FlSpotErrorRangePainter _amberErrorPainter(
+  LineChartSpotErrorRangeCallbackInput input,
+) => FlSimpleErrorPainter(lineColor: Colors.amber, capLength: 14);
+
+List<TouchedSpotIndicatorData> _amberIndicators(
+  LineChartBarData bar,
+  List<int> indexes,
+) => [
+  for (final _ in indexes)
+    TouchedSpotIndicatorData(
+      const FlLine(color: Colors.amber, strokeWidth: 3),
+      FlDotData(
+        getDotPainter: (spot, percent, bar, index) =>
+            FlDotCirclePainter(radius: 6, color: Colors.amber),
+      ),
+    ),
+];
+
+MouseCursor _clickCursor(FlTouchEvent event, LineTouchResponse? response) =>
+    SystemMouseCursors.click;
+
+void _printTouch(FlTouchEvent event, LineTouchResponse? response) => debugPrint(
+  '${event.runtimeType} on ${response?.lineBarSpots?.firstOrNull?.y}',
+);

@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -112,6 +114,51 @@ final baseHosts = <String, Host>{
       extraLinesData: ExtraLinesData(verticalLines: [line as VerticalLine]),
     ),
   ),
+  'SizedPicture': Host(
+    instance: samplePicture,
+    build: (picture) => _chart(
+      extraLinesData: ExtraLinesData(
+        horizontalLines: [
+          _horizontalLine(sizedPicture: picture as SizedPicture),
+        ],
+      ),
+    ),
+    note: 'The picture is drawn at the left side of the line.',
+  ),
+  'SideTitleFitInsideData': Host(
+    instance: () => const SideTitleFitInsideData(
+      enabled: true,
+      axisPosition: 0,
+      parentAxisSize: 0,
+      distanceFromEdge: 0,
+    ),
+    build: (fitInside) => _chart(
+      titlesData: sampleTitles.copyWith(
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 28,
+            interval: 3,
+            getTitlesWidget: (value, meta) => SideTitleWidget(
+              meta: meta,
+              fitInside: SideTitleFitInsideData.fromTitleMeta(
+                meta,
+                enabled: (fitInside as SideTitleFitInsideData).enabled,
+                distanceFromEdge: fitInside.distanceFromEdge,
+              ),
+              child: Text(
+                meta.formattedValue,
+                style: const TextStyle(color: AppColors.muted, fontSize: 12),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+    note:
+        'Enable it to keep the first and last label inside the axis. '
+        '`parentAxisSize` and `axisPosition` come from the `TitleMeta` here.',
+  ),
   'HorizontalLineLabel': Host(
     instance: () => HorizontalLineLabel(
       show: true,
@@ -151,12 +198,16 @@ VerticalRangeAnnotation _verticalRange() => VerticalRangeAnnotation(
   color: AppColors.secondary.withValues(alpha: 0.2),
 );
 
-HorizontalLine _horizontalLine({HorizontalLineLabel? label}) => HorizontalLine(
+HorizontalLine _horizontalLine({
+  HorizontalLineLabel? label,
+  SizedPicture? sizedPicture,
+}) => HorizontalLine(
   y: 4.5,
   color: Colors.amber,
   strokeWidth: 2,
   dashArray: [6, 4],
   label: label,
+  sizedPicture: sizedPicture,
 );
 
 VerticalLine _verticalLine({VerticalLineLabel? label}) => VerticalLine(
@@ -185,4 +236,26 @@ Widget _chart({
       extraLinesData: extraLinesData,
     ),
   );
+}
+
+/// A picture the extra lines can draw, without shipping an asset.
+SizedPicture samplePicture() {
+  final recorder = ui.PictureRecorder();
+  Canvas(recorder).drawRRect(
+    RRect.fromRectAndRadius(
+      const Rect.fromLTWH(0, 0, 18, 18),
+      const Radius.circular(4),
+    ),
+    Paint()..color = Colors.amber,
+  );
+  return SizedPicture(recorder.endRecording(), 18, 18);
+}
+
+/// An image the extra lines can draw, without shipping an asset.
+ui.Image sampleImage() {
+  final recorder = ui.PictureRecorder();
+  Canvas(
+    recorder,
+  ).drawCircle(const Offset(9, 9), 9, Paint()..color = AppColors.secondary);
+  return recorder.endRecording().toImageSync(18, 18);
 }
