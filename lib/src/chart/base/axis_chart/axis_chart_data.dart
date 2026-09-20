@@ -71,6 +71,7 @@ abstract class AxisChartData extends BaseChartData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         gridData,
         titlesData,
         rangeAnnotations,
@@ -264,6 +265,7 @@ class SideTitles with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         showTitles,
         getTitlesWidget,
         reservedSize,
@@ -338,6 +340,7 @@ class SideTitleFitInsideData with Equatable {
 
   @override
   List<Object?> get props => [
+        runtimeType,
         enabled,
         distanceFromEdge,
         parentAxisSize,
@@ -415,6 +418,7 @@ class AxisTitles with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         axisNameWidget,
         axisNameSize,
         sideTitles,
@@ -492,6 +496,7 @@ class FlTitlesData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         show,
         leftTitles,
         topTitles,
@@ -634,7 +639,7 @@ class FlErrorRange with Equatable {
   }
 
   @override
-  List<Object?> get props => [lowerBy, upperBy];
+  List<Object?> get props => [runtimeType, lowerBy, upperBy];
 }
 
 /// Responsible to hold grid data,
@@ -753,6 +758,7 @@ class FlGridData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         show,
         drawHorizontalLine,
         horizontalInterval,
@@ -842,6 +848,7 @@ class FlLine with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         color,
         gradient,
         strokeWidth,
@@ -872,6 +879,7 @@ abstract class TouchedSpot with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         spot,
         offset,
       ];
@@ -924,6 +932,7 @@ class RangeAnnotations with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         horizontalRangeAnnotations,
         verticalRangeAnnotations,
       ];
@@ -990,6 +999,7 @@ class HorizontalRangeAnnotation with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         y1,
         y2,
         color,
@@ -1058,6 +1068,7 @@ class VerticalRangeAnnotation with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         x1,
         x2,
         color,
@@ -1125,6 +1136,7 @@ class HorizontalLine extends FlLine with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         y,
         label,
         color,
@@ -1219,6 +1231,7 @@ class VerticalLine extends FlLine with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         x,
         label,
         color,
@@ -1277,6 +1290,7 @@ class HorizontalLineLabel extends FlLineLabel with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         labelResolver,
         show,
         padding,
@@ -1337,6 +1351,7 @@ class VerticalLineLabel extends FlLineLabel with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         labelResolver,
         show,
         padding,
@@ -1381,6 +1396,7 @@ class SizedPicture with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         picture,
         width,
         height,
@@ -1425,6 +1441,7 @@ class ExtraLinesData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         horizontalLines,
         verticalLines,
         extraLinesOnTop,
@@ -1556,6 +1573,7 @@ class FlDotCirclePainter extends FlDotPainter {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         color,
         radius,
         strokeColor,
@@ -1626,6 +1644,7 @@ class FlDotSquarePainter extends FlDotPainter {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         color,
         size,
         strokeColor,
@@ -1721,6 +1740,7 @@ class FlDotCrossPainter extends FlDotPainter {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         color,
         size,
         width,
@@ -1773,6 +1793,7 @@ class FlErrorIndicatorData<T extends FlSpotErrorRangeCallbackInput>
 
   @override
   List<Object?> get props => [
+        runtimeType,
         show,
         painter,
       ];
@@ -2072,6 +2093,7 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with Equatable {
 
   @override
   List<Object?> get props => [
+        runtimeType,
         lineColor,
         lineWidth,
         capLength,
@@ -2134,6 +2156,7 @@ class AxisSpotIndicator with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         x,
         y,
         painter,
