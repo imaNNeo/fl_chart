@@ -108,10 +108,7 @@ final scatterHints = <String, PropertyHint>{
   'ScatterChartData.baselineY': const PropertyHint(min: 0, max: 1),
   'ScatterChartData.clipData': const PropertyHint(
     requires: {'maxX': 6.0},
-    presets: [
-      Preset('FlClipData.all()', FlClipData.all()),
-      Preset('FlClipData.none()', FlClipData.none()),
-    ],
+    presets: [Preset('FlClipData.all()', FlClipData.all())],
   ),
   'ScatterChartData.scatterLabelSettings': PropertyHint(
     presets: [

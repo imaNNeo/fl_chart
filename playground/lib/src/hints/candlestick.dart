@@ -90,10 +90,7 @@ final candlestickHints = <String, PropertyHint>{
   ),
   'CandlestickChartData.clipData': const PropertyHint(
     requires: {'maxY': 5.0},
-    presets: [
-      Preset('FlClipData.all()', FlClipData.all()),
-      Preset('FlClipData.none()', FlClipData.none()),
-    ],
+    presets: [Preset('FlClipData.all()', FlClipData.all())],
   ),
   'CandlestickChartData.rotationQuarterTurns': const PropertyHint(
     min: 0,

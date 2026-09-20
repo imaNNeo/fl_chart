@@ -28,21 +28,21 @@ final baseHints = <String, PropertyHint>{
   'FlTitlesData.leftTitles': const PropertyHint(
     sample:
         'AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 28, interval: 1))',
-    presets: _axisTitlesPresets,
+    presets: [_hideAxisTitles, _showSideTitles],
   ),
   // The demo hides them, the chart shows them by default.
   'FlTitlesData.topTitles': const PropertyHint(
     sample: 'AxisTitles()',
-    presets: _axisTitlesPresets,
+    presets: [_showSideTitles],
   ),
   'FlTitlesData.rightTitles': const PropertyHint(
     sample: 'AxisTitles()',
-    presets: _axisTitlesPresets,
+    presets: [_showSideTitles],
   ),
   'FlTitlesData.bottomTitles': const PropertyHint(
     sample:
         'AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 24, interval: 2))',
-    presets: _axisTitlesPresets,
+    presets: [_hideAxisTitles, _showSideTitles],
   ),
 
   // AxisTitles
@@ -321,13 +321,12 @@ final baseHints = <String, PropertyHint>{
   ),
 };
 
-const _axisTitlesPresets = [
-  Preset('AxisTitles()', AxisTitles()),
-  Preset(
-    'AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 28))',
-    AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 28)),
-  ),
-];
+const _hideAxisTitles = Preset('AxisTitles()', AxisTitles());
+
+const _showSideTitles = Preset(
+  'AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 28))',
+  AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 28)),
+);
 
 const _rangeGradient = Preset(
   'LinearGradient(colors: [Colors.cyan, Colors.transparent])',

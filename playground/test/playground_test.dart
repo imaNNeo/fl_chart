@@ -83,6 +83,39 @@ void main() {
     missing.forEach(print);
   });
 
+  test('every preset is a value the demo does not show already', () {
+    // The first item of the dropdown goes back to the value the demo starts
+    // from, so a preset of that same value is a second way to change
+    // nothing. Two presets of the same value are as useless.
+    final useless = <String>[];
+    for (final MapEntry(key: className, value: host) in hosts.entries) {
+      final spec = apiRegistry[className]!;
+      final instance = host.instance();
+      for (final property in spec.properties) {
+        final presets = hints['$className.${property.name}']?.presets;
+        if (presets == null) continue;
+        final start = spec.read?.call(instance, property.name);
+        final hint = hints['$className.${property.name}'];
+        final startCode = hint?.sample ?? property.defaultCode;
+        final seen = <Object?>[];
+        final codes = <String>[if (startCode != null) _sameCode(startCode)];
+        for (final preset in presets) {
+          final name = '$className.${property.name}: ${preset.code}';
+          if (_sameValue(preset.value, start)) {
+            useless.add('$name (the demo starts from it)');
+          } else if (seen.any((other) => _sameValue(other, preset.value))) {
+            useless.add('$name (another preset has this value)');
+          } else if (codes.contains(_sameCode(preset.code))) {
+            useless.add('$name (another item of the list reads the same)');
+          }
+          seen.add(preset.value);
+          codes.add(_sameCode(preset.code));
+        }
+      }
+    }
+    expect(useless, isEmpty);
+  });
+
   test('writes out the demo values that are not the default', () {
     // The code of a value that has none (a list of spots, a callback, ...)
     // falls back to the default of the constructor, which is a lie when the
@@ -94,10 +127,7 @@ void main() {
       for (final property in spec.properties) {
         final value = spec.read?.call(instance, property.name);
         final isWritten =
-            dartCode(
-              value,
-              isDouble: property.kind == PropertyKind.decimal,
-            ) !=
+            dartCode(value, isDouble: property.kind == PropertyKind.decimal) !=
             '...';
         final isDefault = switch (property.defaultCode) {
           'null' => value == null,
@@ -184,3 +214,21 @@ Widget _app(Widget child) => MaterialApp(
     body: Center(child: SizedBox(width: 400, height: 600, child: child)),
   ),
 );
+
+/// Whether two values of a property are the same, through the lists that
+/// don't have a value equality of their own.
+bool _sameValue(Object? a, Object? b) {
+  if (a is List && b is List) {
+    if (a.length != b.length) return false;
+    for (var i = 0; i < a.length; i++) {
+      if (!_sameValue(a[i], b[i])) return false;
+    }
+    return true;
+  }
+  return a == b;
+}
+
+/// The code of a value, without what doesn't change how it reads in the
+/// list of the control (`const FlClipData.none()` is `FlClipData.none()`).
+String _sameCode(String code) =>
+    code.replaceAll('const ', '').replaceAll(' ', '');

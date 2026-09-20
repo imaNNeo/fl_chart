@@ -112,10 +112,6 @@ final gaugeHints = <String, PropertyHint>{
           GaugeZone(from: 60, to: 100, color: Color(0xFFFF6B6B)),
         ],
       ),
-      Preset(
-        '[GaugeZone(from: 0, to: 45, color: Colors.green), GaugeZone(from: 45, to: 80, color: Colors.amber), GaugeZone(from: 80, to: 100, color: Colors.red)]',
-        sampleZones(),
-      ),
     ],
   ),
   'GaugeZonesRing.zonesSpace': const PropertyHint(min: 0, max: 30),
@@ -142,17 +138,11 @@ final gaugeHints = <String, PropertyHint>{
     ],
   ),
   'GaugeTicks.checkToShowTick': const PropertyHint(
-    presets: [
-      Preset('GaugeTicks.showAll', GaugeTicks.showAll),
-      Preset('GaugeTicks.hideEndpoints', GaugeTicks.hideEndpoints),
-    ],
+    presets: [Preset('GaugeTicks.hideEndpoints', GaugeTicks.hideEndpoints)],
   ),
   'GaugeTicks.labelBuilder': const PropertyHint(
     sample: '(value) => value.toStringAsFixed(0)',
-    presets: [
-      Preset('(value) => value.toStringAsFixed(0)', _wholeNumber),
-      Preset("(value) => '\${value.toStringAsFixed(0)}%'", _percent),
-    ],
+    presets: [Preset("(value) => '\${value.toStringAsFixed(0)}%'", _percent)],
   ),
   'GaugeTicks.labelStyle': const PropertyHint(
     sample: 'TextStyle(color: Color(0xffa3aecb), fontSize: 11)',
