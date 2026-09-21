@@ -4,7 +4,7 @@ version: 1.2.0
 homepage: https://flchart.dev/
 repository: https://github.com/imaNNeo/fl_chart
 issue_tracker: https://github.com/imaNNeo/fl_chart/issues
-documentation: https://github.com/imaNNeo/fl_chart
+documentation: https://flchart.dev/docs
 
 environment:
   sdk: ">=3.6.2 <4.0.0"

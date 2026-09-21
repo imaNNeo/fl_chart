@@ -9,7 +9,10 @@ on:
       - 'tool/api_docs/**'
       - 'website/**'
       - '.github/workflows/website.yml'
-  # Deploys are manual until the docs launch, then they'll run on each release.
+  # The docs of flchart.dev follow the version that is on pub.dev.
+  release:
+    types: [published]
+  # For a doc-only fix between two releases, run it on the latest tag.
   workflow_dispatch:
 
 jobs:
@@ -51,14 +54,14 @@ jobs:
       - run: npm run build
 
       - uses: actions/upload-artifact@v4
-        if: github.event_name == 'workflow_dispatch'
+        if: github.event_name != 'pull_request'
         with:
           name: website
           path: website/build
 
   deploy:
     name: Deploy to flchart.dev
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10
