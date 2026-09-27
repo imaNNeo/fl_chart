@@ -487,46 +487,88 @@ abstract class AxisChartPainter<D extends AxisChartData>
             textDirection: TextDirection.ltr,
           )..layout();
 
+          var textOffset = Offset.zero;
+
           switch (label.direction) {
             case LabelDirection.horizontal:
             case LabelDirection.horizontalMirrored:
+              textOffset = label.alignment.withinRect(
+                Rect.fromLTRB(
+                  from.dx - padding.right - tp.width,
+                  from.dy + padding.top,
+                  to.dx + padding.left,
+                  to.dy - padding.bottom - tp.height,
+                ),
+              );
+
+              final bgRect = Rect.fromLTRB(
+                textOffset.dx - padding.left,
+                textOffset.dy - padding.top,
+                textOffset.dx + tp.width + padding.right,
+                textOffset.dy + tp.height + padding.bottom,
+              );
+
+              canvasWrapper.canvas.drawRect(
+                bgRect,
+                Paint()..color = line.backgroundColor ?? Colors.transparent,
+              );
+
               canvasWrapper.drawText(
                 tp,
-                label.alignment.withinRect(
-                  Rect.fromLTRB(
-                    from.dx - padding.right - tp.width,
-                    from.dy + padding.top,
-                    to.dx + padding.left,
-                    to.dy - padding.bottom - tp.height,
-                  ),
-                ),
+                textOffset,
                 label.direction == LabelDirection.horizontalMirrored
                     ? -180
                     : null,
               );
             case LabelDirection.vertical:
-              canvasWrapper.drawVerticalText(
-                tp,
-                label.alignment.withinRect(
-                  Rect.fromLTRB(
-                    from.dx - padding.right,
-                    from.dy + padding.top,
-                    to.dx + padding.left + tp.height,
-                    to.dy - padding.bottom - tp.width,
-                  ),
+              textOffset = label.alignment.withinRect(
+                Rect.fromLTRB(
+                  from.dx - padding.right,
+                  from.dy + padding.top,
+                  to.dx + padding.left + tp.height,
+                  to.dy - padding.bottom - tp.width,
                 ),
               );
-            case LabelDirection.verticalMirrored:
+              final bgRect = Rect.fromLTRB(
+                textOffset.dx - tp.height - padding.bottom,
+                textOffset.dy - padding.left,
+                textOffset.dx + padding.top,
+                textOffset.dy + tp.width + padding.right,
+              );
+
+              canvasWrapper.canvas.drawRect(
+                bgRect,
+                Paint()..color = line.backgroundColor ?? Colors.transparent,
+              );
+
               canvasWrapper.drawVerticalText(
                 tp,
-                label.alignment.withinRect(
-                  Rect.fromLTRB(
-                    from.dx - padding.right + tp.height,
-                    from.dy + padding.top - tp.width,
-                    to.dx + padding.left,
-                    to.dy - padding.bottom,
-                  ),
+                textOffset,
+              );
+            case LabelDirection.verticalMirrored:
+              textOffset = label.alignment.withinRect(
+                Rect.fromLTRB(
+                  from.dx - padding.right - tp.height,
+                  from.dy + padding.top + tp.width,
+                  to.dx + padding.left,
+                  to.dy - padding.bottom,
                 ),
+              );
+
+              final bgRect = Rect.fromLTRB(
+                textOffset.dx - padding.bottom,
+                textOffset.dy + padding.left,
+                textOffset.dx + tp.height + padding.top,
+                textOffset.dy - tp.width - padding.right,
+              );
+
+              canvasWrapper.canvas.drawRect(
+                bgRect,
+                Paint()..color = line.backgroundColor ?? Colors.transparent,
+              );
+              canvasWrapper.drawVerticalText(
+                tp,
+                textOffset,
                 -90,
               );
           }
