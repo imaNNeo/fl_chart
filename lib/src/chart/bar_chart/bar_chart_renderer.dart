@@ -104,8 +104,17 @@ class RenderBarChart extends RenderBaseChart<BarTouchResponse> {
   @visibleForTesting
   BarChartPainter painter = BarChartPainter();
 
-  PaintHolder<BarChartData> get paintHolder =>
-      PaintHolder(data, targetData, textScaler, chartVirtualRect);
+  PaintHolder<BarChartData> get paintHolder => PaintHolder(
+        data,
+        targetData,
+        textScaler,
+        chartVirtualRect,
+        // Not Directionality.of: it asserts an ancestor exists and reads
+        // context.widget to compose its error message otherwise, which
+        // bare BuildContext test doubles for this renderer don't support.
+        // ltr matches every other directionality default in this package.
+        Directionality.maybeOf(buildContext) ?? TextDirection.ltr,
+      );
 
   @override
   void paint(PaintingContext context, Offset offset) {
