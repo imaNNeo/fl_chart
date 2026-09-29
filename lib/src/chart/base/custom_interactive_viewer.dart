@@ -10,7 +10,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'dart:async';
+
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart' show clampDouble;
@@ -719,7 +719,7 @@ class _CustomInteractiveViewerState extends State<CustomInteractiveViewer>
         );
         _controller.duration = Duration(milliseconds: (tFinal * 1000).round());
         _animation!.addListener(_onAnimate);
-        unawaited(_controller.forward());
+        _controller.forward();
       case _GestureType.scale:
         if (details.scaleVelocity.abs() < 0.1) {
           _currentAxis = null;
@@ -747,7 +747,7 @@ class _CustomInteractiveViewerState extends State<CustomInteractiveViewer>
         _scaleController.duration =
             Duration(milliseconds: (tFinal * 1000).round());
         _scaleAnimation!.addListener(_onScaleAnimate);
-        unawaited(_scaleController.forward());
+        _scaleController.forward();
       case null:
         break;
     }

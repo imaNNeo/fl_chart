@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/rendering.dart';
 
 /// Inspired from [Flex]
@@ -279,13 +279,14 @@ class AxisSideMetaData {
   double get diff => maxValue - minValue;
 }
 
-class AxisSideTitleMetaData with EquatableMixin {
+class AxisSideTitleMetaData with Equatable {
   AxisSideTitleMetaData(this.axisValue, this.axisPixelLocation);
   final double axisValue;
   final double axisPixelLocation;
 
   @override
   List<Object?> get props => [
+        runtimeType,
         axisValue,
         axisPixelLocation,
       ];

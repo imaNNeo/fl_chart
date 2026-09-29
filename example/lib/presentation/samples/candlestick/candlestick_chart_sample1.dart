@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart_app/presentation/resources/app_colors.dart';
 import 'package:fl_chart_app/util/csv_parser.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
 class CandlestickChartSample1 extends StatefulWidget {
@@ -314,7 +314,7 @@ class CandlestickChartSample1State extends State<CandlestickChartSample1> {
   }
 }
 
-class _BtcCandlestickData with EquatableMixin {
+class _BtcCandlestickData with Equatable {
   _BtcCandlestickData({
     required this.datetime,
     required this.open,

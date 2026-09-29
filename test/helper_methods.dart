@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'chart/data_pool.dart';
 
@@ -46,7 +46,6 @@ class HelperMethods {
   }
 
   // This is actually used, I don't know why the linter thinks otherwise
-  // ignore: unreachable_from_main
   static bool equalsRRects(
     RRect rrect1,
     RRect rrect2, {
@@ -88,7 +87,6 @@ class HelperMethods {
   }
 
   // This is actually used, I don't know why the linter thinks otherwise
-  // ignore: unreachable_from_main
   static bool equalsOffsets(
     Offset offset1,
     Offset offset2, {

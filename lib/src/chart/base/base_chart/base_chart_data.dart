@@ -6,13 +6,13 @@ import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/extensions/border_extension.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// This class holds all data needed for [BaseChartPainter].
 ///
 /// In this phase we draw the border,
 /// and handle touches in an abstract way.
-abstract class BaseChartData with EquatableMixin {
+abstract class BaseChartData with Equatable {
   /// It draws 4 borders around your chart, you can customize it using [borderData],
   /// [touchData] defines the touch behavior and responses.
   BaseChartData({
@@ -24,15 +24,16 @@ abstract class BaseChartData with EquatableMixin {
 
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t);
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         borderData,
       ];
 }
 
 /// Holds data to drawing border around the chart.
-class FlBorderData with EquatableMixin {
+class FlBorderData with Equatable {
   /// [show] Determines showing or hiding border around the chart.
   /// [border] Determines the visual look of 4 borders, see [Border].
   FlBorderData({
@@ -64,9 +65,10 @@ class FlBorderData with EquatableMixin {
         border: border ?? this.border,
       );
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         show,
         border,
       ];
@@ -77,7 +79,7 @@ class FlBorderData with EquatableMixin {
 /// There is a touch flow, explained [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/handle_touches.md)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [BaseTouchResponse].
-abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
+abstract class FlTouchData<R extends BaseTouchResponse> with Equatable {
   /// You can disable or enable the touch system using [enabled] flag,
   const FlTouchData(
     this.enabled,
@@ -103,9 +105,10 @@ abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
   /// default to 500 milliseconds refer to [kLongPressTimeout].
   final Duration? longPressDuration;
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         enabled,
         touchCallback,
         mouseCursorResolver,
@@ -114,7 +117,7 @@ abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
 }
 
 /// Holds data to clipping chart around its borders.
-class FlClipData with EquatableMixin {
+class FlClipData with Equatable {
   /// Creates data that clips specified sides
   const FlClipData({
     required this.top,
@@ -162,9 +165,9 @@ class FlClipData with EquatableMixin {
         right: right ?? this.right,
       );
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
-  List<Object?> get props => [top, bottom, left, right];
+  List<Object?> get props => [runtimeType, top, bottom, left, right];
 }
 
 /// Chart's touch callback.
@@ -192,7 +195,7 @@ abstract class BaseTouchResponse {
 }
 
 /// A reusable label configuration for chart elements.
-class FlLabel with EquatableMixin {
+class FlLabel with Equatable {
   const FlLabel({
     this.show = true,
     this.text = '',
@@ -242,9 +245,10 @@ class FlLabel with EquatableMixin {
         textDirection: textDirection ?? this.textDirection,
       );
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
-  List<Object?> get props => [show, text, style, angle, textDirection];
+  List<Object?> get props =>
+      [runtimeType, show, text, style, angle, textDirection];
 }
 
 /// Controls an element horizontal alignment to given point.

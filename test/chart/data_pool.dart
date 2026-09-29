@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/line.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 const BarAreaSpotsLine barAreaSpotsLine1 =
     BarAreaSpotsLine(show: true, checkToShowSpotLine: checkToShowSpotLine);

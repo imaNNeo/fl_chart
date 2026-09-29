@@ -3,7 +3,7 @@ import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/render_base_chart.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 // coverage:ignore-start
 
@@ -53,12 +53,12 @@ class RenderBarChart extends RenderBaseChart<BarTouchResponse> {
     BarChartData targetData,
     TextScaler textScaler,
     Rect? chartVirtualRect, {
-    required bool canBeScaled,
+    required super.canBeScaled,
   })  : _data = data,
         _targetData = targetData,
         _textScaler = textScaler,
         _chartVirtualRect = chartVirtualRect,
-        super(targetData.barTouchData, context, canBeScaled: canBeScaled);
+        super(targetData.barTouchData, context);
 
   BarChartData get data => _data;
   BarChartData _data;

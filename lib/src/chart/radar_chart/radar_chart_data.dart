@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/radar_chart/radar_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 typedef GetTitleByIndexFunction = RadarChartTitle Function(
   int index,
@@ -45,7 +45,7 @@ class RadarChartTitle {
 ///
 /// It holds data needed to draw a radar chart,
 /// including radar dataSets, colors, ...
-class RadarChartData extends BaseChartData with EquatableMixin {
+class RadarChartData extends BaseChartData with Equatable {
   /// [RadarChart] draws some [dataSets] in a radar-shaped chart.
   /// it fills the radar area with [radarBackgroundColor]
   /// and draws radar border with [radarBorderData]
@@ -257,9 +257,10 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     }
   }
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         borderData,
         dataSets,
         radarBackgroundColor,
@@ -278,7 +279,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
 }
 
 /// the data values for drawing [RadarChart] sections
-class RadarDataSet with EquatableMixin {
+class RadarDataSet with Equatable {
   /// [RadarChart] can contain multiple [RadarDataSet] And it shows them on top of each other.
   /// each [RadarDataSet] has a set of [dataEntries]
   /// and the [RadarChart] uses this [dataEntries] to draw the chart.
@@ -355,9 +356,10 @@ class RadarDataSet with EquatableMixin {
         entryRadius: lerpDouble(a.entryRadius, b.entryRadius, t),
       );
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         dataEntries,
         fillColor,
         fillGradient,
@@ -368,7 +370,7 @@ class RadarDataSet with EquatableMixin {
 }
 
 /// holds the data about each entry or point in [RadarChart]
-class RadarEntry with EquatableMixin {
+class RadarEntry with Equatable {
   /// [RadarChart] draws every point or entry with [RadarEntry]
   const RadarEntry({required this.value});
 
@@ -383,9 +385,9 @@ class RadarEntry with EquatableMixin {
   static RadarEntry lerp(RadarEntry a, RadarEntry b, double t) =>
       RadarEntry(value: lerpDouble(a.value, b.value, t)!);
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
-  List<Object?> get props => [value];
+  List<Object?> get props => [runtimeType, value];
 }
 
 /// Holds data to handle touch events, and touch responses in the [RadarChart].
@@ -393,8 +395,7 @@ class RadarEntry with EquatableMixin {
 /// There is a touch flow, explained [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/handle_touches.md)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [RadarTouchResponse].
-class RadarTouchData extends FlTouchData<RadarTouchResponse>
-    with EquatableMixin {
+class RadarTouchData extends FlTouchData<RadarTouchResponse> with Equatable {
   /// You can disable or enable the touch system using [enabled] flag,
   ///
   /// [touchCallback] notifies you about the happened touch/pointer events.
@@ -421,9 +422,10 @@ class RadarTouchData extends FlTouchData<RadarTouchResponse>
   /// we find the nearest spots on touched position based on this threshold
   final double touchSpotThreshold;
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         enabled,
         touchCallback,
         mouseCursorResolver,
@@ -460,7 +462,7 @@ class RadarTouchResponse extends BaseTouchResponse {
 }
 
 /// It gives you information about the touched spot.
-class RadarTouchedSpot extends TouchedSpot with EquatableMixin {
+class RadarTouchedSpot extends TouchedSpot with Equatable {
   /// When touch happens, a [RadarTouchedSpot] returns as a output,
   /// it tells you where the touch happened.
   /// [touchedDataSet], and [touchedDataSetIndex] tell you in which dataSet touch happened,
@@ -481,9 +483,10 @@ class RadarTouchedSpot extends TouchedSpot with EquatableMixin {
   final RadarEntry touchedRadarEntry;
   final int touchedRadarEntryIndex;
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         spot,
         offset,
         touchedDataSet,

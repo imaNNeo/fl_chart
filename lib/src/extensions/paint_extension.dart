@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 extension PaintExtension on Paint {
   /// Hides the paint's color, if strokeWidth is zero

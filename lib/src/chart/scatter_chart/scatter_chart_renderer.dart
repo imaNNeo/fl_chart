@@ -3,7 +3,7 @@ import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/render_base_chart.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 // coverage:ignore-start
 
@@ -57,12 +57,12 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
     ScatterChartData targetData,
     TextScaler textScaler,
     Rect? chartVirtualRect, {
-    required bool canBeScaled,
+    required super.canBeScaled,
   })  : _data = data,
         _targetData = targetData,
         _textScaler = textScaler,
         _chartVirtualRect = chartVirtualRect,
-        super(targetData.scatterTouchData, context, canBeScaled: canBeScaled);
+        super(targetData.scatterTouchData, context);
 
   ScatterChartData get data => _data;
   ScatterChartData _data;
