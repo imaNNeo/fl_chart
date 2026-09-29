@@ -286,7 +286,6 @@ class AxisSideTitleMetaData with Equatable {
 
   @override
   List<Object?> get props => [
-        runtimeType,
         axisValue,
         axisPixelLocation,
       ];

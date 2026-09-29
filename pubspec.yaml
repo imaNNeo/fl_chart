@@ -15,7 +15,7 @@ funding:
   - https://www.buymeacoffee.com/fl_chart
 
 dependencies:
-  equatable: ^3.0.0
+  equatable: ">=2.1.0 <4.0.0"
   flutter:
     sdk: flutter
   vector_math: ^2.2.0

@@ -6,6 +6,5 @@
   "editor.tabCompletion": "onlySnippets",
   "editor.wordBasedSuggestions": "off",
   "files.insertFinalNewline": true,
-  "editor.defaultFormatter": "Dart-Code.dart-code",
-  "cSpell.words": ["Aabb"]
+  "editor.defaultFormatter": "Dart-Code.dart-code"
 }

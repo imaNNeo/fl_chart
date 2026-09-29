@@ -156,7 +156,6 @@ class BarChartData extends AxisChartData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
-        runtimeType,
         barGroups,
         groupsSpace,
         alignment,
@@ -291,7 +290,6 @@ class BarChartGroupData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
-        runtimeType,
         x,
         groupVertically,
         barRods,
@@ -459,7 +457,6 @@ class BarChartRodData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
-        runtimeType,
         fromY,
         toY,
         toYErrorRange,
@@ -564,7 +561,7 @@ class BarChartRodStackItem with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props =>
-      [runtimeType, fromY, toY, color, gradient, label, labelStyle, borderSide];
+      [fromY, toY, color, gradient, label, labelStyle, borderSide];
 }
 
 /// Holds values to draw a rod in rear of the main rod.
@@ -625,7 +622,6 @@ class BackgroundBarChartRodData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
-        runtimeType,
         show,
         fromY,
         toY,
@@ -716,7 +712,6 @@ class BarTouchData extends FlTouchData<BarTouchResponse> with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
-        runtimeType,
         enabled,
         touchCallback,
         mouseCursorResolver,
@@ -835,7 +830,6 @@ class BarTouchTooltipData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
-        runtimeType,
         _tooltipBorderRadius,
         tooltipPadding,
         tooltipMargin,
@@ -909,7 +903,6 @@ class BarTooltipItem with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
-        runtimeType,
         text,
         textStyle,
         textAlign,
@@ -996,7 +989,6 @@ class BarTouchedSpot extends TouchedSpot with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
-        runtimeType,
         touchedBarGroup,
         touchedBarGroupIndex,
         touchedRodData,
@@ -1041,7 +1033,6 @@ class BarChartSpotErrorRangeCallbackInput
 
   @override
   List<Object?> get props => [
-        runtimeType,
         group,
         groupIndex,
         rod,
@@ -1099,8 +1090,7 @@ class BarChartRodLabel extends FlLabel {
       );
 
   @override
-  List<Object?> get props =>
-      [runtimeType, show, text, style, angle, textDirection, offset];
+  List<Object?> get props => [show, text, style, angle, textDirection, offset];
 }
 
 /// It lerps a [BarChartData] to another [BarChartData] (handles animation for updating values)

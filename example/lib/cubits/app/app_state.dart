@@ -31,10 +31,9 @@ class AppState extends Equatable {
 
   @override
   List<Object?> get props => [
-    runtimeType,
-    currentPackageInfo,
-    availableVersionToUpdate,
-    usingFlChartVersion,
-    showDownloadNativeAppButton,
-  ];
+        currentPackageInfo,
+        availableVersionToUpdate,
+        usingFlChartVersion,
+        showDownloadNativeAppButton,
+      ];
 }
