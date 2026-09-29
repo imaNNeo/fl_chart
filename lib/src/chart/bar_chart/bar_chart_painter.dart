@@ -184,8 +184,16 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       for (var j = 0; j < barGroup.barRods.length; j++) {
         final barRod = barGroup.barRods[j];
         final widthHalf = barRod.width / 2;
+        // borderRadius may be a BorderRadiusDirectional, which can only be
+        // clamped to the rod's width once resolved to a concrete
+        // BorderRadius with the ambient text direction — see the comment on
+        // BarChartRodData.borderRadius's assignment for why that resolution
+        // can't happen at construction time, and happen here instead.
+        final resolvedBorderRadius =
+            (barRod.borderRadius ?? BorderRadius.circular(barRod.width / 2))
+                .resolve(holder.textDirection);
         final borderRadius =
-            barRod.borderRadius ?? BorderRadius.circular(barRod.width / 2);
+            Utils().normalizeBorderRadius(resolvedBorderRadius, barRod.width)!;
         final borderSide = barRod.borderSide;
 
         final x = groupBarsPosition[i].barsX[j];
