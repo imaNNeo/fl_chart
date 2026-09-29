@@ -54,7 +54,7 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
     LineChartData targetData,
     TextScaler textScaler,
     Rect? chartVirtualRect, {
-    required bool canBeScaled,
+    required super.canBeScaled,
   })  : _data = data,
         _targetData = targetData,
         _textScaler = textScaler,
@@ -62,7 +62,6 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
         super(
           targetData.lineTouchData,
           context,
-          canBeScaled: canBeScaled,
         );
 
   LineChartData get data => _data;

@@ -19,7 +19,7 @@ import 'package:flutter/widgets.dart';
 ///   `value`, with an optional `backgroundColor` behind.
 /// - [GaugeZonesRing] — a ring divided into fixed colored [GaugeZone]s
 ///   (threshold bands). Useful for speedometer-style level indicators.
-class GaugeChartData extends BaseChartData with EquatableMixin {
+class GaugeChartData extends BaseChartData with Equatable {
   GaugeChartData({
     required List<GaugeRing> rings,
     this.minValue = 0.0,
@@ -247,7 +247,7 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
 /// (filled up to a value) or a [GaugeZonesRing] (divided into fixed
 /// [GaugeZone]s). The [GaugeChartPainter] dispatches on the concrete
 /// type; the hierarchy is closed to ensure that never changes silently.
-sealed class GaugeRing with EquatableMixin {
+sealed class GaugeRing with Equatable {
   const GaugeRing({this.width});
 
   /// Stroke width in pixels. If null,
@@ -396,7 +396,7 @@ final class GaugeZonesRing extends GaugeRing {
 /// are positions on the shared [GaugeChartData.minValue] /
 /// [GaugeChartData.maxValue] scale; [to] must be `>= from`.
 @immutable
-class GaugeZone with EquatableMixin {
+class GaugeZone with Equatable {
   const GaugeZone({
     required this.from,
     required this.to,
@@ -481,7 +481,7 @@ enum GaugeTickPosition {
 /// past each tick. Labels stay upright (not tangent-rotated) for
 /// readability.
 @immutable
-class GaugeTicks with EquatableMixin {
+class GaugeTicks with Equatable {
   const GaugeTicks({
     this.count = 3,
     this.position = GaugeTickPosition.outer,
@@ -583,7 +583,7 @@ typedef CheckToShowGaugeTick = bool Function(GaugeTickInfo info);
 
 /// Context passed to [CheckToShowGaugeTick] callbacks.
 @immutable
-class GaugeTickInfo with EquatableMixin {
+class GaugeTickInfo with Equatable {
   const GaugeTickInfo({
     required this.index,
     required this.count,
@@ -624,7 +624,7 @@ class GaugeTickInfo with EquatableMixin {
 ///
 /// Mirrors the [FlDotPainter] pattern. Subclass it to draw custom
 /// tick shapes or oriented marks.
-abstract class GaugeTickPainter with EquatableMixin {
+abstract class GaugeTickPainter with Equatable {
   const GaugeTickPainter();
 
   /// Draws a single tick in the pre-transformed local frame described
@@ -753,7 +753,7 @@ class GaugeTickCirclePainter extends GaugeTickPainter {
 /// "pivot cap" under a needle, stack a small [GaugePointerCirclePainter]
 /// on top via a second [GaugePointer] in the same list.
 @immutable
-class GaugePointer with EquatableMixin {
+class GaugePointer with Equatable {
   const GaugePointer({
     required this.value,
     this.painter = const GaugePointerNeedlePainter(),
@@ -798,7 +798,7 @@ class GaugePointer with EquatableMixin {
 ///
 /// Mirrors the [GaugeTickPainter] pattern. Subclass to draw custom
 /// pointer shapes.
-abstract class GaugePointerPainter with EquatableMixin {
+abstract class GaugePointerPainter with Equatable {
   const GaugePointerPainter();
 
   /// Draws the pointer in the pre-transformed local frame described
@@ -970,7 +970,7 @@ class GaugePointerCirclePainter extends GaugePointerPainter {
 /// at `0.71`). For drawing things that emanate from the gauge's center
 /// (needles, hands), use [GaugePointer] instead.
 @immutable
-class GaugeMarker with EquatableMixin {
+class GaugeMarker with Equatable {
   const GaugeMarker({
     required this.value,
     this.position = GaugeTickPosition.outer,
@@ -1024,7 +1024,7 @@ class GaugeMarker with EquatableMixin {
 
 /// Context passed to [GaugeMarkerPainter.draw].
 @immutable
-class GaugeMarkerInfo with EquatableMixin {
+class GaugeMarkerInfo with Equatable {
   const GaugeMarkerInfo({
     required this.value,
     required this.minValue,
@@ -1064,7 +1064,7 @@ class GaugeMarkerInfo with EquatableMixin {
 ///
 /// Draw a horizontal, right-facing shape at the origin and the gauge
 /// handles placing and rotating it for every marker's value.
-abstract class GaugeMarkerPainter with EquatableMixin {
+abstract class GaugeMarkerPainter with Equatable {
   const GaugeMarkerPainter();
 
   /// Draws a single marker in the pre-transformed local frame
@@ -1268,8 +1268,7 @@ class GaugeMarkerLinePainter extends GaugeMarkerPainter {
       ];
 }
 
-class GaugeTouchData extends FlTouchData<GaugeTouchResponse>
-    with EquatableMixin {
+class GaugeTouchData extends FlTouchData<GaugeTouchResponse> with Equatable {
   GaugeTouchData({
     bool? enabled,
     BaseTouchCallback<GaugeTouchResponse>? touchCallback,
@@ -1306,7 +1305,7 @@ class GaugeTouchData extends FlTouchData<GaugeTouchResponse>
 /// tells you whether the touch sits on the filled portion (`touchValue
 /// <= ring.value`) or the background.
 @immutable
-class GaugeTouchedRing with EquatableMixin {
+class GaugeTouchedRing with Equatable {
   const GaugeTouchedRing({
     required this.touchedRing,
     required this.touchedRingIndex,
