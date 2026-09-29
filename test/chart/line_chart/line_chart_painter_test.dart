@@ -351,10 +351,11 @@ void main() {
       final verifyResult = verify(mockCanvasWrapper.clipRect(captureAny));
       final rect = verifyResult.captured.single as Rect;
       verifyResult.called(1);
-      expect(rect.left, 0);
-      expect(rect.top, 0);
-      expect(rect.width, 400);
-      expect(rect.height, 400);
+      // No side is clipped, so every boundary is left unbounded.
+      expect(rect.left, double.negativeInfinity);
+      expect(rect.top, double.negativeInfinity);
+      expect(rect.right, double.infinity);
+      expect(rect.bottom, double.infinity);
     });
 
     test('test 2', () {
@@ -398,10 +399,11 @@ void main() {
       final verifyResult = verify(mockCanvasWrapper.clipRect(captureAny));
       final rect = verifyResult.captured.single as Rect;
       verifyResult.called(1);
+      // Only left and right are clipped; top and bottom stay unbounded.
       expect(rect.left, 4);
-      expect(rect.top, 0);
+      expect(rect.top, double.negativeInfinity);
       expect(rect.right, 396);
-      expect(rect.bottom, 400);
+      expect(rect.bottom, double.infinity);
     });
 
     test('test 3', () {
@@ -452,6 +454,40 @@ void main() {
       expect(rect.top, 4);
       expect(rect.right, 396);
       expect(rect.bottom, 396);
+    });
+
+    test('test 4 - enabling one side does not clip the others (#1262)', () {
+      const viewSize = Size(400, 400);
+
+      final data = LineChartData(
+        borderData: FlBorderData(show: true, border: Border.all(width: 8)),
+        clipData: const FlClipData(
+          top: false,
+          bottom: false,
+          left: true,
+          right: false,
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      lineChartPainter.clipToBorder(
+        mockCanvasWrapper,
+        holder,
+      );
+
+      final verifyResult = verify(mockCanvasWrapper.clipRect(captureAny));
+      final rect = verifyResult.captured.single as Rect;
+      verifyResult.called(1);
+      // Only the left side is clipped; the other three stay unbounded.
+      expect(rect.left, 4);
+      expect(rect.top, double.negativeInfinity);
+      expect(rect.right, double.infinity);
+      expect(rect.bottom, double.infinity);
     });
   });
 

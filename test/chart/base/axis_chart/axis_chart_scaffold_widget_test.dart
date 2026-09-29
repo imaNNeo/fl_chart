@@ -526,6 +526,7 @@ void main() {
       );
 
       final transformationController = TransformationController();
+      addTearDown(transformationController.dispose);
       await pumpTestWidget(
         AxisChartScaffoldWidget(
           data: lineChartDataWithAllTitles,
@@ -1259,6 +1260,7 @@ void main() {
         final controller = TransformationController(
           Matrix4.identity()..scaleByDouble(3, 3, 3, 1),
         );
+        addTearDown(controller.dispose);
         Rect? chartVirtualRect;
         await tester.pumpWidget(
           MaterialApp(
@@ -1365,6 +1367,7 @@ void main() {
           expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
 
           final transformationController2 = TransformationController();
+          addTearDown(transformationController2.dispose);
 
           await tester.pumpWidget(
             createTestWidget(controller: transformationController2),
@@ -1390,6 +1393,7 @@ void main() {
         (tester) async {
           final actualChartVirtualRects = <Object?>[isNotScaled];
           final transformationController = TransformationController();
+          addTearDown(transformationController.dispose);
           await tester.pumpWidget(
             createTestWidget(controller: transformationController),
           );
@@ -1424,6 +1428,7 @@ void main() {
         (tester) async {
           final actualChartVirtualRects = <Object?>[isNotScaled];
           final transformationController = TransformationController();
+          addTearDown(transformationController.dispose);
           await tester.pumpWidget(
             createTestWidget(controller: transformationController),
           );
@@ -1435,6 +1440,7 @@ void main() {
           expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
 
           final transformationController2 = TransformationController();
+          addTearDown(transformationController2.dispose);
 
           await tester.pumpWidget(
             createTestWidget(controller: transformationController2),
@@ -1459,6 +1465,7 @@ void main() {
         (tester) async {
           final actualChartVirtualRects = <Object?>[isNotScaled];
           final transformationController = TransformationController();
+          addTearDown(transformationController.dispose);
           await tester.pumpWidget(
             createTestWidget(
               controller: transformationController,
@@ -1492,6 +1499,7 @@ void main() {
       'sets chartVirtualRect to null, when scaling is updated to 1.0',
       (tester) async {
         final transformationController = TransformationController();
+        addTearDown(transformationController.dispose);
         final chartVirtualRects = <Rect?>[];
         final actualChartVirtualRects = <Object?>[isNotScaled];
         await tester.pumpWidget(
@@ -1525,6 +1533,7 @@ void main() {
 
     testWidgets('does not dispose external controller', (tester) async {
       final controller = TransformationController();
+      addTearDown(controller.dispose);
       await tester.pumpWidget(
         MaterialApp(
           home: AxisChartScaffoldWidget(

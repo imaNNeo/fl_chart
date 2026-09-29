@@ -225,4 +225,12 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
     _validForMouseTracker = false;
     super.detach();
   }
+
+  @override
+  void dispose() {
+    panGestureRecognizer.dispose();
+    tapGestureRecognizer.dispose();
+    longPressGestureRecognizer.dispose();
+    super.dispose();
+  }
 }
