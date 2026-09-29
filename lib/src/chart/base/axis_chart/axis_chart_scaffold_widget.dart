@@ -4,7 +4,7 @@ import 'package:fl_chart/src/chart/base/axis_chart/side_titles/side_titles_widge
 import 'package:fl_chart/src/chart/base/axis_chart/transformation_config.dart';
 import 'package:fl_chart/src/chart/base/custom_interactive_viewer.dart';
 import 'package:fl_chart/src/extensions/fl_titles_data_extension.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A builder to build a chart.
 ///

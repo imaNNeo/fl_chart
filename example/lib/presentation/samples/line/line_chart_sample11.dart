@@ -1,5 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class LineChartSample11 extends StatefulWidget {
   const LineChartSample11({super.key});

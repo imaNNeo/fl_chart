@@ -1,6 +1,6 @@
 import 'package:fl_chart_app/urls.dart';
 import 'package:fl_chart_app/util/app_helper.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 abstract class ChartSample {
   final int number;

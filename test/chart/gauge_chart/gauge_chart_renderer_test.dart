@@ -3,7 +3,7 @@ import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/gauge_chart/gauge_chart_painter.dart';
 import 'package:fl_chart/src/chart/gauge_chart/gauge_chart_renderer.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
