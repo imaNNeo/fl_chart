@@ -45,7 +45,6 @@ class HelperMethods {
     return true;
   }
 
-  // This is actually used, I don't know why the linter thinks otherwise
   static bool equalsRRects(
     RRect rrect1,
     RRect rrect2, {
@@ -86,7 +85,6 @@ class HelperMethods {
     return true;
   }
 
-  // This is actually used, I don't know why the linter thinks otherwise
   static bool equalsOffsets(
     Offset offset1,
     Offset offset2, {
