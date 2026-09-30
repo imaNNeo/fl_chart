@@ -156,6 +156,119 @@ void main() {
         expect(testEvent, isA<FlPointerHoverEvent>());
         expect(testResponse, isA<LineTouchResponse>());
       });
+
+      test(
+        'resolves the mouse cursor for PointerHoverEvent when only '
+        'mouseCursorResolver is provided (#2122)',
+        () {
+          FlTouchEvent? resolvedEvent;
+          LineTouchResponse? resolvedResponse;
+          MouseCursor resolver(
+            FlTouchEvent event,
+            LineTouchResponse? response,
+          ) {
+            resolvedEvent = event;
+            resolvedResponse = response;
+            return SystemMouseCursors.click;
+          }
+
+          const pointerHoverEvent = PointerHoverEvent();
+          final chart = TestRenderBaseChart(
+            mockContext,
+            TestTouchData(
+              false,
+              null,
+              resolver,
+              null,
+            ),
+            canBeScaled: false,
+            panGestureRecognizerOverride: panGestureRecognizer,
+            tapGestureRecognizerOverride: tapGestureRecognizer,
+            longPressGestureRecognizerOverride: longPressGestureRecognizer,
+          );
+
+          final hitTestEntry = BoxHitTestEntry(
+            chart,
+            Offset.zero,
+          );
+          chart.handleEvent(pointerHoverEvent, hitTestEntry);
+
+          expect(resolvedEvent, isA<FlPointerHoverEvent>());
+          expect(resolvedResponse, isA<LineTouchResponse>());
+          expect(chart.cursor, SystemMouseCursors.click);
+        },
+      );
+
+      test(
+        'adds pointers for PointerDownEvent when only mouseCursorResolver '
+        'is provided (#2122)',
+        () {
+          const pointerDownEvent = PointerDownEvent();
+          final chart = TestRenderBaseChart(
+            mockContext,
+            TestTouchData(
+              false,
+              null,
+              (_, __) => SystemMouseCursors.click,
+              null,
+            ),
+            canBeScaled: false,
+            panGestureRecognizerOverride: panGestureRecognizer,
+            tapGestureRecognizerOverride: tapGestureRecognizer,
+            longPressGestureRecognizerOverride: longPressGestureRecognizer,
+          );
+
+          final hitTestEntry = BoxHitTestEntry(
+            chart,
+            Offset.zero,
+          );
+          chart.handleEvent(pointerDownEvent, hitTestEntry);
+
+          verify(panGestureRecognizer.addPointer(pointerDownEvent)).called(1);
+          verify(tapGestureRecognizer.addPointer(pointerDownEvent)).called(1);
+          verify(longPressGestureRecognizer.addPointer(pointerDownEvent))
+              .called(1);
+        },
+      );
+    });
+
+    group('onEnter and onExit', () {
+      test(
+        'resolve the mouse cursor when only mouseCursorResolver is '
+        'provided (#2122)',
+        () {
+          final resolvedEvents = <FlTouchEvent>[];
+          final chart = TestRenderBaseChart(
+            mockContext,
+            TestTouchData(
+              false,
+              null,
+              (event, _) {
+                resolvedEvents.add(event);
+                return event is FlPointerExitEvent
+                    ? MouseCursor.defer
+                    : SystemMouseCursors.click;
+              },
+              null,
+            ),
+            canBeScaled: false,
+            panGestureRecognizerOverride: panGestureRecognizer,
+            tapGestureRecognizerOverride: tapGestureRecognizer,
+            longPressGestureRecognizerOverride: longPressGestureRecognizer,
+          );
+
+          chart.onEnter!(const PointerEnterEvent());
+          expect(chart.cursor, SystemMouseCursors.click);
+
+          chart.onExit!(const PointerExitEvent());
+          expect(chart.cursor, MouseCursor.defer);
+
+          expect(resolvedEvents, [
+            isA<FlPointerEnterEvent>(),
+            isA<FlPointerExitEvent>(),
+          ]);
+        },
+      );
     });
   });
 }
