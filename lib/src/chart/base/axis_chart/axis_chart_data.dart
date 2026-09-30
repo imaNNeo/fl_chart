@@ -797,11 +797,15 @@ class FlLine with Equatable {
     this.gradient,
     this.strokeWidth = 2,
     this.dashArray,
+    this.backgroundColor,
   }) : color = color ??
             ((color == null && gradient == null) ? Colors.black : null);
 
   /// Defines color of the line.
   final Color? color;
+
+  /// Define color of label background
+  final Color? backgroundColor;
 
   /// Defines the gradient of the line.
   final Gradient? gradient;
@@ -1084,6 +1088,7 @@ class HorizontalLine extends FlLine with Equatable {
     required this.y,
     HorizontalLineLabel? label,
     super.color,
+    super.backgroundColor,
     super.gradient,
     super.strokeWidth,
     super.dashArray,
@@ -1155,6 +1160,7 @@ class VerticalLine extends FlLine with Equatable {
     required this.x,
     VerticalLineLabel? label,
     super.color,
+    super.backgroundColor,
     super.gradient,
     super.strokeWidth,
     super.dashArray,
