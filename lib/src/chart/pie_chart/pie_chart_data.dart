@@ -166,6 +166,7 @@ class PieChartSectionData with Equatable {
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
     List<PieChartStackSegmentData>? segments,
+    DotPattern? pattern,
   })  : value = value ?? 10,
         color = color ?? Colors.cyan,
         radius = (radius ?? 40).clamp(0, double.infinity).toDouble(),
@@ -176,7 +177,8 @@ class PieChartSectionData with Equatable {
             (cornerRadius ?? 0.0).clamp(0, double.infinity).toDouble(),
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5,
         badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5,
-        segments = segments ?? const [];
+        segments = segments ?? const [],
+        pattern = pattern ?? const DotPattern.disabled();
 
   /// It determines how much space it should occupy around the circle.
   ///
@@ -237,6 +239,9 @@ class PieChartSectionData with Equatable {
   /// the section's [radius]. Values are clamped to [0, radius] at render time.
   final List<PieChartStackSegmentData> segments;
 
+  /// Optional dot pattern overlay drawn over the main section fill.
+  final DotPattern pattern;
+
   /// Copies current [PieChartSectionData] to a new [PieChartSectionData],
   /// and replaces provided values.
   PieChartSectionData copyWith({
@@ -253,6 +258,7 @@ class PieChartSectionData with Equatable {
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
     List<PieChartStackSegmentData>? segments,
+    DotPattern? pattern,
   }) =>
       PieChartSectionData(
         value: value ?? this.value,
@@ -270,6 +276,7 @@ class PieChartSectionData with Equatable {
         badgePositionPercentageOffset:
             badgePositionPercentageOffset ?? this.badgePositionPercentageOffset,
         segments: segments ?? this.segments,
+        pattern: pattern ?? this.pattern,
       );
 
   /// Lerps a [PieChartSectionData] based on [t] value, check [Tween.lerp].
@@ -304,6 +311,7 @@ class PieChartSectionData with Equatable {
           b.segments,
           t,
         ),
+        pattern: DotPattern.lerp(a.pattern, b.pattern, t),
       );
 
   /// Used for equality check, see [Equatable].
@@ -322,6 +330,7 @@ class PieChartSectionData with Equatable {
         titlePositionPercentageOffset,
         badgePositionPercentageOffset,
         segments,
+        pattern,
       ];
 }
 
@@ -359,8 +368,10 @@ class PieChartStackSegmentData with Equatable {
     required this.toRadius,
     Color? color,
     this.gradient,
+    DotPattern? pattern,
   })  : fromRadius = fromRadius ?? 0,
-        color = color ?? Colors.purple;
+        color = color ?? Colors.purple,
+        pattern = pattern ?? const DotPattern.disabled();
 
   /// The start radius of this segment (distance from center of the section).
   /// Clamped to [0, sectionRadius] at render time.
@@ -376,6 +387,9 @@ class PieChartStackSegmentData with Equatable {
   /// Defines the gradient of segment. If specified, overrides the color setting.
   final Gradient? gradient;
 
+  /// Optional dot pattern overlay for accessibility and contrast.
+  final DotPattern pattern;
+
   /// Copies current [PieChartStackSegmentData] to a new [PieChartStackSegmentData],
   /// and replaces provided values.
   PieChartStackSegmentData copyWith({
@@ -383,12 +397,14 @@ class PieChartStackSegmentData with Equatable {
     double? toRadius,
     Color? color,
     Gradient? gradient,
+    DotPattern? pattern,
   }) =>
       PieChartStackSegmentData(
         fromRadius: fromRadius ?? this.fromRadius,
         toRadius: toRadius ?? this.toRadius,
         color: color ?? this.color,
         gradient: gradient ?? this.gradient,
+        pattern: pattern ?? this.pattern,
       );
 
   /// Lerps a [PieChartStackSegmentData] based on [t] value, check [Tween.lerp].
@@ -402,6 +418,7 @@ class PieChartStackSegmentData with Equatable {
         toRadius: lerpDouble(a.toRadius, b.toRadius, t)!,
         color: lerpColor(a.color, b.color, t),
         gradient: Gradient.lerp(a.gradient, b.gradient, t),
+        pattern: DotPattern.lerp(a.pattern, b.pattern, t),
       );
 
   /// Used for equality check, see [Equatable].
@@ -411,6 +428,7 @@ class PieChartStackSegmentData with Equatable {
         toRadius,
         color,
         gradient,
+        pattern,
       ];
 }
 

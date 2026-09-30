@@ -212,6 +212,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       ..style = PaintingStyle.fill;
     canvasWrapper.drawPath(mainPath, _sectionPaint);
 
+    if (section.pattern.enabled) {
+      _drawDotPatternOverPath(canvasWrapper, mainPath, section.pattern);
+    }
+
     for (final seg in section.segments) {
       final clampedFrom = seg.fromRadius.clamp(0.0, section.radius);
       final clampedTo = seg.toRadius.clamp(0.0, section.radius);
@@ -235,6 +239,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     Path segmentPath,
     CanvasWrapper canvasWrapper,
   ) {
+    // Fill base (color/gradient)
     _sectionPaint
       ..setColorOrGradient(
         segment.color,
@@ -243,6 +248,57 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       )
       ..style = PaintingStyle.fill;
     canvasWrapper.drawPath(segmentPath, _sectionPaint);
+
+    // Optional accessibility dot pattern overlay
+    if (segment.pattern.enabled) {
+      _drawDotPatternOverPath(
+        canvasWrapper,
+        segmentPath,
+        segment.pattern,
+      );
+    }
+  }
+
+  void _drawDotPatternOverPath(
+    CanvasWrapper canvasWrapper,
+    Path clipPath,
+    DotPattern pattern,
+  ) {
+    canvasWrapper
+      ..save()
+      ..clipPath(clipPath);
+
+    final bounds = clipPath.getBounds();
+    if (bounds.isEmpty) {
+      canvasWrapper.restore();
+      return;
+    }
+
+    final spacing = pattern.spacing <= 0 ? 6.0 : pattern.spacing;
+    final dotRadius = pattern.dotRadius <= 0 ? 1.5 : pattern.dotRadius;
+
+    final paint = Paint()
+      ..color = pattern.color
+      ..style = PaintingStyle.fill
+      ..isAntiAlias = true;
+
+    // Use a grid that's stable relative to the segment bounds to avoid flicker
+    // when sections are offset. The pattern phase allows fine-tuning the grid
+    // position.
+    final startX = bounds.left -
+        ((bounds.left - pattern.phase.dx) % spacing) +
+        pattern.phase.dx;
+    final startY = bounds.top -
+        ((bounds.top - pattern.phase.dy) % spacing) +
+        pattern.phase.dy;
+
+    for (var y = startY; y <= bounds.bottom + spacing; y += spacing) {
+      for (var x = startX; x <= bounds.right + spacing; x += spacing) {
+        canvasWrapper.drawCircle(Offset(x, y), dotRadius, paint);
+      }
+    }
+
+    canvasWrapper.restore();
   }
 
   @visibleForTesting
