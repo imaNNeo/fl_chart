@@ -369,6 +369,69 @@ void main() {
       );
       expect(results[3]['paint_style'] as PaintingStyle, PaintingStyle.fill);
     });
+
+    test('test 3 - radialOffset translates section along center angle', () {
+      const viewSize = Size(200, 200);
+      const centerRadius = 10.0;
+      const offset = 20.0;
+
+      final section0 = PieChartSectionData(
+        color: MockData.color1,
+        value: 1,
+        radialOffset: offset,
+      );
+      final section1 = PieChartSectionData(
+        color: MockData.color2,
+        value: 1,
+      );
+      final data = PieChartData(
+        sectionsSpace: 0,
+        sections: [section0, section1],
+      );
+
+      final pieChartPainter = PieChartPainter();
+      final holder =
+          PaintHolder<PieChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((_) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final drawnPaths = <Path>[];
+      when(mockCanvasWrapper.drawPath(captureAny, captureAny)).thenAnswer(
+        (inv) => drawnPaths.add(inv.positionalArguments[0] as Path),
+      );
+
+      pieChartPainter.drawSections(
+        mockCanvasWrapper,
+        [180, 180],
+        centerRadius,
+        holder,
+      );
+
+      expect(drawnPaths.length, 2);
+
+      const section0Center = Offset(100, 120);
+      final expectedPath0 = pieChartPainter.generateSectionPath(
+        section0,
+        0,
+        0,
+        180,
+        section0Center,
+        centerRadius,
+      );
+      expect(HelperMethods.equalsPaths(drawnPaths[0], expectedPath0), true);
+
+      const section1Center = Offset(100, 100);
+      final expectedPath1 = pieChartPainter.generateSectionPath(
+        section1,
+        0,
+        180,
+        180,
+        section1Center,
+        centerRadius,
+      );
+      expect(HelperMethods.equalsPaths(drawnPaths[1], expectedPath1), true);
+    });
   });
 
   group('generateSectionPath()', () {
