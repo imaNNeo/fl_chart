@@ -33,6 +33,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     _ticksTextPaint = TextPainter();
     _titleTextPaint = TextPainter();
   }
+
   late Paint _borderPaint;
   late Paint _backgroundPaint;
   late Paint _gridPaint;
@@ -192,18 +193,28 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
       ..strokeWidth = data.tickBorderData.width;
 
     /// draw radar ticks
-    ticks.sublist(0, ticks.length - 1).asMap().forEach(
+    ticks.sublist(0, ticks.length).asMap().forEach(
       (index, tick) {
         final tickRadius =
             tickDistance * (index + (data.isMinValueAtCenter ? 0 : 1));
-        if (data.radarShape == RadarShape.circle) {
-          canvasWrapper.drawCircle(centerOffset, tickRadius, _tickPaint);
-        } else {
-          canvasWrapper.drawPath(
-            _generatePolygonPath(centerX, centerY, tickRadius, data.titleCount),
-            _tickPaint,
-          );
+
+        if (index != ticks.length - 1) {
+          if (data.radarShape == RadarShape.circle) {
+            canvasWrapper.drawCircle(centerOffset, tickRadius, _tickPaint);
+          } else {
+            canvasWrapper.drawPath(
+              _generatePolygonPath(
+                centerX,
+                centerY,
+                tickRadius,
+                data.titleCount,
+              ),
+              _tickPaint,
+            );
+          }
         }
+
+        if (!data.checkToShowTick(index, ticks)) return;
 
         _ticksTextPaint
           ..text = TextSpan(

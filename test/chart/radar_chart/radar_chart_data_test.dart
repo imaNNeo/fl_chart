@@ -143,6 +143,21 @@ void main() {
             ),
         false,
       );
+
+      expect(
+        radarChartData1 == radarChartData1Clone.copyWith(),
+        true,
+      );
+
+      expect(
+        radarChartData1 == radarChartData1Clone.copyWith(maxValue: 100),
+        false,
+      );
+
+      expect(
+        radarChartData1 == radarChartData1Clone.copyWith(maxValue: 200),
+        false,
+      );
     });
 
     test('RadarDataSet equality test', () {
@@ -268,6 +283,84 @@ void main() {
       expect(radarTouchedSpot1 == radarTouchedSpot5, false);
       expect(radarTouchedSpot1 == radarTouchedSpot6, false);
       expect(radarTouchedSpot1 == radarTouchedSpot7, false);
+    });
+  });
+
+  group('RadarChart maxValue functionality', () {
+    test('maxEntry returns data max when maxValue is null', () {
+      final data = RadarChartData(
+        dataSets: [radarDataSet1],
+      );
+      expect(data.maxEntry.value, equals(4.0));
+    });
+
+    test(
+        'maxEntry returns data max from multiple datasets when maxValue is null',
+        () {
+      final data = RadarChartData(
+        dataSets: [radarDataSet1, radarDataSet2],
+      );
+      expect(data.maxEntry.value, equals(10.0));
+    });
+
+    test('maxEntry returns custom maxValue when provided', () {
+      final data = RadarChartData(
+        dataSets: [radarDataSet1],
+        maxValue: 150,
+      );
+      expect(data.maxEntry.value, equals(150.0));
+    });
+
+    test('maxValue validation throws on NaN', () {
+      expect(
+        () => RadarChartData(
+          dataSets: [radarDataSet1],
+          maxValue: double.nan,
+        ),
+        throwsAssertionError,
+      );
+    });
+
+    test('maxValue validation throws on infinity', () {
+      expect(
+        () => RadarChartData(
+          dataSets: [radarDataSet1],
+          maxValue: double.infinity,
+        ),
+        throwsAssertionError,
+      );
+    });
+  });
+
+  group('RadarChart checkToShowTick functionality', () {
+    test('RadarChartData equality affected by checkToShowTick', () {
+      bool customCheck(int index, List<double> ticks) => index.isEven;
+
+      final data1 = RadarChartData(
+        dataSets: [radarDataSet1],
+        checkToShowTick: customCheck,
+      );
+
+      final data2 = RadarChartData(
+        dataSets: [radarDataSet1],
+      );
+
+      expect(data1 == data2, false);
+    });
+
+    test('copyWith preserves checkToShowTick', () {
+      bool customCheck(int index, List<double> ticks) => ticks[index] > 15.0;
+
+      final original = RadarChartData(
+        dataSets: [radarDataSet1],
+        checkToShowTick: customCheck,
+      );
+
+      final copied = original.copyWith(radarBackgroundColor: Colors.red);
+
+      final ticks = [10.0, 20.0];
+      expect(copied.checkToShowTick(0, ticks), false);
+      expect(copied.checkToShowTick(1, ticks), true);
     });
   });
 }
