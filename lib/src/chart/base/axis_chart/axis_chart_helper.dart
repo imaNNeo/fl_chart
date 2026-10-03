@@ -30,30 +30,38 @@ class AxisChartHelper {
   }) sync* {
     final initialValue = Utils()
         .getBestInitialIntervalValue(min, max, interval, baseline: baseLine);
-    var axisSeek = initialValue;
-    final firstPositionOverlapsWithMin = axisSeek == min;
-    if (!minIncluded && firstPositionOverlapsWithMin) {
-      // If initial value is equal to data minimum,
-      // move first label one interval further
-      axisSeek += interval;
-    }
-    final diff = max - min;
-    final count = diff ~/ interval;
-    final lastPosition = initialValue + (count * interval);
-    final lastPositionOverlapsWithMax = lastPosition == max;
-    final end =
-        !maxIncluded && lastPositionOverlapsWithMax ? max - interval : max;
+    final firstPositionOverlapsWithMin = initialValue == min;
+
+    // Values are computed as initialValue + index * interval instead of
+    // accumulating `+= interval`, because accumulation drifts on large
+    // values (e.g. epoch timestamps) and produces artifacts like
+    // 1698797425.999999 right next to max.
+    var index = !minIncluded && firstPositionOverlapsWithMin ? 1 : 0;
 
     final epsilon = interval / 100000;
     if (minIncluded && !firstPositionOverlapsWithMin) {
       // Data minimum shall be included and is not yet covered
       yield min;
     }
-    while (axisSeek <= end + epsilon) {
+    var reachedMax = false;
+    while (true) {
+      final axisSeek = initialValue + index * interval;
+      final overshoot = axisSeek - max;
+      if (overshoot > epsilon) {
+        break;
+      }
+      if (overshoot.abs() <= epsilon) {
+        // Landed on data maximum: snap to the exact max value
+        if (maxIncluded) {
+          yield max;
+        }
+        reachedMax = true;
+        break;
+      }
       yield axisSeek;
-      axisSeek += interval;
+      index++;
     }
-    if (maxIncluded && !lastPositionOverlapsWithMax) {
+    if (maxIncluded && !reachedMax) {
       yield max;
     }
   }
