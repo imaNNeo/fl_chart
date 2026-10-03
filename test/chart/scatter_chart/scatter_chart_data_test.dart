@@ -451,6 +451,18 @@ void main() {
       expect(scatterTouchTooltipData1 == scatterTouchTooltipData3, false);
     });
 
+    test('ScatterTouchTooltipData copyWith tooltipBorderRadius', () {
+      const base = ScatterTouchTooltipData(maxContentWidth: 100);
+
+      final unchanged = base.copyWith(maxContentWidth: 200);
+      expect(unchanged.tooltipBorderRadius, BorderRadius.circular(4));
+
+      final changed = base.copyWith(
+        tooltipBorderRadius: BorderRadius.circular(12),
+      );
+      expect(changed.tooltipBorderRadius, BorderRadius.circular(12));
+    });
+
     test('ScatterTooltipItem equality test', () {
       final sample1 = ScatterTooltipItem(
         'aa',

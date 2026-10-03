@@ -411,7 +411,7 @@ class BarChartRodData with Equatable {
     Gradient? gradient,
     double? width,
     BorderRadius? borderRadius,
-    List<int>? dashArray,
+    List<int>? borderDashArray,
     BorderSide? borderSide,
     BackgroundBarChartRodData? backDrawRodData,
     List<BarChartRodStackItem>? rodStackItems,
@@ -425,7 +425,7 @@ class BarChartRodData with Equatable {
         gradient: gradient ?? this.gradient,
         width: width ?? this.width,
         borderRadius: borderRadius ?? this.borderRadius,
-        borderDashArray: borderDashArray,
+        borderDashArray: borderDashArray ?? this.borderDashArray,
         borderSide: borderSide ?? this.borderSide,
         backDrawRodData: backDrawRodData ?? this.backDrawRodData,
         rodStackItems: rodStackItems ?? this.rodStackItems,
@@ -839,10 +839,47 @@ class BarTouchTooltipData with Equatable {
         getTooltipItem,
         fitInsideHorizontally,
         fitInsideVertically,
+        direction,
         rotateAngle,
         tooltipBorder,
         getTooltipColor,
       ];
+
+  /// Copies current [BarTouchTooltipData] to a new [BarTouchTooltipData],
+  /// and replaces provided values.
+  BarTouchTooltipData copyWith({
+    BorderRadius? tooltipBorderRadius,
+    EdgeInsets? tooltipPadding,
+    double? tooltipMargin,
+    FLHorizontalAlignment? tooltipHorizontalAlignment,
+    double? tooltipHorizontalOffset,
+    double? maxContentWidth,
+    GetBarTooltipItem? getTooltipItem,
+    GetBarTooltipColor? getTooltipColor,
+    bool? fitInsideHorizontally,
+    bool? fitInsideVertically,
+    TooltipDirection? direction,
+    double? rotateAngle,
+    BorderSide? tooltipBorder,
+  }) =>
+      BarTouchTooltipData(
+        tooltipBorderRadius: tooltipBorderRadius ?? _tooltipBorderRadius,
+        tooltipPadding: tooltipPadding ?? this.tooltipPadding,
+        tooltipMargin: tooltipMargin ?? this.tooltipMargin,
+        tooltipHorizontalAlignment:
+            tooltipHorizontalAlignment ?? this.tooltipHorizontalAlignment,
+        tooltipHorizontalOffset:
+            tooltipHorizontalOffset ?? this.tooltipHorizontalOffset,
+        maxContentWidth: maxContentWidth ?? this.maxContentWidth,
+        getTooltipItem: getTooltipItem ?? this.getTooltipItem,
+        getTooltipColor: getTooltipColor ?? this.getTooltipColor,
+        fitInsideHorizontally:
+            fitInsideHorizontally ?? this.fitInsideHorizontally,
+        fitInsideVertically: fitInsideVertically ?? this.fitInsideVertically,
+        direction: direction ?? this.direction,
+        rotateAngle: rotateAngle ?? this.rotateAngle,
+        tooltipBorder: tooltipBorder ?? this.tooltipBorder,
+      );
 }
 
 /// Provides a [BarTooltipItem] for showing content inside the [BarTouchTooltipData].
