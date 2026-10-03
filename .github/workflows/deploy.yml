@@ -4,6 +4,9 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+  push:
+    branches:
+      - ci/linux-deployment  # TEMP: remove after testing
 
 jobs:
   deploy-ios:
@@ -175,6 +178,24 @@ jobs:
 
       - name: Publish to Microsoft Store
         run: msstore publish . -v -id ${{ secrets.MICROSOFT_STORE_PRODUCT_ID }}
+
+  deploy-linux:
+    name: Build and Deploy Linux
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: snapcore/action-build@v1
+        id: build
+
+      - uses: snapcore/action-publish@v1
+        env:
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
+        with:
+          snap: ${{ steps.build.outputs.snap }}
+          release: stable
 
   deploy-web:
     name: Build and Deploy Web
