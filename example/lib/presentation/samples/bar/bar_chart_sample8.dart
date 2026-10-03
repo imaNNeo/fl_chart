@@ -73,7 +73,10 @@ class BarChartSample1State extends State<BarChartSample8> {
           borderRadius: BorderRadius.zero,
           borderDashArray: x >= 4 ? [4, 4] : null,
           width: 22,
-          borderSide: BorderSide(color: widget.barColor, width: 2.0),
+          border: Border.all(
+            color: widget.barColor,
+            width: 2.0,
+          ),
         ),
       ],
     );

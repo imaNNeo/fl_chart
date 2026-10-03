@@ -107,6 +107,20 @@ class Utils {
     return borderSide.copyWith(width: borderWidth);
   }
 
+  /// Decreases each side of [border] to <= width / 2.
+  Border? normalizeBorder(Border? border, double width) {
+    if (border == null) {
+      return null;
+    }
+
+    return Border(
+      top: normalizeBorderSide(border.top, width),
+      right: normalizeBorderSide(border.right, width),
+      bottom: normalizeBorderSide(border.bottom, width),
+      left: normalizeBorderSide(border.left, width),
+    );
+  }
+
   /// Returns an efficient interval for showing axis titles, or grid lines or ...
   ///
   /// If there isn't any provided interval, we use this function to calculate an interval to apply,
