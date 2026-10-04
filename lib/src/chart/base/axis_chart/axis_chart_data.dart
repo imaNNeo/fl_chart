@@ -826,6 +826,7 @@ class FlLine with EquatableMixin {
         gradient: Gradient.lerp(a.gradient, b.gradient, t),
         strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
         dashArray: lerpIntList(a.dashArray, b.dashArray, t),
+        backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
       );
 
   /// Copies current [FlLine] to a new [FlLine],
@@ -835,12 +836,14 @@ class FlLine with EquatableMixin {
     Gradient? gradient,
     double? strokeWidth,
     List<int>? dashArray,
+    Color? backgroundColor,
   }) =>
       FlLine(
         color: color ?? this.color,
         gradient: gradient ?? this.gradient,
         strokeWidth: strokeWidth ?? this.strokeWidth,
         dashArray: dashArray ?? this.dashArray,
+        backgroundColor: backgroundColor ?? this.backgroundColor,
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -850,6 +853,7 @@ class FlLine with EquatableMixin {
         gradient,
         strokeWidth,
         dashArray,
+        backgroundColor,
       ];
 }
 
@@ -1125,6 +1129,7 @@ class HorizontalLine extends FlLine with EquatableMixin {
         image: b.image,
         sizedPicture: b.sizedPicture,
         strokeCap: b.strokeCap,
+        backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -1138,6 +1143,7 @@ class HorizontalLine extends FlLine with EquatableMixin {
         image,
         sizedPicture,
         strokeCap,
+        backgroundColor,
       ];
 }
 
@@ -1197,6 +1203,7 @@ class VerticalLine extends FlLine with EquatableMixin {
         image: b.image,
         sizedPicture: b.sizedPicture,
         strokeCap: b.strokeCap,
+        backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
       );
 
   /// Copies current [VerticalLine] to a new [VerticalLine]
@@ -1210,6 +1217,7 @@ class VerticalLine extends FlLine with EquatableMixin {
     Image? image,
     SizedPicture? sizedPicture,
     StrokeCap? strokeCap,
+    Color? backgroundColor,
   }) =>
       VerticalLine(
         x: x ?? this.x,
@@ -1220,6 +1228,7 @@ class VerticalLine extends FlLine with EquatableMixin {
         image: image ?? this.image,
         sizedPicture: sizedPicture ?? this.sizedPicture,
         strokeCap: strokeCap ?? this.strokeCap,
+        backgroundColor: backgroundColor ?? this.backgroundColor,
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -1233,6 +1242,7 @@ class VerticalLine extends FlLine with EquatableMixin {
         image,
         sizedPicture,
         strokeCap,
+        backgroundColor,
       ];
 }
 
