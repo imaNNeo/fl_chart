@@ -2983,6 +2983,94 @@ void main() {
   });
 
   group('handleTouch()', () {
+    test('uses independent bounds for rods and visible backgrounds', () {
+      const viewSize = Size(200, 100);
+
+      for (final direction in [1.0, -1.0]) {
+        for (final showBackground in [true, false]) {
+          for (final allowBackgroundTouch in [true, false]) {
+            final rod = BarChartRodData(
+              fromY: 5 * direction,
+              toY: 10 * direction,
+              backDrawRodData: BackgroundBarChartRodData(
+                show: showBackground,
+                fromY: -5 * direction,
+                toY: -10 * direction,
+              ),
+            );
+            final data = BarChartData(
+              barGroups: [
+                BarChartGroupData(x: 0, barRods: [rod]),
+              ],
+              alignment: BarChartAlignment.start,
+              minY: -10,
+              maxY: 10,
+              barTouchData: BarTouchData(
+                allowTouchBarBackDraw: allowBackgroundTouch,
+                touchExtraThreshold: EdgeInsets.zero,
+              ),
+            );
+            final painter = BarChartPainter();
+            final holder =
+                PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+            final rodTouch = Offset(4, direction > 0 ? 12.5 : 87.5);
+            final backgroundTouch = Offset(4, direction > 0 ? 87.5 : 12.5);
+
+            expect(
+              painter.handleTouch(rodTouch, viewSize, holder)?.touchedRodData,
+              rod,
+            );
+            expect(
+              painter.handleTouch(backgroundTouch, viewSize, holder),
+              showBackground && allowBackgroundTouch ? isNotNull : isNull,
+            );
+            expect(
+              painter.handleTouch(const Offset(4, 50), viewSize, holder),
+              isNull,
+            );
+          }
+        }
+      }
+    });
+
+    test('detects rods with the same nonzero bounds as their background', () {
+      const viewSize = Size(200, 100);
+
+      for (final direction in [1.0, -1.0]) {
+        final rod = BarChartRodData(
+          fromY: 5 * direction,
+          toY: 10 * direction,
+          backDrawRodData: BackgroundBarChartRodData(
+            show: true,
+            fromY: 5 * direction,
+            toY: 10 * direction,
+          ),
+        );
+        final data = BarChartData(
+          barGroups: [
+            BarChartGroupData(x: 0, barRods: [rod]),
+          ],
+          alignment: BarChartAlignment.start,
+          minY: -10,
+          maxY: 10,
+          barTouchData: const BarTouchData(
+            touchExtraThreshold: EdgeInsets.zero,
+          ),
+        );
+        final painter = BarChartPainter();
+        final holder =
+            PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+        final touch = Offset(4, direction > 0 ? 12.5 : 87.5);
+
+        final result = painter.handleTouch(touch, viewSize, holder);
+
+        expect(result, isNotNull);
+        expect(result!.touchedRodData, rod);
+        expect(result.touchedBarGroupIndex, 0);
+        expect(result.touchedRodDataIndex, 0);
+      }
+    });
+
     test('test 1', () {
       const viewSize = Size(200, 100);
 
