@@ -217,9 +217,8 @@ class LineChartBarData with Equatable {
   /// check this [issue](https://github.com/imaNNeo/fl_chart/issues/25)
   /// to overshooting understand the problem.
   ///
-  /// [isStrokeCapRound] determines the shape of line's cap.
-  ///
-  /// [isStrokeJoinRound] determines the shape of the line joins.
+  /// To customize the line's cap, joins, miter limit, or dash pattern, use
+  /// [pathData].
   ///
   /// [belowBarData], and  [aboveBarData] used to fill the space below or above the drawn line,
   /// you can fill with a solid color or a linear gradient.
@@ -230,8 +229,6 @@ class LineChartBarData with Equatable {
   /// there are some indicators with a line and bold point on each spot,
   /// you can show them by filling [showingIndicators] with indices
   /// you want to show indicator on them.
-  ///
-  /// [LineChart] draws the lines with dashed effect if you fill [dashArray].
   ///
   /// If you want to have a Step Line Chart style, just set [isStepLineChart] true,
   /// also you can tweak the [LineChartBarData.lineChartStepData].
@@ -246,20 +243,37 @@ class LineChartBarData with Equatable {
     this.curveSmoothness = 0.35,
     this.preventCurveOverShooting = false,
     this.preventCurveOvershootingThreshold = 10.0,
-    this.isStrokeCapRound = false,
-    this.isStrokeJoinRound = false,
+    @Deprecated(
+      'Use pathData.strokeCap with StrokeCap.round instead.',
+    )
+    bool? isStrokeCapRound,
+    @Deprecated(
+      'Use pathData.strokeJoin with StrokeJoin.round instead.',
+    )
+    bool? isStrokeJoinRound,
     BarAreaData? belowBarData,
     BarAreaData? aboveBarData,
     this.dotData = const FlDotData(),
     this.errorIndicatorData =
         const FlErrorIndicatorData<LineChartSpotErrorRangeCallbackInput>(),
     this.showingIndicators = const [],
-    this.dashArray,
+    FlPathData? pathData,
+    @Deprecated('Use pathData.dashArray instead.') List<int>? dashArray,
     this.shadow = const Shadow(color: Colors.transparent),
     this.isStepLineChart = false,
     this.lineChartStepData = const LineChartStepData(),
   })  : color =
             color ?? ((color == null && gradient == null) ? Colors.cyan : null),
+        pathData = pathData ??
+            FlPathData(
+              dashArray: dashArray,
+              strokeCap: (isStrokeCapRound ?? false)
+                  ? StrokeCap.round
+                  : StrokeCap.butt,
+              strokeJoin: (isStrokeJoinRound ?? false)
+                  ? StrokeJoin.round
+                  : StrokeJoin.miter,
+            ),
         belowBarData = belowBarData ?? BarAreaData(),
         aboveBarData = aboveBarData ?? BarAreaData() {
     FlSpot? mostLeft;
@@ -355,12 +369,6 @@ class LineChartBarData with Equatable {
   /// Applies threshold for [preventCurveOverShooting] algorithm.
   final double preventCurveOvershootingThreshold;
 
-  /// Determines the style of line's cap.
-  final bool isStrokeCapRound;
-
-  /// Determines the style of line joins.
-  final bool isStrokeJoinRound;
-
   /// Fills the space blow the line, using a color or gradient.
   final BarAreaData belowBarData;
 
@@ -377,8 +385,8 @@ class LineChartBarData with Equatable {
   /// Show indicators based on provided indexes
   final List<int> showingIndicators;
 
-  /// Determines the dash length and space respectively, fill it if you want to have dashed line.
-  final List<int>? dashArray;
+  /// Holds dash configuration for the rendered line.
+  final FlPathData? pathData;
 
   /// Drops a shadow behind the bar line.
   final Shadow shadow;
@@ -402,8 +410,6 @@ class LineChartBarData with Equatable {
         aboveBarData: BarAreaData.lerp(a.aboveBarData, b.aboveBarData, t),
         curveSmoothness: b.curveSmoothness,
         isCurved: b.isCurved,
-        isStrokeCapRound: b.isStrokeCapRound,
-        isStrokeJoinRound: b.isStrokeJoinRound,
         preventCurveOverShooting: b.preventCurveOverShooting,
         preventCurveOvershootingThreshold: lerpDouble(
           a.preventCurveOvershootingThreshold,
@@ -416,7 +422,7 @@ class LineChartBarData with Equatable {
           b.errorIndicatorData,
           t,
         ),
-        dashArray: lerpIntList(a.dashArray, b.dashArray, t),
+        pathData: FlPathData.lerp(a.pathData, b.pathData, t),
         color: Color.lerp(a.color, b.color, t),
         gradient: Gradient.lerp(a.gradient, b.gradient, t),
         gradientArea: b.gradientArea,
@@ -441,14 +447,12 @@ class LineChartBarData with Equatable {
     double? curveSmoothness,
     bool? preventCurveOverShooting,
     double? preventCurveOvershootingThreshold,
-    bool? isStrokeCapRound,
-    bool? isStrokeJoinRound,
     BarAreaData? belowBarData,
     BarAreaData? aboveBarData,
     FlDotData? dotData,
     FlErrorIndicatorData<LineChartSpotErrorRangeCallbackInput>?
         errorIndicatorData,
-    List<int>? dashArray,
+    FlPathData? pathData,
     List<int>? showingIndicators,
     Shadow? shadow,
     bool? isStepLineChart,
@@ -467,11 +471,9 @@ class LineChartBarData with Equatable {
             preventCurveOverShooting ?? this.preventCurveOverShooting,
         preventCurveOvershootingThreshold: preventCurveOvershootingThreshold ??
             this.preventCurveOvershootingThreshold,
-        isStrokeCapRound: isStrokeCapRound ?? this.isStrokeCapRound,
-        isStrokeJoinRound: isStrokeJoinRound ?? this.isStrokeJoinRound,
         belowBarData: belowBarData ?? this.belowBarData,
         aboveBarData: aboveBarData ?? this.aboveBarData,
-        dashArray: dashArray ?? this.dashArray,
+        pathData: pathData ?? this.pathData,
         dotData: dotData ?? this.dotData,
         errorIndicatorData: errorIndicatorData ?? this.errorIndicatorData,
         showingIndicators: showingIndicators ?? this.showingIndicators,
@@ -493,14 +495,12 @@ class LineChartBarData with Equatable {
         curveSmoothness,
         preventCurveOverShooting,
         preventCurveOvershootingThreshold,
-        isStrokeCapRound,
-        isStrokeJoinRound,
         belowBarData,
         aboveBarData,
         dotData,
         errorIndicatorData,
         showingIndicators,
-        dashArray,
+        pathData,
         shadow,
         isStepLineChart,
         lineChartStepData,

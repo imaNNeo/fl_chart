@@ -1,3 +1,6 @@
+// Keep deprecated APIs for testing backwards-compatibility.
+// ignore_for_file: deprecated_member_use_from_same_package
+
 import 'dart:ui' as ui show Gradient;
 
 import 'package:fl_chart/fl_chart.dart';
@@ -1352,111 +1355,101 @@ void main() {
       );
     });
 
-    test('test 4', () {
-      const viewSize = Size(200, 100);
+    for (final (variant, dashedRod) in dashedBarChartRodVariants) {
+      test('test 4 - draws dashed border via $variant', () {
+        const viewSize = Size(200, 100);
 
-      final barGroups = [
-        BarChartGroupData(
-          x: 0,
-          barRods: [
-            BarChartRodData(
-              fromY: 0,
-              toY: 5,
-              borderRadius: BorderRadius.zero,
-              color: Colors.white,
-            ),
-          ],
-        ),
-        BarChartGroupData(
-          x: 1,
-          barRods: [
-            BarChartRodData(
-              fromY: 0,
-              toY: 10,
-              borderRadius: BorderRadius.zero,
-              color: Colors.white,
-            ),
-          ],
-        ),
-        BarChartGroupData(
-          x: 3,
-          barRods: [
-            BarChartRodData(
-              fromY: 0,
-              toY: 15,
-              borderDashArray: [4, 4],
-              borderSide: const BorderSide(
+        final barGroups = [
+          BarChartGroupData(
+            x: 0,
+            barRods: [
+              BarChartRodData(
+                fromY: 0,
+                toY: 5,
+                borderRadius: BorderRadius.zero,
                 color: Colors.white,
-                width: 2,
               ),
-              borderRadius: BorderRadius.zero,
-              color: Colors.transparent,
-            ),
-          ],
-        ),
-      ];
+            ],
+          ),
+          BarChartGroupData(
+            x: 1,
+            barRods: [
+              BarChartRodData(
+                fromY: 0,
+                toY: 10,
+                borderRadius: BorderRadius.zero,
+                color: Colors.white,
+              ),
+            ],
+          ),
+          BarChartGroupData(
+            x: 3,
+            barRods: [dashedRod],
+          ),
+        ];
 
-      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
+        final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
 
-      final data = BarChartData(
-        barGroups: barGroups,
-        minY: minY,
-        maxY: maxY,
-      );
+        final data = BarChartData(
+          barGroups: barGroups,
+          minY: minY,
+          maxY: maxY,
+        );
 
-      final barChartPainter = BarChartPainter();
-      final holder =
-          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+        final barChartPainter = BarChartPainter();
+        final holder =
+            PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
 
-      final mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+        final mockCanvasWrapper = MockCanvasWrapper();
+        when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+        when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final groupsX = data.calculateGroupsX(viewSize.width);
-      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
-        viewSize,
-        groupsX,
-        barGroups,
-      );
+        final groupsX = data.calculateGroupsX(viewSize.width);
+        final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+          viewSize,
+          groupsX,
+          barGroups,
+        );
 
-      final rodDataResults = <Map<String, dynamic>>[];
-      final borderResult = <Map<String, dynamic>>[];
+        final rodDataResults = <Map<String, dynamic>>[];
+        final borderResult = <Map<String, dynamic>>[];
 
-      when(mockCanvasWrapper.drawRRect(captureAny, captureAny))
-          .thenAnswer((inv) {
-        final rrect = inv.positionalArguments[0] as RRect;
-        final paint = inv.positionalArguments[1] as Paint;
-        rodDataResults.add({
-          'rrect': rrect,
-          'paint_color': paint.color,
+        when(mockCanvasWrapper.drawRRect(captureAny, captureAny))
+            .thenAnswer((inv) {
+          final rrect = inv.positionalArguments[0] as RRect;
+          final paint = inv.positionalArguments[1] as Paint;
+          rodDataResults.add({
+            'rrect': rrect,
+            'paint_color': paint.color,
+          });
         });
-      });
 
-      when(mockCanvasWrapper.drawPath(captureAny, captureAny))
-          .thenAnswer((inv) {
-        final path = inv.positionalArguments[0] as Path;
-        final paint = inv.positionalArguments[1] as Paint;
-        borderResult.add({
-          'path': path,
-          'paint_color': paint.color,
+        when(mockCanvasWrapper.drawPath(captureAny, captureAny))
+            .thenAnswer((inv) {
+          final path = inv.positionalArguments[0] as Path;
+          final paint = inv.positionalArguments[1] as Paint;
+          borderResult.add({
+            'path': path,
+            'paint_color': paint.color,
+          });
         });
+
+        barChartPainter.drawBars(mockCanvasWrapper, barGroupsPosition, holder);
+        expect(rodDataResults.length, 3);
+        expect(rodDataResults[0]['paint_color'], Colors.white);
+        expect(rodDataResults[1]['paint_color'], Colors.white);
+        expect(rodDataResults[2]['paint_color'], Colors.transparent);
+
+        expect(borderResult.length, 1);
+        expect(borderResult[0]['paint_color'], Colors.white);
+        final rrect = rodDataResults[2]['rrect'] as RRect;
+        final path = Path()..addRRect(rrect);
+        final expectedPath = path.toDashedPath(dashArrayPattern);
+        final currentPath = borderResult[0]['path'] as Path;
+
+        expect(HelperMethods.equalsPaths(expectedPath, currentPath), true);
       });
-
-      barChartPainter.drawBars(mockCanvasWrapper, barGroupsPosition, holder);
-      expect(rodDataResults.length, 3);
-      expect(rodDataResults[0]['paint_color'], Colors.white);
-      expect(rodDataResults[1]['paint_color'], Colors.white);
-      expect(rodDataResults[2]['paint_color'], Colors.transparent);
-
-      expect(borderResult.length, 1);
-      expect(borderResult[0]['paint_color'], Colors.white);
-      final rrect = rodDataResults[2]['rrect'] as RRect;
-      final path = Path()..addRRect(rrect);
-      final expectedPath = path.toDashedPath([4, 4]);
-      final currentPath = borderResult[0]['path'] as Path;
-
-      expect(HelperMethods.equalsPaths(expectedPath, currentPath), true);
-    });
+    }
 
     test('test 5', () {
       const viewSize = Size(200, 100);
@@ -3804,68 +3797,62 @@ void main() {
       Utils.changeInstance(utilsMainInstance);
     });
 
-    test('should draw extra horizontal lines under chart', () {
-      const viewSize = Size(100, 100);
-      final data = BarChartData(
-        minY: -10,
-        maxY: 10,
-        barGroups: [
-          BarChartGroupData(
-            x: 1,
-            barRods: [
-              BarChartRodData(fromY: 1, toY: 10),
-              BarChartRodData(fromY: 2, toY: 10),
-            ],
-          ),
-        ],
-        titlesData: const FlTitlesData(show: false),
-        extraLinesData: ExtraLinesData(
-          horizontalLines: [
-            HorizontalLine(
-              y: -9.9,
-              color: Colors.cyanAccent,
-              dashArray: [12, 22],
-            ),
-            HorizontalLine(
-              y: -.5,
-              color: Colors.cyanAccent,
-              dashArray: [12, 22],
+    for (final (variant, makeHorizontalLine) in dashedHorizontalLineVariants) {
+      test('should draw extra horizontal lines under chart via $variant', () {
+        const viewSize = Size(100, 100);
+        final data = BarChartData(
+          minY: -10,
+          maxY: 10,
+          barGroups: [
+            BarChartGroupData(
+              x: 1,
+              barRods: [
+                BarChartRodData(fromY: 1, toY: 10),
+                BarChartRodData(fromY: 2, toY: 10),
+              ],
             ),
           ],
-          extraLinesOnTop: false,
-        ),
-      );
-
-      final barChartPainter = BarChartPainter();
-      final holder =
-          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
-      final mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-
-      final mockBuildContext = MockBuildContext();
-
-      barChartPainter.paint(
-        mockBuildContext,
-        mockCanvasWrapper,
-        holder,
-      );
-
-      verify(
-        mockCanvasWrapper.drawDashedLine(
-          any,
-          any,
-          argThat(
-            const TypeMatcher<Paint>().having(
-              (p0) => p0.color,
-              'colors match',
-              isSameColorAs(Colors.cyanAccent),
-            ),
+          titlesData: const FlTitlesData(show: false),
+          extraLinesData: ExtraLinesData(
+            horizontalLines: [
+              makeHorizontalLine(-9.9),
+              makeHorizontalLine(-0.5),
+            ],
+            extraLinesOnTop: false,
           ),
-          holder.data.extraLinesData.horizontalLines[0].dashArray,
-        ),
-      ).called(2);
-    });
+        );
+
+        final barChartPainter = BarChartPainter();
+        final holder =
+            PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+        final mockCanvasWrapper = MockCanvasWrapper();
+        when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+        when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+        final mockBuildContext = MockBuildContext();
+
+        barChartPainter.paint(
+          mockBuildContext,
+          mockCanvasWrapper,
+          holder,
+        );
+
+        verify(
+          mockCanvasWrapper.drawDashedLine(
+            any,
+            any,
+            argThat(
+              const TypeMatcher<Paint>().having(
+                (p0) => p0.color,
+                'colors match',
+                isSameColorAs(MockData.color1),
+              ),
+            ),
+            [12, 22],
+          ),
+        ).called(2);
+      });
+    }
   });
 
   group('drawBarLabels()', () {

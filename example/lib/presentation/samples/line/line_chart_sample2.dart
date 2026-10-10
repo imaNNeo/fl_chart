@@ -160,7 +160,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
             colors: gradientColors,
           ),
           barWidth: 5,
-          isStrokeCapRound: true,
+          pathData: const FlPathData(strokeCap: StrokeCap.round),
           dotData: const FlDotData(
             show: false,
           ),
@@ -252,7 +252,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
             ],
           ),
           barWidth: 5,
-          isStrokeCapRound: true,
+          pathData: const FlPathData(strokeCap: StrokeCap.round),
           dotData: const FlDotData(
             show: false,
           ),

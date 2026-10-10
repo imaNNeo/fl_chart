@@ -504,6 +504,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       }
 
       final indicatorLine = indicatorData.indicatorBelowLine;
+      final pathData = indicatorLine.pathData ??
+          FlPathData(
+            // Kept for backwards-compatibility.
+            // ignore: deprecated_member_use_from_same_package
+            dashArray: indicatorLine.dashArray,
+          );
       _touchLinePaint
         ..setColorOrGradientForLine(
           indicatorLine.color,
@@ -512,13 +518,16 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           to: lineEnd,
         )
         ..strokeWidth = indicatorLine.strokeWidth
+        ..strokeCap = pathData.strokeCap
+        ..strokeJoin = pathData.strokeJoin
+        ..strokeMiterLimit = pathData.strokeMiterLimit
         ..transparentIfWidthIsZero();
 
       canvasWrapper.drawDashedLine(
         lineStart,
         lineEnd,
         _touchLinePaint,
-        indicatorLine.dashArray,
+        pathData.dashArray,
       );
 
       /// Draw the indicator dot
@@ -854,6 +863,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           }
 
           final lineStyle = barData.belowBarData.spotsLine.flLineStyle;
+          final pathData = lineStyle.pathData ??
+              FlPathData(
+                // Kept for backwards-compatibility.
+                // ignore: deprecated_member_use_from_same_package
+                dashArray: lineStyle.dashArray,
+              );
           _barAreaLinesPaint
             ..setColorOrGradientForLine(
               lineStyle.color,
@@ -862,13 +877,16 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
               to: to,
             )
             ..strokeWidth = lineStyle.strokeWidth
+            ..strokeCap = pathData.strokeCap
+            ..strokeJoin = pathData.strokeJoin
+            ..strokeMiterLimit = pathData.strokeMiterLimit
             ..transparentIfWidthIsZero();
 
           canvasWrapper.drawDashedLine(
             from,
             to,
             _barAreaLinesPaint,
-            lineStyle.dashArray,
+            pathData.dashArray,
           );
         }
       }
@@ -948,6 +966,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           }
 
           final lineStyle = barData.aboveBarData.spotsLine.flLineStyle;
+          final pathData = lineStyle.pathData ??
+              FlPathData(
+                // Kept for backwards-compatibility.
+                // ignore: deprecated_member_use_from_same_package
+                dashArray: lineStyle.dashArray,
+              );
           _barAreaLinesPaint
             ..setColorOrGradientForLine(
               lineStyle.color,
@@ -956,13 +980,16 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
               to: to,
             )
             ..strokeWidth = lineStyle.strokeWidth
+            ..strokeCap = pathData.strokeCap
+            ..strokeJoin = pathData.strokeJoin
+            ..strokeMiterLimit = pathData.strokeMiterLimit
             ..transparentIfWidthIsZero();
 
           canvasWrapper.drawDashedLine(
             from,
             to,
             _barAreaLinesPaint,
-            lineStyle.dashArray,
+            pathData.dashArray,
           );
         }
       }
@@ -1008,10 +1035,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       return;
     }
 
+    final pathData = barData.pathData ?? const FlPathData();
     _barPaint
-      ..strokeCap = barData.isStrokeCapRound ? StrokeCap.round : StrokeCap.butt
-      ..strokeJoin =
-          barData.isStrokeJoinRound ? StrokeJoin.round : StrokeJoin.miter
+      ..strokeCap = pathData.strokeCap
+      ..strokeJoin = pathData.strokeJoin
+      ..strokeMiterLimit = pathData.strokeMiterLimit
       ..color = barData.shadow.color
       ..shader = null
       ..strokeWidth = barData.barWidth
@@ -1021,7 +1049,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         Utils().convertRadiusToSigma(barData.shadow.blurRadius),
       );
 
-    barPath = barPath.toDashedPath(barData.dashArray);
+    barPath = barPath.toDashedPath(pathData.dashArray);
 
     barPath = barPath.shift(barData.shadow.offset);
 
@@ -1044,10 +1072,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     }
     final viewSize = canvasWrapper.size;
 
+    final pathData = barData.pathData ?? const FlPathData();
     _barPaint
-      ..strokeCap = barData.isStrokeCapRound ? StrokeCap.round : StrokeCap.butt
-      ..strokeJoin =
-          barData.isStrokeJoinRound ? StrokeJoin.round : StrokeJoin.miter;
+      ..strokeCap = pathData.strokeCap
+      ..strokeJoin = pathData.strokeJoin
+      ..strokeMiterLimit = pathData.strokeMiterLimit;
 
     final rectAroundTheLine = Rect.fromLTRB(
       getPixelX(barData.mostLeftSpot.x, viewSize, holder),
@@ -1067,7 +1096,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       ..strokeWidth = barData.barWidth
       ..transparentIfWidthIsZero();
 
-    barPath = barPath.toDashedPath(barData.dashArray);
+    barPath = barPath.toDashedPath(pathData.dashArray);
     canvasWrapper.drawPath(barPath, _barPaint);
   }
 
