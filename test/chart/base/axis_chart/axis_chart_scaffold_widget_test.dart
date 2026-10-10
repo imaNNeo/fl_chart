@@ -1044,11 +1044,8 @@ void main() {
             ),
           );
 
-          final chartCenterOffset = tester.getCenter(
-            find.byWidgetPredicate(
-              (widget) => widget is ColoredBox && widget.color == Colors.red,
-            ),
-          );
+          final chartCenterOffset =
+              tester.getCenter(find.byType(AxisChartScaffoldWidget));
           final scaleStart1 = chartCenterOffset + const Offset(10, 10);
           final scaleStart2 = chartCenterOffset - const Offset(10, 10);
           final scaleEnd1 = chartCenterOffset + const Offset(100, 100);
@@ -1105,11 +1102,8 @@ void main() {
             ),
           );
 
-          final chartCenterOffset = tester.getCenter(
-            find.byWidgetPredicate(
-              (widget) => widget is ColoredBox && widget.color == Colors.red,
-            ),
-          );
+          final chartCenterOffset =
+              tester.getCenter(find.byType(AxisChartScaffoldWidget));
           final scaleStart1 = chartCenterOffset + const Offset(10, 10);
           final scaleStart2 = chartCenterOffset - const Offset(10, 10);
           final scaleEnd1 = chartCenterOffset + const Offset(100, 100);
@@ -1164,11 +1158,8 @@ void main() {
             ),
           );
 
-          final chartCenterOffset = tester.getCenter(
-            find.byWidgetPredicate(
-              (widget) => widget is ColoredBox && widget.color == Colors.red,
-            ),
-          );
+          final chartCenterOffset =
+              tester.getCenter(find.byType(AxisChartScaffoldWidget));
           final scaleStart1 = chartCenterOffset + const Offset(10, 10);
           final scaleStart2 = chartCenterOffset - const Offset(10, 10);
           final scaleEnd1 = chartCenterOffset + const Offset(100, 100);
@@ -1229,11 +1220,8 @@ void main() {
         ),
       );
 
-      final chartCenterOffset = tester.getCenter(
-        find.byWidgetPredicate(
-          (widget) => widget is ColoredBox && widget.color == Colors.red,
-        ),
-      );
+      final chartCenterOffset =
+          tester.getCenter(find.byType(AxisChartScaffoldWidget));
       final scaleStart1 = chartCenterOffset + const Offset(10, 10);
       final scaleStart2 = chartCenterOffset - const Offset(10, 10);
       final scaleEnd1 = chartCenterOffset + const Offset(100, 100);
