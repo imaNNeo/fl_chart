@@ -57,7 +57,7 @@ class RenderCandlestickChart extends RenderBaseChart<CandlestickTouchResponse> {
     CandlestickChartData targetData,
     TextScaler textScaler,
     Rect? chartVirtualRect, {
-    required bool canBeScaled,
+    required super.canBeScaled,
   })  : _data = data,
         _targetData = targetData,
         _textScaler = textScaler,
@@ -65,7 +65,6 @@ class RenderCandlestickChart extends RenderBaseChart<CandlestickTouchResponse> {
         super(
           targetData.candlestickTouchData,
           context,
-          canBeScaled: canBeScaled,
         );
 
   CandlestickChartData get data => _data;
