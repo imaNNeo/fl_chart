@@ -168,7 +168,7 @@ typedef GetTitleWidgetFunction = Widget Function(double value, TitleMeta meta);
 
 /// The default [SideTitles.getTitlesWidget] function.
 ///
-/// formats the axis number to a shorter string using [formatNumber].
+/// formats the axis number to a shorter string (see [TitleMeta.formattedValue]).
 Widget defaultGetTitle(double value, TitleMeta meta) {
   return SideTitleWidget(
     meta: meta,
@@ -183,7 +183,7 @@ class SideTitles with Equatable {
   /// It draws some title on an axis, per axis values,
   /// [showTitles] determines showing or hiding this side,
   ///
-  /// Texts are depend on the axis value, you can override [getTitles],
+  /// Texts are depend on the axis value, you can override [getTitlesWidget],
   /// it gives you an axis value (double value) and a [TitleMeta] which contains
   /// additional information about the axis.
   /// Then you should return a [Widget] to show.
@@ -347,10 +347,10 @@ class SideTitleFitInsideData with Equatable {
 
 /// Holds data for showing each side titles (left, top, right, bottom)
 class AxisTitles with Equatable {
-  /// you can provide [axisName] if you want to show a general
+  /// you can provide [axisNameWidget] if you want to show a general
   /// label on this axis,
   ///
-  /// [axisNameSize] determines the maximum size that [axisName] can use
+  /// [axisNameSize] determines the maximum size that [axisNameWidget] can use
   ///
   /// [sideTitles] property is responsible to show your axis side labels
   const AxisTitles({
@@ -361,7 +361,7 @@ class AxisTitles with Equatable {
     this.sideTitleAlignment = SideTitleAlignment.outside,
   });
 
-  /// Determines the size of [axisName]
+  /// Determines the size of [axisNameWidget]
   final double axisNameSize;
 
   /// It shows the name of axis, for example your x-axis shows year,

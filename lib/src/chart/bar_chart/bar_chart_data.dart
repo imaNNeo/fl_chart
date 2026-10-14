@@ -174,7 +174,7 @@ class BarChartData extends AxisChartData with Equatable {
       ];
 }
 
-/// defines arrangement of [barGroups], check [MainAxisAlignment] for more details.
+/// defines arrangement of [BarChartData.barGroups], check [MainAxisAlignment] for more details.
 enum BarChartAlignment {
   start,
   end,
@@ -190,7 +190,7 @@ enum BarChartAlignment {
 /// if you want to have grouped bars, simply put them in each group,
 /// otherwise just pass one of them in each group.
 class BarChartGroupData with Equatable {
-  /// [BarChart] renders groups, and arrange them using [alignment],
+  /// [BarChart] renders groups, and arrange them using [BarChartData.alignment],
   /// [x] value defines the group's value in the x axis (set them incrementally).
   /// it renders a list of [BarChartRodData] that represents a rod (or a bar) in the bar chart,
   /// and applies [barsSpace] between them.
@@ -741,10 +741,7 @@ class BarTouchTooltipData with Equatable {
   /// [BarChart] shows a tooltip popup on top of rods automatically when touch happens,
   /// otherwise you can show it manually using [BarChartGroupData.showingTooltipIndicators].
   /// Tooltip shows on top of rods, with [getTooltipColor] as a background color.
-  /// You can set the corner radius using [tooltipRoundedRadius],
-  /// or if you need a custom border, you can use [tooltipBorderRadius].
-  /// Note that if both [tooltipRoundedRadius] and [tooltipBorderRadius] are set,
-  /// the value from [tooltipBorderRadius] will be used.
+  /// You can set the corner radius using [tooltipBorderRadius].
   /// If you want to have a padding inside the tooltip, fill [tooltipPadding],
   /// or If you want to have a bottom margin, set [tooltipMargin].
   /// Content of the tooltip will provide using [getTooltipItem] callback, you can override it

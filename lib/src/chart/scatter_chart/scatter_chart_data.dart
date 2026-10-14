@@ -205,7 +205,7 @@ class ScatterChartData extends AxisChartData with Equatable {
 class ScatterSpot extends FlSpot with Equatable {
   /// You can change [show] value to show or hide the spot,
   /// [x], and [y] defines the location of spot in the [ScatterChart],
-  /// [radius] defines the size of spot, and [color] defines the color of it.
+  /// [dotPainter] defines how the spot is drawn (its size, color and shape).
   ScatterSpot(
     super.x,
     super.y, {
@@ -709,7 +709,7 @@ String getDefaultLabelFunction(
 /// Defines information about the labels in the [ScatterChart]
 class ScatterLabelSettings with Equatable {
   /// You can change [showLabel] value to show or hide the label,
-  /// [textStyle] defines the style of label in the [ScatterChart].
+  /// [getLabelTextStyleFunction] defines the style of label in the [ScatterChart].
   ScatterLabelSettings({
     bool? showLabel,
     GetLabelTextStyleFunction? getLabelTextStyleFunction,
