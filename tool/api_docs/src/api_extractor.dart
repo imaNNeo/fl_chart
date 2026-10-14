@@ -68,7 +68,7 @@ class ApiExtractor {
       errors.add('$name: not a class or enum exported by package:fl_chart');
       return null;
     }
-    return switch (mode ?? TableMode.constructor) {
+    return await switch (mode ?? TableMode.constructor) {
       TableMode.fields => _fieldsType(element, isDocumented),
       _ => _constructorType(element, isDocumented),
     };
