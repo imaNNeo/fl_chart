@@ -5,8 +5,8 @@ import 'package:flutter/widgets.dart';
 class GaugeChart extends ImplicitlyAnimatedWidget {
   /// [data] determines how the [GaugeChart] should be look like,
   /// when you make any change in the [GaugeChartData], it updates
-  /// new values with animation, and duration is [swapAnimationDuration].
-  /// also you can change the [swapAnimationCurve]
+  /// new values with animation, and duration is [duration].
+  /// also you can change the [curve]
   /// which default is [Curves.linear].
   const GaugeChart(
     this.data, {

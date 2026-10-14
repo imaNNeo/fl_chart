@@ -528,7 +528,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     }
   }
 
-  /// Generates a path, based on [LineChartBarData.isStepChart] for step style, and normal style.
+  /// Generates a path, based on [LineChartBarData.isStepLineChart] for step style, and normal style.
   @visibleForTesting
   Path generateBarPath(
     Size viewSize,

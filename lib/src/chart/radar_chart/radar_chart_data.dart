@@ -112,7 +112,7 @@ class RadarChartData extends BaseChartData with Equatable {
 
   /// [getTitle] is used to draw titles outside the [RadarChart]
   /// [getTitle] is type of [GetTitleByIndexFunction] so you should return a valid [RadarChartTitle]
-  /// for each [index] (we provide a default [angle] = index * 360 / titleCount)
+  /// for each `index` (we provide a default `angle` = index * 360 / titleCount)
   ///
   /// ```dart
   /// getTitle: (index, angle) {

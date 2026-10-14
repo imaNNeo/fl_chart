@@ -245,7 +245,7 @@ class GaugeChartData extends BaseChartData with Equatable {
 ///
 /// Sealed hierarchy — a ring is always either a [GaugeProgressRing]
 /// (filled up to a value) or a [GaugeZonesRing] (divided into fixed
-/// [GaugeZone]s). The [GaugeChartPainter] dispatches on the concrete
+/// [GaugeZone]s). The `GaugeChartPainter` dispatches on the concrete
 /// type; the hierarchy is closed to ensure that never changes silently.
 sealed class GaugeRing with Equatable {
   const GaugeRing({this.width});
@@ -500,10 +500,11 @@ class GaugeTicks with Equatable {
   final GaugeTickPosition position;
 
   /// Signed pixel delta from the natural tick anchor, measured along
-  /// the [position]'s outward axis (away from center for [outer],
-  /// toward center for [inner], toward outer for [center]). Positive
-  /// extends the tick farther in that direction; negative pulls it
-  /// back toward (or across) the ring stack.
+  /// the [position]'s outward axis (away from center for
+  /// [GaugeTickPosition.outer], toward center for [GaugeTickPosition.inner],
+  /// toward outer for [GaugeTickPosition.center]). Positive extends the tick
+  /// farther in that direction; negative pulls it back toward (or across)
+  /// the ring stack.
   final double offset;
 
   /// Renders each tick. The canvas is pre-translated and pre-rotated
@@ -578,7 +579,7 @@ class GaugeTicks with Equatable {
 }
 
 /// Signature for a predicate that decides whether a gauge tick is
-/// drawn. See [GaugeTicks.CheckToShowGaugeTick].
+/// drawn. See [GaugeTicks.checkToShowTick].
 typedef CheckToShowGaugeTick = bool Function(GaugeTickInfo info);
 
 /// Context passed to [CheckToShowGaugeTick] callbacks.
