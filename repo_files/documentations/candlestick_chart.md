@@ -20,7 +20,7 @@ When you change the chart's state, it animates to the new state internally (usin
 <!-- api:CandlestickChartData -->
 |Property|Type|Default|Description|
 |:-------|:---|:------|:----------|
-|candlestickSpots|`List<CandlestickSpot>?`|`const []`|Contains the data for the candlestick chart.<br><br>Each [`CandlestickSpot`](#candlestickspot) represents a candlestick in the chart that contains [open, high, low, close] values.|
+|candlestickSpots|`List<CandlestickSpot>?`|`const []`|Contains the data for the candlestick chart.<br><br>Each [`CandlestickSpot`](#candlestickspot) represents a candlestick in the chart that contains [`CandlestickSpot.open`](#candlestickspot), [`CandlestickSpot.high`](#candlestickspot), [`CandlestickSpot.low`](#candlestickspot) and [`CandlestickSpot.close`](#candlestickspot) values.|
 |candlestickPainter|`FlCandlestickPainter?`|`DefaultCandlestickPainter()`|The painter used to draw the candlestick. You can use the [`DefaultCandlestickPainter`](https://pub.dev/documentation/fl_chart/latest/fl_chart/DefaultCandlestickPainter-class.html) or implement your own.|
 |titlesData|`FlTitlesData?`|`const FlTitlesData()`|Holds data to draw the titles around the chart, see [`FlTitlesData`](base_chart.md#fltitlesdata).|
 |candlestickTouchData|`CandlestickTouchData?`|`CandlestickTouchData()`|Handles touch behaviors and responses.|

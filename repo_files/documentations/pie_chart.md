@@ -48,7 +48,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |badgeWidget|`Widget?`|`null`|Defines a widget that represents the section.<br><br>This can be anything from a text, an image, an animation, and even a combination of widgets. Use AnimatedWidgets to animate this widget.|
 |titlePositionPercentageOffset|`double?`|`0.5`|Defines position of showing title in the section.<br><br>It should be between 0.0 to 1.0, 0.0 means near the center, 1.0 means near the outside of the [`PieChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/PieChart-class.html).|
 |badgePositionPercentageOffset|`double?`|`0.5`|Defines position of badge widget in the section.<br><br>It should be between 0.0 to 1.0, 0.0 means near the center, 1.0 means near the outside of the [`PieChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/PieChart-class.html).|
-|segments|`List<PieChartStackSegmentData>?`|`const []`|Stacked segments rendered on top of the main section.<br><br>Each segment defines [`PieChartStackSegmentData.fromRadius`](#piechartstacksegmentdata) and [`PieChartStackSegmentData.toRadius`](#piechartstacksegmentdata) to specify its position within the section's `radius`. Values are clamped to [0, radius] at render time.|
+|segments|`List<PieChartStackSegmentData>?`|`const []`|Stacked segments rendered on top of the main section.<br><br>Each segment defines [`PieChartStackSegmentData.fromRadius`](#piechartstacksegmentdata) and [`PieChartStackSegmentData.toRadius`](#piechartstacksegmentdata) to specify its position within the section's `radius`. Values are clamped to `[0, radius]` at render time.|
 <!-- /api -->
 
 
@@ -56,8 +56,8 @@ When you change the chart's state, it animates to the new state internally (usin
 <!-- api:PieChartStackSegmentData -->
 |Property|Type|Default|Description|
 |:-------|:---|:------|:----------|
-|fromRadius|`double?`|`0`|The start radius of this segment (distance from center of the section). Clamped to [0, sectionRadius] at render time.|
-|toRadius|`double`|required|The end radius of this segment (distance from center of the section). Clamped to [0, sectionRadius] at render time.|
+|fromRadius|`double?`|`0`|The start radius of this segment (distance from center of the section). Clamped to `[0, sectionRadius]` at render time.|
+|toRadius|`double`|required|The end radius of this segment (distance from center of the section). Clamped to `[0, sectionRadius]` at render time.|
 |color|`Color?`|`Colors.purple`|Defines the color of segment.|
 |gradient|`Gradient?`|`null`|Defines the gradient of segment. If specified, overrides the color setting.|
 <!-- /api -->

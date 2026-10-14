@@ -764,7 +764,7 @@
         "name": "candlestickSpots",
         "type": "List<CandlestickSpot>?",
         "defaultValue": "const []",
-        "description": "Contains the data for the candlestick chart.\n\nEach [`CandlestickSpot`](#candlestickspot) represents a candlestick in the chart\nthat contains [open, high, low, close] values."
+        "description": "Contains the data for the candlestick chart.\n\nEach [`CandlestickSpot`](#candlestickspot) represents a candlestick in the chart\nthat contains [`CandlestickSpot.open`](#candlestickspot), [`CandlestickSpot.high`](#candlestickspot),\n[`CandlestickSpot.low`](#candlestickspot) and [`CandlestickSpot.close`](#candlestickspot) values."
       },
       {
         "name": "candlestickPainter",
@@ -1655,7 +1655,7 @@
         "name": "offset",
         "type": "double",
         "defaultValue": "0",
-        "description": "Signed pixel delta from the natural tick anchor, measured along\nthe `position`'s outward axis (away from center for\n[`GaugeTickPosition.outer`](#gaugetickposition), toward center for [`GaugeTickPosition.inner`](#gaugetickposition),\ntoward outer for [`GaugeTickPosition.center`](#gaugetickposition)). Positive\nextends the tick farther in that direction; negative pulls it\nback toward (or across) the ring stack."
+        "description": "Signed pixel delta from the natural tick anchor, measured along\nthe `position`'s outward axis (away from center for\n[`GaugeTickPosition.outer`](#gaugetickposition), toward center for [`GaugeTickPosition.inner`](#gaugetickposition),\ntoward outer for [`GaugeTickPosition.center`](#gaugetickposition)). Positive extends the tick\nfarther in that direction; negative pulls it back toward (or across)\nthe ring stack."
       },
       {
         "name": "painter",
@@ -2604,7 +2604,7 @@
         "name": "segments",
         "type": "List<PieChartStackSegmentData>?",
         "defaultValue": "const []",
-        "description": "Stacked segments rendered on top of the main section.\n\nEach segment defines [`PieChartStackSegmentData.fromRadius`](#piechartstacksegmentdata) and\n[`PieChartStackSegmentData.toRadius`](#piechartstacksegmentdata) to specify its position within\nthe section's `radius`. Values are clamped to [0, radius] at render time."
+        "description": "Stacked segments rendered on top of the main section.\n\nEach segment defines [`PieChartStackSegmentData.fromRadius`](#piechartstacksegmentdata) and\n[`PieChartStackSegmentData.toRadius`](#piechartstacksegmentdata) to specify its position within\nthe section's `radius`. Values are clamped to `[0, radius]` at render time."
       }
     ]
   },
@@ -2616,13 +2616,13 @@
         "name": "fromRadius",
         "type": "double?",
         "defaultValue": "0",
-        "description": "The start radius of this segment (distance from center of the section).\nClamped to [0, sectionRadius] at render time."
+        "description": "The start radius of this segment (distance from center of the section).\nClamped to `[0, sectionRadius]` at render time."
       },
       {
         "name": "toRadius",
         "type": "double",
         "required": true,
-        "description": "The end radius of this segment (distance from center of the section).\nClamped to [0, sectionRadius] at render time."
+        "description": "The end radius of this segment (distance from center of the section).\nClamped to `[0, sectionRadius]` at render time."
       },
       {
         "name": "color",
