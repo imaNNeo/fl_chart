@@ -52,12 +52,14 @@ void main() {
 
       await tester.pumpAndSettle();
 
+      final transformationController = TransformationController();
+      addTearDown(transformationController.dispose);
       final transformationConfig = FlTransformationConfig(
         scaleAxis: FlScaleAxis.free,
         trackpadScrollCausesScale: true,
         maxScale: 10,
         minScale: 1.5,
-        transformationController: TransformationController(),
+        transformationController: transformationController,
       );
       await tester.pumpWidget(
         createTestWidget(
