@@ -235,7 +235,7 @@ class PieChartSectionData with Equatable {
   ///
   /// Each segment defines [PieChartStackSegmentData.fromRadius] and
   /// [PieChartStackSegmentData.toRadius] to specify its position within
-  /// the section's [radius]. Values are clamped to [0, radius] at render time.
+  /// the section's [radius]. Values are clamped to `[0, radius]` at render time.
   final List<PieChartStackSegmentData> segments;
 
   /// Copies current [PieChartSectionData] to a new [PieChartSectionData],
@@ -335,7 +335,7 @@ class PieChartSectionData with Equatable {
 ///
 /// Each segment defines [fromRadius] and [toRadius] to specify its position
 /// within the section's total [PieChartSectionData.radius]. Values are clamped
-/// to the valid range [0, sectionRadius].
+/// to the valid range `[0, sectionRadius]`.
 class PieChartStackSegmentData with Equatable {
   /// Renders a segment of Stacked Pie Chart with given [fromRadius], [toRadius]
   /// and [color] or [gradient].
@@ -365,11 +365,11 @@ class PieChartStackSegmentData with Equatable {
         color = color ?? Colors.purple;
 
   /// The start radius of this segment (distance from center of the section).
-  /// Clamped to [0, sectionRadius] at render time.
+  /// Clamped to `[0, sectionRadius]` at render time.
   final double fromRadius;
 
   /// The end radius of this segment (distance from center of the section).
-  /// Clamped to [0, sectionRadius] at render time.
+  /// Clamped to `[0, sectionRadius]` at render time.
   final double toRadius;
 
   /// Defines the color of segment.

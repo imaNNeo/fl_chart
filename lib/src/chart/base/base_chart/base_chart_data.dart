@@ -13,8 +13,7 @@ import 'package:material_ui/material_ui.dart';
 /// In this phase we draw the border,
 /// and handle touches in an abstract way.
 abstract class BaseChartData with Equatable {
-  /// It draws 4 borders around your chart, you can customize it using [borderData],
-  /// [touchData] defines the touch behavior and responses.
+  /// It draws 4 borders around your chart, you can customize it using [borderData].
   BaseChartData({
     FlBorderData? borderData,
   }) : borderData = borderData ?? FlBorderData();

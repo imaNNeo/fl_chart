@@ -203,11 +203,8 @@ class LineChartBarData with Equatable {
   ///
   /// [show] determines the drawing, if set to false, it draws nothing.
   ///
-  /// [mainColors] determines the color of drawing line, if one color provided it applies a solid color,
-  /// otherwise it gradients between provided colors for drawing the line.
-  /// Gradient happens using provided [colorStops], [gradientFrom], [gradientTo].
-  /// if you want it draw normally, don't touch them,
-  /// check [LinearGradient] for understanding [colorStops]
+  /// [color] determines the solid color of drawing line,
+  /// or you can provide a [gradient] to draw the line using it (you can't provide both).
   ///
   /// [barWidth] determines the thickness of drawing line,
   ///
@@ -387,7 +384,7 @@ class LineChartBarData with Equatable {
   /// If sets true, it draws the chart in Step Line Chart style, using [LineChartBarData.lineChartStepData].
   final bool isStepLineChart;
 
-  /// Holds data for representing a Step Line Chart, and works only if [isStepChart] is true.
+  /// Holds data for representing a Step Line Chart, and works only if [isStepLineChart] is true.
   final LineChartStepData lineChartStepData;
 
   /// Lerps a [LineChartBarData] based on [t] value, check [Tween.lerp].
@@ -509,7 +506,7 @@ class LineChartBarData with Equatable {
       ];
 }
 
-/// Holds data for representing a Step Line Chart, and works only if [LineChartBarData.isStepChart] is true.
+/// Holds data for representing a Step Line Chart, and works only if [LineChartBarData.isStepLineChart] is true.
 class LineChartStepData with Equatable {
   /// Determines the [stepDirection] of each step;
   const LineChartStepData({this.stepDirection = stepDirectionMiddle});
@@ -546,12 +543,8 @@ class BarAreaData with Equatable {
   /// if [show] is true, [LineChart] fills above and below area of each line
   /// with a color or gradient.
   ///
-  /// [color] determines the color of above or below space area,
-  /// if one color provided it applies a solid color,
-  /// otherwise it gradients between provided colors for drawing the line.
-  /// Gradient happens using provided [gradientColorStops], [gradientFrom], [gradientTo].
-  /// if you want it draw normally, don't touch them,
-  /// check [LinearGradient] for understanding [gradientColorStops]
+  /// [color] determines the solid color of above or below space area,
+  /// or you can provide a [gradient] to fill the area using it (you can't provide both).
   ///
   /// If [spotsLine] is provided, it draws some lines from each spot
   /// to the bottom or top of the chart.
@@ -1001,7 +994,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with Equatable {
 ///
 /// It gives you the [spotIndexes] that touch happened, or manually targeted,
 /// in the given [barData], you should return a list of [TouchedSpotIndicatorData],
-/// length of this list should be equal to the [spotIndexes.length],
+/// length of this list should be equal to the `spotIndexes.length`,
 /// each [TouchedSpotIndicatorData] determines the look of showing indicator.
 typedef GetTouchedSpotIndicator = List<TouchedSpotIndicatorData?> Function(
   LineChartBarData barData,
@@ -1160,7 +1153,7 @@ class LineTouchTooltipData with Equatable {
 /// You can override [LineTouchTooltipData.getTooltipItems], it gives you
 /// [touchedSpots] list that touch happened on,
 /// then you should and pass your custom [LineTooltipItem] list
-/// (length should be equal to the [touchedSpots.length]),
+/// (length should be equal to the `touchedSpots.length`),
 /// to show inside the tooltip popup.
 typedef GetLineTooltipItems = List<LineTooltipItem?> Function(
   List<LineBarSpot> touchedSpots,
@@ -1182,9 +1175,8 @@ List<LineTooltipItem> defaultLineTooltipItem(List<LineBarSpot> touchedSpots) =>
 //// Provides a [Color] to show different background color for each touched spot
 ///
 /// You can override [LineTouchTooltipData.getTooltipColor], it gives you
-/// [touchedSpot] object that touch happened on, then you should and pass your custom [Color] list
-/// (length should be equal to the [touchedSpots.length]), to set background color
-/// of tooltip popup.
+/// [touchedSpot] object that touch happened on, then you should return a [Color]
+/// to set as the background color of the tooltip popup.
 typedef GetLineTooltipColor = Color Function(
   LineBarSpot touchedSpot,
 );
@@ -1212,7 +1204,7 @@ class LineBarSpot extends FlSpot with Equatable {
   /// Is the index of our [bar], in the [LineChartData.lineBarsData] list,
   final int barIndex;
 
-  /// Is the index of our [super.spot], in the [LineChartBarData.spots] list.
+  /// Is the index of our [spot], in the [LineChartBarData.spots] list.
   final int spotIndex;
 
   /// Used for equality check, see [Equatable].
@@ -1355,7 +1347,7 @@ class LineTouchResponse extends AxisBaseTouchResponse {
 }
 
 /// It is the input of the [GetSpotRangeErrorPainter] callback in
-/// the [LineChartData.errorIndicatorData]
+/// the [LineChartBarData.errorIndicatorData]
 ///
 /// So it contains the information about the spot, and the bar that the spot
 /// is in. The callback should return a [FlSpotErrorRangePainter] that will draw
