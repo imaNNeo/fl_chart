@@ -15,7 +15,7 @@ funding:
   - https://www.buymeacoffee.com/fl_chart
 
 dependencies:
-  equatable: ^2.0.7
+  equatable: ">=2.1.0 <4.0.0"
   flutter:
     sdk: flutter
   vector_math: ^2.2.0
@@ -29,7 +29,7 @@ dev_dependencies:
   mockito: ^5.5.1
   path: ^1.9.0
   pub_semver: ^2.2.0
-  very_good_analysis: ^10.2.0
+  very_good_analysis: ^11.0.0
 
 screenshots:
   - description: "FL Chart Logo"
