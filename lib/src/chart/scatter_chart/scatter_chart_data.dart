@@ -76,7 +76,11 @@ class ScatterChartData extends AxisChartData with Equatable {
                 scatterSpots ?? const [],
               ).$4,
         );
+
+  /// The spots to draw on the chart, see [ScatterSpot].
   final List<ScatterSpot> scatterSpots;
+
+  /// Handles touch behaviors and responses, see [ScatterTouchData].
   final ScatterTouchData scatterTouchData;
 
   /// you can show some tooltipIndicators (a popup with an information)
@@ -87,6 +91,7 @@ class ScatterChartData extends AxisChartData with Equatable {
   /// to show the tooltip manually, see [ScatterTouchData.handleBuiltInTouches].
   final List<int> showingTooltipIndicators;
 
+  /// Shows a label on each spot, see [ScatterLabelSettings].
   final ScatterLabelSettings scatterLabelSettings;
 
   /// Holds data for showing error indicators on the [scatterSpots]
@@ -227,10 +232,16 @@ class ScatterSpot extends FlSpot with Equatable {
   /// Determines show or hide the spot.
   final bool show;
 
-  // Determines Z-Index of the spot
+  /// Meant to determine which spots are drawn on top when they overlap.
+  ///
+  /// Note that the chart doesn't use it yet: the spots are drawn in the
+  /// order of [ScatterChartData.scatterSpots] (the last one on top).
   final int renderPriority;
 
-  /// Determines shape of the spot
+  /// Draws the spot, like a [FlDotCirclePainter] (the shape, size and color).
+  ///
+  /// Defaults to a circle with a radius of 6, and a color of
+  /// [Colors.primaries] picked from the [x] and [y] of the spot.
   final FlDotPainter dotPainter;
 
   Size get size => dotPainter.getSize(this);
@@ -292,7 +303,7 @@ class ScatterSpot extends FlSpot with Equatable {
 
 /// Holds data to handle touch events, and touch responses in the [ScatterChart].
 ///
-/// There is a touch flow, explained [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/handle_touches.md)
+/// There is a touch flow, explained [here](https://flchart.dev/docs/handle-touches)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [ScatterTouchResponse].
 class ScatterTouchData extends FlTouchData<ScatterTouchResponse>
@@ -330,14 +341,15 @@ class ScatterTouchData extends FlTouchData<ScatterTouchResponse>
           longPressDuration,
         );
 
-  /// show a tooltip on touched spots
+  /// Determines how the tooltip looks on top of the touched spot,
+  /// see [ScatterTouchTooltipData].
   final ScatterTouchTooltipData touchTooltipData;
 
-  /// we find the nearest spots on touched position based on this threshold
+  /// Extends the touchable area of each spot by this distance (in pixels).
   final double touchSpotThreshold;
 
-  /// set this true if you want the built in touch handling
-  /// (show a tooltip bubble and an indicator on touched spots)
+  /// If true, the chart handles touches by itself: it shows a tooltip bubble
+  /// on top of the touched spot.
   final bool handleBuiltInTouches;
 
   /// Copies current [ScatterTouchData] to a new [ScatterTouchData],
@@ -394,6 +406,7 @@ class ScatterTouchResponse extends AxisBaseTouchResponse {
     required this.touchedSpot,
   });
 
+  /// The touched spot, null if no spot is touched.
   final ScatterTouchedSpot? touchedSpot;
 
   /// Copies current [ScatterTouchResponse] to a new [ScatterTouchResponse],
@@ -490,13 +503,14 @@ class ScatterTouchTooltipData with Equatable {
   /// Applies a padding for showing contents inside the tooltip.
   final EdgeInsets tooltipPadding;
 
-  /// Controls showing tooltip on left side, right side or center aligned with spot, default is center
+  /// Controls showing tooltip on left side, right side or center aligned with spot.
   final FLHorizontalAlignment tooltipHorizontalAlignment;
 
-  /// Applies horizontal offset for showing tooltip, default is zero.
+  /// Applies horizontal offset for showing tooltip.
   final double tooltipHorizontalOffset;
 
-  /// Restricts the tooltip's width.
+  /// Maximum width of the tooltip's content, a text row which is wider than
+  /// this breaks into a new line.
   final double maxContentWidth;
 
   /// Retrieves data for showing content inside the tooltip.
@@ -511,10 +525,10 @@ class ScatterTouchTooltipData with Equatable {
   /// Controls the rotation of the tooltip.
   final double rotateAngle;
 
-  /// The tooltip border color.
+  /// Border of the tooltip bubble.
   final BorderSide tooltipBorder;
 
-  /// Retrieves data for showing content inside the tooltip.
+  /// Retrieves the background color of the tooltip for each touched spot.
   final GetScatterTooltipColor getTooltipColor;
 
   /// Used for equality check, see [Equatable].
@@ -623,13 +637,13 @@ class ScatterTooltipItem with Equatable {
         textAlign = textAlign ?? TextAlign.center,
         textDirection = textDirection ?? TextDirection.ltr;
 
-  /// Showing text.
+  /// Text of the tooltip.
   final String text;
 
-  /// Style of showing text.
+  /// [TextStyle] of the [text].
   final TextStyle? textStyle;
 
-  /// Defines bottom space from spot.
+  /// The space between the tooltip and the top of the spot.
   final double bottomMargin;
 
   /// TextAlign of the showing content.

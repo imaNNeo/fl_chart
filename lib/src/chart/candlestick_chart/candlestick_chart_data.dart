@@ -243,16 +243,18 @@ class CandlestickSpot extends FlSpot with Equatable {
   })  : show = show ?? true,
         super(x, high);
 
-  /// The open value of a specific candlestick.
+  /// The open value of the candlestick, see the
+  /// [OHLC standard](https://en.wikipedia.org/wiki/Open-high-low-close_chart).
   final double open;
 
-  /// The high value of a specific candlestick.
+  /// The highest value of the candlestick (the top of its wick).
   final double high;
 
-  /// The low value of a specific candlestick.
+  /// The lowest value of the candlestick (the bottom of its wick).
   final double low;
 
-  /// The close value of a specific candlestick.
+  /// The close value of the candlestick, see the
+  /// [OHLC standard](https://en.wikipedia.org/wiki/Open-high-low-close_chart).
   final double close;
 
   /// Determines show or hide the spot.
@@ -326,7 +328,7 @@ class CandlestickSpot extends FlSpot with Equatable {
 
 /// Holds data to handle touch events, and touch responses in the [CandlestickChart].
 ///
-/// There is a touch flow, explained [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/handle_touches.md)
+/// There is a touch flow, explained [here](https://flchart.dev/docs/handle-touches)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [CandlestickTouchResponse].
 class CandlestickTouchData extends FlTouchData<CandlestickTouchResponse>
@@ -364,14 +366,16 @@ class CandlestickTouchData extends FlTouchData<CandlestickTouchResponse>
           longPressDuration,
         );
 
-  /// show a tooltip on touched spots
+  /// Determines how the tooltip looks on top of the touched candlestick,
+  /// see [CandlestickTouchTooltipData].
   final CandlestickTouchTooltipData touchTooltipData;
 
-  /// set this true if you want the built in touch handling
-  /// (show a tooltip bubble and an indicator on touched spots)
+  /// If true, the chart handles touches by itself: it shows a tooltip bubble
+  /// and an indicator on the touched (or hovered) candlestick.
   final bool handleBuiltInTouches;
 
-  /// we find the nearest spots on touched position based on this threshold
+  /// Extends the touchable area of each candlestick by this distance
+  /// (in pixels).
   final double touchSpotThreshold;
 
   /// Copies current [CandlestickTouchData] to a new [CandlestickTouchData],
@@ -428,6 +432,7 @@ class CandlestickTouchResponse extends AxisBaseTouchResponse {
     required this.touchedSpot,
   });
 
+  /// The touched spot, null if no candle is touched.
   final CandlestickTouchedSpot? touchedSpot;
 
   /// Copies current [CandlestickTouchResponse] to a new [CandlestickTouchResponse],
@@ -522,13 +527,14 @@ class CandlestickTouchTooltipData with Equatable {
   /// Applies a padding for showing contents inside the tooltip.
   final EdgeInsets tooltipPadding;
 
-  /// Controls showing tooltip on left side, right side or center aligned with spot, default is center
+  /// Controls showing tooltip on left side, right side or center aligned with spot.
   final FLHorizontalAlignment tooltipHorizontalAlignment;
 
-  /// Applies horizontal offset for showing tooltip, default is zero.
+  /// Applies horizontal offset for showing tooltip.
   final double tooltipHorizontalOffset;
 
-  /// Restricts the tooltip's width.
+  /// Maximum width of the tooltip's content, a text row which is wider than
+  /// this breaks into a new line.
   final double maxContentWidth;
 
   /// Retrieves data for showing content inside the tooltip.
@@ -546,10 +552,11 @@ class CandlestickTouchTooltipData with Equatable {
   /// Controls the rotation of the tooltip.
   final double rotateAngle;
 
-  /// The tooltip border color.
+  /// Border of the tooltip bubble.
   final BorderSide tooltipBorder;
 
-  /// Retrieves data for showing content inside the tooltip.
+  /// Retrieves the background color of the tooltip for each touched
+  /// candlestick.
   final GetCandlestickTooltipColor getTooltipColor;
 
   /// Used for equality check, see [Equatable].

@@ -406,8 +406,14 @@ class GaugeZone with Equatable {
     this.strokeCap = StrokeCap.butt,
   }) : assert(to >= from, 'to must be >= from');
 
+  /// Lower bound of the zone on the gauge's scale (inclusive).
   final double from;
+
+  /// Upper bound of the zone on the gauge's scale (inclusive),
+  /// it must be `>= from`.
   final double to;
+
+  /// Fill color of this band.
   final Color color;
 
   /// Cap style applied to this band's two ends. Independent per zone —
@@ -454,7 +460,11 @@ class GaugeChartDataTween extends Tween<GaugeChartData> {
 
 /// Direction the arc travels from [GaugeChartData.startDegreeOffset].
 enum GaugeDirection {
+  /// The arc travels clockwise from [GaugeChartData.startDegreeOffset].
   clockwise,
+
+  /// The arc travels counter-clockwise from
+  /// [GaugeChartData.startDegreeOffset].
   counterClockwise,
 }
 

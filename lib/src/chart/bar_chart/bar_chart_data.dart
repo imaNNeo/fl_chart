@@ -70,6 +70,10 @@ class BarChartData extends AxisChartData with Equatable {
   final List<BarChartGroupData> barGroups;
 
   /// Apply space between the [barGroups].
+  ///
+  /// It is used only when [alignment] is [BarChartAlignment.start],
+  /// [BarChartAlignment.center] or [BarChartAlignment.end] (the other
+  /// alignments spread the groups in the free space).
   final double groupsSpace;
 
   /// Arrange the [barGroups], see [BarChartAlignment].
@@ -177,11 +181,25 @@ class BarChartData extends AxisChartData with Equatable {
 
 /// defines arrangement of [BarChartData.barGroups], check [MainAxisAlignment] for more details.
 enum BarChartAlignment {
+  /// Places the groups at the start of the chart.
   start,
+
+  /// Places the groups at the end of the chart.
   end,
+
+  /// Places the groups in the middle of the chart.
   center,
+
+  /// Places the free space evenly between the groups, and before the first
+  /// and after the last one.
   spaceEvenly,
+
+  /// Places the free space evenly between the groups, and half of it before
+  /// the first and after the last one.
   spaceAround,
+
+  /// Places the free space evenly between the groups, and none before the
+  /// first and after the last one.
   spaceBetween,
 }
 
@@ -320,7 +338,7 @@ class BarChartRodData with Equatable {
   /// for example if you want to have a Stacked Chart with three colors:
   /// ```dart
   /// BarChartRodData(
-  ///   y: 9,
+  ///   toY: 9,
   ///   color: Colors.grey,
   ///   rodStackItems: [
   ///     BarChartRodStackItem(0, 3, Colors.red),
@@ -366,26 +384,36 @@ class BarChartRodData with Equatable {
   /// you can use [BarChartData.errorIndicatorData] to customize the error range
   final FlErrorRange? toYErrorRange;
 
-  /// If provided, this [BarChartRodData] draws with this [color]
-  /// Otherwise we use  [gradient] to draw the background.
-  /// It throws an exception if you provide both [color] and [gradient]
+  /// If provided, this [BarChartRodData] draws with this [color].
+  /// Otherwise we use [gradient] to draw the rod.
+  /// It throws an exception if you provide both [color] and [gradient].
+  ///
+  /// Defaults to [Colors.cyan] if neither [color] nor [gradient] is provided.
   final Color? color;
 
   /// If provided, this [BarChartRodData] draws with this [gradient].
-  /// Otherwise we use [color] to draw the background.
-  /// It throws an exception if you provide both [color] and [gradient]
+  /// Otherwise we use [color] to draw the rod.
+  /// It throws an exception if you provide both [color] and [gradient].
+  ///
+  /// You can use any [Gradient] here, such as [LinearGradient] or [RadialGradient].
   final Gradient? gradient;
 
-  /// [BarChart] renders each rods with this value.
+  /// The width of the rod.
   final double width;
 
-  /// If you want to have a rounded rod, set this value.
+  /// The rounding of the corners of the rod. When null, the rod is fully
+  /// rounded (with a radius of half of its [width]).
   final BorderRadius? borderRadius;
 
-  /// If you want to have dashed border, set this value.
+  /// Draws the [borderSide] dashed, it's a circular array of dash lengths
+  /// and gaps. For example, `[5, 10]` results in dashes 5 pixels long
+  /// followed by gaps 10 pixels long.
   final List<int>? borderDashArray;
 
-  /// If you want to have a border for rod, set this value.
+  /// The border stroke around the rod, see [BorderSide].
+  ///
+  /// When null, the rod has no border (a [BorderSide] with a width of `0`).
+  /// The width of the border is capped to half of the rod's [width].
   final BorderSide borderSide;
 
   /// If you want to have a bar drawn in rear of this rod, use [backDrawRodData],
@@ -484,7 +512,7 @@ class BarChartRodStackItem with Equatable {
   /// for example if you want to have a Stacked Chart with three colors:
   /// ```dart
   /// BarChartRodData(
-  ///   y: 9,
+  ///   toY: 9,
   ///   color: Colors.grey,
   ///   rodStackItems: [
   ///     BarChartRodStackItem(0, 3, Colors.red),
@@ -506,7 +534,11 @@ class BarChartRodStackItem with Equatable {
           color != null || gradient != null,
           'You must provide either a color or gradient',
         );
+
+  /// An optional text label of the stack item.
   final String? label;
+
+  /// The [TextStyle] of the [label].
   final TextStyle? labelStyle;
 
   /// Renders a Stacked Chart section from [fromY]
@@ -598,14 +630,17 @@ class BackgroundBarChartRodData with Equatable {
   /// background starts to show from [fromY] to [toY]
   final double toY;
 
-  /// If provided, Background draws with this [color]
-  /// Otherwise we use  [gradient] to draw the background.
-  /// It throws an exception if you provide both [color] and [gradient]
+  /// If provided, the background rod draws with this [color].
+  /// Otherwise we use [gradient] to draw it.
+  /// It throws an exception if you provide both [color] and [gradient].
+  ///
+  /// Defaults to [Colors.blueGrey] if neither [color] nor [gradient] is
+  /// provided.
   final Color? color;
 
-  /// If provided, background draws with this [gradient].
-  /// Otherwise we use [color] to draw the background.
-  /// It throws an exception if you provide both [color] and [gradient]
+  /// If provided, the background rod draws with this [gradient].
+  /// Otherwise we use [color] to draw it.
+  /// It throws an exception if you provide both [color] and [gradient].
   final Gradient? gradient;
 
   /// Lerps a [BackgroundBarChartRodData] based on [t] value, check [Tween.lerp].
@@ -636,7 +671,7 @@ class BackgroundBarChartRodData with Equatable {
 
 /// Holds data to handle touch events, and touch responses in the [BarChart].
 ///
-/// There is a touch flow, explained [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/handle_touches.md)
+/// There is a touch flow, explained [here](https://flchart.dev/docs/handle-touches)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [BarTouchResponse].
 class BarTouchData extends FlTouchData<BarTouchResponse> with Equatable {
@@ -676,17 +711,19 @@ class BarTouchData extends FlTouchData<BarTouchResponse> with Equatable {
           longPressDuration,
         );
 
-  /// Configs of how touch tooltip popup.
+  /// Determines how the tooltip looks on top of the touched rods,
+  /// see [BarTouchTooltipData].
   final BarTouchTooltipData touchTooltipData;
 
-  /// Distance threshold to handle the touch event.
+  /// Extends the touchable area of each rod by these insets.
   final EdgeInsets touchExtraThreshold;
 
-  /// Determines to handle touches on the back draw bar.
+  /// If true, touching the background rod ([BarChartRodData.backDrawRodData])
+  /// counts as touching the rod.
   final bool allowTouchBarBackDraw;
 
-  /// Determines to handle default built-in touch responses,
-  /// [BarTouchResponse] shows a tooltip popup above the touched spot.
+  /// If true, the chart handles touches by itself: it shows a tooltip
+  /// bubble on top of the touched rod.
   final bool handleBuiltInTouches;
 
   /// Copies current [BarTouchData] to a new [BarTouchData],
@@ -796,16 +833,17 @@ class BarTouchTooltipData with Equatable {
   /// Applies a padding for showing contents inside the tooltip.
   final EdgeInsets tooltipPadding;
 
-  /// Applies a bottom margin for showing tooltip on top of rods.
+  /// Margin between the tooltip and the touched rod.
   final double tooltipMargin;
 
-  /// Controls showing tooltip on left side, right side or center aligned with rod, default is center
+  /// Controls showing tooltip on left side, right side or center aligned with rod.
   final FLHorizontalAlignment tooltipHorizontalAlignment;
 
-  /// Applies horizontal offset for showing tooltip, default is zero.
+  /// Applies horizontal offset for showing tooltip.
   final double tooltipHorizontalOffset;
 
-  /// Restricts the tooltip's width.
+  /// Maximum width of the tooltip's content, a text row which is wider than
+  /// this breaks into a new line.
   final double maxContentWidth;
 
   /// Retrieves data for showing content inside the tooltip.
@@ -823,10 +861,10 @@ class BarTouchTooltipData with Equatable {
   /// Controls the rotation of the tooltip (in degrees)
   final double rotateAngle;
 
-  /// The tooltip border color.
+  /// Border of the tooltip bubble.
   final BorderSide tooltipBorder;
 
-  /// Retrieves data for setting background color of the tooltip.
+  /// Retrieves the background color of the tooltip for each touched rod.
   final GetBarTooltipColor getTooltipColor;
 
   /// Used for equality check, see [Equatable].
@@ -978,16 +1016,25 @@ class BarTouchedSpot extends TouchedSpot with Equatable {
     FlSpot spot,
     Offset offset,
   ) : super(spot, offset);
+
+  /// The [BarChartGroupData] of the touched rod.
   final BarChartGroupData touchedBarGroup;
+
+  /// The index of [touchedBarGroup] in [BarChartData.barGroups].
   final int touchedBarGroupIndex;
 
+  /// The touched [BarChartRodData].
   final BarChartRodData touchedRodData;
+
+  /// The index of [touchedRodData] in [BarChartGroupData.barRods].
   final int touchedRodDataIndex;
 
-  /// It can be null, if nothing found
+  /// The touched [BarChartRodStackItem] (in a stacked bar chart), null if
+  /// no stack item is touched.
   final BarChartRodStackItem? touchedStackItem;
 
-  /// It can be -1, if nothing found
+  /// The index of [touchedStackItem] in [BarChartRodData.rodStackItems],
+  /// -1 if no stack item is touched.
   final int touchedStackItemIndex;
 
   /// Used for equality check, see [Equatable].
