@@ -39,18 +39,43 @@ abstract class AxisChartData extends BaseChartData with Equatable {
         clipData = clipData ?? const FlClipData.none(),
         backgroundColor = backgroundColor ?? Colors.transparent,
         extraLinesData = extraLinesData ?? const ExtraLinesData();
+
+  /// Holds data to draw the grid lines behind the chart, see [FlGridData].
   final FlGridData gridData;
+
+  /// Holds data to draw the titles around the chart, see [FlTitlesData].
   final FlTitlesData titlesData;
+
+  /// Highlights some horizontal or vertical ranges behind the chart,
+  /// see [RangeAnnotations].
   final RangeAnnotations rangeAnnotations;
 
+  /// Minimum x value of the chart. If you don't provide it, it is calculated
+  /// from the chart's data (providing it is more performant).
   final double minX;
+
+  /// Maximum x value of the chart. If you don't provide it, it is calculated
+  /// from the chart's data (providing it is more performant).
   final double maxX;
+
+  /// The x value that the vertical grid lines and the titles are aligned to,
+  /// they are drawn at every `baselineX + n * interval`.
   final double baselineX;
+
+  /// Minimum y value of the chart. If you don't provide it, it is calculated
+  /// from the chart's data (providing it is more performant).
   final double minY;
+
+  /// Maximum y value of the chart. If you don't provide it, it is calculated
+  /// from the chart's data (providing it is more performant).
   final double maxY;
+
+  /// The y value that the horizontal grid lines and the titles are aligned to,
+  /// they are drawn at every `baselineY + n * interval`.
   final double baselineY;
 
-  /// clip the chart to the border (prevent draw outside the border)
+  /// Clips the chart to its border (prevents drawing outside of the border),
+  /// see [FlClipData].
   final FlClipData clipData;
 
   /// A background color which is drawn behind the chart.
@@ -62,10 +87,12 @@ abstract class AxisChartData extends BaseChartData with Equatable {
   /// Difference of [maxX] and [minX]
   double get horizontalDiff => maxX - minX;
 
-  /// Extra horizontal or vertical lines to draw on the chart.
+  /// Extra horizontal or vertical lines to draw on the chart,
+  /// see [ExtraLinesData] (the bar chart only draws the horizontal ones).
   final ExtraLinesData extraLinesData;
 
-  /// Rotates the chart by 90 degrees clockwise in each turn
+  /// Rotates the chart 90 degrees (clockwise) in every quarter turn.
+  /// It works like the [RotatedBox] widget.
   final int rotationQuarterTurns;
 
   /// Used for equality check, see [Equatable].
@@ -113,7 +140,17 @@ enum AxisSide {
 }
 
 /// Represents where the [SideTitles] are drawn in relation to the chart.
-enum SideTitleAlignment { outside, border, inside }
+/// Where the side titles are placed, relative to the border of the chart.
+enum SideTitleAlignment {
+  /// Places the titles outside of the chart area.
+  outside,
+
+  /// Places the titles on the border of the chart area.
+  border,
+
+  /// Places the titles inside of the chart area.
+  inside,
+}
 
 /// Contains meta information about the drawing title.
 class TitleMeta {
@@ -361,7 +398,7 @@ class AxisTitles with Equatable {
     this.sideTitleAlignment = SideTitleAlignment.outside,
   });
 
-  /// Determines the size of [axisNameWidget]
+  /// Determines the size of [axisNameWidget].
   final double axisNameSize;
 
   /// It shows the name of axis, for example your x-axis shows year,
@@ -456,10 +493,23 @@ class FlTitlesData with Equatable {
     ),
   });
 
+  /// Determines whether to show or hide the titles around the chart.
   final bool show;
+
+  /// Holds data to draw the titles on the left side of the chart,
+  /// see [AxisTitles].
   final AxisTitles leftTitles;
+
+  /// Holds data to draw the titles on the top side of the chart,
+  /// see [AxisTitles].
   final AxisTitles topTitles;
+
+  /// Holds data to draw the titles on the right side of the chart,
+  /// see [AxisTitles].
   final AxisTitles rightTitles;
+
+  /// Holds data to draw the titles on the bottom side of the chart,
+  /// see [AxisTitles].
   final AxisTitles bottomTitles;
 
   /// Lerps a [FlTitlesData] based on [t] value, check [Tween.lerp].
@@ -515,9 +565,18 @@ class FlSpot {
     this.yError,
   });
 
+  /// The x value of the spot, on the horizontal axis (from left to right).
   final double x;
+
+  /// The y value of the spot, on the vertical axis (from bottom to top).
   final double y;
+
+  /// The error range of the spot on the x axis, drawn by the
+  /// `errorIndicatorData` of the chart, see [FlErrorRange].
   final FlErrorRange? xError;
+
+  /// The error range of the spot on the y axis, drawn by the
+  /// `errorIndicatorData` of the chart, see [FlErrorRange].
   final FlErrorRange? yError;
 
   /// Copies current [FlSpot] to a new [FlSpot],
@@ -617,7 +676,7 @@ class FlErrorRange with Equatable {
   /// the main value. So it is non-negative and it is relative to the main value
   final double lowerBy;
 
-  /// determines the lower bound of the error range, it will be added to
+  /// determines the upper bound of the error range, it will be added to
   /// the main value. So it is non-negative and it is relative to the main value
   final double upperBy;
 
@@ -801,6 +860,8 @@ class FlLine with Equatable {
             ((color == null && gradient == null) ? Colors.black : null);
 
   /// Defines color of the line.
+  ///
+  /// Defaults to [Colors.black] if neither [color] nor [gradient] is provided.
   final Color? color;
 
   /// Defines the gradient of the line.
@@ -886,7 +947,10 @@ class RangeAnnotations with Equatable {
     this.verticalRangeAnnotations = const [],
   });
 
+  /// Horizontal ranges to highlight, see [HorizontalRangeAnnotation].
   final List<HorizontalRangeAnnotation> horizontalRangeAnnotations;
+
+  /// Vertical ranges to highlight, see [VerticalRangeAnnotation].
   final List<VerticalRangeAnnotation> verticalRangeAnnotations;
 
   /// Lerps a [RangeAnnotations] based on [t] value, check [Tween.lerp].
@@ -1402,8 +1466,14 @@ class ExtraLinesData with Equatable {
     this.extraLinesOnTop = true,
   });
 
+  /// Horizontal lines to draw on the chart, see [HorizontalLine].
   final List<HorizontalLine> horizontalLines;
+
+  /// Vertical lines to draw on the chart, see [VerticalLine].
   final List<VerticalLine> verticalLines;
+
+  /// If true, the extra lines are drawn above the data of the chart,
+  /// otherwise below it.
   final bool extraLinesOnTop;
 
   /// Lerps a [ExtraLinesData] based on [t] value, check [Tween.lerp].
@@ -2115,8 +2185,14 @@ class AxisSpotIndicator with Equatable {
     required this.painter,
   });
 
+  /// The x value where the indicator is drawn.
   final double? x;
+
+  /// The y value where the indicator is drawn.
   final double? y;
+
+  /// Draws the indicator, like [AxisLinesIndicatorPainter] (you can implement
+  /// your own [AxisSpotIndicatorPainter] to customize it).
   final AxisSpotIndicatorPainter painter;
 
   /// Lerps a [AxisSpotIndicator] based on [t] value, check [Tween.lerp].

@@ -28,10 +28,11 @@ class RadarChartTitle {
   /// [text] is used to draw titles outside the [RadarChart]
   final String text;
 
-  /// [children] is used to draw additional titles outside the [RadarChart]
+  /// Additional spans after [text], to have texts with different styles
+  /// (like the children of a [TextSpan]).
   final List<InlineSpan>? children;
 
-  /// [angle] is used to rotate the title
+  /// Rotates the title (in degrees).
   final double angle;
 
   /// [positionPercentageOffset] is the place of showing title on the [RadarChart]
@@ -310,11 +311,11 @@ class RadarDataSet with Equatable {
   /// defines the color that fills the [RadarDataSet].
   final Color fillColor;
 
-  // defines the gradient color that fills the [RadarDataSet].
+  /// defines the gradient that fills the [RadarDataSet], if provided it is
+  /// used instead of [fillColor].
   final Gradient? fillGradient;
 
   /// defines the border color of the [RadarDataSet].
-  /// if [borderColor] is not defined it will replaced with [fillColor].
   final Color borderColor;
 
   /// defines the width of [RadarDataSet] border.
@@ -390,7 +391,7 @@ class RadarEntry with Equatable {
 
 /// Holds data to handle touch events, and touch responses in the [RadarChart].
 ///
-/// There is a touch flow, explained [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/handle_touches.md)
+/// There is a touch flow, explained [here](https://flchart.dev/docs/handle-touches)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [RadarTouchResponse].
 class RadarTouchData extends FlTouchData<RadarTouchResponse> with Equatable {
@@ -474,10 +475,17 @@ class RadarTouchedSpot extends TouchedSpot with Equatable {
     FlSpot spot,
     Offset offset,
   ) : super(spot, offset);
+
+  /// The [RadarDataSet] of the touched entry.
   final RadarDataSet touchedDataSet;
+
+  /// The index of [touchedDataSet] in [RadarChartData.dataSets].
   final int touchedDataSetIndex;
 
+  /// The touched [RadarEntry].
   final RadarEntry touchedRadarEntry;
+
+  /// The index of [touchedRadarEntry] in [RadarDataSet.dataEntries].
   final int touchedRadarEntryIndex;
 
   /// Used for equality check, see [Equatable].
