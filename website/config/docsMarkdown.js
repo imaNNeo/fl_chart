@@ -3,7 +3,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const githubBlobUrl = 'https://github.com/imaNNeo/fl_chart/blob/main';
+import {gitRef} from './docsVersion.js';
+
+const githubBlobUrl = `https://github.com/imaNNeo/fl_chart/blob/${gitRef}`;
 
 // `<!-- api:LineChartBarData -->` ... `<!-- /api -->`, see tool/api_docs.
 const apiMarker = /<!-- api:(\w+)(?: \w+)? -->\n[\s\S]*?<!-- \/api -->/g;

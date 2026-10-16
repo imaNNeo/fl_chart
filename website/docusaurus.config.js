@@ -11,6 +11,7 @@ import {
   playgroundType,
   preprocessDoc,
 } from './config/docsMarkdown.js';
+import {baseUrl, docsVersion} from './config/docsVersion.js';
 
 // The docs live in the fl_chart repository, next to the code they document.
 const docsDir = path.resolve(__dirname, '../repo_files/documentations');
@@ -24,7 +25,10 @@ const config = {
   favicon: 'img/favicon.ico',
 
   url: 'https://flchart.dev',
-  baseUrl: '/',
+  baseUrl,
+  // Only the latest stable release, at the root, is indexed by search engines.
+  noIndex: baseUrl !== '/',
+  customFields: {docsVersion},
   organizationName: 'imaNNeo',
   projectName: 'fl_chart',
   deploymentBranch: 'gh-pages',
@@ -98,6 +102,10 @@ const config = {
       },
       items: [
         {
+          type: 'custom-versionSwitcher',
+          position: 'left',
+        },
+        {
           to: '/docs',
           label: 'Docs',
           position: 'right',
@@ -118,12 +126,12 @@ const config = {
           position: 'right',
         },
         {
-          href: '/download',
+          to: '/download',
           label: 'Download',
           position: 'right',
         },
         {
-          href: '/about',
+          to: '/about',
           label: 'About',
           position: 'right',
         },
@@ -148,7 +156,7 @@ const config = {
           label: 'Source code',
         },
         {
-          href: '/about#-speed-up-fl-chart-with-your-support',
+          to: '/about#-speed-up-fl-chart-with-your-support',
           label: 'Support FL Chart',
           position: 'right',
         },
