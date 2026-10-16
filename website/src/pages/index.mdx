@@ -1,13 +1,15 @@
 import React from "react"
+import {useBaseUrlUtils} from "@docusaurus/useBaseUrl"
 import styles from "./index.module.css"
 
 export default function Home() {
+  const {withBaseUrl} = useBaseUrlUtils()
   const openFLChartApp = () => window.open("https://app.flchart.dev", "_blank")
   const openFLChartGithub = () =>
     window.open("https://github.com/imaNNeo/fl_chart", "_blank")
   const sponsors = [
     { 
-      logo: "/img/sponsors/intero-the-sniffers.png", 
+      logo: withBaseUrl("/img/sponsors/intero-the-sniffers.png"), 
       url: "https://www.intero-integrity.com/intero-the-sniffers", 
       alt: "intero-the-sniffers" 
     },
@@ -21,7 +23,7 @@ export default function Home() {
             <div className={styles.mainText}>
               <div className={styles.flutterChartLibrary}>
                 <img
-                  src="/img/flutter.svg"
+                  src={withBaseUrl("/img/flutter.svg")}
                   alt="Flutter logo with text"
                   className={styles.flutterLogoInText}
                 />
@@ -44,7 +46,7 @@ export default function Home() {
                 >
                   Give it a try
                   <img
-                    src="/img/play_arrow.svg"
+                    src={withBaseUrl("/img/play_arrow.svg")}
                     className={styles.buttonIcon}
                   />
                 </button>
@@ -52,7 +54,7 @@ export default function Home() {
                   className={styles.solidButton}
                   onClick={openFLChartGithub}
                 >
-                  <img src="/img/github.svg" className={styles.buttonIcon} />
+                  <img src={withBaseUrl("/img/github.svg")} className={styles.buttonIcon} />
                   Get started
                 </button>
               </div>
@@ -67,14 +69,14 @@ export default function Home() {
                 ))}
                 <a href="https://github.com/sponsors/imaNNeo" target="_blank">
                   <div className={styles.sponsors}>
-                    <img src="/img/add_sponsor.png" alt="plus" />
+                    <img src={withBaseUrl("/img/add_sponsor.png")} alt="plus" />
                   </div>
                 </a>
               </div>
             </div>
           </div>
           <img
-            src="/img/charts_3d_perspective.png"
+            src={withBaseUrl("/img/charts_3d_perspective.png")}
             className={styles.chartsImage}
           />
         </div>
@@ -101,7 +103,7 @@ export default function Home() {
           />
         </div>
       </div>
-      <img src="/img/chart_icons.svg" className={styles.chartIcons} />
+      <img src={withBaseUrl("/img/chart_icons.svg")} className={styles.chartIcons} />
     </div>
   )
 }
