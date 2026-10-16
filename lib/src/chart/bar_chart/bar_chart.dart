@@ -6,7 +6,7 @@ import 'package:fl_chart/src/chart/base/axis_chart/scale_axis.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/transformation_config.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/fl_touch_event.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 /// Renders a bar chart as a widget, using provided [BarChartData].
 class BarChart extends ImplicitlyAnimatedWidget {

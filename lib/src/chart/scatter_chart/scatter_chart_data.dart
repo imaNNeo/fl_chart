@@ -6,7 +6,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_helper.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// [ScatterChart] needs this class to render itself.
 ///
@@ -184,6 +184,7 @@ class ScatterChartData extends AxisChartData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         scatterSpots,
         scatterTouchData,
         showingTooltipIndicators,
@@ -289,6 +290,7 @@ class ScatterSpot extends FlSpot with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         x,
         y,
         show,
@@ -374,6 +376,7 @@ class ScatterTouchData extends FlTouchData<ScatterTouchResponse>
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         enabled,
         touchCallback,
         mouseCursorResolver,
@@ -435,6 +438,7 @@ class ScatterTouchedSpot with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         spot,
         spotIndex,
       ];
@@ -530,6 +534,7 @@ class ScatterTouchTooltipData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         _tooltipBorderRadius,
         tooltipPadding,
         tooltipHorizontalAlignment,
@@ -653,6 +658,7 @@ class ScatterTooltipItem with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         text,
         textStyle,
         bottomMargin,
@@ -778,6 +784,7 @@ class ScatterLabelSettings with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         showLabel,
         getLabelTextStyleFunction,
         getLabelFunction,
@@ -803,6 +810,7 @@ class ScatterChartSpotErrorRangeCallbackInput
 
   @override
   List<Object?> get props => [
+        runtimeType,
         spot,
         spotIndex,
       ];
