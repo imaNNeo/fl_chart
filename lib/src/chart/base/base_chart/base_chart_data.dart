@@ -13,13 +13,12 @@ import 'package:flutter/material.dart';
 /// In this phase we draw the border,
 /// and handle touches in an abstract way.
 abstract class BaseChartData with Equatable {
-  /// It draws 4 borders around your chart, you can customize it using [borderData],
-  /// [touchData] defines the touch behavior and responses.
+  /// It draws 4 borders around your chart, you can customize it using [borderData].
   BaseChartData({
     FlBorderData? borderData,
   }) : borderData = borderData ?? FlBorderData();
 
-  /// Holds data to drawing border around the chart.
+  /// Holds data to draw the border around the chart, see [FlBorderData].
   final FlBorderData borderData;
 
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t);
@@ -40,7 +39,11 @@ class FlBorderData with Equatable {
     Border? border,
   })  : show = show ?? true,
         border = border ?? Border.all();
+
+  /// Determines whether to show or hide the border.
   final bool show;
+
+  /// Determines which sides of the border are drawn, and how, see [Border].
   final Border border;
 
   /// returns false if all borders have 0 width or 0 opacity
@@ -74,7 +77,7 @@ class FlBorderData with Equatable {
 
 /// Holds data to handle touch events, and touch responses in abstract way.
 ///
-/// There is a touch flow, explained [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/handle_touches.md)
+/// There is a touch flow, explained [here](https://flchart.dev/docs/handle-touches)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [BaseTouchResponse].
 abstract class FlTouchData<R extends BaseTouchResponse> with Equatable {
@@ -86,7 +89,7 @@ abstract class FlTouchData<R extends BaseTouchResponse> with Equatable {
     this.longPressDuration,
   );
 
-  /// You can disable or enable the touch system using [enabled] flag,
+  /// Determines whether to enable or disable touch behaviors.
   final bool enabled;
 
   /// [touchCallback] notifies you about the happened touch/pointer events.
@@ -100,7 +103,7 @@ abstract class FlTouchData<R extends BaseTouchResponse> with Equatable {
   final MouseCursorResolver<R>? mouseCursorResolver;
 
   /// This property that allows to customize the duration of the longPress gesture.
-  /// default to 500 milliseconds refer to [kLongPressTimeout].
+  /// If null, it uses [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html) (500 milliseconds).
   final Duration? longPressDuration;
 
   /// Used for equality check, see [Equatable].
@@ -208,6 +211,9 @@ class FlLabel with Equatable {
   final String text;
 
   /// The text style of the label.
+  ///
+  /// When null (or when its `inherit` is true), it is merged with the ambient
+  /// [DefaultTextStyle], and it respects the bold text setting of the platform.
   final TextStyle? style;
 
   /// Rotation angle of the label in degrees.

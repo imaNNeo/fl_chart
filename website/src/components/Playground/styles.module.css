@@ -1,0 +1,112 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  background: #1b2339;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.toggle {
+  display: flex;
+  flex: 1;
+  align-items: baseline;
+  gap: 0.6rem;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: default;
+}
+
+.title {
+  color: #a3aecb;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.target {
+  overflow: hidden;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--ifm-color-primary);
+  font-size: 0.8rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.open {
+  color: #a3aecb;
+}
+
+.open:hover {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+}
+
+.frame {
+  flex: 1;
+  width: 100%;
+  border: none;
+  background: #1b2339;
+}
+
+/* Wide screens: a sticky column next to the docs. */
+@media (min-width: 1280px) {
+  .panel {
+    position: sticky;
+    top: calc(var(--ifm-navbar-height) + 1rem);
+    height: calc(100vh - var(--ifm-navbar-height) - 2rem);
+    margin-top: 1rem;
+  }
+}
+
+/* Other screens: a bottom sheet, expanded when a property is picked. */
+@media (max-width: 1279.98px) {
+  .panel {
+    position: fixed;
+    right: 0.5rem;
+    bottom: 0;
+    left: 0.5rem;
+    z-index: calc(var(--ifm-z-index-fixed) + 1);
+    height: 2.75rem;
+    border-bottom: none;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.35);
+    transition: height 0.2s ease;
+  }
+
+  .expanded {
+    height: min(34rem, 70vh);
+  }
+
+  .toggle {
+    cursor: pointer;
+  }
+
+  .toggle::after {
+    content: '▴';
+    margin-left: auto;
+    color: #a3aecb;
+  }
+
+  .expanded .toggle::after {
+    content: '▾';
+  }
+}

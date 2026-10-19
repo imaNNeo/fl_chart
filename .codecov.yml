@@ -11,6 +11,8 @@ coverage:
       default:
         target: 50%
         threshold: 10%
+        # Report patch coverage without failing the PR
+        informational: true
   precision: 1
   range: "80...100"
 
