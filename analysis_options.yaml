@@ -3,6 +3,8 @@ analyzer:
   exclude:
     - "**.mocks.dart"
     - build/**
+    # A separate package, analyzed by the website workflow.
+    - "playground/**"
 linter:
   rules:
     always_put_required_named_parameters_first: false

@@ -46,6 +46,9 @@ class PieChartData extends BaseChartData with Equatable {
   final List<PieChartSectionData> sections;
 
   /// Radius of free space in center of the circle.
+  ///
+  /// If it's not finite (like [double.infinity]), it is calculated from the
+  /// size of the chart.
   final double centerSpaceRadius;
 
   /// Color of free space in center of the circle.
@@ -198,10 +201,13 @@ class PieChartSectionData with Equatable {
   /// Defines show or hide the title of section.
   final bool showTitle;
 
-  /// Defines style of showing title of section.
+  /// Defines style of showing title of section, merged with the text style
+  /// of the theme.
   final TextStyle? titleStyle;
 
   /// Defines text of showing title at the middle of section.
+  ///
+  /// Defaults to the [value] of the section, if it is provided.
   final String title;
 
   /// Defines border stroke around the section
@@ -234,7 +240,7 @@ class PieChartSectionData with Equatable {
   ///
   /// Each segment defines [PieChartStackSegmentData.fromRadius] and
   /// [PieChartStackSegmentData.toRadius] to specify its position within
-  /// the section's [radius]. Values are clamped to [0, radius] at render time.
+  /// the section's [radius]. Values are clamped to `[0, radius]` at render time.
   final List<PieChartStackSegmentData> segments;
 
   /// Copies current [PieChartSectionData] to a new [PieChartSectionData],
@@ -333,7 +339,7 @@ class PieChartSectionData with Equatable {
 ///
 /// Each segment defines [fromRadius] and [toRadius] to specify its position
 /// within the section's total [PieChartSectionData.radius]. Values are clamped
-/// to the valid range [0, sectionRadius].
+/// to the valid range `[0, sectionRadius]`.
 class PieChartStackSegmentData with Equatable {
   /// Renders a segment of Stacked Pie Chart with given [fromRadius], [toRadius]
   /// and [color] or [gradient].
@@ -363,11 +369,11 @@ class PieChartStackSegmentData with Equatable {
         color = color ?? Colors.purple;
 
   /// The start radius of this segment (distance from center of the section).
-  /// Clamped to [0, sectionRadius] at render time.
+  /// Clamped to `[0, sectionRadius]` at render time.
   final double fromRadius;
 
   /// The end radius of this segment (distance from center of the section).
-  /// Clamped to [0, sectionRadius] at render time.
+  /// Clamped to `[0, sectionRadius]` at render time.
   final double toRadius;
 
   /// Defines the color of segment.
@@ -416,7 +422,7 @@ class PieChartStackSegmentData with Equatable {
 
 /// Holds data to handle touch events, and touch responses in the [PieChart].
 ///
-/// There is a touch flow, explained [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/handle_touches.md)
+/// There is a touch flow, explained [here](https://flchart.dev/docs/handle-touches)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [PieTouchResponse].
 class PieTouchData extends FlTouchData<PieTouchResponse> with Equatable {
@@ -463,16 +469,17 @@ class PieTouchedSection with Equatable {
     this.touchRadius,
   );
 
-  /// touch happened on this section
+  /// The touched section, null if no section is touched.
   final PieChartSectionData? touchedSection;
 
-  /// touch happened on this position
+  /// The index of [touchedSection] in [PieChartData.sections], -1 if no
+  /// section is touched.
   final int touchedSectionIndex;
 
-  /// touch happened with this angle on the [PieChart]
+  /// The angle of the touch around the center of the [PieChart], in degrees.
   final double touchAngle;
 
-  /// touch happened with this radius on the [PieChart]
+  /// The distance of the touch from the center of the [PieChart].
   final double touchRadius;
 
   /// Used for equality check, see [Equatable].

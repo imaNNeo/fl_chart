@@ -20,5 +20,7 @@ jobs:
         run: make checkFormat
       - name: Analyze the source code
         run: make analyze
+      - name: Check the generated API docs
+        run: make checkDocs
       - name: Run tests
         run: make runTests
