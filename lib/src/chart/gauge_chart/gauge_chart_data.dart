@@ -245,7 +245,7 @@ class GaugeChartData extends BaseChartData with Equatable {
 ///
 /// Sealed hierarchy — a ring is always either a [GaugeProgressRing]
 /// (filled up to a value) or a [GaugeZonesRing] (divided into fixed
-/// [GaugeZone]s). The [GaugeChartPainter] dispatches on the concrete
+/// [GaugeZone]s). The `GaugeChartPainter` dispatches on the concrete
 /// type; the hierarchy is closed to ensure that never changes silently.
 sealed class GaugeRing with Equatable {
   const GaugeRing({this.width});
@@ -404,8 +404,14 @@ class GaugeZone with Equatable {
     this.strokeCap = StrokeCap.butt,
   }) : assert(to >= from, 'to must be >= from');
 
+  /// Lower bound of the zone on the gauge's scale (inclusive).
   final double from;
+
+  /// Upper bound of the zone on the gauge's scale (inclusive),
+  /// it must be `>= from`.
   final double to;
+
+  /// Fill color of this band.
   final Color color;
 
   /// Cap style applied to this band's two ends. Independent per zone —
@@ -452,7 +458,11 @@ class GaugeChartDataTween extends Tween<GaugeChartData> {
 
 /// Direction the arc travels from [GaugeChartData.startDegreeOffset].
 enum GaugeDirection {
+  /// The arc travels clockwise from [GaugeChartData.startDegreeOffset].
   clockwise,
+
+  /// The arc travels counter-clockwise from
+  /// [GaugeChartData.startDegreeOffset].
   counterClockwise,
 }
 
@@ -500,10 +510,11 @@ class GaugeTicks with Equatable {
   final GaugeTickPosition position;
 
   /// Signed pixel delta from the natural tick anchor, measured along
-  /// the [position]'s outward axis (away from center for [outer],
-  /// toward center for [inner], toward outer for [center]). Positive
-  /// extends the tick farther in that direction; negative pulls it
-  /// back toward (or across) the ring stack.
+  /// the [position]'s outward axis (away from center for
+  /// [GaugeTickPosition.outer], toward center for [GaugeTickPosition.inner],
+  /// toward outer for [GaugeTickPosition.center]). Positive extends the tick
+  /// farther in that direction; negative pulls it back toward (or across)
+  /// the ring stack.
   final double offset;
 
   /// Renders each tick. The canvas is pre-translated and pre-rotated
@@ -578,7 +589,7 @@ class GaugeTicks with Equatable {
 }
 
 /// Signature for a predicate that decides whether a gauge tick is
-/// drawn. See [GaugeTicks.CheckToShowGaugeTick].
+/// drawn. See [GaugeTicks.checkToShowTick].
 typedef CheckToShowGaugeTick = bool Function(GaugeTickInfo info);
 
 /// Context passed to [CheckToShowGaugeTick] callbacks.

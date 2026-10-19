@@ -14,8 +14,8 @@ class Urls {
   }
 
   static String getChartDocumentationUrl(ChartType chartType) {
-    final chartDir = chartType.name.toLowerCase();
-    return 'https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/${chartDir}_chart.md';
+    final chartName = chartType.name.toLowerCase();
+    return '$flChartUrl/docs/$chartName-chart';
   }
 
   static String getVersionReleaseUrl(String version) =>

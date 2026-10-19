@@ -27,9 +27,17 @@ checkoutToPR:
 findVersion:
 	git describe --contains $(commit) | sed 's/~.*//'
 
-# Runs both `make runTests` and `make checkstyle`. Use this before pushing your code.
+# Runs `make runTests`, `make checkstyle` and `make checkDocs`. Use this before pushing your code.
 sure:
-	make runTests && make checkstyle
+	make runTests && make checkstyle && make checkDocs
+
+# Regenerates the API tables in repo_files/documentations from the dartdoc comments
+docs:
+	dart run tool/api_docs/generate.dart
+
+# Fails if the API tables in repo_files/documentations are out of date (run `make docs` to fix it)
+checkDocs:
+	dart run tool/api_docs/generate.dart --check
 
 # To create generated files (for example mock files in unit_tests)
 codeGen:
