@@ -73,7 +73,7 @@ You can simply run `make checkstyle`, and if you faced any formatting problem, r
 - It runs `flutter test` under the hood.
 
 #### Run `make sure` before pushing your code.
-- It runs both `make runTests` and then `make checkstyle` sequentially with a single command.
+- It runs `make runTests`, `make checkstyle` and `make checkDocs` sequentially with a single command.
 
 ## Test coverage (unit tests)
 We should write unit tests for our written code. If you are not familiar with unit-tests, please start from [here](https://docs.flutter.dev/cookbook/testing/unit/introduction).
@@ -86,6 +86,30 @@ Our code coverage is calculated by [Codecov](https://app.codecov.io/gh/imaNNeo/f
 When you push something in your PR (after your PR is approved by one of us), you will see a coverage report that describes how much coverage is increased or decreased by your code (You can check the details to see which part of your code made the change). 
 
 Please make sure that your code is **not decreasing** the coverage.
+
+## Documentation
+Our docs are the markdown files in [repo_files/documentations](repo_files/documentations), they are also published on [flchart.dev](https://flchart.dev/docs).
+
+**You don't need to update the property tables by hand.** They are generated from the dartdoc comments (`///`) in the code, so the code is the single source of truth:
+1. Add or update the `///` comment of the field in `lib/` (for example, when you add a new property or change its default value).
+2. Run `make docs`. It regenerates the tables of the docs (and `website/src/data/api.json`, the same data for the website).
+3. Commit the updated files with your change.
+
+The generated tables are the ones between `<!-- api:ClassName -->` and `<!-- /api -->` markers. Everything else (guides, "How to use" sections, samples) is regular markdown, edit it directly. Some pages still have hand-written tables (without markers), until we move them to generated ones.
+
+`make checkDocs` fails if the generated docs are out of date, if a documented property has no `///` comment, or if a comment points to something that doesn't exist (like `[oldPropertyName]`). It runs in our CI and in `make sure`.
+
+To document a new class, add a heading and an empty marker for it in the related doc file, then run `make docs`:
+```md
+### MyNewClass
+<!-- api:MyNewClass -->
+<!-- /api -->
+```
+By default, the table lists the parameters of the class constructor. For read-only classes (like touch responses), use `<!-- api:MyNewClass fields -->` to list their fields instead.
+
+On the website, each documented property can be tried in a live chart, with a control chosen from its type (a switch for a `bool`, a dropdown for an enum, ...). Types without a control of their own (like gradients or callbacks) can get a few values to pick from in [playground/lib/src/hints.dart](playground/lib/src/hints.dart), see [playground/README.md](playground/README.md).
+
+To preview the website on your machine, see [website/README.md](website/README.md).
 
 ## Creating a Pull Request
 

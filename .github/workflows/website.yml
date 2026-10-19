@@ -1,0 +1,187 @@
+name: Website
+
+# flchart.dev has one build of the website per version:
+# - /         the latest stable release (the default version),
+# - /main/    the main branch, deployed on each push to main,
+# - /1.3.x/   each release line, deployed when one of its releases is published.
+# The version switcher of the navbar reads /versions.json, which the deploy
+# keeps up to date (see website/scripts/assemble-pages.mjs).
+
+on:
+  pull_request:
+    paths:
+      - 'lib/**'
+      - 'playground/**'
+      - 'repo_files/documentations/**'
+      - 'tool/api_docs/**'
+      - 'website/**'
+      - '.github/workflows/website.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'lib/**'
+      - 'playground/**'
+      - 'repo_files/documentations/**'
+      - 'tool/api_docs/**'
+      - 'website/**'
+      - '.github/workflows/website.yml'
+  release:
+    types: [published]
+  # Run it on main to redeploy /main/, or on a release tag to redeploy that
+  # release (for a doc-only fix of a release).
+  workflow_dispatch:
+
+jobs:
+  plan:
+    name: Plan the builds
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.plan.outputs.version }}
+      git_ref: ${{ steps.plan.outputs.git_ref }}
+      targets: ${{ steps.plan.outputs.targets }}
+      stable: ${{ steps.plan.outputs.stable }}
+      deploy: ${{ steps.plan.outputs.deploy }}
+    steps:
+      - id: plan
+        env:
+          EVENT: ${{ github.event_name }}
+          REF_TYPE: ${{ github.ref_type }}
+          REF_NAME: ${{ github.ref_name }}
+          PRERELEASE: ${{ github.event.release.prerelease }}
+        run: |
+          if [ "$EVENT" = pull_request ]; then
+            # Only checks that the website builds.
+            echo 'version=main' >> "$GITHUB_OUTPUT"
+            echo 'git_ref=main' >> "$GITHUB_OUTPUT"
+            echo 'targets=[{"dir":"root","base_url":"/"}]' >> "$GITHUB_OUTPUT"
+            echo 'deploy=false' >> "$GITHUB_OUTPUT"
+          elif [ "$REF_TYPE" = tag ]; then
+            # One folder per release line: 1.3.2 is deployed to /1.3.x/.
+            tag="${REF_NAME#v}"
+            if ! [[ "$tag" =~ ^([0-9]+)\.([0-9]+)\.[0-9]+$ ]]; then
+              echo "::notice::$REF_NAME is not a stable release, nothing to deploy"
+              echo 'deploy=false' >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            version="${BASH_REMATCH[1]}.${BASH_REMATCH[2]}.x"
+            echo "version=$version" >> "$GITHUB_OUTPUT"
+            echo "git_ref=$REF_NAME" >> "$GITHUB_OUTPUT"
+            if [ "$PRERELEASE" = true ]; then
+              echo "targets=[{\"dir\":\"$version\",\"base_url\":\"/$version/\"}]" >> "$GITHUB_OUTPUT"
+              echo 'stable=false' >> "$GITHUB_OUTPUT"
+            else
+              # Also to the root, if it's the newest release line.
+              echo "targets=[{\"dir\":\"$version\",\"base_url\":\"/$version/\"},{\"dir\":\"root\",\"base_url\":\"/\"}]" >> "$GITHUB_OUTPUT"
+              echo 'stable=true' >> "$GITHUB_OUTPUT"
+            fi
+            echo 'deploy=true' >> "$GITHUB_OUTPUT"
+          elif [ "$REF_NAME" = main ]; then
+            echo 'version=main' >> "$GITHUB_OUTPUT"
+            echo 'git_ref=main' >> "$GITHUB_OUTPUT"
+            echo 'targets=[{"dir":"main","base_url":"/main/"}]' >> "$GITHUB_OUTPUT"
+            echo 'stable=false' >> "$GITHUB_OUTPUT"
+            echo 'deploy=true' >> "$GITHUB_OUTPUT"
+          else
+            echo "::error::Run it on main or on a release tag, not on $REF_NAME"
+            exit 1
+          fi
+
+  build:
+    name: Build website (${{ matrix.target.base_url }})
+    needs: plan
+    if: needs.plan.outputs.targets != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        target: ${{ fromJSON(needs.plan.outputs.targets) }}
+    env:
+      DOCS_BASE_URL: ${{ matrix.target.base_url }}
+      DOCS_VERSION: ${{ needs.plan.outputs.version }}
+      DOCS_GIT_REF: ${{ needs.plan.outputs.git_ref }}
+    defaults:
+      run:
+        working-directory: website
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      # Renders every value of every control of the playground.
+      - name: Test the playground
+        working-directory: playground
+        run: |
+          flutter pub get
+          flutter analyze
+          flutter test
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - run: npm ci
+
+      - name: Build the playground
+        run: npm run build:playground
+
+      # Fails on broken links, broken anchors and invalid markdown.
+      - run: npm run build
+
+      - uses: actions/upload-artifact@v4
+        if: needs.plan.outputs.deploy == 'true'
+        with:
+          name: website-${{ matrix.target.dir }}
+          path: website/build
+
+  deploy:
+    name: Deploy to flchart.dev
+    needs: [plan, build]
+    if: needs.plan.outputs.deploy == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Each deploy builds on the previous one: never two at the same time.
+    concurrency:
+      group: website-deploy
+      cancel-in-progress: false
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: website/scripts
+          path: repo
+
+      # flchart.dev is served from the gh-pages branch of imaNNeo/fl_chart_landing.
+      - uses: actions/checkout@v4
+        with:
+          repository: imaNNeo/fl_chart_landing
+          ref: gh-pages
+          path: site
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: website-*
+          path: builds
+
+      - name: Assemble the site
+        run: |
+          rm -rf site/.git
+          for build in builds/website-*; do mv "$build" "builds/${build#builds/website-}"; done
+          node repo/website/scripts/assemble-pages.mjs \
+            --site site \
+            --builds builds \
+            --version '${{ needs.plan.outputs.version }}' \
+            ${{ needs.plan.outputs.stable == 'true' && '--stable' || '' }}
+
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.LANDING_DEPLOY_KEY }}
+          external_repository: imaNNeo/fl_chart_landing
+          publish_branch: gh-pages
+          publish_dir: ./site
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
