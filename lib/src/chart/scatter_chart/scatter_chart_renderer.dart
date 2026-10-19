@@ -57,12 +57,12 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
     ScatterChartData targetData,
     TextScaler textScaler,
     Rect? chartVirtualRect, {
-    required bool canBeScaled,
+    required super.canBeScaled,
   })  : _data = data,
         _targetData = targetData,
         _textScaler = textScaler,
         _chartVirtualRect = chartVirtualRect,
-        super(targetData.scatterTouchData, context, canBeScaled: canBeScaled);
+        super(targetData.scatterTouchData, context);
 
   ScatterChartData get data => _data;
   ScatterChartData _data;

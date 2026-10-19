@@ -279,7 +279,7 @@ class AxisSideMetaData {
   double get diff => maxValue - minValue;
 }
 
-class AxisSideTitleMetaData with EquatableMixin {
+class AxisSideTitleMetaData with Equatable {
   AxisSideTitleMetaData(this.axisValue, this.axisPixelLocation);
   final double axisValue;
   final double axisPixelLocation;

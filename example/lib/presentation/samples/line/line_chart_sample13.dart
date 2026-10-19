@@ -345,7 +345,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
   }
 }
 
-class _WeatherData with EquatableMixin {
+class _WeatherData with Equatable {
   final String name;
   final DateTime datetime;
   final double tempmax;

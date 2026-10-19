@@ -203,10 +203,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final clip = data.clipData;
     final border = data.borderData.show ? data.borderData.border : null;
 
-    var left = 0.0;
-    var top = 0.0;
-    var right = viewSize.width;
-    var bottom = viewSize.height;
+    // Sides that aren't enabled in [clip] must stay unclipped. We extend their
+    // boundary to infinity so [Canvas.clipRect] only clips the enabled sides
+    // (otherwise enabling any single side would clip all four).
+    var left = double.negativeInfinity;
+    var top = double.negativeInfinity;
+    var right = double.infinity;
+    var bottom = double.infinity;
 
     if (clip.left) {
       final borderWidth = border?.left.width ?? 0;
@@ -525,7 +528,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     }
   }
 
-  /// Generates a path, based on [LineChartBarData.isStepChart] for step style, and normal style.
+  /// Generates a path, based on [LineChartBarData.isStepLineChart] for step style, and normal style.
   @visibleForTesting
   Path generateBarPath(
     Size viewSize,
@@ -1385,7 +1388,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     }
 
     /// Find the nearest spot (based on distanceCalculator)
-    final sortedSpots = <FlSpot>[];
+    FlSpot? nearestSpot;
     double? smallestDistance;
     for (final spot in barData.spots) {
       if (spot.isNull()) continue;
@@ -1398,22 +1401,24 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       );
 
       if (distance <= data.lineTouchData.touchSpotThreshold) {
-        smallestDistance ??= distance;
-
-        if (distance < smallestDistance) {
-          sortedSpots.insert(0, spot);
+        if (nearestSpot == null) {
+          nearestSpot = spot;
           smallestDistance = distance;
-        } else {
-          sortedSpots.add(spot);
+          continue;
+        }
+
+        if (distance < smallestDistance!) {
+          nearestSpot = spot;
+          smallestDistance = distance;
         }
       }
     }
 
-    if (sortedSpots.isNotEmpty) {
+    if (nearestSpot != null) {
       return TouchLineBarSpot(
         barData,
         barDataPosition,
-        sortedSpots.first,
+        nearestSpot,
         smallestDistance!,
       );
     } else {
