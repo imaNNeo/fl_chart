@@ -870,15 +870,13 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             holder,
           );
           barBotY = getPixelY(
-            targetData.barGroups[i].barRods[j].fromY +
-                targetData.barGroups[i].barRods[j].backDrawRodData.fromY,
+            targetData.barGroups[i].barRods[j].fromY,
             viewSize,
             holder,
           );
         } else {
           barTopY = getPixelY(
-            targetData.barGroups[i].barRods[j].fromY +
-                targetData.barGroups[i].barRods[j].backDrawRodData.fromY,
+            targetData.barGroups[i].barRods[j].fromY,
             viewSize,
             holder,
           );
@@ -889,8 +887,14 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
           );
         }
 
-        final backDrawBarY = getPixelY(
-          targetData.barGroups[i].barRods[j].backDrawRodData.toY,
+        final backDrawRod = targetData.barGroups[i].barRods[j].backDrawRodData;
+        final backDrawBarTopY = getPixelY(
+          max(backDrawRod.fromY, backDrawRod.toY),
+          viewSize,
+          holder,
+        );
+        final backDrawBarBottomY = getPixelY(
+          min(backDrawRod.fromY, backDrawRod.toY),
           viewSize,
           holder,
         );
@@ -911,16 +915,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
                   (touchedPoint.dy <= barBotY + touchExtraThreshold.bottom);
         }
 
-        bool isYInBarBackDrawBounds;
-        if (isUpward) {
-          isYInBarBackDrawBounds =
-              (touchedPoint.dy <= barBotY + touchExtraThreshold.bottom) &&
-                  (touchedPoint.dy >= backDrawBarY - touchExtraThreshold.top);
-        } else {
-          isYInBarBackDrawBounds = (touchedPoint.dy >=
-                  barTopY - touchExtraThreshold.top) &&
-              (touchedPoint.dy <= backDrawBarY + touchExtraThreshold.bottom);
-        }
+        final isYInBarBackDrawBounds = backDrawRod.show &&
+            (touchedPoint.dy >= backDrawBarTopY - touchExtraThreshold.top) &&
+            (touchedPoint.dy <=
+                backDrawBarBottomY + touchExtraThreshold.bottom);
 
         final isYInTouchBounds =
             (targetData.barTouchData.allowTouchBarBackDraw &&
