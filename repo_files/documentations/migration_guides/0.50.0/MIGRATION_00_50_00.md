@@ -14,7 +14,7 @@ Look at the below samples:
 <img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/bar_chart/bar_chart_sample_7.gif" width="300" >
 
 **Breaking:**
-Previously in [FlTitlesData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#FlTitlesData), there were four [SideTitles](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#sidetitles). Now we have four [AxisTitle](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#axistitle) instead and [SideTitles](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#sidetitles) can be placed inside [AxisTitle](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#AxisTitle).
+Previously in [FlTitlesData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#FlTitlesData), there were four [SideTitles](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#sidetitles). Now we have four [AxisTitle](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#axistitles) instead and [SideTitles](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#sidetitles) can be placed inside [AxisTitle](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#axistitles).
 In fact, we removed `AxisTitlesData` class (which used to hold four `AxisTitle`). Now you can put them in [FlTitlesData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#fltitlesdata).
 
     bool? showTitle,

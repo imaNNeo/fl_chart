@@ -21,7 +21,7 @@ If you set `handleBuiltInTouches` to true, it will handle touch by showing a too
 LineChart(
   LineChartData(
     lineTouchData: LineTouchData(
-      touchTooltipData: TouchTooltipData (
+      touchTooltipData: LineTouchTooltipData(
         getTooltipColor: (touchedSpot) => Colors.blueGrey.withOpacity(0.8),
          .
          .
@@ -37,7 +37,7 @@ LineChart(
 LineChart(
   LineChartData(
     lineTouchData: LineTouchData(
-      touchCallback: (FlTouchEvent event, LineTouchResponse touchResponse) {
+      touchCallback: (FlTouchEvent event, LineTouchResponse? touchResponse) {
         if (event is FlTapUpEvent) {
           // handle tap here  
         }

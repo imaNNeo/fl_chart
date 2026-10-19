@@ -1,0 +1,234 @@
+// ignore_for_file: avoid_print
+
+import 'package:fl_chart_playground/generated/api_registry.g.dart';
+import 'package:fl_chart_playground/src/api.dart';
+import 'package:fl_chart_playground/src/dart_code.dart';
+import 'package:fl_chart_playground/src/hints.dart';
+import 'package:fl_chart_playground/src/hosts.dart';
+import 'package:fl_chart_playground/src/playground_page.dart';
+import 'package:fl_chart_playground/src/theme.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+void main() {
+  test('hints and hosts match the documented classes', () {
+    for (final key in hints.keys) {
+      final [className, property] = key.split('.');
+      expect(
+        apiRegistry[className]?.property(property),
+        isNotNull,
+        reason: 'The hint of $key is for a property that is not documented',
+      );
+    }
+    for (final className in hosts.keys) {
+      expect(apiRegistry[className], isNotNull, reason: '$className host');
+    }
+  });
+
+  testWidgets('every value of every control renders', (tester) async {
+    for (final MapEntry(key: className, value: host) in hosts.entries) {
+      final spec = apiRegistry[className]!;
+      for (final property in spec.properties) {
+        final hint = hints['$className.${property.name}'];
+        for (final value in _sampleValues(property, hint)) {
+          final values = {
+            for (final MapEntry(:key, :value) in {
+              ...?hint?.requires,
+              property.name: value,
+            }.entries)
+              key: value is Preset ? value.value : value,
+          };
+          final instance = spec.copy!(host.instance(), values);
+          await tester.pumpWidget(_app(host.build(instance)));
+          // The chart animates from the previous value.
+          await tester.pump(const Duration(milliseconds: 75));
+          await tester.pumpAndSettle();
+          expect(
+            tester.takeException(),
+            isNull,
+            reason: '$className.${property.name} = ${dartCode(value)}',
+          );
+        }
+      }
+    }
+  });
+
+  testWidgets('the page of every property renders', (tester) async {
+    for (final MapEntry(key: className, value: spec) in apiRegistry.entries) {
+      for (final property in [null, ...spec.properties]) {
+        await tester.pumpWidget(
+          _app(
+            PlaygroundPage(target: PlaygroundTarget(className, property?.name)),
+          ),
+        );
+        expect(tester.takeException(), isNull, reason: '$className.$property');
+      }
+    }
+  });
+
+  test('prints the properties without a control', () {
+    final missing = [
+      for (final MapEntry(key: className, value: spec) in apiRegistry.entries)
+        if (!hosts.containsKey(className))
+          '$className (no host)'
+        else
+          for (final property in spec.properties)
+            if (_sampleValues(
+              property,
+              hints['$className.${property.name}'],
+            ).isEmpty)
+              '$className.${property.name} (${property.type})',
+    ];
+    print('${missing.length} properties without a control:');
+    missing.forEach(print);
+  });
+
+  test('every preset is a value the demo does not show already', () {
+    // The first item of the dropdown goes back to the value the demo starts
+    // from, so a preset of that same value is a second way to change
+    // nothing. Two presets of the same value are as useless.
+    final useless = <String>[];
+    for (final MapEntry(key: className, value: host) in hosts.entries) {
+      final spec = apiRegistry[className]!;
+      final instance = host.instance();
+      for (final property in spec.properties) {
+        final presets = hints['$className.${property.name}']?.presets;
+        if (presets == null) continue;
+        final start = spec.read?.call(instance, property.name);
+        final hint = hints['$className.${property.name}'];
+        final startCode = hint?.sample ?? property.defaultCode;
+        final seen = <Object?>[];
+        final codes = <String>[if (startCode != null) _sameCode(startCode)];
+        for (final preset in presets) {
+          final name = '$className.${property.name}: ${preset.code}';
+          if (_sameValue(preset.value, start)) {
+            useless.add('$name (the demo starts from it)');
+          } else if (seen.any((other) => _sameValue(other, preset.value))) {
+            useless.add('$name (another preset has this value)');
+          } else if (codes.contains(_sameCode(preset.code))) {
+            useless.add('$name (another item of the list reads the same)');
+          }
+          seen.add(preset.value);
+          codes.add(_sameCode(preset.code));
+        }
+      }
+    }
+    expect(useless, isEmpty);
+  });
+
+  test('writes out the demo values that are not the default', () {
+    // The code of a value that has none (a list of spots, a callback, ...)
+    // falls back to the default of the constructor, which is a lie when the
+    // demo doesn't use it: `PropertyHint.sample` is then the way to say what
+    // the chart really draws.
+    for (final MapEntry(key: className, value: host) in hosts.entries) {
+      final spec = apiRegistry[className]!;
+      final instance = host.instance();
+      for (final property in spec.properties) {
+        final value = spec.read?.call(instance, property.name);
+        final isWritten =
+            dartCode(value, isDouble: property.kind == PropertyKind.decimal) !=
+            '...';
+        final isDefault = switch (property.defaultCode) {
+          'null' => value == null,
+          'const []' || '[]' => value is List && value.isEmpty,
+          _ => true, // Can't be told apart, it's reviewed by hand.
+        };
+        if (isWritten || isDefault) continue;
+        expect(
+          hints['$className.${property.name}']?.sample,
+          isNotNull,
+          reason:
+              'The demo of $className.${property.name} is not the default '
+              '(${property.defaultCode}), it needs a PropertyHint.sample',
+        );
+      }
+    }
+  });
+
+  test('parses the target from the URL', () {
+    expect(
+      PlaygroundTarget.fromUri(Uri.parse('/LineChartBarData/isCurved')),
+      const PlaygroundTarget('LineChartBarData', 'isCurved'),
+    );
+    expect(
+      PlaygroundTarget.fromUri(Uri.parse('/')),
+      const PlaygroundTarget(null),
+    );
+  });
+
+  test('writes the code of the changed properties', () {
+    expect(
+      constructorCode(apiRegistry['LineChartBarData']!, {
+        'isCurved': true,
+        'curveSmoothness': 0.5,
+        'color': Colors.amber,
+      }),
+      'LineChartBarData(\n'
+      '  color: Colors.amber,\n'
+      '  isCurved: true,\n'
+      '  curveSmoothness: 0.5,\n'
+      ')',
+    );
+    expect(
+      constructorCode(apiRegistry['LineTooltipItem']!, {'text': 'Hi'}),
+      "LineTooltipItem(\n  'Hi',\n)",
+    );
+    // An integral double is an int on the web.
+    expect(
+      constructorCode(apiRegistry['LineChartBarData']!, {'barWidth': 3}),
+      'LineChartBarData(\n  barWidth: 3.0,\n)',
+    );
+  });
+}
+
+/// The values the control of [property] can give.
+List<Object?> _sampleValues(PropertySpec property, PropertyHint? hint) {
+  final presets = hint?.presets;
+  if (presets != null) return presets;
+  final min = hint?.min;
+  final max = hint?.max;
+  final values = switch (property.kind) {
+    PropertyKind.boolean => [true, false],
+    PropertyKind.integer when min != null && max != null => [
+      min.round(),
+      max.round(),
+    ],
+    PropertyKind.decimal when min != null && max != null => [
+      min,
+      (min + max) / 2,
+      max,
+    ],
+    PropertyKind.text => ['', 'Hello\nWorld'],
+    PropertyKind.color => [Colors.red, Colors.white],
+    PropertyKind.enumeration => property.values!,
+    _ => <Object?>[],
+  };
+  final isNullable = property.isNullable && (hint?.nullable ?? true);
+  return [...values, if (values.isNotEmpty && isNullable) null];
+}
+
+Widget _app(Widget child) => MaterialApp(
+  theme: playgroundTheme,
+  home: Scaffold(
+    body: Center(child: SizedBox(width: 400, height: 600, child: child)),
+  ),
+);
+
+/// Whether two values of a property are the same, through the lists that
+/// don't have a value equality of their own.
+bool _sameValue(Object? a, Object? b) {
+  if (a is List && b is List) {
+    if (a.length != b.length) return false;
+    for (var i = 0; i < a.length; i++) {
+      if (!_sameValue(a[i], b[i])) return false;
+    }
+    return true;
+  }
+  return a == b;
+}
+
+/// The code of a value, without what doesn't change how it reads in the
+/// list of the control (`const FlClipData.none()` is `FlClipData.none()`).
+String _sameCode(String code) =>
+    code.replaceAll('const ', '').replaceAll(' ', '');

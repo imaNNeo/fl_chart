@@ -27,7 +27,7 @@ relevant checkboxes with `[x]`. If some checkbox is not applicable, mark it as `
 
 - [ ] I have followed the [Contributor Guide] when preparing my PR.
 - [ ] I have updated/added tests for ALL new/updated/fixed functionality.
-- [ ] I have updated/added relevant documentation and added dartdoc comments with `///`.
+- [ ] I have updated/added relevant documentation and added dartdoc comments with `///` (then ran `make docs`).
 - [ ] I have updated/added relevant examples in `example`.
 
 

@@ -4,7 +4,7 @@ version: 1.2.0
 homepage: https://flchart.dev/
 repository: https://github.com/imaNNeo/fl_chart
 issue_tracker: https://github.com/imaNNeo/fl_chart/issues
-documentation: https://github.com/imaNNeo/fl_chart
+documentation: https://flchart.dev/docs
 
 environment:
   sdk: ">=3.6.2 <4.0.0"
@@ -15,17 +15,21 @@ funding:
   - https://www.buymeacoffee.com/fl_chart
 
 dependencies:
-  equatable: ^2.0.7
+  equatable: ">=2.1.0 <4.0.0"
   flutter:
     sdk: flutter
   vector_math: ^2.2.0
 
 dev_dependencies:
+  analyzer: ^14.4.0
   build_runner: ^2.8.0
+  dart_style: ^3.1.0
   flutter_test:
     sdk: flutter
   mockito: ^5.5.1
-  very_good_analysis: ^10.2.0
+  path: ^1.9.0
+  pub_semver: ^2.2.0
+  very_good_analysis: ^11.0.0
 
 screenshots:
   - description: "FL Chart Logo"

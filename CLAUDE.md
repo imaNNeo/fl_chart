@@ -9,13 +9,15 @@ FL Chart is a highly customizable Flutter chart library supporting 6 chart types
 ## Common Commands
 
 ```bash
-make sure              # Run tests + checkstyle (use before pushing)
+make sure              # Run tests + checkstyle + checkDocs (use before pushing)
 make runTests          # flutter test
 make analyze           # flutter analyze
 make checkFormat       # Verify formatting (dry run)
 make format            # Auto-format code
 make checkstyle        # analyze + format check
 make codeGen           # Generate mock files: dart run build_runner build --delete-conflicting-outputs
+make docs              # Regenerate the API docs from the dartdoc comments
+make checkDocs         # Fail if the generated API docs are stale
 flutter test test/chart/line_chart/line_chart_painter_test.dart  # Run a single test file
 ```
 
@@ -73,6 +75,14 @@ Key test utilities:
 - `public_member_api_docs` is disabled — public API docs are not enforced
 - `lines_longer_than_80_chars` is disabled
 - Generated `*.mocks.dart` files are excluded from analysis
+
+## Documentation
+
+- The dartdoc comments (`///`) of the data classes in `lib/` are the single source of truth of the API docs. `make docs` (`tool/api_docs/`) generates the property tables between `<!-- api:ClassName -->` and `<!-- /api -->` markers in `repo_files/documentations/*.md`, and `website/src/data/api.json`. Never edit them by hand: update the `///` comment and run `make docs`.
+- The rest of the markdown docs (guides, samples) is hand-written.
+- `website/` is the Docusaurus site of flchart.dev. It renders `repo_files/documentations` in place (see `website/config/docsMarkdown.js`).
+- flchart.dev has one build per version: the latest stable release at `/`, `main` at `/main/` and each release line at `/1.3.x/`, with a version switcher reading `/versions.json`. The `Website` workflow builds and deploys them (see the Versions section of `website/README.md`).
+- `playground/` is the Flutter web app of the live previews of the docs (`/playground/#/LineChartBarData/isCurved`). `make docs` generates `playground/lib/generated/api_registry.g.dart`; the demo of each class (`lib/src/hosts.dart`) and the hints of its properties (`lib/src/hints.dart`) are hand-written. Run `flutter test` in `playground/` after changing them.
 
 ## PR Conventions
 
