@@ -1,3 +1,25 @@
+## 1.3.0
+* **FEATURE** (by @glemartret) Add the Gauge Chart (`GaugeChart`), #1933
+* **FEATURE** (by @imaNNeo) Add the gauge marker painter to draw markers on the Gauge Chart, #2096
+* **FEATURE** (by @jay-k98) Add stacked segment support for `PieChartSectionData`, #2004
+* **FEATURE** (by @enwi) Recognize secondary button pointer events (for example a mouse right-click) in the touch system, #1989
+* **PERFORMANCE** (by @PvtPuddles) Improve the performance of calculating touched spots in `LineChart`, #2101
+* **BUGFIX** (by @moriokaso) Prevent `RangeError` in `badgeWidgetPaint` when the number of pie sections increases, #2077
+* **BUGFIX** (by @Enurian) Fix axis labels disappearing due to an incorrect padding calculation in title filtering, #2080
+* **BUGFIX** (by @martin-dehlan) Clip only the enabled `FlClipData` sides in `LineChart`, #2107
+* **BUGFIX** (by @martin-dehlan) Clip only the enabled `FlClipData` sides in `ScatterChart` and `CandlestickChart`, #2108
+* **BUGFIX** (by @a1573595) Dispose gesture recognizers in `RenderBaseChart`, #2114
+* **BUGFIX** (by @a1573595) Keep axis title values on the interval grid for large values, #2112
+* **BUGFIX** (by @a1573595) Respect the axis range when formatting K/M/B axis labels. Default labels now also strip trailing zeros, #2113
+* **BUGFIX** (by @a1573595) Add `localPosition` to `FlPanEndEvent` so `panEnd` gets a touch response, #2111
+* **BUGFIX** (by @ultramcu) Detect touches on downward (negative) `BarChartRodStackItem`s, #2103
+* **BUGFIX** (by @ultramcu) Avoid `RangeError` when `toDashedPath` receives an empty `dashArray`, #2105
+* **BUGFIX** (by @KuroGeo) Keep bar touch bounds independent of background rods, #2130
+* **BUGFIX** (by @SulimanAbdulrazzaq) Apply `mouseCursorResolver` even when `touchCallback` is not set, #2124
+* **BUGFIX** (by @omid-io) Prevent `LateInitializationError` in `LineChart` when a `LineChartBarData` has only null spots, #2115, #2119
+* **IMPROVEMENT** (by @Crucialjun) Refactor chart classes to use `Equatable` instead of `EquatableMixin`, #2120
+* **IMPROVEMENT** (by @imaNNeo) Loosen the `equatable` dependency constraint to `>=2.1.0 <4.0.0`
+
 ## 1.2.0
 * **BUGFIX** (by @imaNNeo) Consider the `enabled` property in [LineTouchData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/line_chart.md#linetouchdata-read-about-touch-handling), [BarTouchData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/bar_chart.md#bartouchdata-read-about-touch-handling), [PieTouchData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/pie_chart.md#pietouchdata-read-about-touch-handling), [ScatterTouchData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/scatter_chart.md#scattertouchdata-read-about-touch-handling), [RadarTouchData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/radar_chart.md#radartouchdata-read-about-touch-handling) and [CandlestickTouchData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/candlestick_chart.md#candlesticktouchdata-read-about-touch-handling), #1676
 * **BUGFIX** (by @artshooter) Fix wrong bar chart color with small value, #1757
