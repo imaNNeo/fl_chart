@@ -78,7 +78,7 @@ void main() {
       () {
         final lineChartHelper = LineChartHelper();
         final lineBars = [
-          LineChartBarData(spots: const [FlSpot(0, 0), FlSpot(1, 1)]),
+          LineChartBarData(spots: const [FlSpot.zero, FlSpot(1, 1)]),
           LineChartBarData(spots: [FlSpot.nullSpot]),
         ];
         final (minX, maxX, minY, maxY) = lineChartHelper.calculateMaxAxisValues(
