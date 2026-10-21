@@ -1,6 +1,6 @@
 import 'package:fl_chart/src/chart/radar_chart/radar_chart_data.dart';
 import 'package:fl_chart/src/chart/radar_chart/radar_chart_renderer.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Renders a radar chart as a widget, using provided [RadarChartData].
 class RadarChart extends ImplicitlyAnimatedWidget {
