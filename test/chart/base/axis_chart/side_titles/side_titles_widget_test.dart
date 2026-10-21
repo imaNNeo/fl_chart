@@ -515,4 +515,51 @@ void main() {
       }
     },
   );
+
+  testWidgets(
+    'LineChart default left titles stay distinct on a tall narrow-range axis (#1584)',
+    (tester) async {
+      const parentSize = Size(400, 1000);
+      tester.view.physicalSize = parentSize;
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SizedBox(
+              width: parentSize.width,
+              height: parentSize.height,
+              child: SideTitlesWidget(
+                side: AxisSide.left,
+                axisChartData: LineChartData(
+                  minX: 0,
+                  maxX: 10,
+                  minY: 976405.27,
+                  maxY: 1135594.31,
+                  titlesData: const FlTitlesData(
+                    leftTitles: AxisTitles(
+                      sideTitles: SideTitles(showTitles: true),
+                    ),
+                    topTitles: AxisTitles(),
+                    rightTitles: AxisTitles(),
+                    bottomTitles: AxisTitles(),
+                  ),
+                ),
+                parentSize: parentSize,
+              ),
+            ),
+          ),
+        ),
+      );
+
+      final labels = tester
+          .widgetList<Text>(find.byType(Text))
+          .map((t) => t.data)
+          .toList();
+      expect(labels.length, greaterThan(20));
+      expect(labels.toSet().length, labels.length);
+      expect(labels, contains('1.005M'));
+    },
+  );
 }

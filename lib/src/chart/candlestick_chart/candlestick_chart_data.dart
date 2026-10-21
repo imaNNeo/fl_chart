@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 ///
 /// It holds data needed to draw a candlestick chart,
 /// including background color, Candlestick spots, ...
-class CandlestickChartData extends AxisChartData with EquatableMixin {
+class CandlestickChartData extends AxisChartData with Equatable {
   /// [CandlestickChart] draws some candlesticks on the chart based on
   /// the provided [candlestickSpots],
   ///
@@ -27,7 +27,7 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
   /// You can modify [candlestickTouchData] to customize touch behaviors and responses.
   ///
   /// You can show some tooltipIndicators (a popup with an information)
-  /// on top of each [CandlestickChartData.candleSpots] using [showingTooltipIndicators],
+  /// on top of each [CandlestickChartData.candlestickSpots] using [showingTooltipIndicators],
   /// just put spot indices you want to show it on top of them.
   ///
   /// [clipData] forces the [CandlestickChart] to draw lines inside the chart bounding box.
@@ -79,7 +79,8 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
   /// Contains the data for the candlestick chart.
   ///
   /// Each [CandlestickSpot] represents a candlestick in the chart
-  /// that contains [open, high, low, close] values.
+  /// that contains [CandlestickSpot.open], [CandlestickSpot.high],
+  /// [CandlestickSpot.low] and [CandlestickSpot.close] values.
   final List<CandlestickSpot> candlestickSpots;
 
   /// The painter used to draw the candlestick.
@@ -100,11 +101,11 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
   /// Shows an indicator on the touched / hovered point
   ///
   /// We manage to set it by default
-  /// when [candlestickTouchData.handleBuiltInTouches] is true,
+  /// when [CandlestickTouchData.handleBuiltInTouches] is true,
   /// so nothing happens if you change this property as long as
   /// the handleBuiltInTouches property is true.
   ///
-  /// But you can set [candlestickTouchData.handleBuiltInTouches] to false
+  /// But you can set [CandlestickTouchData.handleBuiltInTouches] to false
   /// if you want to have customized [touchedPointIndicator]
   final AxisSpotIndicator? touchedPointIndicator;
 
@@ -195,7 +196,7 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
             touchedPointIndicator ?? this.touchedPointIndicator,
       );
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
         candlestickSpots,
@@ -220,7 +221,7 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
 }
 
 /// Defines information about a spot in the [CandlestickChart]
-class CandlestickSpot extends FlSpot with EquatableMixin {
+class CandlestickSpot extends FlSpot with Equatable {
   /// You can change [show] value to show or hide the spot,
   /// [x] determines the location of [CandlestickChart] in the x-axis,
   /// [open], [high], [low], and [close] defines the values of the spot
@@ -228,7 +229,7 @@ class CandlestickSpot extends FlSpot with EquatableMixin {
   ///
   /// You can temporarily hide the spot by setting [show] to false.
   ///
-  /// The [candlestickPainter] is used to customize the appearance of each candlestick.
+  /// The [CandlestickChartData.candlestickPainter] is used to customize the appearance of each candlestick.
   /// We use the [DefaultCandlestickPainter] by default, but you can implement
   /// your own painter with your shiny UI
   CandlestickSpot({
@@ -241,16 +242,18 @@ class CandlestickSpot extends FlSpot with EquatableMixin {
   })  : show = show ?? true,
         super(x, high);
 
-  /// The open value of a specific candlestick.
+  /// The open value of the candlestick, see the
+  /// [OHLC standard](https://en.wikipedia.org/wiki/Open-high-low-close_chart).
   final double open;
 
-  /// The high value of a specific candlestick.
+  /// The highest value of the candlestick (the top of its wick).
   final double high;
 
-  /// The low value of a specific candlestick.
+  /// The lowest value of the candlestick (the bottom of its wick).
   final double low;
 
-  /// The close value of a specific candlestick.
+  /// The close value of the candlestick, see the
+  /// [OHLC standard](https://en.wikipedia.org/wiki/Open-high-low-close_chart).
   final double close;
 
   /// Determines show or hide the spot.
@@ -309,7 +312,7 @@ class CandlestickSpot extends FlSpot with EquatableMixin {
         show: b.show,
       );
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
         x,
@@ -323,11 +326,11 @@ class CandlestickSpot extends FlSpot with EquatableMixin {
 
 /// Holds data to handle touch events, and touch responses in the [CandlestickChart].
 ///
-/// There is a touch flow, explained [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/handle_touches.md)
+/// There is a touch flow, explained [here](https://flchart.dev/docs/handle-touches)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [CandlestickTouchResponse].
 class CandlestickTouchData extends FlTouchData<CandlestickTouchResponse>
-    with EquatableMixin {
+    with Equatable {
   /// You can disable or enable the touch system using [enabled] flag,
   ///
   /// [touchCallback] notifies you about the happened touch/pointer events.
@@ -361,14 +364,16 @@ class CandlestickTouchData extends FlTouchData<CandlestickTouchResponse>
           longPressDuration,
         );
 
-  /// show a tooltip on touched spots
+  /// Determines how the tooltip looks on top of the touched candlestick,
+  /// see [CandlestickTouchTooltipData].
   final CandlestickTouchTooltipData touchTooltipData;
 
-  /// set this true if you want the built in touch handling
-  /// (show a tooltip bubble and an indicator on touched spots)
+  /// If true, the chart handles touches by itself: it shows a tooltip bubble
+  /// and an indicator on the touched (or hovered) candlestick.
   final bool handleBuiltInTouches;
 
-  /// we find the nearest spots on touched position based on this threshold
+  /// Extends the touchable area of each candlestick by this distance
+  /// (in pixels).
   final double touchSpotThreshold;
 
   /// Copies current [CandlestickTouchData] to a new [CandlestickTouchData],
@@ -392,7 +397,7 @@ class CandlestickTouchData extends FlTouchData<CandlestickTouchResponse>
         touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
       );
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
         enabled,
@@ -417,13 +422,14 @@ class CandlestickTouchResponse extends AxisBaseTouchResponse {
   /// passes out a [CandlestickTouchResponse], it gives you information about the touched spot.
   ///
   /// [touchedSpot] tells you
-  /// in which spot (of [CandlestickChartData.candleSpots]) touch happened.
+  /// in which spot (of [CandlestickChartData.candlestickSpots]) touch happened.
   CandlestickTouchResponse({
     required super.touchLocation,
     required super.touchChartCoordinate,
     required this.touchedSpot,
   });
 
+  /// The touched spot, null if no candle is touched.
   final CandlestickTouchedSpot? touchedSpot;
 
   /// Copies current [CandlestickTouchResponse] to a new [CandlestickTouchResponse],
@@ -441,9 +447,9 @@ class CandlestickTouchResponse extends AxisBaseTouchResponse {
 }
 
 /// Holds the touched spot data
-class CandlestickTouchedSpot with EquatableMixin {
+class CandlestickTouchedSpot with Equatable {
   /// [spot], and [spotIndex] tells you
-  /// in which spot (of [CandlestickChartData.candleSpots]) touch happened.
+  /// in which spot (of [CandlestickChartData.candlestickSpots]) touch happened.
   const CandlestickTouchedSpot(this.spot, this.spotIndex);
 
   /// Touch happened on this spot
@@ -452,7 +458,7 @@ class CandlestickTouchedSpot with EquatableMixin {
   /// Touch happened on this spot index
   final int spotIndex;
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
         spot,
@@ -469,7 +475,7 @@ class CandlestickTouchedSpot with EquatableMixin {
 }
 
 /// Holds representation data for showing tooltip popup on top of spots.
-class CandlestickTouchTooltipData with EquatableMixin {
+class CandlestickTouchTooltipData with Equatable {
   /// if [CandlestickTouchData.handleBuiltInTouches] is true,
   /// [CandlestickChart] shows a tooltip popup on top of spots automatically when touch happens,
   /// otherwise you can show it manually using [CandlestickChartData.showingTooltipIndicators].
@@ -517,13 +523,14 @@ class CandlestickTouchTooltipData with EquatableMixin {
   /// Applies a padding for showing contents inside the tooltip.
   final EdgeInsets tooltipPadding;
 
-  /// Controls showing tooltip on left side, right side or center aligned with spot, default is center
+  /// Controls showing tooltip on left side, right side or center aligned with spot.
   final FLHorizontalAlignment tooltipHorizontalAlignment;
 
-  /// Applies horizontal offset for showing tooltip, default is zero.
+  /// Applies horizontal offset for showing tooltip.
   final double tooltipHorizontalOffset;
 
-  /// Restricts the tooltip's width.
+  /// Maximum width of the tooltip's content, a text row which is wider than
+  /// this breaks into a new line.
   final double maxContentWidth;
 
   /// Retrieves data for showing content inside the tooltip.
@@ -541,13 +548,14 @@ class CandlestickTouchTooltipData with EquatableMixin {
   /// Controls the rotation of the tooltip.
   final double rotateAngle;
 
-  /// The tooltip border color.
+  /// Border of the tooltip bubble.
   final BorderSide tooltipBorder;
 
-  /// Retrieves data for showing content inside the tooltip.
+  /// Retrieves the background color of the tooltip for each touched
+  /// candlestick.
   final GetCandlestickTooltipColor getTooltipColor;
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
         tooltipBorderRadius,
@@ -685,7 +693,7 @@ Color defaultCandlestickTooltipColor(CandlestickSpot touchedSpot) =>
     Colors.blueGrey.darken(80);
 
 /// Holds data of showing each item in the tooltip popup.
-class CandlestickTooltipItem with EquatableMixin {
+class CandlestickTooltipItem with Equatable {
   /// Shows a [text] with [textStyle], [textDirection],  and optional [children] in the tooltip popup,
   /// [bottomMargin] is the bottom space from spot.
   CandlestickTooltipItem(
@@ -717,7 +725,7 @@ class CandlestickTooltipItem with EquatableMixin {
   /// Add further style and format to the text of the tooltip
   final List<TextSpan>? children;
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
         text,
@@ -749,7 +757,7 @@ class CandlestickTooltipItem with EquatableMixin {
 }
 
 /// This class contains the interface for drawing the candlestick shape.
-abstract class FlCandlestickPainter with EquatableMixin {
+abstract class FlCandlestickPainter with Equatable {
   const FlCandlestickPainter();
 
   /// This method should be overridden to draw the candlestick shape
@@ -774,7 +782,7 @@ abstract class FlCandlestickPainter with EquatableMixin {
   );
 
   /// Used to implement touch behaviour of this dot, for example,
-  /// it behaves like a square of [getSize]
+  /// it returns whether the [spot] is hit, and the distance to it.
   /// Check [DefaultCandlestickPainter.hitTest] for an example of an implementation
   (bool, double) hitTest(
     CandlestickSpot spot,
@@ -926,7 +934,7 @@ class DefaultCandlestickPainter extends FlCandlestickPainter {
 }
 
 /// Holds data for drawing each candlestick shape.
-class CandlestickStyle with EquatableMixin {
+class CandlestickStyle with Equatable {
   const CandlestickStyle({
     required this.lineColor,
     required this.lineWidth,

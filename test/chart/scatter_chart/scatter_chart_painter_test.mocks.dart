@@ -1425,8 +1425,9 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
   String formatNumber(
     double? axisMin,
     double? axisMax,
-    double? axisValue,
-  ) =>
+    double? axisValue, {
+    double? interval,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #formatNumber,
@@ -1435,6 +1436,7 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
             axisMax,
             axisValue,
           ],
+          {#interval: interval},
         ),
         returnValue: _i9.dummyValue<String>(
           this,
@@ -1445,6 +1447,7 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
               axisMax,
               axisValue,
             ],
+            {#interval: interval},
           ),
         ),
       ) as String);
