@@ -197,6 +197,7 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
                 axisMin,
                 axisMax,
                 metaData.axisValue,
+                interval: interval,
               ),
               axisSide: side,
               parentAxisSize: axisViewSize,

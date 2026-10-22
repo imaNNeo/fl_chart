@@ -11,21 +11,13 @@ class LineChartHelper {
       return (0, 0, 0, 0);
     }
 
-    final LineChartBarData lineBarData;
-    try {
-      lineBarData =
-          lineBarsData.firstWhere((element) => element.spots.isNotEmpty);
-    } catch (_) {
-      // There is no lineBarData with at least one spot
-      return (0, 0, 0, 0);
-    }
-
     final FlSpot firstValidSpot;
     try {
-      firstValidSpot =
-          lineBarData.spots.firstWhere((element) => element != FlSpot.nullSpot);
+      firstValidSpot = lineBarsData
+          .expand((barData) => barData.spots)
+          .firstWhere((element) => element != FlSpot.nullSpot);
     } catch (_) {
-      // There is no valid spot
+      // There is no valid spot across all lineBarData
       return (0, 0, 0, 0);
     }
 
@@ -35,7 +27,7 @@ class LineChartHelper {
     var maxY = firstValidSpot.y;
 
     for (final barData in lineBarsData) {
-      if (barData.spots.isEmpty) {
+      if (!barData.hasValidSpots) {
         continue;
       }
 
