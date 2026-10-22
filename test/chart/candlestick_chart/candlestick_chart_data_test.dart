@@ -372,6 +372,18 @@ void main() {
       );
     });
 
+    test('CandlestickTouchTooltipData copyWith showOnTopOfTheChartBoxArea', () {
+      final base = CandlestickTouchTooltipData(
+        showOnTopOfTheChartBoxArea: false,
+      );
+
+      final unchanged = base.copyWith(maxContentWidth: 200);
+      expect(unchanged.showOnTopOfTheChartBoxArea, false);
+
+      final changed = base.copyWith(showOnTopOfTheChartBoxArea: true);
+      expect(changed.showOnTopOfTheChartBoxArea, true);
+    });
+
     test('CandlestickTooltipItem equality test', () {
       final sample1 = CandlestickTooltipItem(
         'aa',

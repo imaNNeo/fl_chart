@@ -583,6 +583,7 @@ class CandlestickTouchTooltipData with Equatable {
     GetCandlestickTooltipItems? getTooltipItems,
     bool? fitInsideHorizontally,
     bool? fitInsideVertically,
+    bool? showOnTopOfTheChartBoxArea,
     double? rotateAngle,
     BorderSide? tooltipBorder,
     GetCandlestickTooltipColor? getTooltipColor,
@@ -599,6 +600,8 @@ class CandlestickTouchTooltipData with Equatable {
         fitInsideHorizontally:
             fitInsideHorizontally ?? this.fitInsideHorizontally,
         fitInsideVertically: fitInsideVertically ?? this.fitInsideVertically,
+        showOnTopOfTheChartBoxArea:
+            showOnTopOfTheChartBoxArea ?? this.showOnTopOfTheChartBoxArea,
         rotateAngle: rotateAngle ?? this.rotateAngle,
         tooltipBorder: tooltipBorder ?? this.tooltipBorder,
         getTooltipColor: getTooltipColor ?? this.getTooltipColor,
