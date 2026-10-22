@@ -531,7 +531,12 @@ class _CustomInteractiveViewerState extends State<CustomInteractiveViewer>
     );
     final clampedScale = clampedTotalScale / currentScale;
     return matrix.clone()
-      ..scaleByDouble(clampedScale, clampedScale, clampedScale, 1);
+      ..scaleByDouble(
+        clampedScale,
+        clampedScale,
+        clampedScale,
+        1,
+      );
   }
 
   // Returns true iff the given _GestureType is enabled.

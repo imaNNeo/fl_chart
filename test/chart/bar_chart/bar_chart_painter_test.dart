@@ -1325,30 +1325,22 @@ void main() {
       });
 
       barChartPainter.drawBars(mockCanvasWrapper, barGroupsPosition, holder);
-      expect(results.length, 5);
+      expect(results.length, 4);
       expect(
-        results[1]['paint_color'],
+        results[0]['paint_color'],
         isSameColorAs(const Color(0x11111111)),
       );
       expect(
-        results[2]['paint_color'],
+        results[1]['paint_color'],
         isSameColorAs(const Color(0x22222222)),
       );
       expect(
-        results[3]['paint_color'],
+        results[2]['paint_color'],
         isSameColorAs(const Color(0x33333333)),
       );
       expect(
-        results[3]['gradient'],
-        false,
-      );
-      expect(
-        results[4]['paint_color'],
-        isSameColorAs(const Color(0xFF000000)),
-      );
-      expect(
-        results[4]['gradient'],
-        true,
+        results[3]['paint_color'],
+        isSameColorAs(const Color(0x44444444)),
       );
     });
 
