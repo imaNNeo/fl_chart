@@ -397,7 +397,7 @@ final apiRegistry = <String, ClassSpec>{
       ),
       PropertySpec(
         name: 'borderRadius',
-        type: 'BorderRadius?',
+        type: 'BorderRadiusGeometry?',
         kind: PropertyKind.other,
         isNullable: true,
         defaultCode: 'null',
@@ -3927,7 +3927,11 @@ BarChartRodData _copyBarChartRodData(
     color: _value<ui.Color?>(values, 'color', o.color),
     gradient: _value<Gradient?>(values, 'gradient', o.gradient),
     width: _value<double?>(values, 'width', o.width),
-    borderRadius: _value<BorderRadius?>(values, 'borderRadius', o.borderRadius),
+    borderRadius: _value<BorderRadiusGeometry?>(
+      values,
+      'borderRadius',
+      o.borderRadius,
+    ),
     borderDashArray: _value<List<int>?>(
       values,
       'borderDashArray',
