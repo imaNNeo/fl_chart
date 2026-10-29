@@ -58,7 +58,240 @@ void main() {
       );
 
       verify(mockCanvasWrapper.drawPath(any, any)).called(3);
+      verifyNever(mockCanvasWrapper.drawBorder(any, any));
       Utils.changeInstance(utilsMainInstance);
+    });
+
+    test('draws borderData around the chart rectangle', () {
+      final utilsMainInstance = Utils();
+      const viewSize = Size(400, 300);
+      final border = Border.all(color: const Color(0xFF112233), width: 6);
+      final data = PieChartData(
+        borderData: FlBorderData(show: true, border: border),
+        sections: [
+          PieChartSectionData(value: 10),
+          PieChartSectionData(value: 20),
+        ],
+      );
+
+      final pieChartPainter = PieChartPainter();
+      final holder = PaintHolder<PieChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
+
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => textStyle1);
+      when(mockUtils.radians(any)).thenAnswer((realInvocation) => 12);
+
+      final mockBuildContext = MockBuildContext();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      pieChartPainter.paint(mockBuildContext, mockCanvasWrapper, holder);
+
+      verify(
+        mockCanvasWrapper.drawBorder(
+          border,
+          Offset.zero & viewSize,
+        ),
+      ).called(1);
+      Utils.changeInstance(utilsMainInstance);
+    });
+
+    test('draws the border when there are no sections', () {
+      const viewSize = Size(120, 80);
+      final border = Border.all(width: 2);
+      final data = PieChartData(
+        sections: const [],
+        borderData: FlBorderData(show: true, border: border),
+      );
+
+      final pieChartPainter = PieChartPainter();
+      final holder = PaintHolder<PieChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      pieChartPainter.paint(MockBuildContext(), mockCanvasWrapper, holder);
+
+      verify(
+        mockCanvasWrapper.drawBorder(
+          border,
+          Offset.zero & viewSize,
+        ),
+      ).called(1);
+      verifyNever(mockCanvasWrapper.drawCircle(any, any, any));
+      verifyNever(mockCanvasWrapper.drawPath(any, any));
+    });
+  });
+
+  group('drawBorder()', () {
+    test('paints a visible border on the full chart rectangle', () {
+      const viewSize = Size(180, 90);
+      final border = Border.all(color: const Color(0xFFABCDEF), width: 3);
+      final data = PieChartData(
+        borderData: FlBorderData(show: true, border: border),
+      );
+      final holder = PaintHolder<PieChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+
+      PieChartPainter().drawBorder(mockCanvasWrapper, holder);
+
+      verify(
+        mockCanvasWrapper.drawBorder(
+          border,
+          Offset.zero & viewSize,
+        ),
+      ).called(1);
+    });
+
+    test('paints a non-uniform border unchanged', () {
+      const viewSize = Size(180, 90);
+      const border = Border(
+        left: BorderSide(color: Color(0xFFFF0000)),
+        top: BorderSide(color: Color(0xFF00FF00), width: 2),
+        right: BorderSide(color: Color(0xFF0000FF), width: 3),
+        bottom: BorderSide(color: Color(0xFFFFFF00), width: 4),
+      );
+      final data = PieChartData(
+        borderData: FlBorderData(show: true, border: border),
+      );
+      final holder = PaintHolder<PieChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+
+      PieChartPainter().drawBorder(mockCanvasWrapper, holder);
+
+      verify(
+        mockCanvasWrapper.drawBorder(
+          border,
+          Offset.zero & viewSize,
+        ),
+      ).called(1);
+    });
+
+    test('does nothing when show is false', () {
+      const viewSize = Size(100, 100);
+      final data = PieChartData(
+        borderData: FlBorderData(show: false, border: Border.all(width: 8)),
+      );
+      final holder = PaintHolder<PieChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+
+      PieChartPainter().drawBorder(mockCanvasWrapper, holder);
+
+      verifyNever(mockCanvasWrapper.drawBorder(any, any));
+    });
+
+    test('does nothing when every side has zero width', () {
+      const viewSize = Size(100, 100);
+      final data = PieChartData(
+        borderData: FlBorderData(show: true, border: Border.all(width: 0)),
+      );
+      final holder = PaintHolder<PieChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+
+      PieChartPainter().drawBorder(mockCanvasWrapper, holder);
+
+      verifyNever(mockCanvasWrapper.drawBorder(any, any));
+    });
+
+    test('does nothing when every side is transparent', () {
+      const viewSize = Size(100, 100);
+      final data = PieChartData(
+        borderData: FlBorderData(
+          show: true,
+          border: Border.all(color: const Color(0x00000000), width: 4),
+        ),
+      );
+      final holder = PaintHolder<PieChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+
+      PieChartPainter().drawBorder(mockCanvasWrapper, holder);
+
+      verifyNever(mockCanvasWrapper.drawBorder(any, any));
+    });
+  });
+
+  group('calculateChartRect()', () {
+    test('uses the full size when the border is hidden', () {
+      const viewSize = Size(200, 100);
+      final data = PieChartData(
+        borderData: FlBorderData(show: false, border: Border.all(width: 12)),
+      );
+      final holder = PaintHolder<PieChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
+
+      expect(
+        PieChartPainter().calculateChartRect(viewSize, holder),
+        Offset.zero & viewSize,
+      );
+    });
+
+    test('insets each side by the border dimensions', () {
+      const viewSize = Size(200, 100);
+      const border = Border(
+        left: BorderSide(width: 10),
+        top: BorderSide(width: 4),
+        right: BorderSide(width: 6),
+        bottom: BorderSide(width: 8),
+      );
+      final data = PieChartData(
+        borderData: FlBorderData(show: true, border: border),
+      );
+      final holder = PaintHolder<PieChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
+      final insets = border.dimensions.resolve(TextDirection.ltr);
+
+      expect(
+        PieChartPainter().calculateChartRect(viewSize, holder),
+        Rect.fromLTRB(
+          insets.left,
+          insets.top,
+          viewSize.width - insets.right,
+          viewSize.height - insets.bottom,
+        ),
+      );
+      expect(insets.left, greaterThan(0));
+      expect(insets.top, greaterThan(0));
     });
   });
 
@@ -115,6 +348,36 @@ void main() {
         (result.captured.first as Paint).color,
         isSameColorAs(MockData.color1),
       );
+    });
+
+    test('centers the hole inside an asymmetric border', () {
+      const viewSize = Size(200, 200);
+      const border = Border(
+        left: BorderSide(width: 20),
+        top: BorderSide(width: 10),
+        right: BorderSide(width: 0),
+        bottom: BorderSide(width: 30),
+      );
+      final data = PieChartData(
+        centerSpaceColor: MockData.color1,
+        borderData: FlBorderData(show: true, border: border),
+      );
+      final pieChartPainter = PieChartPainter();
+      final holder = PaintHolder<PieChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
+      final center =
+          pieChartPainter.calculateChartRect(viewSize, holder).center;
+
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      pieChartPainter.drawCenterSpace(mockCanvasWrapper, 10, holder);
+
+      verify(mockCanvasWrapper.drawCircle(center, 10, any)).called(1);
+      expect(center, isNot(viewSize.center(Offset.zero)));
     });
   });
 
@@ -1169,6 +1432,33 @@ void main() {
       );
       expect(result2, 56);
     });
+
+    test('shrinks the automatic radius so the pie fits inside the border', () {
+      const viewSize = Size(400, 200);
+      final sections = [
+        PieChartSectionData(radius: 44),
+      ];
+      final data = PieChartData(
+        sections: sections,
+        borderData: FlBorderData(
+          show: true,
+          border: Border.all(width: 10),
+        ),
+      );
+      final painter = PieChartPainter();
+      final holder = PaintHolder<PieChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
+      final chartSize = painter.calculateChartRect(viewSize, holder).size;
+
+      expect(
+        painter.calculateCenterRadius(viewSize, holder),
+        (chartSize.shortestSide - (44 * 2)) / 2,
+      );
+      expect(chartSize.shortestSide, lessThan(viewSize.shortestSide));
+    });
   });
 
   group('handleTouch()', () {
@@ -1517,6 +1807,30 @@ void main() {
           2: const Offset(23.915478696387723, 124.7213595499958),
           3: const Offset(124.72135954999578, 23.91547869638771),
         },
+      );
+    });
+
+    test('moves badges inward when a border shrinks the pie', () {
+      const viewSize = Size(200, 200);
+      final section = PieChartSectionData(value: 10, radius: 40);
+      final withoutBorder = PieChartData(sections: [section]);
+      final withBorder = withoutBorder.copyWith(
+        borderData: FlBorderData(show: true, border: Border.all(width: 20)),
+      );
+      final painter = PieChartPainter();
+      final plain = painter.getBadgeOffsets(
+        viewSize,
+        PaintHolder(withoutBorder, withoutBorder, TextScaler.noScaling),
+      );
+      final inset = painter.getBadgeOffsets(
+        viewSize,
+        PaintHolder(withBorder, withBorder, TextScaler.noScaling),
+      );
+      final center = viewSize.center(Offset.zero);
+
+      expect(
+        (inset[0]! - center).distance,
+        lessThan((plain[0]! - center).distance),
       );
     });
   });
