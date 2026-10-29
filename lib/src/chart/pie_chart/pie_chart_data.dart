@@ -22,6 +22,10 @@ class PieChartData extends BaseChartData with Equatable {
   /// You can define a gap between [sections] by setting [sectionsSpace].
   ///
   /// You can modify [pieTouchData] to customize touch behaviors and responses.
+  ///
+  /// [borderData] draws a rectangle around the chart, the same way the other
+  /// chart types do. It is hidden by default. Section outlines are separate
+  /// and use [PieChartSectionData.borderSide].
   PieChartData({
     List<PieChartSectionData>? sections,
     double? centerSpaceRadius,

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
@@ -68,6 +66,13 @@ void main() {
   test('test drawRect', () {
     canvasWrapper.drawRect(MockData.rect1, MockData.paint1);
     verify(mockCanvas.drawRect(MockData.rect1, MockData.paint1)).called(1);
+  });
+
+  test('test drawBorder', () {
+    final border = Border.all(color: const Color(0xFF010203), width: 4);
+    const rect = Rect.fromLTWH(0, 0, 80, 40);
+    canvasWrapper.drawBorder(border, rect);
+    verify(mockCanvas.drawRect(any, any)).called(1);
   });
 
   test('test drawLine', () {
