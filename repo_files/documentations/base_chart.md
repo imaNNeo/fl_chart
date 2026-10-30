@@ -39,8 +39,8 @@
 |getTitlesWidget|`Widget Function(double, TitleMeta)`|`defaultGetTitle`|You can override it to pass your custom widget to show in each axis value We recommend you to use [`SideTitleWidget`](https://pub.dev/documentation/fl_chart/latest/fl_chart/SideTitleWidget-class.html).<br><br>If you decide to implement your custom widget (instead of [`SideTitleWidget`](https://pub.dev/documentation/fl_chart/latest/fl_chart/SideTitleWidget-class.html)), you have to take care of the alignment, space to the chart and also the rotation (if you are rotating the chart, for example for Horizontal Bar Chart)|
 |reservedSize|`double`|`22`|It determines the maximum space that your titles need, (All titles will stretch using this value)|
 |interval|`double?`|`null`|Texts are showing with provided `interval`. If you don't provide anything, we try to find a suitable value to set as `interval` under the hood.|
-|minIncluded|`bool`|`true`|If true (default), a title for the minimum data value is included independent of the sampling interval|
-|maxIncluded|`bool`|`true`|If true (default), a title for the maximum data value is included independent of the sampling interval|
+|minIncluded|`bool`|`true`|If true (default), a title for the minimum data value is included even when it does not fall on the sampling `interval`.<br><br>The extra title is skipped when it is closer than a quarter of `interval` to the nearest regular title, so the two labels do not overlap. A minimum that already falls on an interval value is not duplicated.|
+|maxIncluded|`bool`|`true`|If true (default), a title for the maximum data value is included even when it does not fall on the sampling `interval`.<br><br>The extra title is skipped when it is closer than a quarter of `interval` to the nearest regular title, so the two labels do not overlap. A maximum that already falls on an interval value is not duplicated.|
 <!-- /api -->
 
 ### SideTitleFitInsideData

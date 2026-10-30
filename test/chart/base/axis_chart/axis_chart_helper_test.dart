@@ -4,6 +4,38 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   const tolerance = 0.0001;
+
+  List<double> axisValues({
+    required double min,
+    required double max,
+    required double interval,
+    double baseLine = 0,
+    bool minIncluded = true,
+    bool maxIncluded = true,
+  }) {
+    return AxisChartHelper()
+        .iterateThroughAxis(
+          min: min,
+          max: max,
+          interval: interval,
+          baseLine: baseLine,
+          minIncluded: minIncluded,
+          maxIncluded: maxIncluded,
+        )
+        .toList();
+  }
+
+  void expectAxisValues(List<double> actual, List<double> expected) {
+    expect(actual, hasLength(expected.length));
+    for (var i = 0; i < expected.length; i++) {
+      expect(
+        actual[i],
+        closeTo(expected[i], tolerance),
+        reason: 'index $i: expected ${expected[i]}, got ${actual[i]}',
+      );
+    }
+  }
+
   group('iterateThroughAxis()', () {
     test('test 1', () {
       final results = <double>[];
@@ -124,6 +156,94 @@ void main() {
               'closer than half an interval',
         );
       }
+    });
+
+    group('boundary titles near an interval label (#2061)', () {
+      test('skips a min boundary that overlaps the next interval label', () {
+        final results = axisValues(min: 3.2, max: 14, interval: 4);
+
+        // 3.2 is 0.8 from 4; the overlap gap is a quarter of the interval (1).
+        expectAxisValues(results, [4, 8, 12, 14]);
+      });
+
+      test('skips a max boundary that overlaps the previous interval label',
+          () {
+        final results = axisValues(min: 2, max: 12.2, interval: 4);
+
+        // 12.2 is 0.2 from 12.
+        expectAxisValues(results, [2, 4, 8, 12]);
+      });
+
+      test('skips both boundaries from the reported overlap example', () {
+        final results = axisValues(min: 7.98, max: 8.52, interval: 0.10);
+
+        // 7.98 is 0.02 from 8.00 and 8.52 is 0.02 from 8.50 (interval 0.10).
+        expectAxisValues(results, [8, 8.1, 8.2, 8.3, 8.4, 8.5]);
+      });
+
+      test('skips the min title beside the next interval for issue #2061', () {
+        // y spots -203 and -2 with an efficient interval of 50.
+        final results = axisValues(min: -203, max: -2, interval: 50);
+
+        // -203 is 3 away from -200 (0.06 of the interval). -2 is 48 away
+        // from -50, so the max title stays.
+        expectAxisValues(results, [-200, -150, -100, -50, -2]);
+      });
+
+      test('keeps a boundary that is at least a quarter interval away', () {
+        // Exactly a quarter of the interval (distance 1, interval 4) is kept.
+        final atThreshold = axisValues(min: 3, max: 20, interval: 4);
+        expectAxisValues(atThreshold, [3, 4, 8, 12, 16, 20]);
+
+        // Comfortably farther than a quarter (distance 2, interval 4).
+        final far = axisValues(min: 2, max: 13, interval: 4);
+        expectAxisValues(far, [2, 4, 8, 12, 13]);
+      });
+
+      test('does not duplicate a boundary that lands on an interval value', () {
+        final results = axisValues(min: 0, max: 12, interval: 4);
+
+        expectAxisValues(results, [0, 4, 8, 12]);
+        expect(results.toSet(), hasLength(results.length));
+      });
+
+      test('minIncluded and maxIncluded false are unaffected', () {
+        final close = axisValues(
+          min: 7.98,
+          max: 8.52,
+          interval: 0.10,
+          minIncluded: false,
+          maxIncluded: false,
+        );
+        expectAxisValues(close, [8, 8.1, 8.2, 8.3, 8.4, 8.5]);
+
+        // Far boundaries would be included when the flags are true, and are
+        // still omitted when the flags are false.
+        final far = axisValues(
+          min: 2,
+          max: 13,
+          interval: 4,
+          minIncluded: false,
+          maxIncluded: false,
+        );
+        expectAxisValues(far, [4, 8, 12]);
+
+        final minOnly = axisValues(
+          min: 3.2,
+          max: 14,
+          interval: 4,
+          maxIncluded: false,
+        );
+        expectAxisValues(minOnly, [4, 8, 12]);
+
+        final maxOnly = axisValues(
+          min: 2,
+          max: 12.2,
+          interval: 4,
+          minIncluded: false,
+        );
+        expectAxisValues(maxOnly, [4, 8, 12]);
+      });
     });
   });
 
