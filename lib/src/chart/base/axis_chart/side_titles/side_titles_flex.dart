@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/rendering.dart';
 
 /// Inspired from [Flex]
@@ -286,6 +286,7 @@ class AxisSideTitleMetaData with Equatable {
 
   @override
   List<Object?> get props => [
+        runtimeType,
         axisValue,
         axisPixelLocation,
       ];
