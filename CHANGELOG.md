@@ -1,3 +1,6 @@
+## Unreleased
+* **BUGFIX** (by @Dorian92) Skip boundary axis labels that overlap the neighboring interval label, #2061
+
 ## 1.3.0
 * **FEATURE** (by @glemartret) Add the Gauge Chart (`GaugeChart`), #1933
 * **FEATURE** (by @imaNNeo) Add the gauge marker painter to draw markers on the Gauge Chart, #2096
