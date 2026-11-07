@@ -1163,6 +1163,23 @@ class MockCanvasWrapper extends _i1.Mock implements _i6.CanvasWrapper {
         ),
         returnValueForMissingStub: null,
       );
+
+  @override
+  void drawBorder(
+    _i3.Border? border,
+    _i2.Rect? rect,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #drawBorder,
+          [
+            border,
+            rect,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
 }
 
 /// A class which mocks [BuildContext].

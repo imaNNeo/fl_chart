@@ -63,6 +63,13 @@ class CanvasWrapper {
   /// Directly calls [Canvas.drawRect]
   void drawRect(Rect rect, Paint paint) => canvas.drawRect(rect, paint);
 
+  /// Paints [border] inside [rect], the same way [Border.paint] does.
+  ///
+  /// Axis charts draw [FlBorderData] through a [BoxDecoration], which ends up
+  /// calling [Border.paint]. Pie charts use this so a rectangular [border]
+  /// matches that look.
+  void drawBorder(Border border, Rect rect) => border.paint(canvas, rect);
+
   /// Directly calls [Canvas.drawLine]
   void drawLine(Offset p1, Offset p2, Paint paint) =>
       canvas.drawLine(p1, p2, paint);
