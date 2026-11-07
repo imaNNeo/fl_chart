@@ -120,7 +120,8 @@ void main() {
         holder,
       );
 
-      verify(mockCanvasWrapper.clipRect(any)).called(1);
+      verify(mockCanvasWrapper.clipRect(any)).called(3);
+      verifyNever(mockCanvasWrapper.saveLayer(any, any));
       verify(mockCanvasWrapper.drawDot(any, any, any)).called(12);
       verify(mockCanvasWrapper.drawPath(any, any)).called(3);
     });
@@ -325,7 +326,8 @@ void main() {
         holder,
       );
 
-      verify(mockCanvasWrapper.clipRect(any)).called(1);
+      verify(mockCanvasWrapper.clipRect(any)).called(3);
+      verifyNever(mockCanvasWrapper.saveLayer(any, any));
       verify(mockCanvasWrapper.drawDot(any, any, any)).called(12);
       verify(mockCanvasWrapper.drawPath(any, any)).called(3);
     });
@@ -646,12 +648,14 @@ void main() {
       );
 
       final verifyResult = verifyInOrder([
-        mockCanvasWrapper.saveLayer(const Rect.fromLTWH(0, 0, 400, 400), any),
+        mockCanvasWrapper.save(),
+        mockCanvasWrapper.clipRect(const Rect.fromLTWH(0, 0, 400, 400)),
         mockCanvasWrapper.drawPath(any, captureAny),
         mockCanvasWrapper.restore(),
       ]);
+      verifyNever(mockCanvasWrapper.saveLayer(any, any));
 
-      final paint = verifyResult[1].captured.first as Paint;
+      final paint = verifyResult[2].captured.first as Paint;
       expect(paint.shader, null);
       expect(paint.color, const Color(0xFFFF0000));
     });
@@ -2036,12 +2040,13 @@ void main() {
         holder,
       );
 
-      verify(
-        mockCanvasWrapper.saveLayer(
+      verifyInOrder([
+        mockCanvasWrapper.save(),
+        mockCanvasWrapper.clipRect(
           Rect.fromLTWH(0, 0, viewSize.width, viewSize.height),
-          any,
         ),
-      );
+      ]);
+      verifyNever(mockCanvasWrapper.saveLayer(any, any));
       final result =
           verify(mockCanvasWrapper.drawPath(aboveBarPath, captureAny))
             ..called(1);
@@ -2826,12 +2831,10 @@ void main() {
           ),
           holder.data.extraLinesData.verticalLines[0].dashArray,
         ),
-        mockCanvasWrapper.saveLayer(
-          viewRect,
-          any,
-        ),
+        mockCanvasWrapper.save(),
         mockCanvasWrapper.clipRect(viewRect),
       ]);
+      verifyNever(mockCanvasWrapper.saveLayer(any, any));
     });
   });
 

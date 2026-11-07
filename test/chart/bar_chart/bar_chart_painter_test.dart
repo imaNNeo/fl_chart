@@ -233,7 +233,7 @@ void main() {
 
       final canvasRect = Offset.zero & viewSize;
       verifyInOrder([
-        mockCanvasWrapper.saveLayer(canvasRect, any),
+        mockCanvasWrapper.save(),
         mockCanvasWrapper.clipRect(canvasRect),
         mockCanvasWrapper.drawRRect(any, any),
         mockCanvasWrapper.restore(),
@@ -462,7 +462,7 @@ void main() {
         );
 
         final canvasRect = Offset.zero & viewSize;
-        verifyNever(mockCanvasWrapper.saveLayer(canvasRect, any));
+        verifyNever(mockCanvasWrapper.save());
         verifyNever(mockCanvasWrapper.clipRect(canvasRect));
         verifyNever(mockCanvasWrapper.restore());
       }

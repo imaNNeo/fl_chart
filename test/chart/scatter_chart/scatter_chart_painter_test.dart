@@ -129,7 +129,7 @@ void main() {
       ).called(1);
 
       verifyNever(mockCanvasWrapper.drawText(any, any));
-      verify(mockCanvasWrapper.clipRect(any)).called(1);
+      verify(mockCanvasWrapper.clipRect(any)).called(2);
     });
 
     test('test 2', () {
@@ -266,7 +266,7 @@ void main() {
 
       verify(mockCanvasWrapper.drawText(any, any)).called(4);
 
-      verify(mockCanvasWrapper.clipRect(any)).called(1);
+      verify(mockCanvasWrapper.clipRect(any)).called(2);
     });
 
     test('enabling one clip side does not clip the others (#1262)', () {
@@ -306,8 +306,9 @@ void main() {
       );
 
       final verifyResult = verify(mockCanvasWrapper.clipRect(captureAny));
-      final rect = verifyResult.captured.single as Rect;
-      verifyResult.called(1);
+      // The first clip is the canvas, the bounds the layer used to have.
+      final rect = verifyResult.captured.last as Rect;
+      verifyResult.called(2);
       // Only the left side is clipped; the other three stay unbounded.
       expect(rect.left, 4);
       expect(rect.top, double.negativeInfinity);

@@ -17,13 +17,10 @@ class CandlestickChartPainter extends AxisChartPainter<CandlestickChartData> {
       ..style = PaintingStyle.stroke
       ..color = Colors.transparent
       ..strokeWidth = 1.0;
-
-    _clipPaint = Paint();
   }
 
   late Paint _bgTouchTooltipPaint;
   late Paint _borderTouchTooltipPaint;
-  late Paint _clipPaint;
 
   /// Paints [CandlestickChartData] into the provided canvas.
   @override
@@ -34,10 +31,7 @@ class CandlestickChartPainter extends AxisChartPainter<CandlestickChartData> {
   ) {
     if (holder.chartVirtualRect != null) {
       canvasWrapper
-        ..saveLayer(
-          Offset.zero & canvasWrapper.size,
-          _clipPaint,
-        )
+        ..save()
         ..clipRect(Offset.zero & canvasWrapper.size);
     }
     super.paint(context, canvasWrapper, holder);
@@ -63,15 +57,18 @@ class CandlestickChartPainter extends AxisChartPainter<CandlestickChartData> {
     final border = data.borderData.show ? data.borderData.border : null;
 
     if (data.clipData.any) {
-      canvasWrapper.saveLayer(
-        Rect.fromLTRB(
-          0,
-          0,
-          canvasWrapper.size.width,
-          canvasWrapper.size.height,
-        ),
-        _clipPaint,
-      );
+      // A clip needs no offscreen layer, save() is enough. The first clip
+      // keeps the area the layer bounds used to limit drawing to.
+      canvasWrapper
+        ..save()
+        ..clipRect(
+          Rect.fromLTRB(
+            0,
+            0,
+            canvasWrapper.size.width,
+            canvasWrapper.size.height,
+          ),
+        );
 
       // Sides that aren't enabled in [clip] must stay unclipped. We extend
       // their boundary to infinity so [Canvas.clipRect] only clips the enabled
