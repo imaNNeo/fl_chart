@@ -114,10 +114,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       drawBarLine(canvasWrapper, barData, holder);
       drawDots(canvasWrapper, barData, holder);
 
-      if (data.extraLinesData.extraLinesOnTop) {
-        super.drawExtraLines(context, canvasWrapper, holder);
-      }
-
       final indicatorsData = data.lineTouchData
           .getTouchedSpotIndicator(barData, barData.showingIndicators);
 
@@ -142,6 +138,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           LineIndexDrawingInfo(barData, i, spot, index, indicatorData),
         );
       }
+    }
+
+    // Once, above all the lines (it used to be drawn again after each line).
+    if (data.extraLinesData.extraLinesOnTop) {
+      super.drawExtraLines(context, canvasWrapper, holder);
     }
 
     drawTouchedSpotsIndicator(canvasWrapper, lineIndexDrawingInfo, holder);
