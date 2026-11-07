@@ -50,7 +50,8 @@ void main() {
         holder,
       );
 
-      verify(mockCanvas.clipRect(any)).called(1);
+      verify(mockCanvas.clipRect(any)).called(2);
+      verifyNever(mockCanvas.saveLayer(any, any));
       verify(mockCanvas.drawLine(any, any, any)).called(6);
       Utils.changeInstance(utilsMainInstance);
     });
@@ -102,8 +103,9 @@ void main() {
           doAntiAlias: anyNamed('doAntiAlias'),
         ),
       );
-      final rect = verifyResult.captured.single as Rect;
-      verifyResult.called(1);
+      // The first clip is the canvas, the bounds the layer used to have.
+      final rect = verifyResult.captured.last as Rect;
+      verifyResult.called(2);
       // Only the left side is clipped; the other three stay unbounded.
       expect(rect.left, 4);
       expect(rect.top, double.negativeInfinity);

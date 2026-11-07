@@ -68,10 +68,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final data = holder.data;
     if (holder.chartVirtualRect != null) {
       canvasWrapper
-        ..saveLayer(
-          Offset.zero & canvasWrapper.size,
-          _clipPaint,
-        )
+        ..save()
         ..clipRect(Offset.zero & canvasWrapper.size);
     }
     super.paint(context, canvasWrapper, holder);
@@ -80,15 +77,18 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     }
 
     if (data.clipData.any && holder.chartVirtualRect == null) {
-      canvasWrapper.saveLayer(
-        Rect.fromLTWH(
-          0,
-          -40,
-          canvasWrapper.size.width + 40,
-          canvasWrapper.size.height + 40,
-        ),
-        _clipPaint,
-      );
+      // A clip needs no offscreen layer, save() is enough. The first clip
+      // keeps the area the layer bounds used to limit drawing to.
+      canvasWrapper
+        ..save()
+        ..clipRect(
+          Rect.fromLTWH(
+            0,
+            -40,
+            canvasWrapper.size.width + 40,
+            canvasWrapper.size.height + 40,
+          ),
+        );
 
       clipToBorder(canvasWrapper, holder);
     }
@@ -986,12 +986,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     );
 
     canvasWrapper
-      ..saveLayer(
-        Rect.fromLTWH(0, 0, viewSize.width, viewSize.height),
-        _clipPaint,
-      )
+      ..save()
+      ..clipRect(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height))
       ..drawPath(barPath, _barAreaPaint)
-      ..restore(); // clear the above area that get out of the bar line
+      ..restore();
   }
 
   /// draw the main bar line's shadow by the [barPath]
