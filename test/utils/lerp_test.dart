@@ -18,6 +18,19 @@ void main() {
     expect(lerpList(list1, list1, 0.5, lerp: lerpDouble), list1);
   });
 
+  test('lerpList returns the same list without a copy', () {
+    final list = <double>[1, 2, 3];
+    var calls = 0;
+    double? countingLerp(double? a, double? b, double t) {
+      calls++;
+      return lerpDouble(a, b, t);
+    }
+
+    final result = lerpList(list, list, 0.5, lerp: countingLerp);
+    expect(identical(result, list), true);
+    expect(calls, 0);
+  });
+
   test('test lerpColorList', () {
     const list1 = <Color>[
       MockData.color1,
