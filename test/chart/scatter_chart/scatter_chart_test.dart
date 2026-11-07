@@ -1,3 +1,4 @@
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/scale_axis.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/transformation_config.dart';
@@ -820,6 +821,67 @@ void main() {
         expect(chartVirtualRect.size, greaterThan(renderBox.size));
         expect(chartVirtualRect.left, isNegative);
         expect(chartVirtualRect.top, isNegative);
+      });
+    });
+
+    group('built-in touch', () {
+      testWidgets('rebuilds only when the touched spot changes',
+          (tester) async {
+        var touchCallbacks = 0;
+        await tester.pumpWidget(
+          createTestWidget(
+            chart: ScatterChart(
+              ScatterChartData(
+                minX: 0,
+                maxX: 10,
+                minY: 0,
+                maxY: 10,
+                titlesData: const FlTitlesData(show: false),
+                scatterTouchData: ScatterTouchData(
+                  touchCallback: (_, __) => touchCallbacks++,
+                ),
+                scatterSpots: [ScatterSpot(2, 5), ScatterSpot(8, 5)],
+              ),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        final rect = tester.getRect(find.byType(ScatterChartLeaf));
+        Offset spotPosition(double x) =>
+            Offset(rect.left + rect.width * x / 10, rect.center.dy);
+        ScatterChartLeaf leaf() =>
+            tester.widget<ScatterChartLeaf>(find.byType(ScatterChartLeaf));
+
+        final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);
+        addTearDown(mouse.removePointer);
+        await mouse.addPointer(location: rect.topLeft - const Offset(10, 10));
+        await mouse.moveTo(spotPosition(2));
+        await tester.pump();
+        final touchedLeaf = leaf();
+        expect(touchedLeaf.data.showingTooltipIndicators, [0]);
+
+        // Still on the same spot: no rebuild, but the callback is still called.
+        final callbacksBefore = touchCallbacks;
+        await mouse.moveTo(spotPosition(2) + const Offset(1, 0));
+        await tester.pump();
+        expect(leaf(), same(touchedLeaf));
+        expect(touchCallbacks, callbacksBefore + 1);
+
+        await mouse.moveTo(spotPosition(8));
+        await tester.pump();
+        expect(leaf(), isNot(same(touchedLeaf)));
+        expect(leaf().data.showingTooltipIndicators, [1]);
+
+        // Away from both spots: cleared once.
+        await mouse.moveTo(spotPosition(5));
+        await tester.pump();
+        final clearedLeaf = leaf();
+        expect(clearedLeaf.data.showingTooltipIndicators, isEmpty);
+
+        await mouse.moveTo(spotPosition(5) + const Offset(1, 0));
+        await tester.pump();
+        expect(leaf(), same(clearedLeaf));
       });
     });
   });

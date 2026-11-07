@@ -5,6 +5,7 @@ import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/scale_axis.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/transformation_config.dart';
+import 'package:fl_chart/src/extensions/bar_chart_data_extension.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -1009,6 +1010,73 @@ void main() {
         expect(chartVirtualRect.size, greaterThan(renderBox.size));
         expect(chartVirtualRect.left, isNegative);
         expect(chartVirtualRect.top, isNegative);
+      });
+    });
+
+    group('built-in touch', () {
+      testWidgets('rebuilds only when the touched rod changes', (tester) async {
+        var touchCallbacks = 0;
+        final data = BarChartData(
+          minY: 0,
+          maxY: 10,
+          titlesData: const FlTitlesData(show: false),
+          barTouchData: BarTouchData(
+            touchCallback: (_, __) => touchCallbacks++,
+          ),
+          barGroups: List.generate(
+            5,
+            (i) => BarChartGroupData(
+              x: i,
+              barRods: [BarChartRodData(toY: 10, width: 40)],
+            ),
+          ),
+        );
+        await tester.pumpWidget(createTestWidget(chart: BarChart(data)));
+        await tester.pumpAndSettle();
+
+        final rect = tester.getRect(find.byType(BarChartLeaf));
+        final groupsX = data.calculateGroupsX(rect.width);
+        Offset groupPosition(int index) =>
+            Offset(rect.left + groupsX[index], rect.center.dy);
+        BarChartLeaf leaf() =>
+            tester.widget<BarChartLeaf>(find.byType(BarChartLeaf));
+        List<List<int>> showing() => leaf()
+            .data
+            .barGroups
+            .map((group) => group.showingTooltipIndicators)
+            .toList();
+
+        final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);
+        addTearDown(mouse.removePointer);
+        await mouse.addPointer(location: rect.topLeft - const Offset(10, 10));
+        await mouse.moveTo(groupPosition(1));
+        await tester.pump();
+        final touchedLeaf = leaf();
+        expect(showing()[1], [0]);
+
+        // Still on the same rod: no rebuild, but the callback is still called.
+        final callbacksBefore = touchCallbacks;
+        await mouse.moveTo(groupPosition(1) + const Offset(1, 0));
+        await tester.pump();
+        expect(leaf(), same(touchedLeaf));
+        expect(touchCallbacks, callbacksBefore + 1);
+
+        await mouse.moveTo(groupPosition(3));
+        await tester.pump();
+        expect(leaf(), isNot(same(touchedLeaf)));
+        expect(showing()[1], isEmpty);
+        expect(showing()[3], [0]);
+
+        // Between two rods: cleared once.
+        final between = (groupPosition(3) + groupPosition(4)) / 2;
+        await mouse.moveTo(between);
+        await tester.pump();
+        final clearedLeaf = leaf();
+        expect(showing().every((rods) => rods.isEmpty), isTrue);
+
+        await mouse.moveTo(between + const Offset(1, 0));
+        await tester.pump();
+        expect(leaf(), same(clearedLeaf));
       });
     });
   });

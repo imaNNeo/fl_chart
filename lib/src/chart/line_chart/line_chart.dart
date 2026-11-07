@@ -135,10 +135,21 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     if (!event.isInterestedForInteractions ||
         touchResponse?.lineBarSpots == null ||
         touchResponse!.lineBarSpots!.isEmpty) {
+      if (_showingTouchedTooltips.isEmpty &&
+          _showingTouchedIndicators.isEmpty) {
+        // Nothing is shown, so there is nothing to clear.
+        return;
+      }
       setState(() {
         _showingTouchedTooltips.clear();
         _showingTouchedIndicators.clear();
       });
+      return;
+    }
+
+    if (_isShowingSpots(touchResponse.lineBarSpots!)) {
+      // The pointer moved but still touches the same spots (common with mouse
+      // hover), so a rebuild would show exactly the same thing.
       return;
     }
 
@@ -157,6 +168,31 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         ..clear()
         ..add(ShowingTooltipIndicators(sortedLineSpots));
     });
+  }
+
+  /// Whether the built-in touch indicators already show exactly [spots].
+  bool _isShowingSpots(List<LineBarSpot> spots) {
+    if (_showingTouchedTooltips.length != 1 ||
+        _showingTouchedIndicators.length != spots.length) {
+      return false;
+    }
+    final showingSpots = _showingTouchedTooltips.first.showingSpots;
+    if (showingSpots.length != spots.length) {
+      return false;
+    }
+    for (final spot in spots) {
+      final isShowing = showingSpots.any(
+        (showing) =>
+            showing.barIndex == spot.barIndex &&
+            showing.spotIndex == spot.spotIndex &&
+            showing.x == spot.x &&
+            showing.y == spot.y,
+      );
+      if (!isShowing) {
+        return false;
+      }
+    }
+    return true;
   }
 
   @override
