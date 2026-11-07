@@ -17,14 +17,15 @@ I've been building and maintaining fl_chart for free since 2019, in my spare tim
 <table>
   <tr>
     <td width="55%">
-      <a href="SAVE_THE_POTATO_URL?utm_source=fl_chart&utm_medium=readme">
+      <a href="https://savethepotato.com/get/?utm_source=fl_chart&utm_medium=readme">
         <img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/projects/save_the_potato.jpg" alt="Save the Potato">
       </a>
     </td>
     <td>
       <h3>Save the Potato</h3>
-      Keep the orbs away so the potato can enjoy its music in peace.<br><br>
-      <a href="SAVE_THE_POTATO_URL?utm_source=fl_chart&utm_medium=readme"><b>▶ Play it now</b></a>
+      Keep the orbs away so the potato can enjoy its music in peace.<br>
+      Free on Android and iOS.<br><br>
+      <a href="https://savethepotato.com/get/?utm_source=fl_chart&utm_medium=readme"><b>▶ Play it now</b></a>
     </td>
   </tr>
 </table>
