@@ -635,6 +635,30 @@ void main() {
   });
 
   group('generateSectionPath()', () {
+    test('reuses the path for the same section and geometry', () {
+      final painter = PieChartPainter();
+      final section = PieChartSectionData(value: 1, radius: 40);
+      Path generate(PieChartSectionData section, double angle) =>
+          painter.generateSectionPath(
+            section,
+            10,
+            angle,
+            90,
+            const Offset(100, 100),
+            10,
+          );
+
+      final path = generate(section, 0);
+      expect(identical(generate(section, 0), path), true);
+      // A section with another color has the same shape.
+      expect(
+        identical(generate(section.copyWith(color: MockData.color2), 0), path),
+        true,
+      );
+      expect(identical(generate(section, 30), path), false);
+      expect(identical(generate(section.copyWith(radius: 50), 0), path), false);
+    });
+
     test('test 1', () {
       final data = PieChartData(
         centerSpaceColor: MockData.color1,

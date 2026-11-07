@@ -344,6 +344,55 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     Offset center,
     double centerRadius,
   ) {
+    // The paint and every touch event need the same paths, and the
+    // section-space cuts (Path.combine) are costly, so we keep them.
+    final key = (
+      section.radius,
+      section.cornerRadius,
+      sectionSpace,
+      tempAngle,
+      sectionDegree,
+      center,
+      centerRadius,
+    );
+    final cached = _sectionPathCache[key];
+    if (cached != null) {
+      return cached;
+    }
+    if (_sectionPathCache.length >= _sectionPathCacheSize) {
+      // An animation makes new keys on every frame, so we start over.
+      _sectionPathCache.clear();
+    }
+    return _sectionPathCache[key] = _buildSectionPath(
+      section,
+      sectionSpace,
+      tempAngle,
+      sectionDegree,
+      center,
+      centerRadius,
+    );
+  }
+
+  static const _sectionPathCacheSize = 64;
+  final _sectionPathCache = <(
+    double,
+    double,
+    double,
+    double,
+    double,
+    Offset,
+    double,
+  ),
+      Path>{};
+
+  Path _buildSectionPath(
+    PieChartSectionData section,
+    double sectionSpace,
+    double tempAngle,
+    double sectionDegree,
+    Offset center,
+    double centerRadius,
+  ) {
     final sectionRadiusRect = Rect.fromCircle(
       center: center,
       radius: centerRadius + section.radius,
