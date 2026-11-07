@@ -200,9 +200,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
       if (section.value == 0 || section.radius == 0) continue;
 
-      final sectionPath = generateSectionPath(
-        section,
-        data.sectionsSpace,
+      final sectionPath = _sectionPath(
+        i,
+        holder,
+        viewSize,
         tempAngle,
         sectionDegree,
         center,
@@ -335,6 +336,41 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   }
 
   /// Generates a path around a section
+  PieChartData? _sectionPathsData;
+  Size? _sectionPathsSize;
+  final _sectionPaths = <int, Path>{};
+
+  /// The path of the section at [index], built once per data and size.
+  ///
+  /// The paint and every touch event need the same paths, and the
+  /// section-space cuts ([Path.combine]) are costly. The data classes are
+  /// immutable, so the same [PieChartData] and size always give the same
+  /// paths. New data (an animation frame or a rebuild) starts over.
+  Path _sectionPath(
+    int index,
+    PaintHolder<PieChartData> holder,
+    Size viewSize,
+    double tempAngle,
+    double sectionDegree,
+    Offset center,
+    double centerRadius,
+  ) {
+    if (!identical(holder.data, _sectionPathsData) ||
+        viewSize != _sectionPathsSize) {
+      _sectionPaths.clear();
+      _sectionPathsData = holder.data;
+      _sectionPathsSize = viewSize;
+    }
+    return _sectionPaths[index] ??= generateSectionPath(
+      holder.data.sections[index],
+      holder.data.sectionsSpace,
+      tempAngle,
+      sectionDegree,
+      center,
+      centerRadius,
+    );
+  }
+
   @visibleForTesting
   Path generateSectionPath(
     PieChartSectionData section,
@@ -869,9 +905,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         break;
       }
 
-      final sectionPath = generateSectionPath(
-        section,
-        data.sectionsSpace,
+      final sectionPath = _sectionPath(
+        i,
+        holder,
+        viewSize,
         tempAngle,
         sectionAngle,
         center,
