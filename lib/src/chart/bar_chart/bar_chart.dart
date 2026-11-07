@@ -143,14 +143,28 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
     if (!event.isInterestedForInteractions ||
         touchResponse == null ||
         touchResponse.spot == null) {
+      if (_showingTouchedTooltips.isEmpty) {
+        // Nothing is shown, so there is nothing to clear.
+        return;
+      }
       setState(_showingTouchedTooltips.clear);
       return;
     }
-    setState(() {
-      final spot = touchResponse.spot!;
-      final groupIndex = spot.touchedBarGroupIndex;
-      final rodIndex = spot.touchedRodDataIndex;
 
+    final spot = touchResponse.spot!;
+    final groupIndex = spot.touchedBarGroupIndex;
+    final rodIndex = spot.touchedRodDataIndex;
+    final showingRods = _showingTouchedTooltips[groupIndex];
+    if (_showingTouchedTooltips.length == 1 &&
+        showingRods != null &&
+        showingRods.length == 1 &&
+        showingRods.first == rodIndex) {
+      // The pointer moved but still touches the same rod (common with mouse
+      // hover), so a rebuild would show exactly the same thing.
+      return;
+    }
+
+    setState(() {
       _showingTouchedTooltips.clear();
       _showingTouchedTooltips[groupIndex] = [rodIndex];
     });
