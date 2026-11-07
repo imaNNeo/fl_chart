@@ -1,0 +1,27 @@
+name: fl_chart_benchmark
+description: "Before/after performance benchmarks of fl_chart."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.8.0
+
+dependencies:
+  fl_chart:
+    path: ../
+  flutter:
+    sdk: flutter
+  # The scenarios drive the charts with a WidgetTester, both in the CPU
+  # benchmarks (test/) and in the on-device runs (integration_test/).
+  flutter_test:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_driver:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  integration_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true

@@ -50,3 +50,19 @@ showTestCoverage:
 
 buildRunner:
 	flutter packages pub run build_runner build --delete-conflicting-outputs
+
+.PHONY: benchmark benchmarkCompare benchmarkDevice
+
+# Runs the CPU and painter benchmarks (benchmark/) on the checked-out code: make benchmark label=main
+benchmark:
+	cd benchmark && flutter test test/ --dart-define=BENCH_LABEL=$(label)
+
+# Compares two benchmark runs: make benchmarkCompare before=main after=my-branch
+benchmarkCompare:
+	cd benchmark && dart run tool/compare.dart results/$(before).json results/$(after).json && \
+	dart run tool/compare.dart results/$(before).painters.json results/$(after).painters.json
+
+# Real frame times on a device in profile mode: make benchmarkDevice label=main device=macos
+benchmarkDevice:
+	cd benchmark && BENCH_LABEL=$(label) flutter drive --profile -d $(or $(device),macos) \
+	--driver=test_driver/perf_driver.dart --target=integration_test/frame_timing_test.dart

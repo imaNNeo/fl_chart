@@ -1,0 +1,11 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - build/**
+    - macos/**
+    - linux/**
+
+linter:
+  rules:
+    avoid_print: false
