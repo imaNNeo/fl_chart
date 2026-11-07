@@ -10,6 +10,11 @@ List<T>? lerpList<T>(
   double t, {
   required T Function(T, T, double) lerp,
 }) {
+  // The same list on both sides lerps to itself, so we skip the copy (an
+  // animation often keeps the same spots and changes only a style).
+  if (identical(a, b)) {
+    return b;
+  }
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {
       return lerp(a[i], b[i], t);
