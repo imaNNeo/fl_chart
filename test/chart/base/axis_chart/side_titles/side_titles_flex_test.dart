@@ -225,6 +225,28 @@ void main() {
     expect(data1 == data2, false);
   });
 
+  test('AxisSideMetaData equality test', () {
+    expect(AxisSideMetaData(0, 10, 100) == AxisSideMetaData(0, 10, 100), true);
+    expect(AxisSideMetaData(0, 10, 100) == AxisSideMetaData(0, 10, 50), false);
+  });
+
+  test('AxisSideTitlesRenderFlex keeps equal values (no relayout)', () {
+    final axisSideMetaData = AxisSideMetaData(0, 10, 400);
+    final sideTitlesMetaData = oneToNineSideTitleMetaData(400);
+    final renderFlex = AxisSideTitlesRenderFlex(
+      axisSideMetaData: axisSideMetaData,
+      axisSideTitlesMetaData: sideTitlesMetaData,
+    )
+      ..axisSideMetaData = AxisSideMetaData(0, 10, 400)
+      ..axisSideTitlesMetaData = oneToNineSideTitleMetaData(400);
+    expect(renderFlex.axisSideMetaData, same(axisSideMetaData));
+    expect(renderFlex.axisSideTitlesMetaData, same(sideTitlesMetaData));
+
+    final changed = oneToNineSideTitleMetaData(200);
+    renderFlex.axisSideTitlesMetaData = changed;
+    expect(renderFlex.axisSideTitlesMetaData, same(changed));
+  });
+
   test('AxisSideMetaData diff', () {
     expect(AxisSideMetaData(5, 10, 100).diff, 5);
     expect(AxisSideMetaData(5, 10, 0).diff, 5);

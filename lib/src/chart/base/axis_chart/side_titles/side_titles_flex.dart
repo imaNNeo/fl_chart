@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -84,7 +85,7 @@ class AxisSideTitlesRenderFlex extends RenderBox
   List<AxisSideTitleMetaData> _axisSideTitlesMetaData;
 
   set axisSideTitlesMetaData(List<AxisSideTitleMetaData> value) {
-    if (_axisSideTitlesMetaData != value) {
+    if (!listEquals(_axisSideTitlesMetaData, value)) {
       _axisSideTitlesMetaData = value;
       markNeedsLayout();
     }
@@ -270,13 +271,16 @@ class _LayoutSizes {
   final double allocatedSize;
 }
 
-class AxisSideMetaData {
+class AxisSideMetaData with Equatable {
   AxisSideMetaData(this.minValue, this.maxValue, this.axisViewSize);
   final double minValue;
   final double maxValue;
   final double axisViewSize;
 
   double get diff => maxValue - minValue;
+
+  @override
+  List<Object?> get props => [minValue, maxValue, axisViewSize];
 }
 
 class AxisSideTitleMetaData with Equatable {

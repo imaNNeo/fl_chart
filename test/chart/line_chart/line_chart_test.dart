@@ -7,6 +7,7 @@ import 'package:fl_chart/src/chart/line_chart/line_chart_data.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_renderer.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -891,6 +892,45 @@ void main() {
         await tester.pump();
         expect(leaf(), same(clearedLeaf));
       });
+    });
+
+    testWidgets(
+        'a parent rebuild with the same data does not repaint the chart',
+        (tester) async {
+      final data = LineChartData(
+        lineBarsData: [
+          LineChartBarData(
+            spots: List.generate(11, (i) => FlSpot(i.toDouble(), i.toDouble())),
+          ),
+        ],
+      );
+      late StateSetter setState;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: StatefulBuilder(
+            builder: (context, setter) {
+              setState = setter;
+              return LineChart(data);
+            },
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final chart = tester.renderObject(find.byType(LineChartLeaf));
+      // The first update learns the inherited text style, and repaints.
+      setState(() {});
+      await tester.pump();
+
+      setState(() {});
+      // Runs build and layout, but not paint.
+      await tester.pump(Duration.zero, EnginePhase.layout);
+      expect(chart.debugNeedsPaint, isFalse);
+      // The titles around the chart relayout on a rebuild, which repaints
+      // their layer. The chart has its own layer, so it's not repainted.
+      final chartLayer = chart.parent! as RenderRepaintBoundary;
+      expect(chartLayer.debugNeedsPaint, isFalse);
+      await tester.pump();
     });
   });
 }

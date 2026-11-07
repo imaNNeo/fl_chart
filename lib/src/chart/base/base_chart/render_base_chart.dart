@@ -33,9 +33,26 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
   BuildContext get buildContext => _buildContext;
   BuildContext _buildContext;
   set buildContext(BuildContext value) {
+    // The painters read inherited data from the context only through
+    // [Utils.getThemeAwareTextStyle]: the default text style and bold text.
+    // A rebuild that changes neither (and no other property) needs no repaint.
+    final textStyle = DefaultTextStyle.of(value).style;
+    final boldText = MediaQuery.boldTextOf(value);
+    if (identical(value, _buildContext) &&
+        textStyle == _textStyle &&
+        boldText == _boldText) {
+      return;
+    }
     _buildContext = value;
+    _textStyle = textStyle;
+    _boldText = boldText;
     markNeedsPaint();
   }
+
+  // What the context gave on the last update. Unknown (null) until the first
+  // update, so that one always repaints.
+  TextStyle? _textStyle;
+  bool? _boldText;
 
   void updateBaseTouchData(FlTouchData<R>? value) {
     _touchCallback = value?.touchCallback;

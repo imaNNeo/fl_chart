@@ -226,7 +226,12 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
 
     final chart = KeyedSubtree(
       key: _chartKey,
-      child: widget.chartBuilder(context, virtualRect),
+      // The chart gets its own layer: a relayout of the titles around it (which
+      // repaints them) doesn't repaint the chart, and a chart repaint (hover,
+      // animation) doesn't repaint the titles.
+      child: RepaintBoundary(
+        child: widget.chartBuilder(context, virtualRect),
+      ),
     );
 
     final child = switch (_transformationConfig.scaleAxis) {
