@@ -436,6 +436,46 @@ void main() {
   });
 
   group('drawSections()', () {
+    test('reuses the section paths while the data and size are the same', () {
+      final data = PieChartData(
+        sectionsSpace: 4,
+        sections: [
+          PieChartSectionData(color: MockData.color1, value: 1),
+          PieChartSectionData(color: MockData.color2, value: 1),
+        ],
+      );
+      final pieChartPainter = PieChartPainter();
+
+      List<Path> drawnPaths(PieChartData data, Size viewSize) {
+        final mockCanvasWrapper = MockCanvasWrapper();
+        when(mockCanvasWrapper.size).thenReturn(viewSize);
+        when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+        pieChartPainter.drawSections(
+          mockCanvasWrapper,
+          [180, 180],
+          10,
+          PaintHolder<PieChartData>(data, data, TextScaler.noScaling),
+        );
+        return verify(mockCanvasWrapper.clipPath(captureAny))
+            .captured
+            .cast<Path>();
+      }
+
+      const size = Size(200, 200);
+      final first = drawnPaths(data, size);
+      expect(first.length, 2);
+
+      final again = drawnPaths(data, size);
+      expect(identical(again[0], first[0]), true);
+      expect(identical(again[1], first[1]), true);
+
+      // Equal but new data, or another size, builds them again.
+      final newData = drawnPaths(data.copyWith(), size);
+      expect(identical(newData[0], first[0]), false);
+      final newSize = drawnPaths(data, const Size(300, 300));
+      expect(identical(newSize[0], first[0]), false);
+    });
+
     test('test 1', () {
       const viewSize = Size(200, 200);
 
@@ -635,49 +675,6 @@ void main() {
   });
 
   group('generateSectionPath()', () {
-    test('reuses the path for the same section and geometry', () {
-      final painter = PieChartPainter();
-      final section = PieChartSectionData(value: 1, radius: 40);
-      Path generate(PieChartSectionData section, double angle) =>
-          painter.generateSectionPath(
-            section,
-            10,
-            angle,
-            90,
-            const Offset(100, 100),
-            10,
-          );
-
-      final path = generate(section, 0);
-      expect(identical(generate(section, 0), path), true);
-      // A section with another color has the same shape.
-      expect(
-        identical(generate(section.copyWith(color: MockData.color2), 0), path),
-        true,
-      );
-      expect(identical(generate(section, 30), path), false);
-      expect(identical(generate(section.copyWith(radius: 50), 0), path), false);
-    });
-
-    test('starts over once the cache is full', () {
-      final painter = PieChartPainter();
-      final section = PieChartSectionData(value: 1, radius: 40);
-      Path generate(double angle) => painter.generateSectionPath(
-            section,
-            10,
-            angle,
-            90,
-            const Offset(100, 100),
-            10,
-          );
-
-      final first = generate(0);
-      for (var i = 1; i <= 64; i++) {
-        generate(i.toDouble());
-      }
-      expect(identical(generate(0), first), false);
-    });
-
     test('test 1', () {
       final data = PieChartData(
         centerSpaceColor: MockData.color1,

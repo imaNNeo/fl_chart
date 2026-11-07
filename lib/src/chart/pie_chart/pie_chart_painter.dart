@@ -200,9 +200,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
       if (section.value == 0 || section.radius == 0) continue;
 
-      final sectionPath = generateSectionPath(
-        section,
-        data.sectionsSpace,
+      final sectionPath = _sectionPath(
+        i,
+        holder,
+        viewSize,
         tempAngle,
         sectionDegree,
         center,
@@ -335,37 +336,34 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   }
 
   /// Generates a path around a section
-  @visibleForTesting
-  Path generateSectionPath(
-    PieChartSectionData section,
-    double sectionSpace,
+  PieChartData? _sectionPathsData;
+  Size? _sectionPathsSize;
+  final _sectionPaths = <int, Path>{};
+
+  /// The path of the section at [index], built once per data and size.
+  ///
+  /// The paint and every touch event need the same paths, and the
+  /// section-space cuts ([Path.combine]) are costly. The data classes are
+  /// immutable, so the same [PieChartData] and size always give the same
+  /// paths. New data (an animation frame or a rebuild) starts over.
+  Path _sectionPath(
+    int index,
+    PaintHolder<PieChartData> holder,
+    Size viewSize,
     double tempAngle,
     double sectionDegree,
     Offset center,
     double centerRadius,
   ) {
-    // The paint and every touch event need the same paths, and the
-    // section-space cuts (Path.combine) are costly, so we keep them.
-    final key = (
-      section.radius,
-      section.cornerRadius,
-      sectionSpace,
-      tempAngle,
-      sectionDegree,
-      center,
-      centerRadius,
-    );
-    final cached = _sectionPathCache[key];
-    if (cached != null) {
-      return cached;
+    if (!identical(holder.data, _sectionPathsData) ||
+        viewSize != _sectionPathsSize) {
+      _sectionPaths.clear();
+      _sectionPathsData = holder.data;
+      _sectionPathsSize = viewSize;
     }
-    if (_sectionPathCache.length >= _sectionPathCacheSize) {
-      // An animation makes new keys on every frame, so we start over.
-      _sectionPathCache.clear();
-    }
-    return _sectionPathCache[key] = _buildSectionPath(
-      section,
-      sectionSpace,
+    return _sectionPaths[index] ??= generateSectionPath(
+      holder.data.sections[index],
+      holder.data.sectionsSpace,
       tempAngle,
       sectionDegree,
       center,
@@ -373,19 +371,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     );
   }
 
-  static const _sectionPathCacheSize = 64;
-  final _sectionPathCache = <(
-    double,
-    double,
-    double,
-    double,
-    double,
-    Offset,
-    double,
-  ),
-      Path>{};
-
-  Path _buildSectionPath(
+  @visibleForTesting
+  Path generateSectionPath(
     PieChartSectionData section,
     double sectionSpace,
     double tempAngle,
@@ -918,9 +905,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         break;
       }
 
-      final sectionPath = generateSectionPath(
-        section,
-        data.sectionsSpace,
+      final sectionPath = _sectionPath(
+        i,
+        holder,
+        viewSize,
         tempAngle,
         sectionAngle,
         center,
