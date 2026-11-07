@@ -21,6 +21,40 @@ import 'line_chart_painter_test.mocks.dart';
 @GenerateNiceMocks([MockSpec<LinearGradient>()])
 void main() {
   group('paint()', () {
+    test('extra lines on top are drawn once, not once per line', () {
+      const viewSize = Size(400, 400);
+      LineChartBarData bar(double offset) => LineChartBarData(
+            spots: List.generate(5, (i) => FlSpot(i.toDouble(), i + offset)),
+          );
+      for (final extraLinesOnTop in [true, false]) {
+        final data = LineChartData(
+          minX: 0,
+          maxX: 4,
+          minY: 0,
+          maxY: 10,
+          lineBarsData: [bar(0), bar(1), bar(2)],
+          gridData: const FlGridData(show: false),
+          titlesData: const FlTitlesData(show: false),
+          borderData: FlBorderData(show: false),
+          extraLinesData: ExtraLinesData(
+            horizontalLines: [HorizontalLine(y: 5)],
+            extraLinesOnTop: extraLinesOnTop,
+          ),
+        );
+
+        final mockCanvasWrapper = MockCanvasWrapper();
+        when(mockCanvasWrapper.size).thenAnswer((_) => viewSize);
+        when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+        LineChartPainter().paint(
+          MockBuildContext(),
+          mockCanvasWrapper,
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling),
+        );
+
+        verify(mockCanvasWrapper.drawDashedLine(any, any, any, any)).called(1);
+      }
+    });
+
     test('test 1', () {
       const viewSize = Size(400, 400);
 
