@@ -49,35 +49,68 @@
   align-items: flex-start;
 }
 
-.sponsorsBox {
+.supportBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
   text-align: start;
-  width: 420px;
+  width: min(420px, calc(100vw - 4rem));
 }
 
-.sponsorsText {
+.supportText {
   font-size: larger;
   padding-left: 0.2rem;
 }
 
-.sponsors {
+.gameCard {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-start;
+  gap: 0.8rem;
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 12px;
+  background: var(--ifm-background-surface-color);
+  color: inherit;
+  transition: border-color 0.2s;
 }
 
-.sponsors > a {
-  width: 140px;
-  height: fit-content;
-  padding: 4px;
-}
-
-.sponsors > a > img {
-  border-radius: 8pt;
-}
-
-.sponsors > a:hover {
+.gameCard:hover {
+  border-color: var(--ifm-color-primary);
+  color: inherit;
   text-decoration: none;
+}
+
+.gameCard > img {
+  width: 40%;
+  max-width: 160px;
+  border-radius: 8px;
+}
+
+.gameInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.gameTitle {
+  font-weight: bold;
+}
+
+.gamePitch {
+  font-size: 0.85rem;
+  line-height: 1.3;
+}
+
+.gamePlay {
+  font-size: 0.85rem;
+  color: var(--ifm-color-primary);
+}
+
+.mailingList {
+  font-size: 0.9rem;
+  padding-left: 0.2rem;
 }
 
 .chartIcons {

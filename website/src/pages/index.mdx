@@ -7,14 +7,6 @@ export default function Home() {
   const openFLChartApp = () => window.open("https://app.flchart.dev", "_blank")
   const openFLChartGithub = () =>
     window.open("https://github.com/imaNNeo/fl_chart", "_blank")
-  const sponsors = [
-    { 
-      logo: withBaseUrl("/img/sponsors/intero-the-sniffers.png"), 
-      url: "https://www.intero-integrity.com/intero-the-sniffers", 
-      alt: "intero-the-sniffers" 
-    },
-  ]
-
   return (
     <div className={styles.container}>
       <div className={styles.mainContent}>
@@ -59,20 +51,37 @@ export default function Home() {
                 </button>
               </div>
             </div>
-            <div className={styles.sponsorsBox}>
-              <span className={styles.sponsorsText}>Our Financial Heroes:</span>
-              <div className={styles.sponsors}>
-                {sponsors.map((sponsor) => (
-                  <a href={sponsor.url} target="_blank">
-                    <img src={sponsor.logo} alt={sponsor.alt} />
-                  </a>
-                ))}
-                <a href="https://github.com/sponsors/imaNNeo" target="_blank">
-                  <div className={styles.sponsors}>
-                    <img src={withBaseUrl("/img/add_sponsor.png")} alt="plus" />
-                  </div>
-                </a>
-              </div>
+            <div className={styles.supportBox}>
+              <span className={styles.supportText}>
+                Support fl_chart by playing my game:
+              </span>
+              <a
+                className={styles.gameCard}
+                href="https://savethepotato.com/get/?utm_source=fl_chart&utm_medium=website"
+                target="_blank"
+              >
+                <img
+                  src={withBaseUrl("/img/games/save_the_potato.jpg")}
+                  alt="Save the Potato"
+                />
+                <div className={styles.gameInfo}>
+                  <span className={styles.gameTitle}>Save the Potato</span>
+                  <span className={styles.gamePitch}>
+                    Keep the orbs away so the potato can enjoy its music in
+                    peace.
+                  </span>
+                  <span className={styles.gamePlay}>
+                    Free on Android and iOS ▶
+                  </span>
+                </div>
+              </a>
+              <a
+                className={styles.mailingList}
+                href="https://iman-khoshabi.kit.com/profile"
+                target="_blank"
+              >
+                📬 Get an email when I release a new game
+              </a>
             </div>
           </div>
           <img
