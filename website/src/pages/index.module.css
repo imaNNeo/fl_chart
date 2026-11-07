@@ -29,6 +29,7 @@
   position: relative;
   width: 71vw;
   height: calc(100vh - 124px);
+  min-height: 560px;
 }
 
 .mainLeftBox {
@@ -142,8 +143,8 @@
 
 @media (max-width: 480px) {
   .sloganNormal {
-    font-size: 1rem;
-    line-height: 1.5rem;
+    font-size: 1.75rem;
+    line-height: 2.25rem;
   }
 }
 
@@ -271,7 +272,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 100vw;
+  width: 100%;
   margin-top: 32px;
   padding: 128px 31%;
   background-color: #282e45;
@@ -314,4 +315,59 @@
 .videoTextAqua {
   color: aqua;
   font-weight: 800;
+}
+
+/* Below this width the hero text and the charts image no longer fit side by
+   side, so the hero stacks: text, charts image, then the support box. */
+@media (max-width: 1100px) {
+  .mainColumn {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    min-height: 0;
+    padding: 2.5rem 1rem 0;
+    gap: 2rem;
+  }
+
+  .mainLeftBox {
+    display: contents;
+  }
+
+  .mainText {
+    order: 1;
+  }
+
+  .chartsImage {
+    order: 2;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .supportBox {
+    order: 3;
+    width: 100%;
+  }
+
+  .chartIcons {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .buttonsRow {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .outlineButton,
+  .solidButton {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .gameCard > img {
+    width: 35%;
+  }
 }
