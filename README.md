@@ -11,38 +11,26 @@
 <a href="https://www.buymeacoffee.com/fl_chart" title="Donate to this project using Buy Me A Coffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg" alt="Buy Me A Coffee donate button" /></a>
 </span>
 
-### Our Financial Heroes
-Your financial support acts as fuel for fl_chart's development. [Support here](https://github.com/sponsors/imaNNeo).
+### Support fl_chart 💙
+I've been building and maintaining fl_chart for free since 2019, in my spare time. These days I also make games. If fl_chart has saved you some time, the nicest way to say thanks is to play one of them for a minute. It costs you nothing and it means a lot to me. 💙
+
 <table>
-	<tbody>
-		<tr>
-				<td>
-					<a href="https://github.com/sponsors/imaNNeo">
-						<img src="https://github.com/imaNNeo/fl_chart_landing/raw/main/static/img/sponsors/intero-the-sniffers.png">
-					</a>
-				</td>
-				<td>
-					<a href="https://github.com/sponsors/imaNNeo">
-						<picture>
-							<source media="(prefers-color-scheme: dark)" srcset="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/sponsors/become_a_sponsor_dark.png">
-							<source media="(prefers-color-scheme: light)" srcset="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/sponsors/become_a_sponsor_light.png">
-							<img alt="Become a sponsor" >
-						</picture>
-					</a>
-				</td>
-				<td>
-					<a href="https://github.com/sponsors/imaNNeo">
-						<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/sponsors/become_a_hero_empty.png">
-					</a>
-				</td>
-				<td>
-					<a href="https://github.com/sponsors/imaNNeo">
-						<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/sponsors/become_a_hero_empty.png">
-					</a>
-				</td>
-		</tr>
-	</tbody>
+  <tr>
+    <td width="55%">
+      <a href="https://savethepotato.com/get/?utm_source=fl_chart&utm_medium=readme">
+        <img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/projects/save_the_potato.jpg" alt="Save the Potato">
+      </a>
+    </td>
+    <td>
+      <h3>Save the Potato</h3>
+      Keep the orbs away so the potato can enjoy its music in peace.<br>
+      Free on Android and iOS.<br><br>
+      <a href="https://savethepotato.com/get/?utm_source=fl_chart&utm_medium=readme"><b>▶ Play it now</b></a>
+    </td>
+  </tr>
 </table>
+
+📬 Want to hear about my next game? [Join my mailing list](https://iman-khoshabi.kit.com/profile). Only a few emails a year, no spam.
 
 ### Overview
 FL Chart is a highly customizable Flutter chart library that supports **[Line Chart](https://app.flchart.dev/#/line)**, **[Bar Chart](https://app.flchart.dev/#/bar)**, **[Pie Chart](https://app.flchart.dev/#/pie)**, **[Scatter Chart](https://app.flchart.dev/#/scatter)**, and **[Radar Chart](https://app.flchart.dev/#/radar)**.
