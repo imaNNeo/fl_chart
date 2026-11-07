@@ -659,6 +659,25 @@ void main() {
       expect(identical(generate(section.copyWith(radius: 50), 0), path), false);
     });
 
+    test('starts over once the cache is full', () {
+      final painter = PieChartPainter();
+      final section = PieChartSectionData(value: 1, radius: 40);
+      Path generate(double angle) => painter.generateSectionPath(
+            section,
+            10,
+            angle,
+            90,
+            const Offset(100, 100),
+            10,
+          );
+
+      final first = generate(0);
+      for (var i = 1; i <= 64; i++) {
+        generate(i.toDouble());
+      }
+      expect(identical(generate(0), first), false);
+    });
+
     test('test 1', () {
       final data = PieChartData(
         centerSpaceColor: MockData.color1,
