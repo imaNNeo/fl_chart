@@ -1,6 +1,7 @@
 import 'package:fl_chart/src/chart/bar_chart/bar_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_renderer.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/scale_axis.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/transformation_config.dart';
@@ -134,6 +135,92 @@ void main() {
             ),
           );
         });
+      }
+    });
+
+    group('renders axis labels with a large reserved size when rotated', () {
+      BarChartData createData(int rotationQuarterTurns) {
+        return BarChartData(
+          rotationQuarterTurns: rotationQuarterTurns,
+          minY: 0,
+          maxY: 10,
+          barGroups: [
+            for (final x in [1, 2, 3, 4])
+              BarChartGroupData(
+                x: x,
+                barRods: [
+                  BarChartRodData(toY: x.toDouble()),
+                ],
+              ),
+          ],
+          titlesData: FlTitlesData(
+            leftTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                reservedSize: 25,
+                interval: 2,
+                getTitlesWidget: (value, meta) {
+                  return Text('left-${value.toInt()}');
+                },
+              ),
+            ),
+            topTitles: const AxisTitles(),
+            rightTitles: const AxisTitles(),
+            bottomTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                reservedSize: 115,
+                getTitlesWidget: (value, meta) {
+                  return Text('bottom-${value.toInt()}');
+                },
+              ),
+            ),
+          ),
+        );
+      }
+
+      for (final rotationQuarterTurns in [1, 3]) {
+        testWidgets(
+          'with rotationQuarterTurns: $rotationQuarterTurns (#1963)',
+          (tester) async {
+            await tester.pumpWidget(
+              MaterialApp(
+                home: Scaffold(
+                  body: Center(
+                    child: SizedBox(
+                      width: 350,
+                      height: 120,
+                      // The 2px border insets the chart to 346x116, which is
+                      // slightly shorter than the bottom titles reserved size.
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 2),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: BarChart(createData(rotationQuarterTurns)),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+
+            final chartRect = tester.getRect(find.byType(BarChart));
+
+            for (final x in [1, 2, 3, 4]) {
+              final bottomTitle = find.text('bottom-$x');
+              expect(bottomTitle, findsOneWidget);
+              expect(tester.getSize(bottomTitle).isEmpty, isFalse);
+              expect(chartRect.overlaps(tester.getRect(bottomTitle)), isTrue);
+            }
+            for (var y = 0; y <= 10; y += 2) {
+              final leftTitle = find.text('left-$y');
+              expect(leftTitle, findsOneWidget);
+              expect(tester.getSize(leftTitle).isEmpty, isFalse);
+              expect(chartRect.overlaps(tester.getRect(leftTitle)), isTrue);
+            }
+          },
+        );
       }
     });
 
