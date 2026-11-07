@@ -696,6 +696,38 @@ void main() {
   });
 
   group('drawDots()', () {
+    test('skips the dots outside the canvas when zoomed in', () {
+      const viewSize = Size(100, 100);
+      final barData = LineChartBarData(
+        spots: List.generate(11, (i) => FlSpot(i.toDouble(), 5)),
+      );
+      final data = LineChartData(
+        minX: 0,
+        maxX: 10,
+        minY: 0,
+        maxY: 10,
+        lineBarsData: [barData],
+      );
+      // Zoomed 10x on the left end: x = 0 is at 0 px, x = 1 at 100 px,
+      // x = 2 at 200 px, and so on.
+      final holder = PaintHolder<LineChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+        const Rect.fromLTWH(0, 0, 1000, 100),
+      );
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((_) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      LineChartPainter().drawDots(mockCanvasWrapper, barData, holder);
+
+      final drawn = verify(
+        mockCanvasWrapper.drawDot(any, captureAny, any),
+      ).captured.cast<FlSpot>();
+      expect(drawn.map((spot) => spot.x), [0, 1]);
+    });
+
     test('test 1', () {
       const viewSize = Size(400, 400);
 

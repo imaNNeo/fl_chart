@@ -362,6 +362,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final viewSize = canvasWrapper.size;
 
     final barXDelta = getBarLineXLength(barData, viewSize, holder);
+    final canvasRect = Offset.zero & viewSize;
 
     for (var i = 0; i < barData.spots.length; i++) {
       final spot = barData.spots[i];
@@ -371,6 +372,16 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         final xPercentInLine = (x / barXDelta) * 100;
         final painter =
             barData.dotData.getDotPainter(spot, xPercentInLine, barData, i);
+
+        // Skip the dots that can't reach the canvas, like most of them when
+        // the chart is zoomed in. The margin is the dot's whole size, twice
+        // what it needs, to be safe with custom painters.
+        final margin = painter.getSize(spot).longestSide;
+        if (x.isFinite &&
+            y.isFinite &&
+            !canvasRect.inflate(margin).contains(Offset(x, y))) {
+          continue;
+        }
 
         canvasWrapper.drawDot(painter, spot, Offset(x, y));
       }
