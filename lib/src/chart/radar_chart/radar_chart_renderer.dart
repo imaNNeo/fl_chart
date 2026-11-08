@@ -88,6 +88,12 @@ class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
       PaintHolder(data, targetData, textScaler);
 
   @override
+  void dispose() {
+    painter.dispose();
+    super.dispose();
+  }
+
+  @override
   void paint(PaintingContext context, Offset offset) {
     final canvas = context.canvas
       ..save()

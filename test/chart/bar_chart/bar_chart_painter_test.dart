@@ -2055,6 +2055,11 @@ void main() {
         callback();
         angles.add(inv.namedArguments[const Symbol('angle')] as double);
       });
+      final drawnTexts = <TextSpan>[];
+      when(mockCanvasWrapper.drawText(any, any)).thenAnswer((inv) {
+        final tp = inv.positionalArguments[0] as TextPainter;
+        drawnTexts.add(tp.text! as TextSpan);
+      });
 
       barChartPainter.drawTouchTooltip(
         mockBuildContext,
@@ -2099,16 +2104,16 @@ void main() {
       final result2 = verify(mockCanvasWrapper.drawText(captureAny, captureAny))
         ..called(1);
       final textPainter = result2.captured[0] as TextPainter;
-      expect((textPainter.text as TextSpan?)!.text, 'helllo1');
-      expect((textPainter.text as TextSpan?)!.style, textStyle1);
+      expect(drawnTexts[0].text, 'helllo1');
+      expect(drawnTexts[0].style, textStyle1);
       expect(textPainter.textAlign, TextAlign.right);
       expect(textPainter.textDirection, TextDirection.rtl);
       expect(
-        (textPainter.text as TextSpan?)!.children![0],
+        drawnTexts[0].children![0],
         const TextSpan(text: 'helllo2'),
       );
       expect(
-        (textPainter.text as TextSpan?)!.children![1],
+        drawnTexts[0].children![1],
         const TextSpan(text: 'helllo3'),
       );
 
@@ -2258,6 +2263,11 @@ void main() {
         callback();
         angles.add(inv.namedArguments[const Symbol('angle')] as double);
       });
+      final drawnTexts = <TextSpan>[];
+      when(mockCanvasWrapper.drawText(any, any)).thenAnswer((inv) {
+        final tp = inv.positionalArguments[0] as TextPainter;
+        drawnTexts.add(tp.text! as TextSpan);
+      });
 
       barChartPainter.drawTouchTooltip(
         mockBuildContext,
@@ -2308,16 +2318,16 @@ void main() {
       final result2 = verify(mockCanvasWrapper.drawText(captureAny, captureAny))
         ..called(1);
       final textPainter = result2.captured[0] as TextPainter;
-      expect((textPainter.text as TextSpan?)!.text, 'helllo1');
-      expect((textPainter.text as TextSpan?)!.style, textStyle1);
+      expect(drawnTexts[0].text, 'helllo1');
+      expect(drawnTexts[0].style, textStyle1);
       expect(textPainter.textAlign, TextAlign.right);
       expect(textPainter.textDirection, TextDirection.rtl);
       expect(
-        (textPainter.text as TextSpan?)!.children![0],
+        drawnTexts[0].children![0],
         const TextSpan(text: 'helllo2'),
       );
       expect(
-        (textPainter.text as TextSpan?)!.children![1],
+        drawnTexts[0].children![1],
         const TextSpan(text: 'helllo3'),
       );
 
