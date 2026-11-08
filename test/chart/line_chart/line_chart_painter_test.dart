@@ -55,6 +55,62 @@ void main() {
       }
     });
 
+    test('leaves the canvas save count as it found it', () {
+      const viewSize = Size(200, 200);
+      const clips = {
+        'all': FlClipData.all(),
+        'none': FlClipData.none(),
+        'top': FlClipData(top: true, bottom: false, left: false, right: false),
+      };
+      final unbalanced = <String>[];
+      for (final clip in clips.entries) {
+        for (final empty in [true, false]) {
+          for (final zoom in [false, true]) {
+            final data = LineChartData(
+              clipData: clip.value,
+              minX: 0,
+              maxX: 10,
+              minY: 0,
+              maxY: 10,
+              gridData: const FlGridData(show: false),
+              rangeAnnotations: RangeAnnotations(
+                horizontalRangeAnnotations: [
+                  HorizontalRangeAnnotation(y1: 0, y2: 15),
+                ],
+              ),
+              lineBarsData: empty
+                  ? []
+                  : [
+                      LineChartBarData(
+                        spots: const [FlSpot.zero, FlSpot(10, 5)],
+                      ),
+                    ],
+            );
+            final recorder = PictureRecorder();
+            final canvas = Canvas(recorder);
+            final before = canvas.getSaveCount();
+            LineChartPainter().paint(
+              MockBuildContext(),
+              CanvasWrapper(canvas, viewSize),
+              PaintHolder<LineChartData>(
+                data,
+                data,
+                TextScaler.noScaling,
+                zoom ? Offset.zero & const Size(400, 400) : null,
+              ),
+            );
+            final delta = canvas.getSaveCount() - before;
+            if (delta != 0) {
+              unbalanced
+                  .add('clip=${clip.key} empty=$empty zoom=$zoom delta=$delta');
+            }
+            recorder.endRecording();
+          }
+        }
+      }
+      expect(unbalanced, isEmpty);
+    });
+
     test('test 1', () {
       const viewSize = Size(400, 400);
 
