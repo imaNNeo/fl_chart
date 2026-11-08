@@ -20,6 +20,10 @@ class AxisChartHelper {
   ///
   /// If [maxIncluded] is true, it ends at [max] value,
   /// otherwise it ends at [max] - [interval]
+  ///
+  /// When an included [min] or [max] is closer than half an [interval] to
+  /// its neighboring interval value, that interval value is skipped and the
+  /// edge value is kept.
   Iterable<double> iterateThroughAxis({
     required double min,
     bool minIncluded = true,
@@ -39,9 +43,26 @@ class AxisChartHelper {
     var index = !minIncluded && firstPositionOverlapsWithMin ? 1 : 0;
 
     final epsilon = interval / 100000;
-    if (minIncluded && !firstPositionOverlapsWithMin) {
-      // Data minimum shall be included and is not yet covered
-      yield min;
+    // Half-interval distances computed from initialValue + index * interval
+    // can come out a hair short of interval / 2, so `- epsilon` keeps them.
+    final tooCloseToEdge = interval / 2 - epsilon;
+    if (minIncluded) {
+      if ((initialValue - min).abs() <= epsilon) {
+        // Min lands on an interval value: yield the exact min once, before
+        // the max checks below so a tiny range cannot swallow it.
+        // When min == max the loop yields max instead.
+        if (min != max) {
+          yield min;
+          index = 1;
+        }
+      } else {
+        // Data minimum shall be included and is not yet covered
+        yield min;
+        if (initialValue - min < tooCloseToEdge) {
+          // Keep min, skip the interval value crowding it
+          index = 1;
+        }
+      }
     }
     var reachedMax = false;
     while (true) {
@@ -56,6 +77,10 @@ class AxisChartHelper {
           yield max;
         }
         reachedMax = true;
+        break;
+      }
+      if (maxIncluded && max - axisSeek < tooCloseToEdge) {
+        // Keep max, skip the interval value crowding it
         break;
       }
       yield axisSeek;

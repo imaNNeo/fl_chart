@@ -262,11 +262,13 @@ class SideTitles with Equatable {
   final double? interval;
 
   /// If true (default), a title for the minimum data value is included
-  /// independent of the sampling interval
+  /// independent of the sampling interval. If the next interval title is
+  /// closer than half an [interval] to it, that interval title is skipped.
   final bool minIncluded;
 
   /// If true (default), a title for the maximum data value is included
-  /// independent of the sampling interval
+  /// independent of the sampling interval. If the previous interval title is
+  /// closer than half an [interval] to it, that interval title is skipped.
   final bool maxIncluded;
 
   /// Lerps a [SideTitles] based on [t] value, check [Tween.lerp].
