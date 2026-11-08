@@ -119,6 +119,8 @@ class Utils {
     double diffInAxis, {
     double pixelPerInterval = 40,
   }) {
+    // An inverted axis (min > max) gives a negative diff.
+    diffInAxis = diffInAxis.abs();
     final allowedCount = math.max(axisViewSize ~/ pixelPerInterval, 1);
     if (diffInAxis == 0) {
       return 1;

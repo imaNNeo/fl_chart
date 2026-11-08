@@ -169,7 +169,7 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
       axisPositions = axisValues.map((axisValue) {
         final axisDiff = axisMax - axisMin;
         var portion = 0.0;
-        if (axisDiff > 0) {
+        if (axisDiff != 0) {
           portion = (axisValue - axisMin) / axisDiff;
         }
         if (isVertical) {

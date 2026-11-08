@@ -125,6 +125,94 @@ void main() {
         );
       }
     });
+
+    test('inverted axis yields the same values as the normal axis (#1769)', () {
+      final all = AxisChartHelper()
+          .iterateThroughAxis(min: 3, max: -3, interval: 1, baseLine: 0)
+          .toList();
+      expect(all, hasLength(7));
+      expect(all.toSet(), {-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0});
+
+      final inner = AxisChartHelper()
+          .iterateThroughAxis(
+            min: 3,
+            minIncluded: false,
+            max: -3,
+            maxIncluded: false,
+            interval: 1,
+            baseLine: 0,
+          )
+          .toList();
+      expect(inner, hasLength(5));
+      expect(inner.toSet(), {-2.0, -1.0, 0.0, 1.0, 2.0});
+    });
+
+    test('inverted axis swaps minIncluded and maxIncluded (#1769)', () {
+      final inverted = AxisChartHelper()
+          .iterateThroughAxis(
+            min: 3,
+            minIncluded: false,
+            max: -3,
+            interval: 1,
+            baseLine: 0,
+          )
+          .toSet();
+      final normal = AxisChartHelper()
+          .iterateThroughAxis(
+            min: -3,
+            max: 3,
+            maxIncluded: false,
+            interval: 1,
+            baseLine: 0,
+          )
+          .toSet();
+      expect(inverted, {-3.0, -2.0, -1.0, 0.0, 1.0, 2.0});
+      expect(inverted, normal);
+    });
+
+    test('negative interval ends and matches the positive interval (#1769)',
+        () {
+      // A sync infinite loop cannot be stopped by a test timeout, so every
+      // negative-interval call is capped with take() first.
+      for (final (min, max) in [(3.0, -3.0), (-3.0, 3.0)]) {
+        final negative = AxisChartHelper()
+            .iterateThroughAxis(min: min, max: max, interval: -1, baseLine: 0)
+            .take(100)
+            .toList();
+        final positive = AxisChartHelper()
+            .iterateThroughAxis(min: min, max: max, interval: 1, baseLine: 0)
+            .toSet();
+        expect(negative.length, lessThan(100), reason: 'min: $min, max: $max');
+        expect(
+          negative.toSet(),
+          {-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0},
+          reason: 'min: $min, max: $max',
+        );
+        expect(negative.toSet(), positive, reason: 'min: $min, max: $max');
+      }
+    });
+
+    test('min == max keeps the output of e60b4c13 (#1769)', () {
+      expect(
+        AxisChartHelper()
+            .iterateThroughAxis(min: 3, max: 3, interval: 1, baseLine: 0)
+            .toList(),
+        [3.0],
+      );
+      expect(
+        AxisChartHelper()
+            .iterateThroughAxis(
+              min: 3,
+              minIncluded: false,
+              max: 3,
+              maxIncluded: false,
+              interval: 1,
+              baseLine: 0,
+            )
+            .toList(),
+        isEmpty,
+      );
+    });
   });
 
   group('calcFitInsideOffset', () {

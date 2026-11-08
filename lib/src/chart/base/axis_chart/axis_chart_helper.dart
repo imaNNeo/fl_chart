@@ -11,15 +11,15 @@ class AxisChartHelper {
 
   static final _singleton = AxisChartHelper._internal();
 
-  /// Iterates over an axis from [min] to [max].
+  /// Iterates over an axis from the smaller to the larger of [min] and [max].
   ///
   /// [interval] determines each step
   ///
-  /// If [minIncluded] is true, it starts from [min] value,
-  /// otherwise it starts from [min] + [interval]
+  /// If [minIncluded] is true, [min] itself is included,
+  /// otherwise it is left out.
   ///
-  /// If [maxIncluded] is true, it ends at [max] value,
-  /// otherwise it ends at [max] - [interval]
+  /// If [maxIncluded] is true, [max] itself is included,
+  /// otherwise it is left out.
   Iterable<double> iterateThroughAxis({
     required double min,
     bool minIncluded = true,
@@ -28,6 +28,13 @@ class AxisChartHelper {
     required double baseLine,
     required double interval,
   }) sync* {
+    if (min > max) {
+      // Inverted axis: walk from the smaller end; the flags keep meaning min/max.
+      (min, max) = (max, min);
+      (minIncluded, maxIncluded) = (maxIncluded, minIncluded);
+    }
+    // A negative interval would never reach max.
+    interval = interval.abs();
     final initialValue = Utils()
         .getBestInitialIntervalValue(min, max, interval, baseline: baseLine);
     final firstPositionOverlapsWithMin = initialValue == min;

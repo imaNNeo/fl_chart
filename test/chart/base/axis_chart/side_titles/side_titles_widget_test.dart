@@ -562,4 +562,203 @@ void main() {
       expect(labels, contains('1.005M'));
     },
   );
+
+  // Pumps the titles of [side] alone and records what getTitlesWidget gets.
+  Future<Map<double, TitleMeta>> pumpTitles(
+    WidgetTester tester,
+    AxisSide side,
+    AxisChartData Function(FlTitlesData titlesData) buildData,
+  ) async {
+    final titles = <double, TitleMeta>{};
+    final axisTitles = AxisTitles(
+      sideTitles: SideTitles(
+        showTitles: true,
+        getTitlesWidget: (value, meta) {
+          titles[value] = meta;
+          return Text(meta.formattedValue);
+        },
+      ),
+    );
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: Center(
+            child: SizedBox(
+              width: viewSize.width,
+              height: viewSize.height,
+              child: SideTitlesWidget(
+                side: side,
+                axisChartData: buildData(
+                  FlTitlesData(
+                    leftTitles:
+                        side == AxisSide.left ? axisTitles : const AxisTitles(),
+                    topTitles: const AxisTitles(),
+                    rightTitles: const AxisTitles(),
+                    bottomTitles: side == AxisSide.bottom
+                        ? axisTitles
+                        : const AxisTitles(),
+                  ),
+                ),
+                parentSize: viewSize,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    return titles;
+  }
+
+  // Pumps the left titles of minY: 10, maxY: 0 and of minY: 0, maxY: 10.
+  // Expects the same values, each one at its getPixelY position (minY at the
+  // bottom), and no two titles at the same position.
+  Future<Map<double, TitleMeta>> expectInvertedLeftTitlesMatchNormal(
+    WidgetTester tester,
+    AxisChartData Function(double minY, double maxY, FlTitlesData titlesData)
+        buildData,
+  ) async {
+    final normal =
+        await pumpTitles(tester, AxisSide.left, (t) => buildData(0, 10, t));
+    final inverted =
+        await pumpTitles(tester, AxisSide.left, (t) => buildData(10, 0, t));
+
+    expect(inverted.keys.toSet(), normal.keys.toSet());
+    for (final MapEntry(key: value, value: meta) in inverted.entries) {
+      expect(
+        meta.axisPosition,
+        closeTo((1 - (value - 10) / (0 - 10)) * meta.parentAxisSize, 0.0001),
+        reason: 'title $value',
+      );
+    }
+    final positions = inverted.values.map((meta) => meta.axisPosition);
+    expect(positions.toSet(), hasLength(positions.length));
+    return inverted;
+  }
+
+  testWidgets(
+    'inverted Y axis titles match the normal axis for LineChartData (#1769)',
+    (tester) async {
+      final inverted = await expectInvertedLeftTitlesMatchNormal(
+        tester,
+        (minY, maxY, titlesData) => LineChartData(
+          minX: 0,
+          maxX: 10,
+          minY: minY,
+          maxY: maxY,
+          titlesData: titlesData,
+        ),
+      );
+      for (final meta in inverted.values) {
+        expect(meta.appliedInterval, greaterThan(0));
+        expect(meta.min, 10);
+        expect(meta.max, 0);
+      }
+    },
+  );
+
+  testWidgets(
+    'inverted Y axis titles match the normal axis for BarChartData (#1769)',
+    (tester) async {
+      await expectInvertedLeftTitlesMatchNormal(
+        tester,
+        (minY, maxY, titlesData) => BarChartData(
+          minY: minY,
+          maxY: maxY,
+          titlesData: titlesData,
+          barGroups: [
+            BarChartGroupData(x: 0, barRods: [BarChartRodData(toY: 4)]),
+          ],
+        ),
+      );
+    },
+  );
+
+  testWidgets(
+    'inverted Y axis titles match the normal axis for ScatterChartData (#1769)',
+    (tester) async {
+      await expectInvertedLeftTitlesMatchNormal(
+        tester,
+        (minY, maxY, titlesData) => ScatterChartData(
+          minX: 0,
+          maxX: 10,
+          minY: minY,
+          maxY: maxY,
+          titlesData: titlesData,
+          scatterSpots: [ScatterSpot(2, 3)],
+        ),
+      );
+    },
+  );
+
+  testWidgets(
+    'inverted Y axis titles match the normal axis for CandlestickChartData (#1769)',
+    (tester) async {
+      await expectInvertedLeftTitlesMatchNormal(
+        tester,
+        (minY, maxY, titlesData) => CandlestickChartData(
+          minX: 0,
+          maxX: 10,
+          minY: minY,
+          maxY: maxY,
+          titlesData: titlesData,
+          candlestickSpots: [
+            CandlestickSpot(x: 2, open: 3, high: 6, low: 2, close: 5),
+          ],
+        ),
+      );
+    },
+  );
+
+  testWidgets(
+    'min == max keeps the titles of e60b4c13 (#1769)',
+    (tester) async {
+      final titles = await pumpTitles(
+        tester,
+        AxisSide.left,
+        (titlesData) => LineChartData(
+          minX: 0,
+          maxX: 10,
+          minY: 3,
+          maxY: 3,
+          titlesData: titlesData,
+        ),
+      );
+
+      // Measured on e60b4c13: one title, at the bottom of the axis.
+      expect(
+        titles.map((value, meta) => MapEntry(value, meta.axisPosition)),
+        {3.0: 398.0},
+      );
+    },
+  );
+
+  testWidgets(
+    'inverted X axis bottom titles match the normal axis (#1769)',
+    (tester) async {
+      LineChartData buildData(double minX, double maxX, FlTitlesData t) =>
+          LineChartData(
+            minX: minX,
+            maxX: maxX,
+            minY: 0,
+            maxY: 10,
+            titlesData: t,
+          );
+      final normal =
+          await pumpTitles(tester, AxisSide.bottom, (t) => buildData(1, 18, t));
+      final inverted =
+          await pumpTitles(tester, AxisSide.bottom, (t) => buildData(18, 1, t));
+
+      expect(inverted.keys.toSet(), normal.keys.toSet());
+      for (final MapEntry(key: value, value: meta) in inverted.entries) {
+        // getPixelX: minX on the left.
+        expect(
+          meta.axisPosition,
+          closeTo((value - 18) / (1 - 18) * meta.parentAxisSize, 0.0001),
+          reason: 'title $value',
+        );
+      }
+      final positions = inverted.values.map((meta) => meta.axisPosition);
+      expect(positions.toSet(), hasLength(positions.length));
+    },
+  );
 }
