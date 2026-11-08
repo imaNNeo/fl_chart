@@ -550,7 +550,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
       // Tight angles for outside corners
       final outerStartAngle = startRadians + outerAngleOffset;
-      final outerEndAngle = endRadians - outerAngleOffset;
       final outerSweepAngle = sweepRadians - (2 * outerAngleOffset);
 
       // Tight angles for inside corners
@@ -565,9 +564,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           Offset(math.cos(endRadians), math.sin(endRadians)) * outerRadius;
       final outerStartRounded = center +
           Offset(math.cos(outerStartAngle), math.sin(outerStartAngle)) *
-              outerRadius;
-      final outerEndRounded = center +
-          Offset(math.cos(outerEndAngle), math.sin(outerEndAngle)) *
               outerRadius;
 
       // Points of the inner corners
@@ -656,14 +652,12 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
       // Outer ending rounded corner (quadratic join).
       if (clampedOuterRadius > 1) {
-        path
-          ..lineTo(outerEndRounded.dx, outerEndRounded.dy)
-          ..quadraticBezierTo(
-            outerEndPoint.dx,
-            outerEndPoint.dy,
-            endOuterControl.dx,
-            endOuterControl.dy,
-          );
+        path.quadraticBezierTo(
+          outerEndPoint.dx,
+          outerEndPoint.dy,
+          endOuterControl.dx,
+          endOuterControl.dy,
+        );
       } else {
         path.lineTo(outerEndPoint.dx, outerEndPoint.dy);
       }
