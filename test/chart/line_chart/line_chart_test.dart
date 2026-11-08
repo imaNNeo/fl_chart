@@ -2,11 +2,13 @@ import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/scale_axis.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/transformation_config.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_data.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_renderer.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -890,6 +892,178 @@ void main() {
         await mouse.moveTo(between + const Offset(1, 0));
         await tester.pump();
         expect(leaf(), same(clearedLeaf));
+      });
+    });
+
+    group('range annotations with clipData', () {
+      // The chart takes (50..250) of a 300x300 white box; counts the amber
+      // pixels strictly above the chart rect.
+      Future<int> amberAboveChart(
+        WidgetTester tester,
+        LineChartData data,
+      ) async {
+        final key = GlobalKey();
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Center(
+              child: RepaintBoundary(
+                key: key,
+                child: Container(
+                  color: Colors.white,
+                  width: 300,
+                  height: 300,
+                  padding: const EdgeInsets.all(50),
+                  child: LineChart(data, duration: Duration.zero),
+                ),
+              ),
+            ),
+          ),
+        );
+        await tester.pump();
+        var amberAbove = 0;
+        await tester.runAsync(() async {
+          final b =
+              key.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+          final img = await b.toImage();
+          final d = (await img.toByteData())!;
+          for (var y = 0; y < 48; y++) {
+            for (var x = 60; x < 240; x++) {
+              final i = (y * img.width + x) * 4;
+              if (d.getUint8(i) > 200 &&
+                  d.getUint8(i + 1) > 150 &&
+                  d.getUint8(i + 2) < 120) {
+                amberAbove++;
+              }
+            }
+          }
+        });
+        return amberAbove;
+      }
+
+      final data1944 = LineChartData(
+        clipData: const FlClipData.all(),
+        titlesData: const FlTitlesData(show: false),
+        gridData: const FlGridData(show: false),
+        minX: 0,
+        maxX: 100,
+        minY: 0,
+        maxY: 100,
+        rangeAnnotations: RangeAnnotations(
+          horizontalRangeAnnotations: [
+            HorizontalRangeAnnotation(
+              y1: 150,
+              y2: 0,
+              color: const Color(0xFFFFC107),
+            ),
+          ],
+        ),
+        lineBarsData: [
+          LineChartBarData(spots: const [FlSpot.zero, FlSpot(100, 200)]),
+        ],
+      );
+
+      testWidgets(
+          'horizontal range annotation beyond maxY stays inside chart with clipData.all (#1944)',
+          (tester) async {
+        expect(await amberAboveChart(tester, data1944), 0);
+      });
+
+      testWidgets(
+          'horizontal range annotation beyond maxY stays inside chart with clipData.all and no lines',
+          (tester) async {
+        expect(
+          await amberAboveChart(tester, data1944.copyWith(lineBarsData: [])),
+          0,
+        );
+      });
+
+      testWidgets(
+          'horizontal range annotation beyond maxY is not clipped with clipData.none',
+          (tester) async {
+        expect(
+          await amberAboveChart(
+            tester,
+            data1944.copyWith(clipData: const FlClipData.none()),
+          ),
+          greaterThan(0),
+        );
+      });
+
+      testWidgets(
+          'vertical range annotation does not cover the axis names with clipData.all (#1763)',
+          (t) async {
+        final key = GlobalKey();
+        await t.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              backgroundColor: Colors.white,
+              body: Center(
+                child: RepaintBoundary(
+                  key: key,
+                  child: ColoredBox(
+                    color: Colors.white,
+                    child: SizedBox(
+                      width: 300,
+                      height: 300,
+                      child: LineChart(
+                        LineChartData(
+                          minX: 0,
+                          maxX: 5,
+                          minY: 0,
+                          maxY: 5,
+                          clipData: const FlClipData.all(),
+                          titlesData: const FlTitlesData(
+                            leftTitles: AxisTitles(
+                              axisNameSize: 48,
+                              axisNameWidget: SizedBox(),
+                            ),
+                            rightTitles: AxisTitles(
+                              axisNameSize: 48,
+                              axisNameWidget: SizedBox(),
+                            ),
+                          ),
+                          rangeAnnotations: RangeAnnotations(
+                            verticalRangeAnnotations: [
+                              VerticalRangeAnnotation(
+                                x1: -3,
+                                x2: 8,
+                                color: Colors.red,
+                              ),
+                            ],
+                          ),
+                          lineBarsData: [
+                            LineChartBarData(
+                              spots: const [FlSpot(0, 1), FlSpot(5, 2)],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+        await t.runAsync(() async {
+          final b =
+              key.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+          final img = await b.toImage();
+          final data = (await img.toByteData())!;
+          // x=10 is inside the 48px left axis-name area, outside the plot
+          int px(int x, int y) {
+            final o = (y * img.width + x) * 4;
+            return data.getUint8(o) << 16 |
+                data.getUint8(o + 1) << 8 |
+                data.getUint8(o + 2);
+          }
+
+          expect(
+            px(10, 150),
+            0xffffff,
+            reason: 'annotation leaked into axis area',
+          );
+        });
       });
     });
   });
