@@ -2,6 +2,7 @@ import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/scale_axis.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/transformation_config.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_data.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_renderer.dart';
@@ -891,6 +892,105 @@ void main() {
         await tester.pump();
         expect(leaf(), same(clearedLeaf));
       });
+    });
+  });
+
+  group('left titles', () {
+    // The setup of issue #1769, with left titles that record what they get.
+    Future<Map<double, TitleMeta>> pumpLeftTitles(
+      WidgetTester tester, {
+      required double minY,
+      required double maxY,
+      double? interval,
+    }) async {
+      final titles = <double, TitleMeta>{};
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Center(
+            child: SizedBox(
+              width: 400,
+              height: 400,
+              child: LineChart(
+                LineChartData(
+                  minX: 1,
+                  maxX: 18,
+                  minY: minY,
+                  maxY: maxY,
+                  borderData: FlBorderData(show: false),
+                  lineTouchData: const LineTouchData(enabled: false),
+                  titlesData: FlTitlesData(
+                    topTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        getTitlesWidget: (value, meta) =>
+                            Text(value.toInt().toString()),
+                      ),
+                    ),
+                    bottomTitles: const AxisTitles(),
+                    rightTitles: const AxisTitles(),
+                    leftTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        interval: interval,
+                        getTitlesWidget: (value, meta) {
+                          titles[value] = meta;
+                          return Text(meta.formattedValue);
+                        },
+                      ),
+                    ),
+                  ),
+                  lineBarsData: [
+                    LineChartBarData(
+                      spots: const [
+                        FlSpot(5, -2),
+                        FlSpot(6, -3),
+                        FlSpot(7, 0),
+                        FlSpot(8, 1),
+                        FlSpot(9, 2),
+                      ],
+                    ),
+                  ],
+                ),
+                duration: Duration.zero,
+              ),
+            ),
+          ),
+        ),
+      );
+      return titles;
+    }
+
+    testWidgets(
+        'inverted Y axis shows every left title at its own position (#1769)',
+        (tester) async {
+      final normal = await pumpLeftTitles(tester, minY: -3, maxY: 3);
+      final inverted = await pumpLeftTitles(tester, minY: 3, maxY: -3);
+
+      expect(inverted.keys.toSet(), normal.keys.toSet());
+      // minY (3) is at the bottom, maxY (-3) at the top.
+      expect(
+        inverted[3]!.axisPosition,
+        greaterThan(inverted[-3]!.axisPosition),
+      );
+      final positions = inverted.values.map((meta) => meta.axisPosition);
+      expect(positions.toSet(), hasLength(positions.length));
+    });
+
+    testWidgets(
+        'inverted Y axis with SideTitles.interval shows every title (#1769)',
+        (tester) async {
+      final inverted =
+          await pumpLeftTitles(tester, minY: 3, maxY: -3, interval: 1);
+
+      expect(inverted.keys.toSet(), {-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0});
+      final values = inverted.keys.toList()..sort();
+      for (var i = 1; i < values.length; i++) {
+        expect(
+          inverted[values[i]]!.axisPosition,
+          greaterThan(inverted[values[i - 1]]!.axisPosition),
+          reason: 'title ${values[i]} must be below title ${values[i - 1]}',
+        );
+      }
     });
   });
 }

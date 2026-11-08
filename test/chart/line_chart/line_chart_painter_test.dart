@@ -4388,6 +4388,126 @@ void main() {
       lineChartPainter.drawGrid(mockCanvasWrapper, holder);
       verify(mockCanvasWrapper.drawDashedLine(any, any, any, any)).called(6);
     });
+
+    group('inverted axis', () {
+      const viewSize = Size(300, 300);
+      final utilsMainInstance = Utils();
+
+      setUp(() {
+        Utils.changeInstance(utilsMainInstance);
+      });
+
+      LineChartData gridChart({
+        double minX = 0,
+        double maxX = 10,
+        required double minY,
+        required double maxY,
+        bool horizontal = true,
+        double? horizontalInterval,
+      }) =>
+          LineChartData(
+            minX: minX,
+            maxX: maxX,
+            minY: minY,
+            maxY: maxY,
+            titlesData: const FlTitlesData(show: false),
+            gridData: FlGridData(
+              drawHorizontalLine: horizontal,
+              drawVerticalLine: !horizontal,
+              horizontalInterval: horizontalInterval,
+            ),
+          );
+
+      PaintHolder<LineChartData> holderOf(LineChartData data) =>
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+
+      // Returns the start point of every grid line, sorted.
+      List<Offset> drawGridStarts(LineChartData data) {
+        final mockCanvasWrapper = MockCanvasWrapper();
+        when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+        when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+        final starts = <Offset>[];
+        when(mockCanvasWrapper.drawDashedLine(captureAny, any, any, any))
+            .thenAnswer(
+          (inv) => starts.add(inv.positionalArguments[0] as Offset),
+        );
+        LineChartPainter().drawGrid(mockCanvasWrapper, holderOf(data));
+        return starts..sort((a, b) => (a.dx + a.dy).compareTo(b.dx + b.dy));
+      }
+
+      List<double> pixelYs(LineChartData data, List<double> values) => [
+            for (final value in values)
+              LineChartPainter().getPixelY(value, viewSize, holderOf(data)),
+          ]..sort();
+
+      test('inverted Y axis draws the horizontal lines at getPixelY (#1769)',
+          () {
+        // 10..0 is not symmetric, so a line drawn at the mirrored y fails.
+        final given = gridChart(minY: 10, maxY: 0, horizontalInterval: 3);
+        final givenYs = drawGridStarts(given).map((o) => o.dy).toList();
+        expect(givenYs, pixelYs(given, [3, 6, 9]));
+        expect(givenYs, [
+          closeTo(90, 0.0001),
+          closeTo(180, 0.0001),
+          closeTo(270, 0.0001),
+        ]);
+
+        // Automatic interval: the lines of 0..10 on e60b4c13 are 1..9.
+        const normalValues = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0];
+        final normal = gridChart(minY: 0, maxY: 10);
+        expect(
+          drawGridStarts(normal).map((o) => o.dy).toList(),
+          pixelYs(normal, normalValues),
+        );
+        final inverted = gridChart(minY: 10, maxY: 0);
+        expect(
+          drawGridStarts(inverted).map((o) => o.dy).toList(),
+          pixelYs(inverted, normalValues),
+        );
+      });
+
+      test('inverted X axis draws the vertical lines at getPixelX (#1769)', () {
+        final data = gridChart(
+          minX: 18,
+          maxX: 1,
+          minY: 0,
+          maxY: 10,
+          horizontal: false,
+        );
+        final xs = drawGridStarts(data).map((o) => o.dx).toList();
+        expect(xs, hasLength(8));
+        expect(
+          xs,
+          [
+            for (var value = 2.0; value <= 16; value += 2)
+              LineChartPainter().getPixelX(value, viewSize, holderOf(data)),
+          ]..sort(),
+        );
+      });
+
+      test(
+          'negative horizontalInterval draws the same lines as the positive one (#1769)',
+          () {
+        // Only the inverted axis: a normal axis with a negative interval loops
+        // forever on e60b4c13, which a painter test cannot cap.
+        final negative = drawGridStarts(
+          gridChart(minY: 10, maxY: 0, horizontalInterval: -3),
+        ).map((o) => o.dy).toList();
+        final positive = drawGridStarts(
+          gridChart(minY: 10, maxY: 0, horizontalInterval: 3),
+        ).map((o) => o.dy).toList();
+        expect(negative, positive);
+        expect(negative, [
+          closeTo(90, 0.0001),
+          closeTo(180, 0.0001),
+          closeTo(270, 0.0001),
+        ]);
+      });
+
+      test('min == max draws the horizontal lines of e60b4c13 (#1769)', () {
+        expect(drawGridStarts(gridChart(minY: 3, maxY: 3)), isEmpty);
+      });
+    });
   });
 
   group('drawBackground()', () {
