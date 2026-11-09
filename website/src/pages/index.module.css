@@ -54,7 +54,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.5rem;
+  gap: 0.4rem;
   text-align: start;
   width: min(420px, calc(100vw - 4rem));
 }
@@ -67,11 +67,11 @@
 .gameCard {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 0.7rem;
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.35rem;
   border: 1px solid var(--ifm-color-emphasis-300);
-  border-radius: 12px;
+  border-radius: 10px;
   background: var(--ifm-background-surface-color);
   color: inherit;
   transition: border-color 0.2s;
@@ -85,35 +85,36 @@
 
 .gameCard > img,
 .gameCard > a {
-  width: 40%;
-  max-width: 160px;
+  width: 30%;
+  max-width: 110px;
   flex-shrink: 0;
-  border-radius: 8px;
+  border-radius: 6px;
 }
 
 .gameCard > a > img {
   display: block;
   width: 100%;
-  border-radius: 8px;
+  border-radius: 6px;
 }
 
 .gameInfo {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.1rem;
 }
 
 .gameTitle {
+  font-size: 0.95rem;
   font-weight: bold;
 }
 
 .gamePitch {
-  font-size: 0.85rem;
-  line-height: 1.3;
+  font-size: 0.8rem;
+  line-height: 1.25;
 }
 
 .gamePlay {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--ifm-color-primary);
 }
 
@@ -377,6 +378,6 @@
 
   .gameCard > img,
   .gameCard > a {
-    width: 35%;
+    width: 30%;
   }
 }
