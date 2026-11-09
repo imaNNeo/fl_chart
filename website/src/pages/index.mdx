@@ -75,16 +75,15 @@ export default function Home() {
                   </span>
                 </div>
               </a>
-              <div className={styles.gameCard}>
-                <a
-                  href="https://play.google.com/store/apps/details?id=dev.app2pack.ttg&utm_source=fl_chart&utm_medium=website"
-                  target="_blank"
-                >
-                  <img
-                    src={withBaseUrl("/img/games/ttg.jpg")}
-                    alt="TTG - Through The Galaxies"
-                  />
-                </a>
+              <a
+                className={styles.gameCard}
+                href="https://ttg.app2pack.dev/get/?utm_source=fl_chart&utm_medium=website"
+                target="_blank"
+              >
+                <img
+                  src={withBaseUrl("/img/games/ttg.jpg")}
+                  alt="TTG - Through The Galaxies"
+                />
                 <div className={styles.gameInfo}>
                   <span className={styles.gameTitle}>
                     TTG - Through The Galaxies
@@ -94,21 +93,10 @@ export default function Home() {
                     space you can go.
                   </span>
                   <span className={styles.gamePlay}>
-                    Free on{" "}
-                    <a
-                      href="https://play.google.com/store/apps/details?id=dev.app2pack.ttg&utm_source=fl_chart&utm_medium=website"
-                      target="_blank"
-                    >
-                      Android
-                    </a>{" "}
-                    and{" "}
-                    <a href="https://apps.apple.com/app/id6444870791" target="_blank">
-                      iOS
-                    </a>{" "}
-                    ▶
+                    Free on Android and iOS ▶
                   </span>
                 </div>
-              </div>
+              </a>
               <a
                 className={styles.mailingList}
                 href="https://iman-khoshabi.kit.com/profile"
