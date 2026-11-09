@@ -149,42 +149,45 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
           textDirection: holder.data.scatterLabelSettings.textDirection,
           textScaler: holder.textScaler,
         )..layout(maxWidth: viewSize.width);
+        try {
+          final pixelX = getPixelX(scatterSpot.x, viewSize, holder);
+          final pixelY = getPixelY(scatterSpot.y, viewSize, holder);
 
-        final pixelX = getPixelX(scatterSpot.x, viewSize, holder);
-        final pixelY = getPixelY(scatterSpot.y, viewSize, holder);
+          double newPixelY;
 
-        double newPixelY;
+          /// To ensure the label is centered horizontally with respect to the spot.
+          final newPixelX = pixelX - tp.width / 2;
 
-        /// To ensure the label is centered horizontally with respect to the spot.
-        final newPixelX = pixelX - tp.width / 2;
+          final centerChartY = viewSize.height / 2;
 
-        final centerChartY = viewSize.height / 2;
+          final radius = scatterSpot.dotPainter.getSize(scatterSpot).width / 2;
 
-        final radius = scatterSpot.dotPainter.getSize(scatterSpot).width / 2;
+          /// if the spot is in the lower half of the chart, then draw the label either in the center or above the spot,
+          /// if the spot is in upper half of the chart, then draw the label either in the center or below the spot.
+          if (pixelY > centerChartY) {
+            /// if either the height or the width of the spot is greater than the radius of the spot, then draw the label above the bubble,
+            /// else draw the label inside the bubble.
+            final off = (radius * 1.5 < tp.height || radius * 1.5 < tp.width)
+                ? radius + tp.height
+                : tp.height / 2;
 
-        /// if the spot is in the lower half of the chart, then draw the label either in the center or above the spot,
-        /// if the spot is in upper half of the chart, then draw the label either in the center or below the spot.
-        if (pixelY > centerChartY) {
-          /// if either the height or the width of the spot is greater than the radius of the spot, then draw the label above the bubble,
-          /// else draw the label inside the bubble.
-          final off = (radius * 1.5 < tp.height || radius * 1.5 < tp.width)
-              ? radius + tp.height
-              : tp.height / 2;
+            newPixelY = pixelY - off;
+          } else {
+            /// if either the height or the width of the spot is greater than the radius of the spot, then draw the label below the bubble,
+            /// else draw the label inside the bubble.
+            final off = (radius * 1.5 < tp.height || radius * 1.5 < tp.width)
+                ? radius
+                : -tp.height / 2;
+            newPixelY = pixelY + off;
+          }
 
-          newPixelY = pixelY - off;
-        } else {
-          /// if either the height or the width of the spot is greater than the radius of the spot, then draw the label below the bubble,
-          /// else draw the label inside the bubble.
-          final off = (radius * 1.5 < tp.height || radius * 1.5 < tp.width)
-              ? radius
-              : -tp.height / 2;
-          newPixelY = pixelY + off;
+          canvasWrapper.drawText(
+            tp,
+            Offset(newPixelX, newPixelY),
+          );
+        } finally {
+          tp.dispose();
         }
-
-        canvasWrapper.drawText(
-          tp,
-          Offset(newPixelX, newPixelY),
-        );
       }
     }
 
@@ -303,136 +306,139 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       textDirection: tooltipItem.textDirection,
       textScaler: holder.textScaler,
     )..layout(maxWidth: tooltipData.maxContentWidth);
+    try {
+      final width = drawingTextPainter.width;
+      final height = drawingTextPainter.height;
 
-    final width = drawingTextPainter.width;
-    final height = drawingTextPainter.height;
+      final tooltipOriginPoint = Offset(
+        getPixelX(showOnSpot.x, viewSize, holder),
+        getPixelY(showOnSpot.y, viewSize, holder),
+      );
 
-    final tooltipOriginPoint = Offset(
-      getPixelX(showOnSpot.x, viewSize, holder),
-      getPixelY(showOnSpot.y, viewSize, holder),
-    );
+      // Get the dot size to create an extended boundary
+      final dotSize = showOnSpot.dotPainter.getSize(showOnSpot);
+      final dotRadius = dotSize.width / 2;
+      final viewRect = Offset.zero & viewSize;
+      final extendedBoundary = viewRect.inflate(dotRadius);
 
-    // Get the dot size to create an extended boundary
-    final dotSize = showOnSpot.dotPainter.getSize(showOnSpot);
-    final dotRadius = dotSize.width / 2;
-    final viewRect = Offset.zero & viewSize;
-    final extendedBoundary = viewRect.inflate(dotRadius);
-
-    // Check if any part of the dot is within the extended boundary
-    if (!extendedBoundary.contains(tooltipOriginPoint)) {
-      return;
-    }
-
-    final tooltipWidth = width + tooltipData.tooltipPadding.horizontal;
-    final tooltipHeight = height + tooltipData.tooltipPadding.vertical;
-
-    final tooltipLeftPosition = getTooltipLeft(
-      tooltipOriginPoint.dx,
-      tooltipWidth,
-      tooltipData.tooltipHorizontalAlignment,
-      tooltipData.tooltipHorizontalOffset,
-    );
-
-    /// draw the background rect with rounded radius
-    var rect = Rect.fromLTWH(
-      tooltipLeftPosition,
-      tooltipOriginPoint.dy -
-          tooltipHeight -
-          (showOnSpot.size.height / 2) -
-          tooltipItem.bottomMargin,
-      tooltipWidth,
-      tooltipHeight,
-    );
-
-    if (tooltipData.fitInsideHorizontally) {
-      if (rect.left < 0) {
-        final shiftAmount = 0 - rect.left;
-        rect = Rect.fromLTRB(
-          rect.left + shiftAmount,
-          rect.top,
-          rect.right + shiftAmount,
-          rect.bottom,
-        );
+      // Check if any part of the dot is within the extended boundary
+      if (!extendedBoundary.contains(tooltipOriginPoint)) {
+        return;
       }
 
-      if (rect.right > viewSize.width) {
-        final shiftAmount = rect.right - viewSize.width;
-        rect = Rect.fromLTRB(
-          rect.left - shiftAmount,
-          rect.top,
-          rect.right - shiftAmount,
-          rect.bottom,
-        );
+      final tooltipWidth = width + tooltipData.tooltipPadding.horizontal;
+      final tooltipHeight = height + tooltipData.tooltipPadding.vertical;
+
+      final tooltipLeftPosition = getTooltipLeft(
+        tooltipOriginPoint.dx,
+        tooltipWidth,
+        tooltipData.tooltipHorizontalAlignment,
+        tooltipData.tooltipHorizontalOffset,
+      );
+
+      /// draw the background rect with rounded radius
+      var rect = Rect.fromLTWH(
+        tooltipLeftPosition,
+        tooltipOriginPoint.dy -
+            tooltipHeight -
+            (showOnSpot.size.height / 2) -
+            tooltipItem.bottomMargin,
+        tooltipWidth,
+        tooltipHeight,
+      );
+
+      if (tooltipData.fitInsideHorizontally) {
+        if (rect.left < 0) {
+          final shiftAmount = 0 - rect.left;
+          rect = Rect.fromLTRB(
+            rect.left + shiftAmount,
+            rect.top,
+            rect.right + shiftAmount,
+            rect.bottom,
+          );
+        }
+
+        if (rect.right > viewSize.width) {
+          final shiftAmount = rect.right - viewSize.width;
+          rect = Rect.fromLTRB(
+            rect.left - shiftAmount,
+            rect.top,
+            rect.right - shiftAmount,
+            rect.bottom,
+          );
+        }
       }
-    }
 
-    if (tooltipData.fitInsideVertically) {
-      if (rect.top < 0) {
-        final shiftAmount = 0 - rect.top;
-        rect = Rect.fromLTRB(
-          rect.left,
-          rect.top + shiftAmount,
-          rect.right,
-          rect.bottom + shiftAmount,
-        );
+      if (tooltipData.fitInsideVertically) {
+        if (rect.top < 0) {
+          final shiftAmount = 0 - rect.top;
+          rect = Rect.fromLTRB(
+            rect.left,
+            rect.top + shiftAmount,
+            rect.right,
+            rect.bottom + shiftAmount,
+          );
+        }
+
+        if (rect.bottom > viewSize.height) {
+          final shiftAmount = rect.bottom - viewSize.height;
+          rect = Rect.fromLTRB(
+            rect.left,
+            rect.top - shiftAmount,
+            rect.right,
+            rect.bottom - shiftAmount,
+          );
+        }
       }
 
-      if (rect.bottom > viewSize.height) {
-        final shiftAmount = rect.bottom - viewSize.height;
-        rect = Rect.fromLTRB(
-          rect.left,
-          rect.top - shiftAmount,
-          rect.right,
-          rect.bottom - shiftAmount,
-        );
+      final roundedRect = RRect.fromRectAndCorners(
+        rect,
+        topLeft: tooltipData.tooltipBorderRadius.topLeft,
+        topRight: tooltipData.tooltipBorderRadius.topRight,
+        bottomLeft: tooltipData.tooltipBorderRadius.bottomLeft,
+        bottomRight: tooltipData.tooltipBorderRadius.bottomRight,
+      );
+
+      _bgTouchTooltipPaint.color = tooltipData.getTooltipColor(showOnSpot);
+
+      final rotateAngle = tooltipData.rotateAngle;
+      final rectRotationOffset =
+          Offset(0, Utils().calculateRotationOffset(rect.size, rotateAngle).dy);
+      final rectDrawOffset = Offset(roundedRect.left, roundedRect.top);
+
+      final textRotationOffset =
+          Utils().calculateRotationOffset(drawingTextPainter.size, rotateAngle);
+
+      final drawOffset = Offset(
+        rect.center.dx - (drawingTextPainter.width / 2),
+        rect.topCenter.dy +
+            tooltipData.tooltipPadding.top -
+            textRotationOffset.dy +
+            rectRotationOffset.dy,
+      );
+
+      if (tooltipData.tooltipBorder != BorderSide.none) {
+        _borderTouchTooltipPaint
+          ..color = tooltipData.tooltipBorder.color
+          ..strokeWidth = tooltipData.tooltipBorder.width;
       }
+
+      final reverseQuarterTurnsAngle = -holder.data.rotationQuarterTurns * 90;
+      canvasWrapper.drawRotated(
+        size: rect.size,
+        rotationOffset: rectRotationOffset,
+        drawOffset: rectDrawOffset,
+        angle: reverseQuarterTurnsAngle + rotateAngle,
+        drawCallback: () {
+          canvasWrapper
+            ..drawRRect(roundedRect, _bgTouchTooltipPaint)
+            ..drawRRect(roundedRect, _borderTouchTooltipPaint)
+            ..drawText(drawingTextPainter, drawOffset);
+        },
+      );
+    } finally {
+      drawingTextPainter.dispose();
     }
-
-    final roundedRect = RRect.fromRectAndCorners(
-      rect,
-      topLeft: tooltipData.tooltipBorderRadius.topLeft,
-      topRight: tooltipData.tooltipBorderRadius.topRight,
-      bottomLeft: tooltipData.tooltipBorderRadius.bottomLeft,
-      bottomRight: tooltipData.tooltipBorderRadius.bottomRight,
-    );
-
-    _bgTouchTooltipPaint.color = tooltipData.getTooltipColor(showOnSpot);
-
-    final rotateAngle = tooltipData.rotateAngle;
-    final rectRotationOffset =
-        Offset(0, Utils().calculateRotationOffset(rect.size, rotateAngle).dy);
-    final rectDrawOffset = Offset(roundedRect.left, roundedRect.top);
-
-    final textRotationOffset =
-        Utils().calculateRotationOffset(drawingTextPainter.size, rotateAngle);
-
-    final drawOffset = Offset(
-      rect.center.dx - (drawingTextPainter.width / 2),
-      rect.topCenter.dy +
-          tooltipData.tooltipPadding.top -
-          textRotationOffset.dy +
-          rectRotationOffset.dy,
-    );
-
-    if (tooltipData.tooltipBorder != BorderSide.none) {
-      _borderTouchTooltipPaint
-        ..color = tooltipData.tooltipBorder.color
-        ..strokeWidth = tooltipData.tooltipBorder.width;
-    }
-
-    final reverseQuarterTurnsAngle = -holder.data.rotationQuarterTurns * 90;
-    canvasWrapper.drawRotated(
-      size: rect.size,
-      rotationOffset: rectRotationOffset,
-      drawOffset: rectDrawOffset,
-      angle: reverseQuarterTurnsAngle + rotateAngle,
-      drawCallback: () {
-        canvasWrapper
-          ..drawRRect(roundedRect, _bgTouchTooltipPaint)
-          ..drawRRect(roundedRect, _borderTouchTooltipPaint)
-          ..drawText(drawingTextPainter, drawOffset);
-      },
-    );
   }
 
   /// Makes a [ScatterTouchedSpot] based on the provided [localPosition]

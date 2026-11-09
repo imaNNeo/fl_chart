@@ -835,6 +835,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           sectionCenterOffsetTitle - Offset(tp.width / 2, tp.height / 2),
           rotateAngle,
         );
+        tp.dispose();
       }
 
       tempAngle += sweepAngle;

@@ -1239,6 +1239,7 @@ class GaugeMarkerLinePainter extends GaugeMarkerPainter {
         Offset(labelLeftX, -textPainter.height / 2),
       );
     }
+    textPainter.dispose();
   }
 
   /// Outward radial extent of the line, used to reserve outer padding

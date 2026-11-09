@@ -2976,6 +2976,11 @@ void main() {
             .namedArguments[const Symbol('drawCallback')] as DrawCallback;
         callback();
       });
+      final drawnTexts = <TextSpan>[];
+      when(mockCanvasWrapper.drawText(any, any)).thenAnswer((inv) {
+        final tp = inv.positionalArguments[0] as TextPainter;
+        drawnTexts.add(tp.text! as TextSpan);
+      });
       lineChartPainter.drawTouchTooltip(
         mockBuildContext,
         mockCanvasWrapper,
@@ -3026,10 +3031,9 @@ void main() {
 
       final result2 = verify(mockCanvasWrapper.drawText(captureAny, captureAny))
         ..called(1);
-      final textPainter = result2.captured[0] as TextPainter;
       final drawOffset = result2.captured[1] as Offset;
-      expect((textPainter.text as TextSpan?)!.text, '0');
-      expect((textPainter.text as TextSpan?)!.style, textStyle1);
+      expect(drawnTexts[0].text, '0');
+      expect(drawnTexts[0].style, textStyle1);
       expect(drawOffset, const Offset(12, 52));
     });
 
@@ -3101,6 +3105,11 @@ void main() {
             .namedArguments[const Symbol('drawCallback')] as DrawCallback;
         callback();
       });
+      final drawnTexts = <TextSpan>[];
+      when(mockCanvasWrapper.drawText(any, any)).thenAnswer((inv) {
+        final tp = inv.positionalArguments[0] as TextPainter;
+        drawnTexts.add(tp.text! as TextSpan);
+      });
       lineChartPainter.drawTouchTooltip(
         mockBuildContext,
         mockCanvasWrapper,
@@ -3137,10 +3146,9 @@ void main() {
 
       final result2 = verify(mockCanvasWrapper.drawText(captureAny, captureAny))
         ..called(1);
-      final textPainter = result2.captured[0] as TextPainter;
       final drawOffset = result2.captured[1] as Offset;
-      expect((textPainter.text as TextSpan?)!.text, '0');
-      expect((textPainter.text as TextSpan?)!.style, textStyle1);
+      expect(drawnTexts[0].text, '0');
+      expect(drawnTexts[0].style, textStyle1);
       expect(drawOffset, const Offset(-16, 52));
     });
 
@@ -3212,6 +3220,11 @@ void main() {
             .namedArguments[const Symbol('drawCallback')] as DrawCallback;
         callback();
       });
+      final drawnTexts = <TextSpan>[];
+      when(mockCanvasWrapper.drawText(any, any)).thenAnswer((inv) {
+        final tp = inv.positionalArguments[0] as TextPainter;
+        drawnTexts.add(tp.text! as TextSpan);
+      });
       lineChartPainter.drawTouchTooltip(
         mockBuildContext,
         mockCanvasWrapper,
@@ -3248,10 +3261,9 @@ void main() {
 
       final result2 = verify(mockCanvasWrapper.drawText(captureAny, captureAny))
         ..called(1);
-      final textPainter = result2.captured[0] as TextPainter;
       final drawOffset = result2.captured[1] as Offset;
-      expect((textPainter.text as TextSpan?)!.text, '0');
-      expect((textPainter.text as TextSpan?)!.style, textStyle1);
+      expect(drawnTexts[0].text, '0');
+      expect(drawnTexts[0].style, textStyle1);
       expect(drawOffset, const Offset(22, 52));
     });
 
@@ -3334,6 +3346,11 @@ void main() {
             .namedArguments[const Symbol('drawCallback')] as DrawCallback;
         callback();
       });
+      final drawnTexts = <TextSpan>[];
+      when(mockCanvasWrapper.drawText(any, any)).thenAnswer((inv) {
+        final tp = inv.positionalArguments[0] as TextPainter;
+        drawnTexts.add(tp.text! as TextSpan);
+      });
       lineChartPainter.drawTouchTooltip(
         mockBuildContext,
         mockCanvasWrapper,
@@ -3375,13 +3392,11 @@ void main() {
 
       final result2 = verify(mockCanvasWrapper.drawText(captureAny, captureAny))
         ..called(2);
-      final textPainter1 = result2.captured[0] as TextPainter;
       final drawOffset1 = result2.captured[1] as Offset;
-      final textPainter2 = result2.captured[2] as TextPainter;
-      expect((textPainter1.text as TextSpan?)!.text, '1');
-      expect((textPainter1.text as TextSpan?)!.style, textStyle1);
-      expect((textPainter2.text as TextSpan?)!.text, '0');
-      expect((textPainter2.text as TextSpan?)!.style, textStyle1);
+      expect(drawnTexts[0].text, '1');
+      expect(drawnTexts[0].style, textStyle1);
+      expect(drawnTexts[1].text, '0');
+      expect(drawnTexts[1].style, textStyle1);
       expect(drawOffset1, const Offset(22, 12));
     });
 
