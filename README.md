@@ -16,7 +16,7 @@ I've been building and maintaining fl_chart for free since 2019, in my spare tim
 
 <table>
   <tr>
-    <td width="140"><a href="https://savethepotato.com/get/?utm_source=fl_chart&utm_medium=readme"><img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/projects/save_the_potato.jpg" width="140" alt="Save the Potato"></a></td>
+    <td width="200"><a href="https://savethepotato.com/get/?utm_source=fl_chart&utm_medium=readme"><img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/projects/save_the_potato.jpg" width="200" alt="Save the Potato"></a></td>
     <td>
       <b>Save the Potato</b><br>
       <sub>Keep the orbs away so the potato can enjoy its music in peace.</sub><br>
@@ -24,11 +24,11 @@ I've been building and maintaining fl_chart for free since 2019, in my spare tim
     </td>
   </tr>
   <tr>
-    <td width="140"><a href="https://play.google.com/store/apps/details?id=dev.app2pack.ttg&utm_source=fl_chart&utm_medium=readme"><img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/projects/ttg.jpg" width="140" alt="TTG - Through The Galaxies"></a></td>
+    <td width="200"><a href="https://ttg.app2pack.dev/get/?utm_source=fl_chart&utm_medium=readme"><img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/projects/ttg.jpg" width="200" alt="TTG - Through The Galaxies"></a></td>
     <td>
       <b>TTG - Through The Galaxies</b><br>
       <sub>Fly your rocket from planet to planet and see how far into space you can go.</sub><br>
-      ▶ <a href="https://play.google.com/store/apps/details?id=dev.app2pack.ttg&utm_source=fl_chart&utm_medium=readme">Android</a> · <a href="https://apps.apple.com/app/id6444870791">iOS</a>
+      <a href="https://ttg.app2pack.dev/get/?utm_source=fl_chart&utm_medium=readme">▶ Play it now</a>
     </td>
   </tr>
 </table>

@@ -83,17 +83,10 @@
   text-decoration: none;
 }
 
-.gameCard > img,
-.gameCard > a {
+.gameCard > img {
   width: 30%;
   max-width: 110px;
   flex-shrink: 0;
-  border-radius: 6px;
-}
-
-.gameCard > a > img {
-  display: block;
-  width: 100%;
   border-radius: 6px;
 }
 
@@ -376,8 +369,7 @@
     padding-right: 1.25rem;
   }
 
-  .gameCard > img,
-  .gameCard > a {
+  .gameCard > img {
     width: 30%;
   }
 }
