@@ -29,8 +29,11 @@ jobs:
 
       - run: flutter pub get
 
-      - name: Install CocoaPods
-        run: cd ios && pod install
+      # Generates the plugin registrant, adds the Swift Package Manager
+      # plugins to the Xcode project and installs the pods. fastlane archives
+      # the workspace with xcodebuild, which does none of this.
+      - name: Prepare the iOS project
+        run: flutter build ios --release --no-codesign --config-only
 
       - uses: webfactory/ssh-agent@v0.9.0
         with:
