@@ -1,0 +1,189 @@
+/* The chart of the homepage, written as the widget it is: ClassName( chart ). */
+.widget {
+  --chart-morph-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', monospace;
+  --chart-morph-display: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  min-width: 0;
+  font-family: var(--chart-morph-mono);
+}
+
+.code {
+  display: flex;
+  align-items: baseline;
+  font-size: clamp(20px, 2.2vw, 28px);
+  line-height: 1.25;
+  color: rgba(255, 255, 255, 0.52);
+  white-space: nowrap;
+}
+
+/* The class name rolls to the next one, and its width (in ch, as the font is
+   monospaced) follows. */
+.roller {
+  display: inline-block;
+  height: 1.25em;
+  overflow: hidden;
+  vertical-align: bottom;
+  transition: width 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.rollerList {
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.rollerList > span {
+  display: block;
+  height: 1.25em;
+  color: var(--ifm-color-primary);
+}
+
+.chart {
+  margin: 10px 0 10px 1.6em;
+}
+
+.chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.close {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.types {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.types button {
+  position: relative;
+  flex-shrink: 0;
+  padding: 9px 10px 11px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.52);
+  font: 600 14px/1 var(--chart-morph-display);
+  cursor: pointer;
+  transition:
+    color 0.2s,
+    background-color 0.2s;
+}
+
+.types button:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.types button:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 1px;
+}
+
+.types button[aria-pressed='true'] {
+  color: var(--ifm-color-primary);
+}
+
+/* The selected type fills a bar until the chart moves on to the next one. */
+.types button::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 3px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--ifm-color-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.types button[aria-pressed='true']::after {
+  transform: scaleX(1);
+}
+
+.playing button[aria-pressed='true']::after {
+  animation: fill var(--chart-morph-cycle) linear forwards;
+}
+
+@keyframes fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* The parts of the SVG */
+.gridLine {
+  stroke: rgba(255, 255, 255, 0.08);
+}
+
+.axisLine {
+  stroke: rgba(255, 255, 255, 0.18);
+}
+
+.axisLabel {
+  fill: rgba(255, 255, 255, 0.45);
+  font: 12px var(--chart-morph-mono);
+}
+
+.gaugeValue {
+  fill: #fff;
+  font: 600 52px var(--chart-morph-display);
+}
+
+.gaugeLabel {
+  fill: rgba(255, 255, 255, 0.5);
+  font: 13px var(--chart-morph-mono);
+}
+
+@media (max-width: 960px) {
+  .chart {
+    margin-left: 0.8em;
+  }
+
+  .close {
+    row-gap: 4px;
+  }
+
+  /* One row of types, scrolling sideways when it doesn't fit. */
+  .types {
+    flex-wrap: nowrap;
+    width: calc(100% + 20px);
+    margin: 0 -10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .types::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* The chart scales down with the screen, its labels a bit less. */
+@media (max-width: 600px) {
+  .axisLabel {
+    font-size: 17px;
+  }
+
+  .gaugeLabel {
+    font-size: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roller,
+  .rollerList {
+    transition: none;
+  }
+}

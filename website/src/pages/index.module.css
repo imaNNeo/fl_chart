@@ -1,375 +1,256 @@
-.container {
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* The homepage: the copy on the left, the chart on the right, and the games
+   under the copy. One column on small screens. */
+.hero {
+  --hero-display: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --hero-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', monospace;
+  --hero-text-2: rgba(255, 255, 255, 0.74);
+  --hero-text-3: rgba(255, 255, 255, 0.52);
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'copy widget'
+    'support widget';
+  column-gap: clamp(40px, 6vw, 96px);
+  row-gap: 40px;
   width: 100%;
-  height: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: clamp(36px, 7vh, 80px) 16px 64px;
 }
 
-.mainContent {
+.copy {
+  grid-area: copy;
   display: flex;
+  flex-direction: column;
+  gap: 22px;
+  min-width: 0;
+}
+
+.widget {
+  grid-area: widget;
+  align-self: start;
+}
+
+.eyebrow {
+  display: inline-flex;
   align-items: center;
-  flex-direction: column;
-  width: 100%;
+  gap: 8px;
+  color: var(--hero-text-2);
+  font-size: 18px;
 }
 
-.chartsImage {
-  width: 70%;
-  margin-left: 30%;
-  z-index: -1;
-  overflow: hidden;
-  position: relative;
+.eyebrow img {
+  width: 15px;
+  height: auto;
 }
 
-.mainColumn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  width: 71vw;
-  height: calc(100vh - 124px);
-  min-height: 560px;
+.title {
+  margin: 0;
+  font: 300 clamp(38px, 4.2vw, 58px) / 1.06 var(--hero-display);
+  letter-spacing: -0.025em;
 }
 
-.mainLeftBox {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  height: 480px;
-  position: absolute;
-  overflow: visible;
-  left: 0%;
-  margin-left: 2rem;
-}
-
-.mainText {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.supportBox {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.4rem;
-  text-align: start;
-  width: min(420px, calc(100vw - 4rem));
-}
-
-.supportText {
-  font-size: larger;
-  padding-left: 0.2rem;
-}
-
-.gameCard {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  width: 100%;
-  padding: 0.35rem;
-  border: 1px solid var(--ifm-color-emphasis-300);
-  border-radius: 10px;
-  background: var(--ifm-background-surface-color);
-  color: inherit;
-  transition: border-color 0.2s;
-}
-
-.gameCard:hover {
-  border-color: var(--ifm-color-primary);
-  color: inherit;
-  text-decoration: none;
-}
-
-.gameCard > img {
-  width: 30%;
-  max-width: 110px;
-  flex-shrink: 0;
-  border-radius: 6px;
-}
-
-.gameInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-}
-
-.gameTitle {
-  font-size: 0.95rem;
-  font-weight: bold;
-}
-
-.gamePitch {
-  font-size: 0.8rem;
-  line-height: 1.25;
-}
-
-.gamePlay {
-  font-size: 0.8rem;
-  color: var(--ifm-color-primary);
-}
-
-.mailingList {
-  font-size: 0.9rem;
-  padding-left: 0.2rem;
-}
-
-.chartIcons {
-  width: 10vw;
-  min-width: 2vw;
-  max-width: 2vw;
-  left: 5vw;
-  bottom: -5vw;
-  position: absolute;
-  opacity: 0.3;
-}
-
-.sloganNormal {
-  font-feature-settings: "clig" off, "liga" off;
-  font-family: Inter;
-  font-size: 3rem;
-  font-style: normal;
-  font-weight: 300;
-  line-height: 50px;
-  margin-bottom: 0px;
-  text-align: start;
-}
-@media (max-width: 768px) {
-  .sloganNormal {
-    font-size: 2rem;
-    line-height: 2.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .sloganNormal {
-    font-size: 1.75rem;
-    line-height: 2.25rem;
-  }
-}
-
-.sloganBold {
+.title b {
   font-weight: 700;
 }
 
-.flutterChartLibrary {
+.sub {
+  max-width: 30em;
+  margin: 0;
+  color: var(--hero-text-2);
+  font-size: 19px;
+  line-height: 1.45;
+}
+
+.actions {
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
-  margin-bottom: 0.2rem;
-  margin-left: 0.3rem;
+  gap: 12px;
 }
 
-.flutterLogoInText {
-  width: 1rem;
-  margin-right: 0.4rem;
-}
-
-@media (max-width: 768px) {
-  .flutterLogoInText {
-    width: 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .flutterLogoInText {
-    width: 0.8rem;
-  }
-}
-
-.afterFlutterLogoText {
-  font-size: 1.2rem;
-}
-
-@media (max-width: 768px) {
-  .afterFlutterLogoText {
-    font-size: 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .afterFlutterLogoText {
-    font-size: 0.8rem;
-  }
-}
-
-.buttonsRow {
-  display: flex;
-  flex-direction: row;
-  margin-top: 1rem;
-  gap: 1rem;
-}
-
-.outlineButton {
-  background-color: transparent;
-  color: #50e4ff;
-  border: 2px solid #50e4ff;
-  border-radius: 4px;
-  height: 3rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
-  font-size: 0.88rem;
-  cursor: pointer;
-  outline: none;
-  transition: background-color 0.3s;
+.button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 800;
-  line-height: 100%;
+  gap: 8px;
+  height: 46px;
+  padding: 0 22px;
+  border: 1.5px solid var(--ifm-color-primary);
+  border-radius: 8px;
+  font: 600 15px/1 var(--hero-display);
+  transition:
+    background-color 0.2s,
+    color 0.2s;
 }
 
-.outlineButton:hover {
-  background-color: #50e4ff22;
+.button:hover {
+  text-decoration: none;
 }
 
-.outlineButton .buttonIcon {
-  margin-left: 0.2rem;
-  /* Spacing between text and icon */
-  display: inline-block;
-  /* Ensures proper alignment */
+.solid,
+.solid:hover {
+  color: #0d1424;
 }
 
-.solidButton {
-  background-color: #50e4ff;
-  color: black;
-  border: 2px solid #50e4ff;
-  border-radius: 4px;
-  height: 3rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
-  font-size: 0.88rem;
+.solid {
+  background: var(--ifm-color-primary);
+}
+
+.solid:hover {
+  background: #3fc9e2;
+}
+
+.ghost,
+.ghost:hover {
+  color: var(--ifm-color-primary);
+}
+
+.ghost:hover {
+  background: rgba(80, 228, 255, 0.1);
+}
+
+.install {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 46px;
+  padding: 0 12px 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--hero-text-2);
+  font: 400 14px/1 var(--hero-mono);
   cursor: pointer;
-  outline: none;
-  transition: background-color 0.3s;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.install:hover {
+  border-color: var(--ifm-color-primary);
+  color: #fff;
+}
+
+.prompt {
+  color: var(--hero-text-3);
+}
+
+.copyState {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 800;
-  line-height: 100%;
+  width: 26px;
+  height: 26px;
+  color: var(--hero-text-3);
+  transition: color 0.2s;
 }
 
-.solidButton:hover {
-  background-color: #3db5ca;
+.install:hover .copyState,
+.copied .copyState {
+  color: var(--ifm-color-primary);
 }
 
-.solidButton .buttonIcon {
-  height: 1rem;
-  margin-right: 0.2rem;
-  /* Spacing between text and icon */
-  display: inline-block;
-  /* Ensures proper alignment */
-}
-
-.videoContiner {
+.support {
+  grid-area: support;
   display: flex;
   flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.supportLabel {
+  margin: 0;
+  color: var(--hero-text-2);
+  font-size: 15px;
+}
+
+.game {
+  display: flex;
   align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  margin-top: 32px;
-  padding: 128px 31%;
-  background-color: #282e45;
+  gap: 12px;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
 }
 
-.videoIframe {
-  border-radius: 16px;
-  box-shadow: 0px 4px 15px 0px rgb(0 0 0 / 50%);
+.game,
+.game:hover {
+  color: #fff;
+  text-decoration: none;
 }
 
-.videoText {
-  width: 720px;
-  text-align: left;
-  font-size: larger;
+.game:hover {
+  border-color: var(--ifm-color-primary);
+  background: rgba(80, 228, 255, 0.05);
 }
 
-@media (max-width: 720px) {
-  .videoContiner {
-    padding: 128px 16px;
-  }
-  .videoText {
-    width: 100%;
-  }
-  .videoIframe {
-    width: 100%;
-  }
+.game img {
+  display: block;
+  flex-shrink: 0;
+  width: 104px;
+  height: auto;
+  aspect-ratio: 2.05;
+  object-fit: cover;
+  border-radius: 6px;
 }
 
-.videoTextPink {
-  background: linear-gradient(
-    90deg,
-    rgba(145, 135, 242, 1) 0%,
-    rgba(205, 142, 255, 1) 100%
-  );
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 800;
+.gameText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
 }
 
-.videoTextAqua {
-  color: aqua;
-  font-weight: 800;
+.gameTitle {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.25;
 }
 
-/* Below this width the hero text and the charts image no longer fit side by
-   side, so the hero stacks: text, charts image, then the support box. */
-@media (max-width: 1100px) {
-  .mainColumn {
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-    max-width: 640px;
-    height: auto;
-    min-height: 0;
-    padding: 2.5rem 1rem 0;
-    gap: 2rem;
-  }
-
-  .mainLeftBox {
-    display: contents;
-  }
-
-  .mainText {
-    order: 1;
-  }
-
-  .chartsImage {
-    order: 2;
-    width: 100%;
-    margin-left: 0;
-  }
-
-  .supportBox {
-    order: 3;
-    width: 100%;
-  }
-
-  .chartIcons {
-    display: none;
-  }
+.gamePitch {
+  color: var(--hero-text-2);
+  font-size: 13.5px;
+  line-height: 1.3;
 }
 
-@media (max-width: 480px) {
-  .buttonsRow {
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
+.gamePlay {
+  color: var(--ifm-color-primary);
+  font-size: 13.5px;
+}
 
-  .outlineButton,
-  .solidButton {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
-  }
+.mail {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 8px;
+  font-size: 14.5px;
+}
 
-  .gameCard > img {
-    width: 30%;
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 960px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    grid-template-areas:
+      'copy'
+      'widget'
+      'support';
+    row-gap: 36px;
   }
 }
