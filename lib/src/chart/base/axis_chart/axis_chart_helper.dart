@@ -2,6 +2,18 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
+/// Fraction of the axis interval below which an extra min/max title overlaps
+/// the nearest regular interval title.
+///
+/// Regular titles are one interval apart. A quarter of that gap is close
+/// enough to collide (for example 7.98 beside 8.00 with interval 0.10, or
+/// -203 beside -200 with interval 50) and still keeps a boundary that is a
+/// distinct step away (10 beside 9 with interval 3, gap 1/3; 35 beside 50
+/// with interval 50, gap 0.3). Compared in value space, not pixels, so the
+/// decision does not depend on chart size. A distance equal to this fraction
+/// is kept; only a smaller gap is skipped.
+const double _boundaryTitleOverlapFraction = 0.25;
+
 class AxisChartHelper {
   factory AxisChartHelper() {
     return _singleton;
@@ -20,6 +32,11 @@ class AxisChartHelper {
   ///
   /// If [maxIncluded] is true, it ends at [max] value,
   /// otherwise it ends at [max] - [interval]
+  ///
+  /// An extra [min] or [max] (one that is not already a regular interval
+  /// value) is skipped when its distance to the nearest regular interval
+  /// value is below a quarter of [interval]. The distance is compared in
+  /// value space. A boundary that lands on a regular value is emitted once.
   Iterable<double> iterateThroughAxis({
     required double min,
     bool minIncluded = true,
@@ -39,10 +56,15 @@ class AxisChartHelper {
     var index = !minIncluded && firstPositionOverlapsWithMin ? 1 : 0;
 
     final epsilon = interval / 100000;
-    if (minIncluded && !firstPositionOverlapsWithMin) {
-      // Data minimum shall be included and is not yet covered
+    // Only the extra boundary is eligible. Regular interval values stay so
+    // titles remain on the interval grid (#2112).
+    final overlapDistance = interval * _boundaryTitleOverlapFraction;
+    if (minIncluded &&
+        !firstPositionOverlapsWithMin &&
+        (initialValue - min) >= overlapDistance) {
       yield min;
     }
+    double? lastIntervalValue;
     var reachedMax = false;
     while (true) {
       final axisSeek = initialValue + index * interval;
@@ -51,7 +73,8 @@ class AxisChartHelper {
         break;
       }
       if (overshoot.abs() <= epsilon) {
-        // Landed on data maximum: snap to the exact max value
+        // Landed on data maximum: snap to the exact max value.
+        // Within epsilon of max this is the same title, not an overlap.
         if (maxIncluded) {
           yield max;
         }
@@ -59,10 +82,14 @@ class AxisChartHelper {
         break;
       }
       yield axisSeek;
+      lastIntervalValue = axisSeek;
       index++;
     }
     if (maxIncluded && !reachedMax) {
-      yield max;
+      final previous = lastIntervalValue;
+      if (previous == null || (max - previous) >= overlapDistance) {
+        yield max;
+      }
     }
   }
 
