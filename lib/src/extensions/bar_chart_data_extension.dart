@@ -10,10 +10,19 @@ extension BarChartDataExtension on BarChartData {
     final spaceAvailable = viewWidth - sumWidth;
 
     void spaceEvenly() {
-      final eachSpace = spaceAvailable / (barGroups.length + 1);
+      if (shrinkWrap && barGroups.length == 1) {
+        groupsX[0] = viewWidth / 2;
+        return;
+      }
+
+      final spaceOffset = shrinkWrap ? -1 : 1;
+      final eachSpace = spaceAvailable / (barGroups.length + spaceOffset);
+
       var tempX = 0.0;
       barGroups.asMap().forEach((i, group) {
-        tempX += eachSpace;
+        if (!shrinkWrap || i != 0) {
+          tempX += eachSpace;
+        }
         tempX += group.width / 2;
         groupsX[i] = tempX;
         tempX += group.width / 2;
