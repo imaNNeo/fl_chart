@@ -6,7 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/extensions/border_extension.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// This class holds all data needed for [BaseChartPainter].
 ///
@@ -26,6 +26,7 @@ abstract class BaseChartData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         borderData,
       ];
 }
@@ -70,6 +71,7 @@ class FlBorderData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         show,
         border,
       ];
@@ -109,6 +111,7 @@ abstract class FlTouchData<R extends BaseTouchResponse> with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         enabled,
         touchCallback,
         mouseCursorResolver,
@@ -167,7 +170,7 @@ class FlClipData with Equatable {
 
   /// Used for equality check, see [Equatable].
   @override
-  List<Object?> get props => [top, bottom, left, right];
+  List<Object?> get props => [runtimeType, top, bottom, left, right];
 }
 
 /// Chart's touch callback.
@@ -250,7 +253,8 @@ class FlLabel with Equatable {
 
   /// Used for equality check, see [Equatable].
   @override
-  List<Object?> get props => [show, text, style, angle, textDirection];
+  List<Object?> get props =>
+      [runtimeType, show, text, style, angle, textDirection];
 }
 
 /// Controls an element horizontal alignment to given point.

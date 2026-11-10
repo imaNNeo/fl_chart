@@ -7,7 +7,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/candlestick_chart/candlestick_chart_helper.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// [CandlestickChart] needs this class to render itself.
 ///
@@ -199,6 +199,7 @@ class CandlestickChartData extends AxisChartData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         candlestickSpots,
         candlestickPainter,
         candlestickTouchData,
@@ -315,6 +316,7 @@ class CandlestickSpot extends FlSpot with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         x,
         open,
         high,
@@ -400,6 +402,7 @@ class CandlestickTouchData extends FlTouchData<CandlestickTouchResponse>
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         enabled,
         touchCallback,
         mouseCursorResolver,
@@ -461,6 +464,7 @@ class CandlestickTouchedSpot with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         spot,
         spotIndex,
       ];
@@ -558,6 +562,7 @@ class CandlestickTouchTooltipData with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         tooltipBorderRadius,
         tooltipPadding,
         tooltipHorizontalAlignment,
@@ -728,6 +733,7 @@ class CandlestickTooltipItem with Equatable {
   /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
+        runtimeType,
         text,
         textStyle,
         bottomMargin,
@@ -929,6 +935,7 @@ class DefaultCandlestickPainter extends FlCandlestickPainter {
 
   @override
   List<Object?> get props => [
+        runtimeType,
         candlestickStyleProvider,
       ];
 }
@@ -984,6 +991,7 @@ class CandlestickStyle with Equatable {
 
   @override
   List<Object?> get props => [
+        runtimeType,
         lineColor,
         lineWidth,
         bodyStrokeColor,

@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_renderer.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 /// Renders a pie chart as a widget, using provided [ScatterChartData].
 class ScatterChart extends ImplicitlyAnimatedWidget {

@@ -15,11 +15,13 @@ funding:
   - https://www.buymeacoffee.com/fl_chart
 
 dependencies:
-  equatable: ">=2.1.0 <4.0.0"
+  equatable: ^3.0.0
   flutter:
     sdk: flutter
   vector_math: ^2.2.0
 
+  cupertino_ui: any
+  material_ui: any
 dev_dependencies:
   analyzer: ^14.4.0
   build_runner: ^2.8.0

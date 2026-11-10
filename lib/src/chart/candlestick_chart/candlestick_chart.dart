@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
 import 'package:fl_chart/src/chart/candlestick_chart/candlestick_chart_renderer.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Renders a pie chart as a widget, using provided [CandlestickChartData].
 class CandlestickChart extends ImplicitlyAnimatedWidget {

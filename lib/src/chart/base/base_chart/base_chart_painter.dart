@@ -1,7 +1,7 @@
 // coverage:ignore-file
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Base class of our painters.
 class BaseChartPainter<D extends BaseChartData> {
