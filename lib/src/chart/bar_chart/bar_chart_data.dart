@@ -352,7 +352,7 @@ class BarChartRodData with Equatable {
     Color? color,
     this.gradient,
     double? width,
-    BorderRadius? borderRadius,
+    BorderRadiusGeometry? borderRadius,
     this.borderDashArray,
     BorderSide? borderSide,
     BackgroundBarChartRodData? backDrawRodData,
@@ -362,7 +362,13 @@ class BarChartRodData with Equatable {
         color =
             color ?? ((color == null && gradient == null) ? Colors.cyan : null),
         width = width ?? 8,
-        borderRadius = Utils().normalizeBorderRadius(borderRadius, width ?? 8),
+        // Only a concrete BorderRadius can be clamped without knowing the
+        // TextDirection. A BorderRadiusDirectional is resolved (and, from
+        // that concrete BorderRadius, clamped) at paint time instead, once
+        // the ambient text direction is known — see BarChartPainter.drawBars.
+        borderRadius = borderRadius is BorderRadius
+            ? Utils().normalizeBorderRadius(borderRadius, width ?? 8)
+            : borderRadius,
         borderSide = Utils().normalizeBorderSide(borderSide, width ?? 8),
         backDrawRodData = backDrawRodData ?? BackgroundBarChartRodData(),
         rodStackItems = rodStackItems ?? const [];
@@ -400,8 +406,9 @@ class BarChartRodData with Equatable {
   final double width;
 
   /// The rounding of the corners of the rod. When null, the rod is fully
-  /// rounded (with a radius of half of its [width]).
-  final BorderRadius? borderRadius;
+  /// rounded (with a radius of half of its [width]). Accepts a
+  /// [BorderRadiusDirectional] as well as a plain [BorderRadius].
+  final BorderRadiusGeometry? borderRadius;
 
   /// Draws the [borderSide] dashed, it's a circular array of dash lengths
   /// and gaps. For example, `[5, 10]` results in dashes 5 pixels long
@@ -438,7 +445,7 @@ class BarChartRodData with Equatable {
     Color? color,
     Gradient? gradient,
     double? width,
-    BorderRadius? borderRadius,
+    BorderRadiusGeometry? borderRadius,
     List<int>? dashArray,
     BorderSide? borderSide,
     BackgroundBarChartRodData? backDrawRodData,
@@ -466,7 +473,8 @@ class BarChartRodData with Equatable {
         gradient: Gradient.lerp(a.gradient, b.gradient, t),
         color: Color.lerp(a.color, b.color, t),
         width: lerpDouble(a.width, b.width, t),
-        borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t),
+        borderRadius:
+            BorderRadiusGeometry.lerp(a.borderRadius, b.borderRadius, t),
         borderDashArray: lerpIntList(a.borderDashArray, b.borderDashArray, t),
         borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
         fromY: lerpDouble(a.fromY, b.fromY, t),

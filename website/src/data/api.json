@@ -367,9 +367,9 @@
       },
       {
         "name": "borderRadius",
-        "type": "BorderRadius?",
+        "type": "BorderRadiusGeometry?",
         "defaultValue": "null",
-        "description": "The rounding of the corners of the rod. When null, the rod is fully\nrounded (with a radius of half of its `width`)."
+        "description": "The rounding of the corners of the rod. When null, the rod is fully\nrounded (with a radius of half of its `width`). Accepts a\n[`BorderRadiusDirectional`](https://api.flutter.dev/flutter/painting/BorderRadiusDirectional-class.html) as well as a plain [`BorderRadius`](https://api.flutter.dev/flutter/painting/BorderRadius-class.html)."
       },
       {
         "name": "borderDashArray",
