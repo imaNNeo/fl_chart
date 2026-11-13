@@ -1,6 +1,6 @@
 import 'package:fl_chart/src/extensions/paint_extension.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../chart/data_pool.dart';
 
