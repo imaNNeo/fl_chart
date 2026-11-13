@@ -1,7 +1,7 @@
 import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart_app/util/extensions/color_extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 // ignore: must_be_immutable
 class LineChartSample6 extends StatelessWidget {

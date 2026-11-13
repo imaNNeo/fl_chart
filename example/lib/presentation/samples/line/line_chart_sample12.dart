@@ -4,7 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart_app/presentation/presentation_utils.dart';
 import 'package:fl_chart_app/presentation/resources/app_colors.dart';
 import 'package:fl_chart_app/util/extensions/color_extensions.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
 class LineChartSample12 extends StatefulWidget {
@@ -153,8 +153,8 @@ class _LineChartSample12State extends State<LineChartSample12> {
                 ],
                 lineTouchData: LineTouchData(
                   touchSpotThreshold: 5,
-                  getTouchLineStart: (_, __) => -double.infinity,
-                  getTouchLineEnd: (_, __) => double.infinity,
+                  getTouchLineStart: (_, _) => -double.infinity,
+                  getTouchLineEnd: (_, _) => double.infinity,
                   getTouchedSpotIndicator:
                       (LineChartBarData barData, List<int> spotIndexes) {
                     return spotIndexes.map((spotIndex) {
