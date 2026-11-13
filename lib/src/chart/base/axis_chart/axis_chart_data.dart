@@ -8,7 +8,7 @@ import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:fl_chart/src/utils/utils.dart';
-import 'package:flutter/material.dart' hide Image;
+import 'package:flutter/widgets.dart' hide Image;
 
 /// This is the base class for axis base charts data
 /// that contains a [FlGridData] that holds data for showing grid lines,
@@ -37,7 +37,7 @@ abstract class AxisChartData extends BaseChartData with Equatable {
         baselineX = baselineX ?? 0,
         baselineY = baselineY ?? 0,
         clipData = clipData ?? const FlClipData.none(),
-        backgroundColor = backgroundColor ?? Colors.transparent,
+        backgroundColor = backgroundColor ?? const Color(0x00000000),
         extraLinesData = extraLinesData ?? const ExtraLinesData();
 
   /// Holds data to draw the grid lines behind the chart, see [FlGridData].
@@ -838,7 +838,7 @@ typedef GetDrawingGridLine = FlLine Function(double value);
 
 /// Returns a grey line for all values.
 FlLine defaultGridLine(double value) => const FlLine(
-      color: Colors.blueGrey,
+      color: Color(0xFF607D8B),
       strokeWidth: 0.4,
       dashArray: [8, 4],
     );
@@ -857,11 +857,13 @@ class FlLine with Equatable {
     this.strokeWidth = 2,
     this.dashArray,
   }) : color = color ??
-            ((color == null && gradient == null) ? Colors.black : null);
+            ((color == null && gradient == null)
+                ? const Color(0xFF000000)
+                : null);
 
   /// Defines color of the line.
   ///
-  /// Defaults to [Colors.black] if neither [color] nor [gradient] is provided.
+  /// Defaults to [`Colors.black`](https://api.flutter.dev/flutter/material/Colors-class.html) if neither [color] nor [gradient] is provided.
   final Color? color;
 
   /// Defines the gradient of the line.
@@ -1003,7 +1005,9 @@ class HorizontalRangeAnnotation with Equatable {
     Color? color,
     this.gradient,
   }) : color = color ??
-            ((color == null && gradient == null) ? Colors.white : null);
+            ((color == null && gradient == null)
+                ? const Color(0xFFFFFFFF)
+                : null);
 
   /// Determines starting point in vertical (y) axis.
   final double y1;
@@ -1071,7 +1075,9 @@ class VerticalRangeAnnotation with Equatable {
     Color? color,
     this.gradient,
   }) : color = color ??
-            ((color == null && gradient == null) ? Colors.white : null);
+            ((color == null && gradient == null)
+                ? const Color(0xFFFFFFFF)
+                : null);
 
   /// Determines starting point in horizontal (x) axis.
   final double x1;
@@ -1362,7 +1368,7 @@ class VerticalLineLabel extends FlLineLabel with Equatable {
   VerticalLineLabel({
     super.padding = const EdgeInsets.all(6),
     super.style = const TextStyle(
-      color: Colors.black,
+      color: Color(0xFF000000),
       fontWeight: FontWeight.bold,
       fontSize: 14,
     ),
@@ -1545,7 +1551,7 @@ class FlDotCirclePainter extends FlDotPainter {
   /// by setting the thickness with [strokeWidth],
   /// and you can change the color of of the stroke with [strokeColor].
   FlDotCirclePainter({
-    this.color = Colors.green,
+    this.color = const Color(0xFF4CAF50),
     double? radius,
     this.strokeColor = const Color.fromRGBO(76, 175, 80, 1),
     this.strokeWidth = 0.0,
@@ -1642,7 +1648,7 @@ class FlDotSquarePainter extends FlDotPainter {
   /// by setting the thickness with [strokeWidth],
   /// and you can change the color of of the stroke with [strokeColor].
   FlDotSquarePainter({
-    this.color = Colors.green,
+    this.color = const Color(0xFF4CAF50),
     this.size = 4.0,
     this.strokeColor = const Color.fromRGBO(76, 175, 80, 1),
     this.strokeWidth = 1.0,
@@ -1729,7 +1735,7 @@ class FlDotCrossPainter extends FlDotPainter {
   /// The [color] and [width] properties determines the color and thickness of the cross shape,
   /// [size] determines the width and height of the shape.
   FlDotCrossPainter({
-    this.color = Colors.green,
+    this.color = const Color(0xFF4CAF50),
     this.size = 8.0,
     this.width = 2.0,
   });
@@ -1916,13 +1922,13 @@ abstract class FlSpotErrorRangePainter with Equatable {
 /// You can customize the alignment of the error lines using [crossAlignment]
 class FlSimpleErrorPainter extends FlSpotErrorRangePainter with Equatable {
   FlSimpleErrorPainter({
-    this.lineColor = Colors.white,
+    this.lineColor = const Color(0xFFFFFFFF),
     this.lineWidth = 1.0,
     this.capLength = 8.0,
     this.crossAlignment = 0,
     this.showErrorTexts = false,
     this.errorTextStyle = const TextStyle(
-      color: Colors.white,
+      color: Color(0xFFFFFFFF),
       fontSize: 12,
     ),
     this.errorTextDirection = TextDirection.ltr,
