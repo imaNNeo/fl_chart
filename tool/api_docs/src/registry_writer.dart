@@ -27,7 +27,7 @@ String registryDart(Iterable<ApiType> types) {
     ..writeln("import 'dart:ui' as ui;")
     ..writeln()
     ..writeln("import 'package:fl_chart/fl_chart.dart';")
-    ..writeln("import 'package:flutter/material.dart';")
+    ..writeln("import 'package:material_ui/material_ui.dart';")
     ..writeln()
     ..writeln("import '../src/api.dart';")
     ..writeln()

@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 /// [PieChart] needs this class to render itself.
 ///
@@ -37,7 +37,7 @@ class PieChartData extends BaseChartData with Equatable {
     bool? titleSunbeamLayout,
   })  : sections = sections ?? const [],
         centerSpaceRadius = centerSpaceRadius ?? double.infinity,
-        centerSpaceColor = centerSpaceColor ?? Colors.transparent,
+        centerSpaceColor = centerSpaceColor ?? const Color(0x00000000),
         sectionsSpace = sectionsSpace ?? 2,
         startDegreeOffset = startDegreeOffset ?? 0,
         pieTouchData = pieTouchData ?? PieTouchData(),
@@ -174,7 +174,7 @@ class PieChartSectionData with Equatable {
     double? badgePositionPercentageOffset,
     List<PieChartStackSegmentData>? segments,
   })  : value = value ?? 10,
-        color = color ?? Colors.cyan,
+        color = color ?? const Color(0xFF00BCD4),
         radius = (radius ?? 40).clamp(0, double.infinity).toDouble(),
         showTitle = showTitle ?? true,
         title = title ?? (value == null ? '' : value.toString()),
@@ -370,7 +370,7 @@ class PieChartStackSegmentData with Equatable {
     Color? color,
     this.gradient,
   })  : fromRadius = fromRadius ?? 0,
-        color = color ?? Colors.purple;
+        color = color ?? const Color(0xFF9C27B0);
 
   /// The start radius of this segment (distance from center of the section).
   /// Clamped to `[0, sectionRadius]` at render time.

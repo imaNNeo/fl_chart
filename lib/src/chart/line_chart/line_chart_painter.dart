@@ -9,7 +9,7 @@ import 'package:fl_chart/src/extensions/path_extension.dart';
 import 'package:fl_chart/src/extensions/text_align_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 /// Paints [LineChartData] in the canvas, it can be used in a [CustomPainter]
 class LineChartPainter extends AxisChartPainter<LineChartData> {
@@ -35,15 +35,15 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     _touchLinePaint = Paint()
       ..style = PaintingStyle.stroke
-      ..color = Colors.black;
+      ..color = const Color(0xFF000000);
 
     _bgTouchTooltipPaint = Paint()
       ..style = PaintingStyle.fill
-      ..color = Colors.white;
+      ..color = const Color(0xFFFFFFFF);
 
     _borderTouchTooltipPaint = Paint()
       ..style = PaintingStyle.stroke
-      ..color = Colors.transparent
+      ..color = const Color(0x00000000)
       ..strokeWidth = 1.0;
 
     _clipPaint = Paint();

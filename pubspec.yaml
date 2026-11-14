@@ -23,9 +23,11 @@ dependencies:
 dev_dependencies:
   analyzer: ^14.4.0
   build_runner: ^2.8.0
+  cupertino_ui: ^1.1.6
   dart_style: ^3.1.0
   flutter_test:
     sdk: flutter
+  material_ui: ^1.11.0
   mockito: ^5.5.1
   path: ^1.9.0
   pub_semver: ^2.2.0

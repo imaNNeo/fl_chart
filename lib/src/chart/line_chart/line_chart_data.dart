@@ -6,7 +6,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/extensions/gradient_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
-import 'package:flutter/material.dart' hide Image;
+import 'package:flutter/widgets.dart' hide Image;
 
 /// [LineChart] needs this class to render itself.
 ///
@@ -253,11 +253,13 @@ class LineChartBarData with Equatable {
         const FlErrorIndicatorData<LineChartSpotErrorRangeCallbackInput>(),
     this.showingIndicators = const [],
     this.dashArray,
-    this.shadow = const Shadow(color: Colors.transparent),
+    this.shadow = const Shadow(color: Color(0x00000000)),
     this.isStepLineChart = false,
     this.lineChartStepData = const LineChartStepData(),
-  })  : color =
-            color ?? ((color == null && gradient == null) ? Colors.cyan : null),
+  })  : color = color ??
+            ((color == null && gradient == null)
+                ? const Color(0xFF00BCD4)
+                : null),
         belowBarData = belowBarData ?? BarAreaData(),
         aboveBarData = aboveBarData ?? BarAreaData() {
     FlSpot? mostLeft;
@@ -333,7 +335,7 @@ class LineChartBarData with Equatable {
   /// Otherwise we use [gradient] to draw the line.
   /// It throws an exception if you provide both [color] and [gradient].
   ///
-  /// Defaults to [Colors.cyan] if neither [color] nor [gradient] is provided.
+  /// Defaults to [`Colors.cyan`](https://api.flutter.dev/flutter/material/Colors-class.html) if neither [color] nor [gradient] is provided.
   final Color? color;
 
   /// If provided, this [LineChartBarData] draws with this [gradient].
@@ -579,7 +581,7 @@ class BarAreaData with Equatable {
     this.applyCutOffY = false,
   }) : color = color ??
             ((color == null && gradient == null)
-                ? Colors.blueGrey.withValues(alpha: 0.5)
+                ? const Color(0xFF607D8B).withValues(alpha: 0.5)
                 : null);
 
   /// Determines whether to show or hide the below, or above bar area.
@@ -589,7 +591,7 @@ class BarAreaData with Equatable {
   /// Otherwise we use [gradient] to fill it.
   /// It throws an exception if you provide both [color] and [gradient].
   ///
-  /// Defaults to a semi-transparent [Colors.blueGrey] if neither [color] nor
+  /// Defaults to a semi-transparent [`Colors.blueGrey`](https://api.flutter.dev/flutter/material/Colors-class.html) if neither [color] nor
   /// [gradient] is provided.
   final Color? color;
 
@@ -643,7 +645,7 @@ class BetweenBarsData with Equatable {
     this.gradient,
   }) : color = color ??
             ((color == null && gradient == null)
-                ? Colors.blueGrey.withValues(alpha: 0.5)
+                ? const Color(0xFF607D8B).withValues(alpha: 0.5)
                 : null);
 
   /// Index of the first [LineChartBarData] in [LineChartData.lineBarsData]
@@ -658,7 +660,7 @@ class BetweenBarsData with Equatable {
   /// Otherwise we use [gradient] to fill it.
   /// It throws an exception if you provide both [color] and [gradient].
   ///
-  /// Defaults to a semi-transparent [Colors.blueGrey] if neither [color] nor
+  /// Defaults to a semi-transparent [`Colors.blueGrey`](https://api.flutter.dev/flutter/material/Colors-class.html) if neither [color] nor
   /// [gradient] is provided.
   final Color? color;
 
@@ -763,7 +765,7 @@ Color _defaultGetDotColor(FlSpot _, double xPercentage, LineChartBarData bar) {
       xPercentage / 100,
     );
   }
-  return bar.gradient?.colors.first ?? bar.color ?? Colors.blueGrey;
+  return bar.gradient?.colors.first ?? bar.color ?? const Color(0xFF607D8B);
 }
 
 /// If there is one color in [LineChartBarData.mainColors], it returns that color in a darker mode,
@@ -781,7 +783,7 @@ Color _defaultGetDotStrokeColor(
       xPercentage / 100,
     );
   } else {
-    color = bar.gradient?.colors.first ?? bar.color ?? Colors.blueGrey;
+    color = bar.gradient?.colors.first ?? bar.color ?? const Color(0xFF607D8B);
   }
   return color.darken();
 }
@@ -1200,7 +1202,7 @@ List<LineTooltipItem> defaultLineTooltipItem(List<LineBarSpot> touchedSpots) =>
       final textStyle = TextStyle(
         color: touchedSpot.bar.gradient?.colors.first ??
             touchedSpot.bar.color ??
-            Colors.blueGrey,
+            const Color(0xFF607D8B),
         fontWeight: FontWeight.bold,
         fontSize: 14,
       );
@@ -1218,7 +1220,7 @@ typedef GetLineTooltipColor = Color Function(
 
 /// Default implementation for [LineTouchTooltipData.getTooltipColor].
 Color defaultLineTooltipColor(LineBarSpot touchedSpot) =>
-    Colors.blueGrey.darken(15);
+    const Color(0xFF607D8B).darken(15);
 
 /// Represent a targeted spot inside a line bar.
 class LineBarSpot extends FlSpot with Equatable {

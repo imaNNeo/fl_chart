@@ -1,7 +1,11 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
 import 'package:fl_chart/src/chart/candlestick_chart/candlestick_chart_renderer.dart';
-import 'package:flutter/material.dart';
+// Reads the app's Material theme for the default touch indicator color.
+// TODO(imaNNeo): Drop it when package:flutter/material.dart is removed from Flutter.
+// ignore: deprecated_member_use
+import 'package:flutter/material.dart' show Theme;
+import 'package:flutter/widgets.dart';
 
 /// Renders a pie chart as a widget, using provided [CandlestickChartData].
 class CandlestickChart extends ImplicitlyAnimatedWidget {
