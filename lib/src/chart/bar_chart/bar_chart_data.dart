@@ -7,7 +7,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:fl_chart/src/utils/utils.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 /// [BarChart] needs this class to render itself.
 ///
@@ -359,8 +359,10 @@ class BarChartRodData with Equatable {
     List<BarChartRodStackItem>? rodStackItems,
     this.label = const BarChartRodLabel(show: false),
   })  : fromY = fromY ?? 0,
-        color =
-            color ?? ((color == null && gradient == null) ? Colors.cyan : null),
+        color = color ??
+            ((color == null && gradient == null)
+                ? const Color(0xFF00BCD4)
+                : null),
         width = width ?? 8,
         borderRadius = Utils().normalizeBorderRadius(borderRadius, width ?? 8),
         borderSide = Utils().normalizeBorderSide(borderSide, width ?? 8),
@@ -386,7 +388,7 @@ class BarChartRodData with Equatable {
   /// Otherwise we use [gradient] to draw the rod.
   /// It throws an exception if you provide both [color] and [gradient].
   ///
-  /// Defaults to [Colors.cyan] if neither [color] nor [gradient] is provided.
+  /// Defaults to [`Colors.cyan`](https://api.flutter.dev/flutter/material/Colors-class.html) if neither [color] nor [gradient] is provided.
   final Color? color;
 
   /// If provided, this [BarChartRodData] draws with this [gradient].
@@ -616,7 +618,9 @@ class BackgroundBarChartRodData with Equatable {
         toY = toY ?? 0,
         show = show ?? false,
         color = color ??
-            ((color == null && gradient == null) ? Colors.blueGrey : null);
+            ((color == null && gradient == null)
+                ? const Color(0xFF607D8B)
+                : null);
 
   /// Determines to show or hide this
   final bool show;
@@ -631,7 +635,7 @@ class BackgroundBarChartRodData with Equatable {
   /// Otherwise we use [gradient] to draw it.
   /// It throws an exception if you provide both [color] and [gradient].
   ///
-  /// Defaults to [Colors.blueGrey] if neither [color] nor [gradient] is
+  /// Defaults to [`Colors.blueGrey`](https://api.flutter.dev/flutter/material/Colors-class.html) if neither [color] nor [gradient] is
   /// provided.
   final Color? color;
 
@@ -957,7 +961,7 @@ typedef GetBarTooltipColor = Color Function(
 
 /// Default implementation for [BarTouchTooltipData.getTooltipColor].
 Color defaultBarTooltipColor(BarChartGroupData group) =>
-    Colors.blueGrey.darken(15);
+    const Color(0xFF607D8B).darken(15);
 
 /// Holds information about touch response in the [BarChart].
 ///
