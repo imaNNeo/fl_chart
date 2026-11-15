@@ -262,11 +262,21 @@ class SideTitles with Equatable {
   final double? interval;
 
   /// If true (default), a title for the minimum data value is included
-  /// independent of the sampling interval
+  /// even when it does not fall on the sampling [interval].
+  ///
+  /// The extra title is skipped when it is closer than a quarter of
+  /// [interval] to the nearest regular title, so the two labels do not
+  /// overlap. A minimum that already falls on an interval value is not
+  /// duplicated.
   final bool minIncluded;
 
   /// If true (default), a title for the maximum data value is included
-  /// independent of the sampling interval
+  /// even when it does not fall on the sampling [interval].
+  ///
+  /// The extra title is skipped when it is closer than a quarter of
+  /// [interval] to the nearest regular title, so the two labels do not
+  /// overlap. A maximum that already falls on an interval value is not
+  /// duplicated.
   final bool maxIncluded;
 
   /// Lerps a [SideTitles] based on [t] value, check [Tween.lerp].
