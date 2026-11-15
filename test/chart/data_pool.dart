@@ -3412,6 +3412,15 @@ class MockData {
     barGroups: [barGroupData0, barGroupData1, barGroupData2],
   );
 
+  static final BarChartData barChartData2 =
+      barChartData1.copyWith(shrinkWrap: true);
+
+  static final BarChartData barChartData3 = barChartData1.copyWith(
+    shrinkWrap: true,
+    alignment: BarChartAlignment.end,
+    groupsSpace: 20,
+  );
+
   static const sideTitles1 = SideTitles(
     reservedSize: 10,
     interval: 23,

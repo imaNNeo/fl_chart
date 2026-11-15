@@ -47,6 +47,7 @@ class BarChartData extends AxisChartData with Equatable {
     super.backgroundColor,
     ExtraLinesData? extraLinesData,
     super.rotationQuarterTurns,
+    this.shrinkWrap = false,
     this.errorIndicatorData = const FlErrorIndicatorData(),
   })  : barGroups = barGroups ?? const [],
         groupsSpace = groupsSpace ?? 16,
@@ -75,6 +76,10 @@ class BarChartData extends AxisChartData with Equatable {
   /// [BarChartAlignment.center] or [BarChartAlignment.end] (the other
   /// alignments spread the groups in the free space).
   final double groupsSpace;
+
+  /// Enforce that the bars will stick to the outer sides of the chart so that
+  /// no horizontal space is wasted.
+  final bool shrinkWrap;
 
   /// Arrange the [barGroups], see [BarChartAlignment].
   final BarChartAlignment alignment;
@@ -106,6 +111,7 @@ class BarChartData extends AxisChartData with Equatable {
     int? rotationQuarterTurns,
     FlErrorIndicatorData<BarChartSpotErrorRangeCallbackInput>?
         errorIndicatorData,
+    bool? shrinkWrap,
   }) =>
       BarChartData(
         barGroups: barGroups ?? this.barGroups,
@@ -123,6 +129,7 @@ class BarChartData extends AxisChartData with Equatable {
         extraLinesData: extraLinesData ?? this.extraLinesData,
         rotationQuarterTurns: rotationQuarterTurns ?? this.rotationQuarterTurns,
         errorIndicatorData: errorIndicatorData ?? this.errorIndicatorData,
+        shrinkWrap: shrinkWrap ?? this.shrinkWrap,
       );
 
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
@@ -151,6 +158,7 @@ class BarChartData extends AxisChartData with Equatable {
           b.errorIndicatorData,
           t,
         ),
+        shrinkWrap: t < 0.5 ? a.shrinkWrap : b.shrinkWrap,
       );
     } else {
       throw Exception('Illegal State');
@@ -175,6 +183,7 @@ class BarChartData extends AxisChartData with Equatable {
         extraLinesData,
         rotationQuarterTurns,
         errorIndicatorData,
+        shrinkWrap,
       ];
 }
 

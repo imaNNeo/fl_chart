@@ -75,5 +75,19 @@ void main() {
         throwsAssertionError,
       );
     });
+
+    test('shrinkWrap calcualtes spacing correctly on default data', () {
+      expect(
+        MockData.barChartData2.calculateGroupsX(50),
+        [9.0, 25.0, 41.0],
+      );
+    });
+
+    test('shrinkWrap calculates spacing with groupsSpace provided', () {
+      expect(
+        MockData.barChartData3.calculateGroupsX(50),
+        [9.0, 25.0, 41.0],
+      );
+    });
   });
 }
