@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 
 /// Defines extensions on the [RRect]
 extension RRectExtension on RRect {

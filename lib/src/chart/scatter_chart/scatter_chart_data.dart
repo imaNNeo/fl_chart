@@ -6,7 +6,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_helper.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 /// [ScatterChart] needs this class to render itself.
 ///
@@ -224,8 +224,8 @@ class ScatterSpot extends FlSpot with Equatable {
         dotPainter = dotPainter ??
             FlDotCirclePainter(
               radius: 6,
-              color:
-                  Colors.primaries[((x * y) % Colors.primaries.length).toInt()],
+              color: _defaultSpotColors[
+                  ((x * y) % _defaultSpotColors.length).toInt()],
             );
 
   /// Determines show or hide the spot.
@@ -240,7 +240,7 @@ class ScatterSpot extends FlSpot with Equatable {
   /// Draws the spot, like a [FlDotCirclePainter] (the shape, size and color).
   ///
   /// Defaults to a circle with a radius of 6, and a color of
-  /// [Colors.primaries] picked from the [x] and [y] of the spot.
+  /// [`Colors.primaries`](https://api.flutter.dev/flutter/material/Colors-class.html) picked from the [x] and [y] of the spot.
   final FlDotPainter dotPainter;
 
   Size get size => dotPainter.getSize(this);
@@ -615,7 +615,7 @@ typedef GetScatterTooltipColor = Color Function(
 
 /// Default implementation for [ScatterTouchTooltipData.getTooltipItems].
 Color defaultScatterTooltipColor(ScatterSpot touchedSpot) =>
-    Colors.blueGrey.darken(15);
+    const Color(0xFF607D8B).darken(15);
 
 /// Holds data of showing each item in the tooltip popup.
 class ScatterTooltipItem with Equatable {
@@ -807,3 +807,26 @@ class ScatterChartSpotErrorRangeCallbackInput
         spotIndex,
       ];
 }
+
+/// The primary colors of Material Design (`Colors.primaries`), which
+/// [ScatterSpot] picks its default color from.
+const _defaultSpotColors = <Color>[
+  Color(0xFFF44336), // red
+  Color(0xFFE91E63), // pink
+  Color(0xFF9C27B0), // purple
+  Color(0xFF673AB7), // deepPurple
+  Color(0xFF3F51B5), // indigo
+  Color(0xFF2196F3), // blue
+  Color(0xFF03A9F4), // lightBlue
+  Color(0xFF00BCD4), // cyan
+  Color(0xFF009688), // teal
+  Color(0xFF4CAF50), // green
+  Color(0xFF8BC34A), // lightGreen
+  Color(0xFFCDDC39), // lime
+  Color(0xFFFFEB3B), // yellow
+  Color(0xFFFFC107), // amber
+  Color(0xFFFF9800), // orange
+  Color(0xFFFF5722), // deepOrange
+  Color(0xFF795548), // brown
+  Color(0xFF607D8B), // blueGrey
+];

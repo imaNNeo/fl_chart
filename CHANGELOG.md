@@ -1,3 +1,12 @@
+## 1.3.1
+* **BUGFIX** (by @Dorian92) Draw `PieChartData.borderData` around the chart rectangle, #2137, #1182
+* **BUGFIX** (by @imaNNeo) Draw the extra lines on top of a `LineChart` only once, #2149
+* **PERFORMANCE** (by @imaNNeo) Skip the rebuild on touch events that keep the same spot touched, #2143
+* **PERFORMANCE** (by @imaNNeo) Clip with `save()` instead of an offscreen layer, #2144
+* **PERFORMANCE** (by @imaNNeo) Skip the off-screen dots of a zoomed `LineChart`, #2150
+* **PERFORMANCE** (by @imaNNeo) Skip lerping a list that is the same on both sides, #2151
+* **PERFORMANCE** (by @imaNNeo) Reuse the pie section paths between the paint and touches, #2152
+
 ## 1.3.0
 * **FEATURE** (by @glemartret) Add the Gauge Chart (`GaugeChart`), #1933
 * **FEATURE** (by @imaNNeo) Add the gauge marker painter to draw markers on the Gauge Chart, #2096

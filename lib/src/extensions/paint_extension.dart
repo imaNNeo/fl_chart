@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 extension PaintExtension on Paint {
   /// Hides the paint's color, if strokeWidth is zero
@@ -11,10 +11,10 @@ extension PaintExtension on Paint {
 
   void setColorOrGradient(Color? color, Gradient? gradient, Rect rect) {
     if (gradient != null) {
-      this.color = Colors.black;
+      this.color = const Color(0xFF000000);
       shader = gradient.createShader(rect);
     } else {
-      this.color = color ?? Colors.transparent;
+      this.color = color ?? const Color(0x00000000);
       shader = null;
     }
   }
