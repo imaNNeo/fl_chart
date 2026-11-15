@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class ScatterChartSample2 extends StatefulWidget {
   const ScatterChartSample2({super.key});

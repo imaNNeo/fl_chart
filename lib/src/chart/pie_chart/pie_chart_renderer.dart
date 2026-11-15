@@ -4,9 +4,9 @@ import 'package:fl_chart/src/chart/base/base_chart/render_base_chart.dart';
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_helper.dart';
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 
 // coverage:ignore-start
 

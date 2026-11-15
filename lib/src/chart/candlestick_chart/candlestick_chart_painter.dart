@@ -3,7 +3,7 @@ import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 /// Paints [CandlestickChartData] in the canvas, it can be used in a [CustomPainter]
 class CandlestickChartPainter extends AxisChartPainter<CandlestickChartData> {
@@ -11,11 +11,11 @@ class CandlestickChartPainter extends AxisChartPainter<CandlestickChartData> {
   CandlestickChartPainter() : super() {
     _bgTouchTooltipPaint = Paint()
       ..style = PaintingStyle.fill
-      ..color = Colors.white;
+      ..color = const Color(0xFFFFFFFF);
 
     _borderTouchTooltipPaint = Paint()
       ..style = PaintingStyle.stroke
-      ..color = Colors.transparent
+      ..color = const Color(0x00000000)
       ..strokeWidth = 1.0;
   }
 

@@ -53,7 +53,7 @@ export default function Home() {
             </div>
             <div className={styles.supportBox}>
               <span className={styles.supportText}>
-                Support fl_chart by playing my game:
+                Support fl_chart by playing my games:
               </span>
               <a
                 className={styles.gameCard}
@@ -69,6 +69,28 @@ export default function Home() {
                   <span className={styles.gamePitch}>
                     Keep the orbs away so the potato can enjoy its music in
                     peace.
+                  </span>
+                  <span className={styles.gamePlay}>
+                    Free on Android and iOS ▶
+                  </span>
+                </div>
+              </a>
+              <a
+                className={styles.gameCard}
+                href="https://ttg.app2pack.dev/get/?utm_source=fl_chart&utm_medium=website"
+                target="_blank"
+              >
+                <img
+                  src={withBaseUrl("/img/games/ttg.jpg")}
+                  alt="TTG - Through The Galaxies"
+                />
+                <div className={styles.gameInfo}>
+                  <span className={styles.gameTitle}>
+                    TTG - Through The Galaxies
+                  </span>
+                  <span className={styles.gamePitch}>
+                    Fly your rocket from planet to planet and see how far into
+                    space you can go.
                   </span>
                   <span className={styles.gamePlay}>
                     Free on Android and iOS ▶

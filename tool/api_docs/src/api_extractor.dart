@@ -99,7 +99,7 @@ class ApiExtractor {
           fieldName: fieldName,
           type: param.type.getDisplayString(),
           typeCode: _typeCode(param.type),
-          defaultValue: await _defaultValue(param, ctor),
+          defaultValue: _namedColors(await _defaultValue(param, ctor)),
           isRequired: param.isRequired,
           isPositional: param.isPositional,
           deprecationMessage: _deprecation(param) ?? _deprecation(field),
@@ -352,6 +352,13 @@ class ApiExtractor {
     return holdsNull ? 'null' : null;
   }
 
+  /// lib/ doesn't import Material, so it writes its default colors as
+  /// `Color(0x...)`. The docs show them as the `Colors` people write.
+  String? _namedColors(String? code) => code?.replaceAllMapped(
+        RegExp(r'(const )?Color\((0x[0-9A-F]{8})\)'),
+        (m) => _materialColors[m[2]] ?? m[0]!,
+      );
+
   /// The AST node that declares [element] (only for declarations in lib/).
   Future<Declaration?> _declarationNode(Element element) async {
     final path = element.library?.firstFragment.source.fullName;
@@ -530,3 +537,17 @@ class _DeclarationFinder extends GeneralizingAstVisitor<void> {
     super.visitDeclaration(node);
   }
 }
+
+/// The Material `Colors` that lib/ uses as defaults, by value.
+const _materialColors = {
+  '0xFF000000': 'Colors.black',
+  '0xFFFFFFFF': 'Colors.white',
+  '0x00000000': 'Colors.transparent',
+  '0xFF2196F3': 'Colors.blue',
+  '0xFF607D8B': 'Colors.blueGrey',
+  '0xFF00BCD4': 'Colors.cyan',
+  '0xFF4CAF50': 'Colors.green',
+  '0xFF9E9E9E': 'Colors.grey',
+  '0xFF9C27B0': 'Colors.purple',
+  '0xFFF44336': 'Colors.red',
+};
