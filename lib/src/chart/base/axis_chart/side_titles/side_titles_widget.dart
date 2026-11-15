@@ -261,6 +261,7 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
               axisTitles: axisTitles,
               side: widget.side,
               axisViewSize: axisViewSize,
+              padding: thisSidePadding,
             ),
           if (sideTitles.showTitles)
             Container(
@@ -287,6 +288,7 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
               axisTitles: axisTitles,
               side: widget.side,
               axisViewSize: axisViewSize,
+              padding: thisSidePadding,
             ),
         ],
       ),
@@ -299,11 +301,16 @@ class _AxisTitleWidget extends StatelessWidget {
     required this.axisTitles,
     required this.side,
     required this.axisViewSize,
+    required this.padding,
   });
 
   final AxisTitles axisTitles;
   final AxisSide side;
   final double axisViewSize;
+
+  /// The same padding as the side titles, so the name is centered on the
+  /// titles range instead of the whole chart.
+  final EdgeInsets padding;
 
   int get axisNameQuarterTurns => switch (side) {
         AxisSide.right => 3,
@@ -316,13 +323,16 @@ class _AxisTitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: isHorizontal ? axisViewSize : axisTitles.axisNameSize,
-      height: isHorizontal ? axisTitles.axisNameSize : axisViewSize,
-      child: Center(
-        child: RotatedBox(
-          quarterTurns: axisNameQuarterTurns,
-          child: axisTitles.axisNameWidget,
+    return Padding(
+      padding: padding,
+      child: SizedBox(
+        width: isHorizontal ? axisViewSize : axisTitles.axisNameSize,
+        height: isHorizontal ? axisTitles.axisNameSize : axisViewSize,
+        child: Center(
+          child: RotatedBox(
+            quarterTurns: axisNameQuarterTurns,
+            child: axisTitles.axisNameWidget,
+          ),
         ),
       ),
     );
