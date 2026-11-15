@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// The colors of flchart.dev, so the playground blends into the docs.
 abstract final class AppColors {

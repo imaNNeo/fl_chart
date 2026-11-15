@@ -1,7 +1,7 @@
 import 'package:fl_chart_app/presentation/pages/home_page.dart';
 import 'package:fl_chart_app/presentation/resources/app_colors.dart';
 import 'package:fl_chart_app/util/app_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
 
 final appRouterConfig = GoRouter(
