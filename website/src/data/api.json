@@ -3456,13 +3456,13 @@
         "name": "minIncluded",
         "type": "bool",
         "defaultValue": "true",
-        "description": "If true (default), a title for the minimum data value is included\nindependent of the sampling interval"
+        "description": "If true (default), a title for the minimum data value is included\nindependent of the sampling interval. If the next interval title is\ncloser than half an `interval` to it, that interval title is skipped."
       },
       {
         "name": "maxIncluded",
         "type": "bool",
         "defaultValue": "true",
-        "description": "If true (default), a title for the maximum data value is included\nindependent of the sampling interval"
+        "description": "If true (default), a title for the maximum data value is included\nindependent of the sampling interval. If the previous interval title is\ncloser than half an `interval` to it, that interval title is skipped."
       }
     ]
   },
