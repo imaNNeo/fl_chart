@@ -1103,207 +1103,174 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     /// creating TextPainters to calculate the width and height of the tooltip
     final drawingTextPainters = <TextPainter>[];
-
-    final tooltipItems =
-        tooltipData.getTooltipItems(showingTooltipSpots.showingSpots);
-    if (tooltipItems.length != showingTooltipSpots.showingSpots.length) {
-      throw Exception('tooltipItems and touchedSpots size should be same');
-    }
-
-    for (var i = 0; i < showingTooltipSpots.showingSpots.length; i++) {
-      var tooltipItem = tooltipItems[i];
-      if (holder.data.rotationQuarterTurns % 4 == 2) {
-        tooltipItem = tooltipItems[tooltipItems.length - 1 - i];
-      }
-      if (tooltipItem == null) {
-        continue;
+    try {
+      final tooltipItems =
+          tooltipData.getTooltipItems(showingTooltipSpots.showingSpots);
+      if (tooltipItems.length != showingTooltipSpots.showingSpots.length) {
+        throw Exception('tooltipItems and touchedSpots size should be same');
       }
 
-      final span = TextSpan(
-        style: Utils().getThemeAwareTextStyle(context, tooltipItem.textStyle),
-        text: tooltipItem.text,
-        children: tooltipItem.children,
+      for (var i = 0; i < showingTooltipSpots.showingSpots.length; i++) {
+        var tooltipItem = tooltipItems[i];
+        if (holder.data.rotationQuarterTurns % 4 == 2) {
+          tooltipItem = tooltipItems[tooltipItems.length - 1 - i];
+        }
+        if (tooltipItem == null) {
+          continue;
+        }
+
+        final span = TextSpan(
+          style: Utils().getThemeAwareTextStyle(context, tooltipItem.textStyle),
+          text: tooltipItem.text,
+          children: tooltipItem.children,
+        );
+
+        final tp = TextPainter(
+          text: span,
+          textAlign: tooltipItem.textAlign,
+          textDirection: tooltipItem.textDirection,
+          textScaler: holder.textScaler,
+        )..layout(maxWidth: tooltipData.maxContentWidth);
+        drawingTextPainters.add(tp);
+      }
+      if (drawingTextPainters.isEmpty) {
+        return;
+      }
+
+      /// biggerWidth
+      /// some texts maybe larger, then we should
+      /// draw the tooltip' width as wide as biggerWidth
+      ///
+      /// sumTextsHeight
+      /// sum up all Texts height, then we should
+      /// draw the tooltip's height as tall as sumTextsHeight
+      var biggerWidth = 0.0;
+      var sumTextsHeight = 0.0;
+      for (final tp in drawingTextPainters) {
+        if (tp.width > biggerWidth) {
+          biggerWidth = tp.width;
+        }
+        sumTextsHeight += tp.height;
+      }
+      sumTextsHeight += (drawingTextPainters.length - 1) * textsBelowMargin;
+
+      /// if we have multiple bar lines,
+      /// there are more than one FlCandidate on touch area,
+      /// we should get the most top FlSpot Offset to draw the tooltip on top of it
+      final mostTopOffset = Offset(
+        getPixelX(showOnSpot.x, viewSize, holder),
+        getPixelY(showOnSpot.y, viewSize, holder),
       );
 
-      final tp = TextPainter(
-        text: span,
-        textAlign: tooltipItem.textAlign,
-        textDirection: tooltipItem.textDirection,
-        textScaler: holder.textScaler,
-      )..layout(maxWidth: tooltipData.maxContentWidth);
-      drawingTextPainters.add(tp);
-    }
-    if (drawingTextPainters.isEmpty) {
-      return;
-    }
+      // Create an extended boundary that includes the center of the dot
+      final extendedBoundary = (Offset.zero & viewSize).inflate(dotHeight / 2);
 
-    /// biggerWidth
-    /// some texts maybe larger, then we should
-    /// draw the tooltip' width as wide as biggerWidth
-    ///
-    /// sumTextsHeight
-    /// sum up all Texts height, then we should
-    /// draw the tooltip's height as tall as sumTextsHeight
-    var biggerWidth = 0.0;
-    var sumTextsHeight = 0.0;
-    for (final tp in drawingTextPainters) {
-      if (tp.width > biggerWidth) {
-        biggerWidth = tp.width;
-      }
-      sumTextsHeight += tp.height;
-    }
-    sumTextsHeight += (drawingTextPainters.length - 1) * textsBelowMargin;
-
-    /// if we have multiple bar lines,
-    /// there are more than one FlCandidate on touch area,
-    /// we should get the most top FlSpot Offset to draw the tooltip on top of it
-    final mostTopOffset = Offset(
-      getPixelX(showOnSpot.x, viewSize, holder),
-      getPixelY(showOnSpot.y, viewSize, holder),
-    );
-
-    // Create an extended boundary that includes the center of the dot
-    final extendedBoundary = (Offset.zero & viewSize).inflate(dotHeight / 2);
-
-    final isZoomed = holder.chartVirtualRect != null;
-    if (isZoomed && !extendedBoundary.contains(mostTopOffset)) {
-      return;
-    }
-
-    final tooltipWidth = biggerWidth + tooltipData.tooltipPadding.horizontal;
-    final tooltipHeight = sumTextsHeight + tooltipData.tooltipPadding.vertical;
-
-    double tooltipTopPosition;
-    if (tooltipData.showOnTopOfTheChartBoxArea) {
-      tooltipTopPosition = 0 - tooltipHeight - tooltipData.tooltipMargin;
-    } else {
-      tooltipTopPosition =
-          mostTopOffset.dy - tooltipHeight - tooltipData.tooltipMargin;
-    }
-
-    final tooltipLeftPosition = getTooltipLeft(
-      mostTopOffset.dx,
-      tooltipWidth,
-      tooltipData.tooltipHorizontalAlignment,
-      tooltipData.tooltipHorizontalOffset,
-    );
-
-    /// draw the background rect with rounded radius
-    var rect = Rect.fromLTWH(
-      tooltipLeftPosition,
-      tooltipTopPosition,
-      tooltipWidth,
-      tooltipHeight,
-    );
-
-    if (tooltipData.fitInsideHorizontally) {
-      if (rect.left < 0) {
-        final shiftAmount = 0 - rect.left;
-        rect = Rect.fromLTRB(
-          rect.left + shiftAmount,
-          rect.top,
-          rect.right + shiftAmount,
-          rect.bottom,
-        );
+      final isZoomed = holder.chartVirtualRect != null;
+      if (isZoomed && !extendedBoundary.contains(mostTopOffset)) {
+        return;
       }
 
-      if (rect.right > viewSize.width) {
-        final shiftAmount = rect.right - viewSize.width;
-        rect = Rect.fromLTRB(
-          rect.left - shiftAmount,
-          rect.top,
-          rect.right - shiftAmount,
-          rect.bottom,
-        );
-      }
-    }
+      final tooltipWidth = biggerWidth + tooltipData.tooltipPadding.horizontal;
+      final tooltipHeight =
+          sumTextsHeight + tooltipData.tooltipPadding.vertical;
 
-    if (tooltipData.fitInsideVertically) {
-      if (rect.top < 0) {
-        final shiftAmount = 0 - rect.top;
-        rect = Rect.fromLTRB(
-          rect.left,
-          rect.top + shiftAmount,
-          rect.right,
-          rect.bottom + shiftAmount,
-        );
+      double tooltipTopPosition;
+      if (tooltipData.showOnTopOfTheChartBoxArea) {
+        tooltipTopPosition = 0 - tooltipHeight - tooltipData.tooltipMargin;
+      } else {
+        tooltipTopPosition =
+            mostTopOffset.dy - tooltipHeight - tooltipData.tooltipMargin;
       }
 
-      if (rect.bottom > viewSize.height) {
-        final shiftAmount = rect.bottom - viewSize.height;
-        rect = Rect.fromLTRB(
-          rect.left,
-          rect.top - shiftAmount,
-          rect.right,
-          rect.bottom - shiftAmount,
-        );
-      }
-    }
-
-    final roundedRect = RRect.fromRectAndCorners(
-      rect,
-      topLeft: tooltipData.tooltipBorderRadius.topLeft,
-      topRight: tooltipData.tooltipBorderRadius.topRight,
-      bottomLeft: tooltipData.tooltipBorderRadius.bottomLeft,
-      bottomRight: tooltipData.tooltipBorderRadius.bottomRight,
-    );
-
-    var topSpot = showingTooltipSpots.showingSpots[0];
-    for (final barSpot in showingTooltipSpots.showingSpots) {
-      if (barSpot.y > topSpot.y) {
-        topSpot = barSpot;
-      }
-    }
-
-    _bgTouchTooltipPaint.color = tooltipData.getTooltipColor(topSpot);
-
-    final rotateAngle = tooltipData.rotateAngle;
-    final rectRotationOffset =
-        Offset(0, Utils().calculateRotationOffset(rect.size, rotateAngle).dy);
-    final rectDrawOffset = Offset(roundedRect.left, roundedRect.top);
-
-    final textRotationOffset =
-        Utils().calculateRotationOffset(rect.size, rotateAngle);
-
-    if (tooltipData.tooltipBorder != BorderSide.none) {
-      _borderTouchTooltipPaint
-        ..color = tooltipData.tooltipBorder.color
-        ..strokeWidth = tooltipData.tooltipBorder.width;
-    }
-    final reverseQuarterTurnsAngle = -holder.data.rotationQuarterTurns * 90;
-    canvasWrapper.drawRotated(
-      size: rect.size,
-      rotationOffset: rectRotationOffset,
-      drawOffset: rectDrawOffset,
-      angle: reverseQuarterTurnsAngle + rotateAngle,
-      drawCallback: () {
-        canvasWrapper
-          ..drawRRect(roundedRect, _bgTouchTooltipPaint)
-          ..drawRRect(roundedRect, _borderTouchTooltipPaint);
-      },
-    );
-
-    /// draw the texts one by one in below of each other
-    var topPosSeek = tooltipData.tooltipPadding.top;
-    for (final tp in drawingTextPainters) {
-      final yOffset = rect.topCenter.dy +
-          topPosSeek -
-          textRotationOffset.dy +
-          rectRotationOffset.dy;
-
-      final align = tp.textAlign.getFinalHorizontalAlignment(tp.textDirection);
-      final xOffset = switch (align) {
-        HorizontalAlignment.left => rect.left + tooltipData.tooltipPadding.left,
-        HorizontalAlignment.right =>
-          rect.right - tooltipData.tooltipPadding.right - tp.width,
-        _ => rect.center.dx - (tp.width / 2),
-      };
-
-      final drawOffset = Offset(
-        xOffset,
-        yOffset,
+      final tooltipLeftPosition = getTooltipLeft(
+        mostTopOffset.dx,
+        tooltipWidth,
+        tooltipData.tooltipHorizontalAlignment,
+        tooltipData.tooltipHorizontalOffset,
       );
 
+      /// draw the background rect with rounded radius
+      var rect = Rect.fromLTWH(
+        tooltipLeftPosition,
+        tooltipTopPosition,
+        tooltipWidth,
+        tooltipHeight,
+      );
+
+      if (tooltipData.fitInsideHorizontally) {
+        if (rect.left < 0) {
+          final shiftAmount = 0 - rect.left;
+          rect = Rect.fromLTRB(
+            rect.left + shiftAmount,
+            rect.top,
+            rect.right + shiftAmount,
+            rect.bottom,
+          );
+        }
+
+        if (rect.right > viewSize.width) {
+          final shiftAmount = rect.right - viewSize.width;
+          rect = Rect.fromLTRB(
+            rect.left - shiftAmount,
+            rect.top,
+            rect.right - shiftAmount,
+            rect.bottom,
+          );
+        }
+      }
+
+      if (tooltipData.fitInsideVertically) {
+        if (rect.top < 0) {
+          final shiftAmount = 0 - rect.top;
+          rect = Rect.fromLTRB(
+            rect.left,
+            rect.top + shiftAmount,
+            rect.right,
+            rect.bottom + shiftAmount,
+          );
+        }
+
+        if (rect.bottom > viewSize.height) {
+          final shiftAmount = rect.bottom - viewSize.height;
+          rect = Rect.fromLTRB(
+            rect.left,
+            rect.top - shiftAmount,
+            rect.right,
+            rect.bottom - shiftAmount,
+          );
+        }
+      }
+
+      final roundedRect = RRect.fromRectAndCorners(
+        rect,
+        topLeft: tooltipData.tooltipBorderRadius.topLeft,
+        topRight: tooltipData.tooltipBorderRadius.topRight,
+        bottomLeft: tooltipData.tooltipBorderRadius.bottomLeft,
+        bottomRight: tooltipData.tooltipBorderRadius.bottomRight,
+      );
+
+      var topSpot = showingTooltipSpots.showingSpots[0];
+      for (final barSpot in showingTooltipSpots.showingSpots) {
+        if (barSpot.y > topSpot.y) {
+          topSpot = barSpot;
+        }
+      }
+
+      _bgTouchTooltipPaint.color = tooltipData.getTooltipColor(topSpot);
+
+      final rotateAngle = tooltipData.rotateAngle;
+      final rectRotationOffset =
+          Offset(0, Utils().calculateRotationOffset(rect.size, rotateAngle).dy);
+      final rectDrawOffset = Offset(roundedRect.left, roundedRect.top);
+
+      final textRotationOffset =
+          Utils().calculateRotationOffset(rect.size, rotateAngle);
+
+      if (tooltipData.tooltipBorder != BorderSide.none) {
+        _borderTouchTooltipPaint
+          ..color = tooltipData.tooltipBorder.color
+          ..strokeWidth = tooltipData.tooltipBorder.width;
+      }
       final reverseQuarterTurnsAngle = -holder.data.rotationQuarterTurns * 90;
       canvasWrapper.drawRotated(
         size: rect.size,
@@ -1311,11 +1278,52 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         drawOffset: rectDrawOffset,
         angle: reverseQuarterTurnsAngle + rotateAngle,
         drawCallback: () {
-          canvasWrapper.drawText(tp, drawOffset);
+          canvasWrapper
+            ..drawRRect(roundedRect, _bgTouchTooltipPaint)
+            ..drawRRect(roundedRect, _borderTouchTooltipPaint);
         },
       );
-      topPosSeek += tp.height;
-      topPosSeek += textsBelowMargin;
+
+      /// draw the texts one by one in below of each other
+      var topPosSeek = tooltipData.tooltipPadding.top;
+      for (final tp in drawingTextPainters) {
+        final yOffset = rect.topCenter.dy +
+            topPosSeek -
+            textRotationOffset.dy +
+            rectRotationOffset.dy;
+
+        final align =
+            tp.textAlign.getFinalHorizontalAlignment(tp.textDirection);
+        final xOffset = switch (align) {
+          HorizontalAlignment.left =>
+            rect.left + tooltipData.tooltipPadding.left,
+          HorizontalAlignment.right =>
+            rect.right - tooltipData.tooltipPadding.right - tp.width,
+          _ => rect.center.dx - (tp.width / 2),
+        };
+
+        final drawOffset = Offset(
+          xOffset,
+          yOffset,
+        );
+
+        final reverseQuarterTurnsAngle = -holder.data.rotationQuarterTurns * 90;
+        canvasWrapper.drawRotated(
+          size: rect.size,
+          rotationOffset: rectRotationOffset,
+          drawOffset: rectDrawOffset,
+          angle: reverseQuarterTurnsAngle + rotateAngle,
+          drawCallback: () {
+            canvasWrapper.drawText(tp, drawOffset);
+          },
+        );
+        topPosSeek += tp.height;
+        topPosSeek += textsBelowMargin;
+      }
+    } finally {
+      for (final tp in drawingTextPainters) {
+        tp.dispose();
+      }
     }
   }
 

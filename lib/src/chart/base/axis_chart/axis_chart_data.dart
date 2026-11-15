@@ -2137,13 +2137,15 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with Equatable {
             ? rect.bottom + spacing
             : rect.top - lowerText.width - spacing;
 
-    lowerText.paint(
-      canvas,
-      Offset(
-        textX,
-        textY,
-      ),
-    );
+    lowerText
+      ..paint(
+        canvas,
+        Offset(
+          textX,
+          textY,
+        ),
+      )
+      ..dispose();
   }
 
   @override
@@ -2364,6 +2366,7 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
             ),
           );
       }
+      tp.dispose();
     }
   }
 
@@ -2464,6 +2467,7 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
             ),
           );
       }
+      tp.dispose();
     }
   }
 

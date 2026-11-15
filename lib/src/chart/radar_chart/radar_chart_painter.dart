@@ -46,6 +46,12 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
   List<RadarDataSetsPosition>? dataSetsPosition;
 
+  /// Releases the text painters; this painter must not be used afterwards.
+  void dispose() {
+    _ticksTextPaint.dispose();
+    _titleTextPaint.dispose();
+  }
+
   /// Paints [RadarChartData] into the provided canvas.
   @override
   void paint(
