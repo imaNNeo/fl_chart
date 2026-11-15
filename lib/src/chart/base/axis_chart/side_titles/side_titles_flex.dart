@@ -1,8 +1,8 @@
 import 'dart:math' as math;
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 
 /// Inspired from [Flex]
 class SideTitlesFlex extends MultiChildRenderObjectWidget {

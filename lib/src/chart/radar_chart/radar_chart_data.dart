@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/radar_chart/radar_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 typedef GetTitleByIndexFunction = RadarChartTitle Function(
   int index,
@@ -89,7 +89,7 @@ class RadarChartData extends BaseChartData with Equatable {
           'titlePositionPercentageOffset must be something between 0 and 1 ',
         ),
         dataSets = dataSets ?? const [],
-        radarBackgroundColor = radarBackgroundColor ?? Colors.transparent,
+        radarBackgroundColor = radarBackgroundColor ?? const Color(0x00000000),
         radarBorderData = radarBorderData ?? const BorderSide(width: 2),
         radarShape = radarShape ?? RadarShape.circle,
         radarTouchData = radarTouchData ?? RadarTouchData(),
@@ -300,8 +300,8 @@ class RadarDataSet with Equatable {
           'Radar needs at least 3 RadarEntry',
         ),
         dataEntries = dataEntries ?? const [],
-        fillColor = fillColor ?? Colors.cyan,
-        borderColor = borderColor ?? Colors.cyan,
+        fillColor = fillColor ?? const Color(0xFF00BCD4),
+        borderColor = borderColor ?? const Color(0xFF00BCD4),
         borderWidth = borderWidth ?? 2.0,
         entryRadius = entryRadius ?? 5.0;
 
