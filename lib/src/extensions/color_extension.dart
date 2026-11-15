@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 extension ColorExtension on Color {
   /// Convert the color to a darken color based on the [percent]

@@ -1,10 +1,10 @@
 // coverage:ignore-file
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/fl_touch_event.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 
 /// It implements shared logics between our renderers such as touch/pointer events recognition, size, layout, ...
 abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox

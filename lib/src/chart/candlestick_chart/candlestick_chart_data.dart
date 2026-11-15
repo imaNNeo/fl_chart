@@ -7,7 +7,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/candlestick_chart/candlestick_chart_helper.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 /// [CandlestickChart] needs this class to render itself.
 ///
@@ -690,7 +690,7 @@ typedef GetCandlestickTooltipColor = Color Function(
 
 /// Default implementation for [CandlestickTouchTooltipData.getTooltipItems].
 Color defaultCandlestickTooltipColor(CandlestickSpot touchedSpot) =>
-    Colors.blueGrey.darken(80);
+    const Color(0xFF607D8B).darken(80);
 
 /// Holds data of showing each item in the tooltip popup.
 class CandlestickTooltipItem with Equatable {
