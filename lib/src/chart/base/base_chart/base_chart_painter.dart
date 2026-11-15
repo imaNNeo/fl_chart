@@ -24,6 +24,7 @@ class PaintHolder<Data extends BaseChartData> {
     this.targetData,
     this.textScaler, [
     this.chartVirtualRect,
+    this.textDirection = TextDirection.ltr,
   ]);
 
   /// [data] is what we need to show frame by frame (it might be changed by an animator)
@@ -46,6 +47,11 @@ class PaintHolder<Data extends BaseChartData> {
   ///
   /// Null when not scaling or panning.
   final Rect? chartVirtualRect;
+
+  /// The ambient text direction, used to resolve any directional geometry
+  /// (e.g. a [BorderRadiusDirectional]) that a chart's data supplies.
+  /// Defaults to [TextDirection.ltr] for callers that don't have one handy.
+  final TextDirection textDirection;
 
   /// Returns the size of the chart that is actually being painted.
   ///

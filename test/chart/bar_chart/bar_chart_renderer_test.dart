@@ -44,6 +44,12 @@ void main() {
     const textScaler = TextScaler.linear(4);
 
     final mockBuildContext = MockBuildContext();
+    // paintHolder resolves the ambient TextDirection (for any
+    // BorderRadiusDirectional in the data) via this lookup; stub it as "no
+    // Directionality ancestor" so it falls back to ltr, same as a real
+    // widget tree with none would.
+    when(mockBuildContext.dependOnInheritedWidgetOfExactType<Directionality>())
+        .thenReturn(null);
     final renderBarChart = RenderBarChart(
       mockBuildContext,
       data,
