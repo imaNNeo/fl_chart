@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_helper.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/side_titles/localize_axis_number.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/side_titles/side_titles_flex.dart';
 import 'package:fl_chart/src/extensions/bar_chart_data_extension.dart';
 import 'package:fl_chart/src/extensions/edge_insets_extension.dart';
@@ -8,6 +9,7 @@ import 'package:fl_chart/src/extensions/fl_titles_data_extension.dart';
 import 'package:fl_chart/src/extensions/size_extension.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 class SideTitlesWidget extends StatefulWidget {
   const SideTitlesWidget({
@@ -182,6 +184,13 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
 
     axisPositions = _getPositionsWithinChartRange(axisPositions, side);
 
+    final locale = Localizations.maybeLocaleOf(context)?.toString() ?? 'en';
+    final supportedLocale = Intl.verifiedLocale(
+      locale,
+      NumberFormat.localeExists,
+      onFailure: (_) => 'en',
+    );
+    final symbols = NumberFormat.decimalPattern(supportedLocale).symbols;
     return axisPositions.map(
       (metaData) {
         return AxisSideTitleWidgetHolder(
@@ -193,11 +202,14 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
               max: axisMax,
               appliedInterval: interval,
               sideTitles: sideTitles,
-              formattedValue: Utils().formatNumber(
-                axisMin,
-                axisMax,
-                metaData.axisValue,
-                interval: interval,
+              formattedValue: localizeAxisNumber(
+                Utils().formatNumber(
+                  axisMin,
+                  axisMax,
+                  metaData.axisValue,
+                  interval: interval,
+                ),
+                symbols,
               ),
               axisSide: side,
               parentAxisSize: axisViewSize,
