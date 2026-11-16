@@ -98,6 +98,7 @@
 |gradient|`Gradient?`|`null`|Defines the gradient of the line.|
 |strokeWidth|`double`|`2`|Defines thickness of the line.|
 |dashArray|`List<int>?`|`null`|Defines dash effect of the line.<br><br>it is a circular array of dash offsets and lengths. For example, the array `[5, 10]` would result in dashes 5 pixels long followed by blank spaces 10 pixels long.|
+|backgroundColor|`Color?`|`null`|Define color of label background|
 <!-- /api -->
 
 
@@ -182,6 +183,7 @@ Base class for all supported touch/pointer events.
 |y|`double`|required|Draws from left to right of the chart using the `y` value.|
 |label|`HorizontalLineLabel?`|`HorizontalLineLabel()`|Draws a text label over the line.|
 |color|`Color?`|`null`|Defines color of the line.<br><br>Defaults to [`Colors.black`](https://api.flutter.dev/flutter/material/Colors-class.html) if neither `color` nor `gradient` is provided.|
+|backgroundColor|`Color?`|`null`|Define color of label background|
 |gradient|`Gradient?`|`null`|Defines the gradient of the line.|
 |strokeWidth|`double`|`2`|Defines thickness of the line.|
 |dashArray|`List<int>?`|`null`|Defines dash effect of the line.<br><br>it is a circular array of dash offsets and lengths. For example, the array `[5, 10]` would result in dashes 5 pixels long followed by blank spaces 10 pixels long.|
@@ -197,6 +199,7 @@ Base class for all supported touch/pointer events.
 |x|`double`|required|Draws from bottom to top of the chart using the `x` value.|
 |label|`VerticalLineLabel?`|`VerticalLineLabel()`|Draws a text label over the line.|
 |color|`Color?`|`null`|Defines color of the line.<br><br>Defaults to [`Colors.black`](https://api.flutter.dev/flutter/material/Colors-class.html) if neither `color` nor `gradient` is provided.|
+|backgroundColor|`Color?`|`null`|Define color of label background|
 |gradient|`Gradient?`|`null`|Defines the gradient of the line.|
 |strokeWidth|`double`|`2`|Defines thickness of the line.|
 |dashArray|`List<int>?`|`null`|Defines dash effect of the line.<br><br>it is a circular array of dash offsets and lengths. For example, the array `[5, 10]` would result in dashes 5 pixels long followed by blank spaces 10 pixels long.|

@@ -856,6 +856,7 @@ class FlLine with Equatable {
     this.gradient,
     this.strokeWidth = 2,
     this.dashArray,
+    this.backgroundColor,
   }) : color = color ??
             ((color == null && gradient == null)
                 ? const Color(0xFF000000)
@@ -865,6 +866,9 @@ class FlLine with Equatable {
   ///
   /// Defaults to [`Colors.black`](https://api.flutter.dev/flutter/material/Colors-class.html) if neither [color] nor [gradient] is provided.
   final Color? color;
+
+  /// Define color of label background
+  final Color? backgroundColor;
 
   /// Defines the gradient of the line.
   final Gradient? gradient;
@@ -885,6 +889,7 @@ class FlLine with Equatable {
         gradient: Gradient.lerp(a.gradient, b.gradient, t),
         strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
         dashArray: lerpIntList(a.dashArray, b.dashArray, t),
+        backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
       );
 
   /// Copies current [FlLine] to a new [FlLine],
@@ -894,12 +899,14 @@ class FlLine with Equatable {
     Gradient? gradient,
     double? strokeWidth,
     List<int>? dashArray,
+    Color? backgroundColor,
   }) =>
       FlLine(
         color: color ?? this.color,
         gradient: gradient ?? this.gradient,
         strokeWidth: strokeWidth ?? this.strokeWidth,
         dashArray: dashArray ?? this.dashArray,
+        backgroundColor: backgroundColor ?? this.backgroundColor,
       );
 
   /// Used for equality check, see [Equatable].
@@ -909,6 +916,7 @@ class FlLine with Equatable {
         gradient,
         strokeWidth,
         dashArray,
+        backgroundColor,
       ];
 }
 
@@ -1154,6 +1162,7 @@ class HorizontalLine extends FlLine with Equatable {
     required this.y,
     HorizontalLineLabel? label,
     super.color,
+    super.backgroundColor,
     super.gradient,
     super.strokeWidth,
     super.dashArray,
@@ -1190,6 +1199,7 @@ class HorizontalLine extends FlLine with Equatable {
         image: b.image,
         sizedPicture: b.sizedPicture,
         strokeCap: b.strokeCap,
+        backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
       );
 
   /// Used for equality check, see [Equatable].
@@ -1203,6 +1213,7 @@ class HorizontalLine extends FlLine with Equatable {
         image,
         sizedPicture,
         strokeCap,
+        backgroundColor,
       ];
 }
 
@@ -1225,6 +1236,7 @@ class VerticalLine extends FlLine with Equatable {
     required this.x,
     VerticalLineLabel? label,
     super.color,
+    super.backgroundColor,
     super.gradient,
     super.strokeWidth,
     super.dashArray,
@@ -1261,6 +1273,7 @@ class VerticalLine extends FlLine with Equatable {
         image: b.image,
         sizedPicture: b.sizedPicture,
         strokeCap: b.strokeCap,
+        backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
       );
 
   /// Copies current [VerticalLine] to a new [VerticalLine]
@@ -1274,6 +1287,7 @@ class VerticalLine extends FlLine with Equatable {
     Image? image,
     SizedPicture? sizedPicture,
     StrokeCap? strokeCap,
+    Color? backgroundColor,
   }) =>
       VerticalLine(
         x: x ?? this.x,
@@ -1284,6 +1298,7 @@ class VerticalLine extends FlLine with Equatable {
         image: image ?? this.image,
         sizedPicture: sizedPicture ?? this.sizedPicture,
         strokeCap: strokeCap ?? this.strokeCap,
+        backgroundColor: backgroundColor ?? this.backgroundColor,
       );
 
   /// Used for equality check, see [Equatable].
@@ -1297,6 +1312,7 @@ class VerticalLine extends FlLine with Equatable {
         image,
         sizedPicture,
         strokeCap,
+        backgroundColor,
       ];
 }
 
