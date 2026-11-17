@@ -2405,8 +2405,8 @@ void main() {
         barData,
       );
 
-      final result = verify(mockCanvasWrapper.drawPath(any, captureAny));
-      result.called(1);
+      final result = verify(mockCanvasWrapper.drawPath(any, captureAny))
+        ..called(1);
       final paint = result.captured.single as Paint;
       expect(paint.color, isSameColorAs(const Color(0xFF123456)));
       expect(paint.style, PaintingStyle.stroke);
@@ -2490,8 +2490,6 @@ void main() {
       final barData = LineChartBarData(
         spots: const [FlSpot(1, 9), FlSpot(8, 9)],
         barWidth: 4,
-        isStrokeCapRound: false,
-        isStrokeJoinRound: false,
         borderSide: const BorderSide(
           color: Color(0xFF334455),
           width: 2,
@@ -2520,7 +2518,7 @@ void main() {
         ..lineTo(100, 0);
 
       final barData = LineChartBarData(
-        spots: const [FlSpot(0, 0), FlSpot(100, 0)],
+        spots: const [FlSpot.zero, FlSpot(100, 0)],
         barWidth: 4,
         dashArray: [5, 10],
         borderSide: const BorderSide(

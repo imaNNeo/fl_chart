@@ -69,7 +69,7 @@ void main() {
 
     test('LineChartBarData borderSide lerp test', () {
       final barA = LineChartBarData(
-        borderSide: const BorderSide(color: Color(0xFF000000), width: 2),
+        borderSide: const BorderSide(width: 2),
       );
       final barB = LineChartBarData(
         borderSide: const BorderSide(color: Color(0xFFFFFFFF), width: 6),
