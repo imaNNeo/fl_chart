@@ -246,6 +246,7 @@ class LineChartBarData with Equatable {
     this.preventCurveOvershootingThreshold = 10.0,
     this.isStrokeCapRound = false,
     this.isStrokeJoinRound = false,
+    this.borderSide = BorderSide.none,
     BarAreaData? belowBarData,
     BarAreaData? aboveBarData,
     this.dotData = const FlDotData(),
@@ -375,6 +376,14 @@ class LineChartBarData with Equatable {
   /// otherwise they are sharp ([StrokeJoin.miter]).
   final bool isStrokeJoinRound;
 
+  /// The border stroke drawn around the line, see [BorderSide].
+  ///
+  /// Useful to create an outline around the line so overlapping lines stay
+  /// visually distinguishable.
+  ///
+  /// Defaults to [BorderSide.none], which means no border is drawn.
+  final BorderSide borderSide;
+
   /// Fills the space below the line, using a color or gradient, see [BarAreaData].
   final BarAreaData belowBarData;
 
@@ -424,6 +433,7 @@ class LineChartBarData with Equatable {
         isCurved: b.isCurved,
         isStrokeCapRound: b.isStrokeCapRound,
         isStrokeJoinRound: b.isStrokeJoinRound,
+        borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
         preventCurveOverShooting: b.preventCurveOverShooting,
         preventCurveOvershootingThreshold: lerpDouble(
           a.preventCurveOvershootingThreshold,
@@ -463,6 +473,7 @@ class LineChartBarData with Equatable {
     double? preventCurveOvershootingThreshold,
     bool? isStrokeCapRound,
     bool? isStrokeJoinRound,
+    BorderSide? borderSide,
     BarAreaData? belowBarData,
     BarAreaData? aboveBarData,
     FlDotData? dotData,
@@ -489,6 +500,7 @@ class LineChartBarData with Equatable {
             this.preventCurveOvershootingThreshold,
         isStrokeCapRound: isStrokeCapRound ?? this.isStrokeCapRound,
         isStrokeJoinRound: isStrokeJoinRound ?? this.isStrokeJoinRound,
+        borderSide: borderSide ?? this.borderSide,
         belowBarData: belowBarData ?? this.belowBarData,
         aboveBarData: aboveBarData ?? this.aboveBarData,
         dashArray: dashArray ?? this.dashArray,
@@ -515,6 +527,7 @@ class LineChartBarData with Equatable {
         preventCurveOvershootingThreshold,
         isStrokeCapRound,
         isStrokeJoinRound,
+        borderSide,
         belowBarData,
         aboveBarData,
         dotData,

@@ -24,6 +24,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   LineChartPainter() : super() {
     _barPaint = Paint()..style = PaintingStyle.stroke;
 
+    _barStrokePaint = Paint()..style = PaintingStyle.stroke;
+
     _barAreaPaint = Paint()..style = PaintingStyle.fill;
 
     _barAreaLinesPaint = Paint()..style = PaintingStyle.stroke;
@@ -50,6 +52,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   }
 
   late Paint _barPaint;
+  late Paint _barStrokePaint;
   late Paint _barAreaPaint;
   late Paint _barAreaLinesPaint;
   late Paint _clearBarAreaPaint;
@@ -285,6 +288,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         barData,
       );
       drawBarShadow(canvasWrapper, barPath, barData);
+      drawBarBorder(canvasWrapper, barPath, barData);
       drawBar(canvasWrapper, barPath, barData, holder);
     }
   }
@@ -1038,6 +1042,35 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     canvasWrapper.drawPath(
       barPath,
       _barPaint,
+    );
+  }
+
+  /// draw the border of the bar line around the [barPath]
+  @visibleForTesting
+  void drawBarBorder(
+    CanvasWrapper canvasWrapper,
+    Path barPath,
+    LineChartBarData barData,
+  ) {
+    if (!barData.show ||
+        barData.borderSide.style == BorderStyle.none ||
+        barData.borderSide.width <= 0 ||
+        barData.borderSide.color.a == 0.0) {
+      return;
+    }
+
+    _barStrokePaint
+      ..strokeCap = barData.isStrokeCapRound ? StrokeCap.round : StrokeCap.butt
+      ..strokeJoin =
+          barData.isStrokeJoinRound ? StrokeJoin.round : StrokeJoin.miter
+      ..color = barData.borderSide.color
+      ..strokeWidth = barData.barWidth + (barData.borderSide.width * 2);
+
+    barPath = barPath.toDashedPath(barData.dashArray);
+
+    canvasWrapper.drawPath(
+      barPath,
+      _barStrokePaint,
     );
   }
 

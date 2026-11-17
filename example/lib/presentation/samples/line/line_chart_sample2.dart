@@ -161,6 +161,10 @@ class _LineChartSample2State extends State<LineChartSample2> {
           ),
           barWidth: 5,
           isStrokeCapRound: true,
+          borderSide: const BorderSide(
+            color: Colors.white,
+            width: 2,
+          ),
           dotData: const FlDotData(
             show: false,
           ),
@@ -253,6 +257,10 @@ class _LineChartSample2State extends State<LineChartSample2> {
           ),
           barWidth: 5,
           isStrokeCapRound: true,
+          borderSide: const BorderSide(
+            color: Colors.white,
+            width: 2,
+          ),
           dotData: const FlDotData(
             show: false,
           ),

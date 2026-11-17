@@ -627,6 +627,53 @@ void main() {
         isSameColorAs(barData.gradient?.colors.first ?? barData.color!),
       );
     });
+
+    test('border is painted before bar when borderSide is provided', () {
+      const viewSize = Size(400, 400);
+
+      final barData = LineChartBarData(
+        spots: const [
+          flSpot1,
+          flSpot2,
+        ],
+        barWidth: 4,
+        color: const Color(0xFF112233),
+        borderSide: const BorderSide(
+          color: Color(0xFF998877),
+          width: 2,
+        ),
+      );
+
+      final data = LineChartData(lineBarsData: [barData]);
+
+      final lineChartPainter = LineChartPainter();
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((_) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      lineChartPainter.drawBarLine(
+        mockCanvasWrapper,
+        barData,
+        holder,
+      );
+
+      final verificationResult =
+          verify(mockCanvasWrapper.drawPath(any, captureAny));
+      final capturedPaints = verificationResult.captured;
+      expect(capturedPaints.length, 2);
+
+      final borderPaint = capturedPaints[0] as Paint;
+      final barPaint = capturedPaints[1] as Paint;
+
+      expect(borderPaint.strokeWidth, 4 + 2 * 2);
+      expect(borderPaint.color, isSameColorAs(const Color(0xFF998877)));
+      expect(borderPaint.style, PaintingStyle.stroke);
+
+      expect(barPaint.strokeWidth, 4);
+      expect(barPaint.color, isSameColorAs(const Color(0xFF112233)));
+    });
   });
 
   group('drawBetweenBarsArea()', () {
@@ -2199,6 +2246,298 @@ void main() {
             .toString(),
       );
       expect(paint.strokeCap, StrokeCap.round);
+    });
+  });
+
+  group('drawBarBorder()', () {
+    test('nothing is drawn when barData.show is false', () {
+      final lineChartPainter = LineChartPainter();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final barPath = Path()
+        ..moveTo(10, 10)
+        ..lineTo(80, 10);
+
+      final barData = LineChartBarData(
+        show: false,
+        spots: const [FlSpot(1, 9), FlSpot(8, 9)],
+        borderSide: const BorderSide(
+          color: Color(0xFF112233),
+          width: 2,
+        ),
+      );
+
+      lineChartPainter.drawBarBorder(
+        mockCanvasWrapper,
+        barPath,
+        barData,
+      );
+
+      verifyNever(mockCanvasWrapper.drawPath(any, any));
+    });
+
+    test('nothing is drawn when borderSide is BorderSide.none (the default)',
+        () {
+      final lineChartPainter = LineChartPainter();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final barPath = Path()
+        ..moveTo(10, 10)
+        ..lineTo(80, 10);
+
+      final barData = LineChartBarData(
+        spots: const [FlSpot(1, 9), FlSpot(8, 9)],
+      );
+
+      lineChartPainter.drawBarBorder(
+        mockCanvasWrapper,
+        barPath,
+        barData,
+      );
+
+      verifyNever(mockCanvasWrapper.drawPath(any, any));
+    });
+
+    test('nothing is drawn when BorderStyle.none', () {
+      final lineChartPainter = LineChartPainter();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final barPath = Path()
+        ..moveTo(10, 10)
+        ..lineTo(80, 10);
+
+      final barData = LineChartBarData(
+        spots: const [FlSpot(1, 9), FlSpot(8, 9)],
+        borderSide: const BorderSide(
+          color: Color(0xFF112233),
+          width: 2,
+          style: BorderStyle.none,
+        ),
+      );
+
+      lineChartPainter.drawBarBorder(
+        mockCanvasWrapper,
+        barPath,
+        barData,
+      );
+
+      verifyNever(mockCanvasWrapper.drawPath(any, any));
+    });
+
+    test('nothing is drawn when borderSide width <= 0', () {
+      final lineChartPainter = LineChartPainter();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final barPath = Path()
+        ..moveTo(10, 10)
+        ..lineTo(80, 10);
+
+      final barData = LineChartBarData(
+        spots: const [FlSpot(1, 9), FlSpot(8, 9)],
+        borderSide: const BorderSide(
+          color: Color(0xFF112233),
+          width: 0,
+        ),
+      );
+
+      lineChartPainter.drawBarBorder(
+        mockCanvasWrapper,
+        barPath,
+        barData,
+      );
+
+      verifyNever(mockCanvasWrapper.drawPath(any, any));
+    });
+
+    test('nothing is drawn when borderSide color has alpha == 0', () {
+      final lineChartPainter = LineChartPainter();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final barPath = Path()
+        ..moveTo(10, 10)
+        ..lineTo(80, 10);
+
+      final barData = LineChartBarData(
+        spots: const [FlSpot(1, 9), FlSpot(8, 9)],
+        borderSide: const BorderSide(
+          color: Color(0x00112233),
+          width: 2,
+        ),
+      );
+
+      lineChartPainter.drawBarBorder(
+        mockCanvasWrapper,
+        barPath,
+        barData,
+      );
+
+      verifyNever(mockCanvasWrapper.drawPath(any, any));
+    });
+
+    test(
+        'the border path is drawn when borderSide is set with a positive width',
+        () {
+      final lineChartPainter = LineChartPainter();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final barPath = Path()
+        ..moveTo(10, 10)
+        ..lineTo(80, 10);
+
+      final barData = LineChartBarData(
+        spots: const [FlSpot(1, 9), FlSpot(8, 9)],
+        barWidth: 3,
+        borderSide: const BorderSide(
+          color: Color(0xFF123456),
+          width: 2,
+        ),
+      );
+
+      lineChartPainter.drawBarBorder(
+        mockCanvasWrapper,
+        barPath,
+        barData,
+      );
+
+      final result = verify(mockCanvasWrapper.drawPath(any, captureAny));
+      result.called(1);
+      final paint = result.captured.single as Paint;
+      expect(paint.color, isSameColorAs(const Color(0xFF123456)));
+      expect(paint.style, PaintingStyle.stroke);
+      expect(paint.strokeWidth, 3 + (2 * 2));
+    });
+
+    test('computed stroke width equals barWidth + width * 2', () {
+      final lineChartPainter = LineChartPainter();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final barPath = Path()
+        ..moveTo(10, 10)
+        ..lineTo(80, 10);
+
+      final barData = LineChartBarData(
+        spots: const [FlSpot(1, 9), FlSpot(8, 9)],
+        barWidth: 5.5,
+        borderSide: const BorderSide(
+          color: Color(0xFF654321),
+          width: 1.5,
+        ),
+      );
+
+      lineChartPainter.drawBarBorder(
+        mockCanvasWrapper,
+        barPath,
+        barData,
+      );
+
+      final result = verify(mockCanvasWrapper.drawPath(any, captureAny));
+      final paint = result.captured.single as Paint;
+      expect(paint.strokeWidth, 5.5 + (1.5 * 2));
+    });
+
+    test(
+        'strokeCap and strokeJoin follow isStrokeCapRound / isStrokeJoinRound (round)',
+        () {
+      final lineChartPainter = LineChartPainter();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final barPath = Path()
+        ..moveTo(10, 10)
+        ..lineTo(80, 10);
+
+      final barData = LineChartBarData(
+        spots: const [FlSpot(1, 9), FlSpot(8, 9)],
+        barWidth: 4,
+        isStrokeCapRound: true,
+        isStrokeJoinRound: true,
+        borderSide: const BorderSide(
+          color: Color(0xFF334455),
+          width: 2,
+        ),
+      );
+
+      lineChartPainter.drawBarBorder(
+        mockCanvasWrapper,
+        barPath,
+        barData,
+      );
+
+      final result = verify(mockCanvasWrapper.drawPath(any, captureAny));
+      final paint = result.captured.single as Paint;
+      expect(paint.strokeCap, StrokeCap.round);
+      expect(paint.strokeJoin, StrokeJoin.round);
+    });
+
+    test(
+        'strokeCap and strokeJoin follow isStrokeCapRound / isStrokeJoinRound (butt and miter)',
+        () {
+      final lineChartPainter = LineChartPainter();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final barPath = Path()
+        ..moveTo(10, 10)
+        ..lineTo(80, 10);
+
+      final barData = LineChartBarData(
+        spots: const [FlSpot(1, 9), FlSpot(8, 9)],
+        barWidth: 4,
+        isStrokeCapRound: false,
+        isStrokeJoinRound: false,
+        borderSide: const BorderSide(
+          color: Color(0xFF334455),
+          width: 2,
+        ),
+      );
+
+      lineChartPainter.drawBarBorder(
+        mockCanvasWrapper,
+        barPath,
+        barData,
+      );
+
+      final result = verify(mockCanvasWrapper.drawPath(any, captureAny));
+      final paint = result.captured.single as Paint;
+      expect(paint.strokeCap, StrokeCap.butt);
+      expect(paint.strokeJoin, StrokeJoin.miter);
+    });
+
+    test('dashArray is applied to barPath', () {
+      final lineChartPainter = LineChartPainter();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final barPath = Path()
+        ..moveTo(0, 0)
+        ..lineTo(100, 0);
+
+      final barData = LineChartBarData(
+        spots: const [FlSpot(0, 0), FlSpot(100, 0)],
+        barWidth: 4,
+        dashArray: [5, 10],
+        borderSide: const BorderSide(
+          color: Color(0xFF334455),
+          width: 2,
+        ),
+      );
+
+      lineChartPainter.drawBarBorder(
+        mockCanvasWrapper,
+        barPath,
+        barData,
+      );
+
+      final result = verify(mockCanvasWrapper.drawPath(captureAny, any));
+      final drawnPath = result.captured.single as Path;
+      expect(drawnPath, isNot(equals(barPath)));
     });
   });
 

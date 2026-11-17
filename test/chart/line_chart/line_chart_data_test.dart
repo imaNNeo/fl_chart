@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../data_pool.dart';
 
@@ -31,6 +32,55 @@ void main() {
       expect(bar.mostTopSpot, const FlSpot(-3, 8));
       expect(bar.mostRightSpot, const FlSpot(9, 0));
       expect(bar.mostBottomSpot, const FlSpot(2, -5));
+    });
+
+    test('LineChartBarData borderSide equality test', () {
+      final bar1 = LineChartBarData(
+        borderSide: const BorderSide(color: Color(0xFF112233), width: 3),
+      );
+      final bar1Clone = LineChartBarData(
+        borderSide: const BorderSide(color: Color(0xFF112233), width: 3),
+      );
+      final barDefault = LineChartBarData();
+      final bar2 = LineChartBarData(
+        borderSide: const BorderSide(color: Color(0xFF112233), width: 4),
+      );
+
+      expect(bar1 == bar1Clone, true);
+      expect(bar1 == barDefault, false);
+      expect(bar1 == bar2, false);
+    });
+
+    test('LineChartBarData borderSide copyWith test', () {
+      final bar = LineChartBarData(
+        borderSide: const BorderSide(color: Color(0xFF112233), width: 3),
+      );
+      final copyWithNewBorder = bar.copyWith(
+        borderSide: const BorderSide(color: Color(0xFFAABBCC), width: 5),
+      );
+      expect(
+        copyWithNewBorder.borderSide,
+        const BorderSide(color: Color(0xFFAABBCC), width: 5),
+      );
+
+      final copyNoChange = bar.copyWith();
+      expect(copyNoChange.borderSide, bar.borderSide);
+    });
+
+    test('LineChartBarData borderSide lerp test', () {
+      final barA = LineChartBarData(
+        borderSide: const BorderSide(color: Color(0xFF000000), width: 2),
+      );
+      final barB = LineChartBarData(
+        borderSide: const BorderSide(color: Color(0xFFFFFFFF), width: 6),
+      );
+
+      final lerped = LineChartBarData.lerp(barA, barB, 0.5);
+      expect(lerped.borderSide.width, 4.0);
+      expect(
+        lerped.borderSide.color,
+        Color.lerp(const Color(0xFF000000), const Color(0xFFFFFFFF), 0.5),
+      );
     });
 
     test('BarAreaData equality test', () {
