@@ -29,6 +29,20 @@ void main() {
       expect(barChartRodData1 == barChartRodData8, false);
     });
 
+    test('BarChartRodData copyWith borderDashArray', () {
+      final base = BarChartRodData(toY: 10, borderDashArray: [4, 4]);
+
+      final unchanged = base.copyWith(toY: 20);
+      expect(unchanged.borderDashArray, [4, 4]);
+
+      final changed = base.copyWith(borderDashArray: [2, 8]);
+      expect(changed.borderDashArray, [2, 8]);
+
+      final noArray = BarChartRodData(toY: 10);
+      final withArray = noArray.copyWith(borderDashArray: [6, 2]);
+      expect(withArray.borderDashArray, [6, 2]);
+    });
+
     test('BarChartRodStackItem equality test', () {
       expect(barChartRodStackItem1 == barChartRodStackItem1Clone, true);
       expect(
@@ -108,6 +122,30 @@ void main() {
       expect(barTouchTooltipData1 == barTouchTooltipData9, false);
       expect(barTouchTooltipData1 == barTouchTooltipData10, false);
       expect(barTouchTooltipData1 == barTouchTooltipData11, false);
+    });
+
+    test('BarTouchTooltipData direction in props', () {
+      const base = BarTouchTooltipData(direction: TooltipDirection.auto);
+      const different = BarTouchTooltipData(direction: TooltipDirection.bottom);
+      expect(base == different, false);
+    });
+
+    test('BarTouchTooltipData copyWith', () {
+      const base = BarTouchTooltipData(
+        tooltipMargin: 8,
+        direction: TooltipDirection.top,
+      );
+
+      final unchanged = base.copyWith(maxContentWidth: 200);
+      expect(unchanged.tooltipMargin, 8);
+      expect(unchanged.direction, TooltipDirection.top);
+
+      final changed = base.copyWith(
+        tooltipMargin: 24,
+        direction: TooltipDirection.bottom,
+      );
+      expect(changed.tooltipMargin, 24);
+      expect(changed.direction, TooltipDirection.bottom);
     });
 
     test('BarTooltipItem equality test', () {
