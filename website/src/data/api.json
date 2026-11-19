@@ -1170,6 +1170,12 @@
         "type": "Border?",
         "defaultValue": "Border.all()",
         "description": "Determines which sides of the border are drawn, and how, see [`Border`](https://api.flutter.dev/flutter/painting/Border-class.html)."
+      },
+      {
+        "name": "dashArray",
+        "type": "List<int>?",
+        "defaultValue": "null",
+        "description": "Draws the border as a dashed line when it is not null or empty.\n\nIt is a circular array of dash offsets and lengths.\nFor example, the array `[5, 10]` would result in dashes 5 pixels long\nfollowed by blank spaces 10 pixels long."
       }
     ]
   },
