@@ -1202,6 +1202,13 @@ final apiRegistry = <String, ClassSpec>{
         isNullable: true,
         defaultCode: 'Border.all()',
       ),
+      PropertySpec(
+        name: 'dashArray',
+        type: 'List<int>?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
     ],
     read: _readFlBorderData,
     copy: _copyFlBorderData,
@@ -4520,6 +4527,7 @@ Object? _readFlBorderData(Object instance, String property) {
   return switch (property) {
     'show' => o.show,
     'border' => o.border,
+    'dashArray' => o.dashArray,
     _ => throw ArgumentError.value(property, 'property'),
   };
 }
@@ -4529,6 +4537,7 @@ FlBorderData _copyFlBorderData(Object instance, Map<String, Object?> values) {
   return FlBorderData(
     show: _value<bool?>(values, 'show', o.show),
     border: _value<Border?>(values, 'border', o.border),
+    dashArray: _value<List<int>?>(values, 'dashArray', o.dashArray),
   );
 }
 

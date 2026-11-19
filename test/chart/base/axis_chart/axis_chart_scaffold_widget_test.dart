@@ -3,6 +3,7 @@ import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.da
 import 'package:fl_chart/src/chart/base/axis_chart/side_titles/side_titles_widget.dart';
 import 'package:fl_chart/src/chart/base/custom_interactive_viewer.dart';
 import 'package:fl_chart/src/extensions/size_extension.dart';
+import 'package:fl_chart/src/utils/dashed_border.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
@@ -1554,4 +1555,58 @@ void main() {
       controller.addListener(() {}); // throws if disposed
     });
   });
+
+  testWidgets(
+    'draws a dashed border when FlBorderData.dashArray is set',
+    (tester) async {
+      final border = Border.all(color: Colors.red, width: 4);
+      Size? chartDrawingSize;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Center(
+              child: SizedBox(
+                width: viewSize.width,
+                height: viewSize.height,
+                child: AxisChartScaffoldWidget(
+                  chartBuilder: (context, chartVirtualRect) => LayoutBuilder(
+                    builder: (context, constraints) {
+                      chartDrawingSize = constraints.biggest;
+                      return const ColoredBox(color: Colors.red);
+                    },
+                  ),
+                  data: lineChartDataWithNoTitles.copyWith(
+                    borderData: FlBorderData(
+                      border: border,
+                      dashArray: const [4, 4],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      final decoratedContainer = tester
+          .widgetList<Container>(
+            find.descendant(
+              of: find.byType(AxisChartScaffoldWidget),
+              matching: find.byType(Container),
+            ),
+          )
+          .firstWhere((container) => container.decoration is BoxDecoration);
+      final decoration = decoratedContainer.decoration! as BoxDecoration;
+
+      expect(decoration.border, DashedBorder.fromBorder(border, const [4, 4]));
+      // The chart keeps the same size as with a solid border.
+      expect(
+        chartDrawingSize,
+        Size(
+          viewSize.width - border.dimensions.horizontal,
+          viewSize.height - border.dimensions.vertical,
+        ),
+      );
+    },
+  );
 }
