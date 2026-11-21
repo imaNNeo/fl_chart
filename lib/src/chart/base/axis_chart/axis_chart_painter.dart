@@ -332,7 +332,12 @@ abstract class AxisChartPainter<D extends AxisChartData>
         if (line.label.show) {
           labels.add(
             () => _drawHorizontalLineLabel(
-                context, canvasWrapper, line, from, to),
+              context,
+              canvasWrapper,
+              line,
+              from,
+              to,
+            ),
           );
         }
       }
@@ -393,8 +398,13 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
         if (line.label.show) {
           labels.add(
-            () =>
-                _drawVerticalLineLabel(context, canvasWrapper, line, from, to),
+            () => _drawVerticalLineLabel(
+              context,
+              canvasWrapper,
+              line,
+              from,
+              to,
+            ),
           );
         }
       }
