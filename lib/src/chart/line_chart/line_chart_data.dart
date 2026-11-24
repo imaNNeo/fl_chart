@@ -931,6 +931,11 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with Equatable {
   /// You can customize this tooltip using [touchTooltipData], indicator lines starts from position
   /// controlled by [getTouchLineStart] and ends at position controlled by [getTouchLineEnd].
   /// If you need to have a distance threshold for handling touches, use [touchSpotThreshold].
+  ///
+  /// [touchTooltipSpotsSorter] controls how touched spots are ordered inside the
+  /// built-in tooltip. By default they are sorted by descending Y (highest first).
+  /// Pass an identity sorter (or any custom order) to keep the library from
+  /// reordering spots — see issue #1474.
   const LineTouchData({
     bool enabled = true,
     BaseTouchCallback<LineTouchResponse>? touchCallback,
@@ -943,6 +948,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with Equatable {
     this.handleBuiltInTouches = true,
     this.getTouchLineStart = defaultGetTouchLineStart,
     this.getTouchLineEnd = defaultGetTouchLineEnd,
+    this.touchTooltipSpotsSorter = defaultTouchTooltipSpotsSorter,
   }) : super(
           enabled,
           touchCallback,
@@ -978,6 +984,10 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with Equatable {
   /// If line end is overlap with the dot, it will be automatically adjusted to the edge of the dot.
   final GetTouchLineY getTouchLineEnd;
 
+  /// Sorts touched spots before they are shown in the built-in tooltip.
+  /// Defaults to [defaultTouchTooltipSpotsSorter] (descending Y).
+  final TouchTooltipSpotsSorter touchTooltipSpotsSorter;
+
   /// Copies current [LineTouchData] to a new [LineTouchData],
   /// and replaces provided values.
   LineTouchData copyWith({
@@ -992,6 +1002,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with Equatable {
     GetTouchLineY? getTouchLineStart,
     GetTouchLineY? getTouchLineEnd,
     bool? handleBuiltInTouches,
+    TouchTooltipSpotsSorter? touchTooltipSpotsSorter,
   }) =>
       LineTouchData(
         enabled: enabled ?? this.enabled,
@@ -1006,6 +1017,8 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with Equatable {
         getTouchLineStart: getTouchLineStart ?? this.getTouchLineStart,
         getTouchLineEnd: getTouchLineEnd ?? this.getTouchLineEnd,
         handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
+        touchTooltipSpotsSorter:
+            touchTooltipSpotsSorter ?? this.touchTooltipSpotsSorter,
       );
 
   /// Used for equality check, see [Equatable].
@@ -1022,7 +1035,22 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with Equatable {
         handleBuiltInTouches,
         getTouchLineStart,
         getTouchLineEnd,
+        touchTooltipSpotsSorter,
       ];
+}
+
+/// Sorts [TouchLineBarSpot]s for the built-in line-chart tooltip.
+typedef TouchTooltipSpotsSorter = List<TouchLineBarSpot> Function(
+  List<TouchLineBarSpot> touchedSpots,
+);
+
+/// Default tooltip spot order: highest Y first (existing behaviour).
+List<TouchLineBarSpot> defaultTouchTooltipSpotsSorter(
+  List<TouchLineBarSpot> touchedSpots,
+) {
+  final sorted = List<TouchLineBarSpot>.of(touchedSpots)
+    ..sort((spot1, spot2) => spot2.y.compareTo(spot1.y));
+  return sorted;
 }
 
 /// Used for showing touch indicators (a thicker line and larger dot on the targeted spot).

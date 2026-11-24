@@ -153,8 +153,9 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     }
 
     setState(() {
-      final sortedLineSpots = List.of(touchResponse.lineBarSpots!)
-        ..sort((spot1, spot2) => spot2.y.compareTo(spot1.y));
+      final sortedLineSpots = lineChartData.lineTouchData.touchTooltipSpotsSorter(
+        List<TouchLineBarSpot>.of(touchResponse.lineBarSpots!),
+      );
 
       _showingTouchedIndicators.clear();
       for (var i = 0; i < touchResponse.lineBarSpots!.length; i++) {
