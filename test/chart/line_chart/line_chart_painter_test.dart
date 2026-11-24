@@ -159,6 +159,49 @@ void main() {
       verify(mockCanvasWrapper.drawDot(any, any, any)).called(12);
       verify(mockCanvasWrapper.drawPath(any, any)).called(3);
     });
+
+    test('paints full-height touch lines below both touched dots', () {
+      const upperSpot = FlSpot(5, 8);
+      const lowerSpot = FlSpot(5, 3);
+      LineChartBarData bar(FlSpot spot, Color color) => LineChartBarData(
+            spots: [FlSpot.zero, spot],
+            color: color,
+            showingIndicators: [1],
+            dotData: const FlDotData(show: false),
+          );
+      final data = LineChartData(
+        minX: 0,
+        maxX: 10,
+        minY: 0,
+        maxY: 10,
+        lineBarsData: [bar(upperSpot, Colors.blue), bar(lowerSpot, Colors.red)],
+        lineTouchData: LineTouchData(
+          getTouchLineEnd: (_, __) => double.infinity,
+        ),
+        gridData: const FlGridData(show: false),
+        titlesData: const FlTitlesData(show: false),
+        borderData: FlBorderData(show: false),
+      );
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenReturn(const Size(100, 100));
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      LineChartPainter().paint(
+        MockBuildContext(),
+        mockCanvasWrapper,
+        PaintHolder<LineChartData>(data, data, TextScaler.noScaling),
+      );
+
+      const lineStart = Offset(50, 100);
+      const lineEnd = Offset(50, 0);
+      verifyInOrder([
+        mockCanvasWrapper.drawDashedLine(lineStart, lineEnd, any, any),
+        mockCanvasWrapper.drawDashedLine(lineStart, lineEnd, any, any),
+        mockCanvasWrapper.drawDot(any, upperSpot, any),
+        mockCanvasWrapper.drawDot(any, lowerSpot, any),
+      ]);
+    });
+
     test('test 2', () {
       const viewSize = Size(400, 400);
 
