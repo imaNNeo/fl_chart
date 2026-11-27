@@ -188,7 +188,8 @@ class TitleMeta {
   /// Reference of [SideTitles] object.
   final SideTitles sideTitles;
 
-  /// Formatted value that is suitable to show, for example 100, 2k, 5m, ...
+  /// Axis label with digits, decimal separator, and minus sign from the app
+  /// locale. Compact labels use the K, M, and B suffixes.
   final String formattedValue;
 
   /// Determines the axis side of titles (left, top, right, bottom)
