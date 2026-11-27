@@ -71,11 +71,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         ..save()
         ..clipRect(Offset.zero & canvasWrapper.size);
     }
-    super.paint(context, canvasWrapper, holder);
-    if (data.lineBarsData.isEmpty) {
-      return;
-    }
-
     if (data.clipData.any && holder.chartVirtualRect == null) {
       // A clip needs no offscreen layer, save() is enough. The first clip
       // keeps the area the layer bounds used to limit drawing to.
@@ -91,6 +86,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         );
 
       clipToBorder(canvasWrapper, holder);
+    }
+    super.paint(context, canvasWrapper, holder);
+    if (data.lineBarsData.isEmpty) {
+      if (data.clipData.any || holder.chartVirtualRect != null) {
+        canvasWrapper.restore();
+      }
+      return;
     }
 
     for (final betweenBarsData in data.betweenBarsData) {

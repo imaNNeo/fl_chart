@@ -80,6 +80,7 @@ void main() {
       expect(horizontalLine1 == horizontalLine7, false);
       expect(horizontalLine1 == horizontalLine8, false);
       expect(horizontalLine1 == horizontalLine9, false);
+      expect(horizontalLine10 == horizontalLine11, false);
     });
 
     test('VerticalLine equality test', () {
@@ -92,6 +93,19 @@ void main() {
       expect(verticalLine1 == verticalLine7, false);
       expect(verticalLine1 == verticalLine8, false);
       expect(verticalLine1 == verticalLine9, false);
+      expect(verticalLine10 == verticalLine11, false);
+    });
+
+    test('VerticalLine copyVerticalLineWith test', () {
+      final copied = verticalLine10.copyVerticalLineWith(x: 33);
+      expect(copied.x, 33);
+      expect(copied.gradient, verticalLine10.gradient);
+      expect(copied.color, null);
+
+      final replaced = verticalLine10.copyVerticalLineWith(
+        gradient: verticalLine11.gradient,
+      );
+      expect(replaced == verticalLine11, true);
     });
 
     test('HorizontalLineLabel equality test', () {
