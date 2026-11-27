@@ -222,16 +222,14 @@ abstract class AxisChartPainter<D extends AxisChartData>
     }
 
     super.paint(context, canvasWrapper, holder);
-    final data = holder.data;
-    final viewSize = canvasWrapper.size;
-
-    if (data.extraLinesData.horizontalLines.isNotEmpty) {
-      drawHorizontalLines(context, canvasWrapper, holder, viewSize);
-    }
-
-    if (data.extraLinesData.verticalLines.isNotEmpty) {
-      drawVerticalLines(context, canvasWrapper, holder, viewSize);
-    }
+    _drawExtraLineLayers(
+      context,
+      canvasWrapper,
+      holder,
+      canvasWrapper.size,
+      horizontalLines: holder.data.extraLinesData.horizontalLines,
+      verticalLines: holder.data.extraLinesData.verticalLines,
+    );
 
     if (holder.chartVirtualRect != null) {
       canvasWrapper
@@ -246,7 +244,40 @@ abstract class AxisChartPainter<D extends AxisChartData>
     PaintHolder<D> holder,
     Size viewSize,
   ) {
-    for (final line in holder.data.extraLinesData.horizontalLines) {
+    _drawExtraLineLayers(
+      context,
+      canvasWrapper,
+      holder,
+      viewSize,
+      horizontalLines: holder.data.extraLinesData.horizontalLines,
+    );
+  }
+
+  void drawVerticalLines(
+    BuildContext context,
+    CanvasWrapper canvasWrapper,
+    PaintHolder<D> holder,
+    Size viewSize,
+  ) {
+    _drawExtraLineLayers(
+      context,
+      canvasWrapper,
+      holder,
+      viewSize,
+      verticalLines: holder.data.extraLinesData.verticalLines,
+    );
+  }
+
+  void _drawExtraLineLayers(
+    BuildContext context,
+    CanvasWrapper canvasWrapper,
+    PaintHolder<D> holder,
+    Size viewSize, {
+    List<HorizontalLine> horizontalLines = const [],
+    List<VerticalLine> verticalLines = const [],
+  }) {
+    final labels = <VoidCallback>[];
+    for (final line in horizontalLines) {
       final from = Offset(0, getPixelY(line.y, viewSize, holder));
       final to = Offset(viewSize.width, getPixelY(line.y, viewSize, holder));
 
@@ -299,76 +330,20 @@ abstract class AxisChartPainter<D extends AxisChartData>
         }
 
         if (line.label.show) {
-          final label = line.label;
-          final style =
-              TextStyle(fontSize: 11, color: line.color).merge(label.style);
-          final padding = label.padding as EdgeInsets;
-
-          final span = TextSpan(
-            text: label.labelResolver(line),
-            style: Utils().getThemeAwareTextStyle(context, style),
+          labels.add(
+            () => _drawHorizontalLineLabel(
+              context,
+              canvasWrapper,
+              line,
+              from,
+              to,
+            ),
           );
-
-          final tp = TextPainter(
-            text: span,
-            textDirection: TextDirection.ltr,
-          )..layout();
-
-          switch (label.direction) {
-            case LabelDirection.horizontal:
-            case LabelDirection.horizontalMirrored:
-              canvasWrapper.drawText(
-                tp,
-                label.alignment.withinRect(
-                  Rect.fromLTRB(
-                    from.dx + padding.left,
-                    from.dy - padding.bottom - tp.height,
-                    to.dx - padding.right - tp.width,
-                    to.dy + padding.top,
-                  ),
-                ),
-                label.direction == LabelDirection.horizontalMirrored
-                    ? -180
-                    : null,
-              );
-            case LabelDirection.vertical:
-              canvasWrapper.drawVerticalText(
-                tp,
-                label.alignment.withinRect(
-                  Rect.fromLTRB(
-                    from.dx + padding.left + tp.height,
-                    from.dy - padding.bottom - tp.width,
-                    to.dx - padding.right,
-                    to.dy + padding.top,
-                  ),
-                ),
-              );
-            case LabelDirection.verticalMirrored:
-              canvasWrapper.drawVerticalText(
-                tp,
-                label.alignment.withinRect(
-                  Rect.fromLTRB(
-                    from.dx + padding.left,
-                    from.dy - padding.bottom,
-                    to.dx - padding.right - tp.height,
-                    to.dy + padding.top + tp.width,
-                  ),
-                ),
-                -90,
-              );
-          }
         }
       }
     }
-  }
 
-  void drawVerticalLines(
-    BuildContext context,
-    CanvasWrapper canvasWrapper,
-    PaintHolder<D> holder,
-    Size viewSize,
-  ) {
-    for (final line in holder.data.extraLinesData.verticalLines) {
+    for (final line in verticalLines) {
       final from = Offset(getPixelX(line.x, viewSize, holder), 0);
       final to = Offset(getPixelX(line.x, viewSize, holder), viewSize.height);
 
@@ -422,66 +397,149 @@ abstract class AxisChartPainter<D extends AxisChartData>
         }
 
         if (line.label.show) {
-          final label = line.label;
-          final style =
-              TextStyle(fontSize: 11, color: line.color).merge(label.style);
-          final padding = label.padding as EdgeInsets;
-
-          final span = TextSpan(
-            text: label.labelResolver(line),
-            style: Utils().getThemeAwareTextStyle(context, style),
+          labels.add(
+            () => _drawVerticalLineLabel(
+              context,
+              canvasWrapper,
+              line,
+              from,
+              to,
+            ),
           );
-
-          final tp = TextPainter(
-            text: span,
-            textDirection: TextDirection.ltr,
-          )..layout();
-
-          switch (label.direction) {
-            case LabelDirection.horizontal:
-            case LabelDirection.horizontalMirrored:
-              canvasWrapper.drawText(
-                tp,
-                label.alignment.withinRect(
-                  Rect.fromLTRB(
-                    from.dx - padding.right - tp.width,
-                    from.dy + padding.top,
-                    to.dx + padding.left,
-                    to.dy - padding.bottom - tp.height,
-                  ),
-                ),
-                label.direction == LabelDirection.horizontalMirrored
-                    ? -180
-                    : null,
-              );
-            case LabelDirection.vertical:
-              canvasWrapper.drawVerticalText(
-                tp,
-                label.alignment.withinRect(
-                  Rect.fromLTRB(
-                    from.dx - padding.right,
-                    from.dy + padding.top,
-                    to.dx + padding.left + tp.height,
-                    to.dy - padding.bottom - tp.width,
-                  ),
-                ),
-              );
-            case LabelDirection.verticalMirrored:
-              canvasWrapper.drawVerticalText(
-                tp,
-                label.alignment.withinRect(
-                  Rect.fromLTRB(
-                    from.dx - padding.right + tp.height,
-                    from.dy + padding.top - tp.width,
-                    to.dx + padding.left,
-                    to.dy - padding.bottom,
-                  ),
-                ),
-                -90,
-              );
-          }
         }
       }
+    }
+
+    for (final drawLabel in labels) {
+      drawLabel();
+    }
+  }
+
+  void _drawHorizontalLineLabel(
+    BuildContext context,
+    CanvasWrapper canvasWrapper,
+    HorizontalLine line,
+    Offset from,
+    Offset to,
+  ) {
+    final label = line.label;
+    final style = TextStyle(fontSize: 11, color: line.color).merge(label.style);
+    final padding = label.padding as EdgeInsets;
+
+    final span = TextSpan(
+      text: label.labelResolver(line),
+      style: Utils().getThemeAwareTextStyle(context, style),
+    );
+
+    final tp = TextPainter(
+      text: span,
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    switch (label.direction) {
+      case LabelDirection.horizontal:
+      case LabelDirection.horizontalMirrored:
+        canvasWrapper.drawText(
+          tp,
+          label.alignment.withinRect(
+            Rect.fromLTRB(
+              from.dx + padding.left,
+              from.dy - padding.bottom - tp.height,
+              to.dx - padding.right - tp.width,
+              to.dy + padding.top,
+            ),
+          ),
+          label.direction == LabelDirection.horizontalMirrored ? -180 : null,
+        );
+      case LabelDirection.vertical:
+        canvasWrapper.drawVerticalText(
+          tp,
+          label.alignment.withinRect(
+            Rect.fromLTRB(
+              from.dx + padding.left + tp.height,
+              from.dy - padding.bottom - tp.width,
+              to.dx - padding.right,
+              to.dy + padding.top,
+            ),
+          ),
+        );
+      case LabelDirection.verticalMirrored:
+        canvasWrapper.drawVerticalText(
+          tp,
+          label.alignment.withinRect(
+            Rect.fromLTRB(
+              from.dx + padding.left,
+              from.dy - padding.bottom,
+              to.dx - padding.right - tp.height,
+              to.dy + padding.top + tp.width,
+            ),
+          ),
+          -90,
+        );
+    }
+  }
+
+  void _drawVerticalLineLabel(
+    BuildContext context,
+    CanvasWrapper canvasWrapper,
+    VerticalLine line,
+    Offset from,
+    Offset to,
+  ) {
+    final label = line.label;
+    final style = TextStyle(fontSize: 11, color: line.color).merge(label.style);
+    final padding = label.padding as EdgeInsets;
+
+    final span = TextSpan(
+      text: label.labelResolver(line),
+      style: Utils().getThemeAwareTextStyle(context, style),
+    );
+
+    final tp = TextPainter(
+      text: span,
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    switch (label.direction) {
+      case LabelDirection.horizontal:
+      case LabelDirection.horizontalMirrored:
+        canvasWrapper.drawText(
+          tp,
+          label.alignment.withinRect(
+            Rect.fromLTRB(
+              from.dx - padding.right - tp.width,
+              from.dy + padding.top,
+              to.dx + padding.left,
+              to.dy - padding.bottom - tp.height,
+            ),
+          ),
+          label.direction == LabelDirection.horizontalMirrored ? -180 : null,
+        );
+      case LabelDirection.vertical:
+        canvasWrapper.drawVerticalText(
+          tp,
+          label.alignment.withinRect(
+            Rect.fromLTRB(
+              from.dx - padding.right,
+              from.dy + padding.top,
+              to.dx + padding.left + tp.height,
+              to.dy - padding.bottom - tp.width,
+            ),
+          ),
+        );
+      case LabelDirection.verticalMirrored:
+        canvasWrapper.drawVerticalText(
+          tp,
+          label.alignment.withinRect(
+            Rect.fromLTRB(
+              from.dx - padding.right + tp.height,
+              from.dy + padding.top - tp.width,
+              to.dx + padding.left,
+              to.dy - padding.bottom,
+            ),
+          ),
+          -90,
+        );
     }
   }
 
