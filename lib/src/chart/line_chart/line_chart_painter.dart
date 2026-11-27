@@ -464,6 +464,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final viewSize = canvasWrapper.size;
 
     lineIndexDrawingInfo.sort((a, b) => b.spot.y.compareTo(a.spot.y));
+    final indicatorDots = <(FlDotPainter, FlSpot, Offset)>[];
 
     for (final info in lineIndexDrawingInfo) {
       final barData = info.line;
@@ -535,10 +536,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         indicatorLine.dashArray,
       );
 
-      /// Draw the indicator dot
       if (showingDots) {
-        canvasWrapper.drawDot(dotPainter, spot, touchedSpot);
+        indicatorDots.add((dotPainter, spot, touchedSpot));
       }
+    }
+
+    for (final (dotPainter, spot, touchedSpot) in indicatorDots) {
+      canvasWrapper.drawDot(dotPainter, spot, touchedSpot);
     }
   }
 
