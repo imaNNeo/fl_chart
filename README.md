@@ -5,7 +5,7 @@
 <a href="https://github.com/Solido/awesome-flutter#charts"><img src="https://img.shields.io/badge/awesome-flutter-blue.svg?longCache=true" alt="Awesome Flutter"></a>
 <a href="https://pub.dev/packages/fl_chart"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/imaNNeo/fl_chart"></a>
 <a href="https://github.com/imaNNeo/fl_chart/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/imaNNeo/fl_chart"></a>
-<a href="https://githubc.com/imaNNeo/fl_chart/issues?q=is%3Aissue+is%3Aclosed"><img src="https://img.shields.io/github/issues-closed-raw/imaNNeo/fl_chart" alt="GitHub closed issues"></a>
+<a href="https://github.com/imaNNeo/fl_chart/issues?q=is%3Aissue+is%3Aclosed"><img src="https://img.shields.io/github/issues-closed-raw/imaNNeo/fl_chart" alt="GitHub closed issues"></a>
 ![GitHub Sponsors](https://img.shields.io/github/sponsors/imaNNeo) 
 <span class="badge-buymeacoffee">
 <a href="https://www.buymeacoffee.com/fl_chart" title="Donate to this project using Buy Me A Coffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg" alt="Buy Me A Coffee donate button" /></a>
