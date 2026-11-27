@@ -3,6 +3,7 @@ import 'package:fl_chart/src/chart/base/axis_chart/scale_axis.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/side_titles/side_titles_widget.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/transformation_config.dart';
 import 'package:fl_chart/src/chart/base/custom_interactive_viewer.dart';
+import 'package:fl_chart/src/extensions/fl_border_data_extension.dart';
 import 'package:fl_chart/src/extensions/fl_titles_data_extension.dart';
 import 'package:flutter/widgets.dart';
 
@@ -202,7 +203,7 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
   List<Widget> _stackWidgets(BoxConstraints constraints) {
     final margin = widget.data.titlesData.allSidesPadding;
     final borderData = widget.data.borderData.isVisible()
-        ? widget.data.borderData.border
+        ? widget.data.borderData.borderToPaint
         : null;
 
     final borderWidth =

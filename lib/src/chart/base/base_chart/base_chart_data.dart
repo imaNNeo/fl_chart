@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/extensions/border_extension.dart';
+import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/widgets.dart';
 
 /// This class holds all data needed for [BaseChartPainter].
@@ -34,9 +35,11 @@ abstract class BaseChartData with Equatable {
 class FlBorderData with Equatable {
   /// [show] Determines showing or hiding border around the chart.
   /// [border] Determines the visual look of 4 borders, see [Border].
+  /// [dashArray] Makes the border dashed, see [FlBorderData.dashArray].
   FlBorderData({
     bool? show,
     Border? border,
+    this.dashArray,
   })  : show = show ?? true,
         border = border ?? Border.all();
 
@@ -46,6 +49,13 @@ class FlBorderData with Equatable {
   /// Determines which sides of the border are drawn, and how, see [Border].
   final Border border;
 
+  /// Draws the border as a dashed line when it is not null or empty.
+  ///
+  /// It is a circular array of dash offsets and lengths.
+  /// For example, the array `[5, 10]` would result in dashes 5 pixels long
+  /// followed by blank spaces 10 pixels long.
+  final List<int>? dashArray;
+
   /// returns false if all borders have 0 width or 0 opacity
   bool isVisible() => show && border.isVisible();
 
@@ -54,6 +64,7 @@ class FlBorderData with Equatable {
       FlBorderData(
         show: b.show,
         border: Border.lerp(a.border, b.border, t),
+        dashArray: lerpIntList(a.dashArray, b.dashArray, t),
       );
 
   /// Copies current [FlBorderData] to a new [FlBorderData],
@@ -61,10 +72,12 @@ class FlBorderData with Equatable {
   FlBorderData copyWith({
     bool? show,
     Border? border,
+    List<int>? dashArray,
   }) =>
       FlBorderData(
         show: show ?? this.show,
         border: border ?? this.border,
+        dashArray: dashArray ?? this.dashArray,
       );
 
   /// Used for equality check, see [Equatable].
@@ -72,6 +85,7 @@ class FlBorderData with Equatable {
   List<Object?> get props => [
         show,
         border,
+        dashArray,
       ];
 }
 

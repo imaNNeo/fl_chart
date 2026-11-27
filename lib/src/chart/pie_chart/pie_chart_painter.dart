@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/line.dart';
+import 'package:fl_chart/src/extensions/fl_border_data_extension.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
@@ -99,7 +100,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     }
 
     canvasWrapper.drawBorder(
-      borderData.border,
+      borderData.borderToPaint,
       Offset.zero & canvasWrapper.size,
     );
   }

@@ -6,6 +6,7 @@ import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/line.dart';
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
+import 'package:fl_chart/src/utils/dashed_border.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -182,6 +183,34 @@ void main() {
       verify(
         mockCanvasWrapper.drawBorder(
           border,
+          Offset.zero & viewSize,
+        ),
+      ).called(1);
+    });
+
+    test('paints a dashed border when dashArray is set', () {
+      const viewSize = Size(180, 90);
+      final border = Border.all(color: const Color(0xFFABCDEF), width: 3);
+      final data = PieChartData(
+        borderData: FlBorderData(
+          show: true,
+          border: border,
+          dashArray: const [6, 3],
+        ),
+      );
+      final holder = PaintHolder<PieChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+
+      PieChartPainter().drawBorder(mockCanvasWrapper, holder);
+
+      verify(
+        mockCanvasWrapper.drawBorder(
+          DashedBorder.fromBorder(border, const [6, 3]),
           Offset.zero & viewSize,
         ),
       ).called(1);

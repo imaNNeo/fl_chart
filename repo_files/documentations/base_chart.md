@@ -6,6 +6,7 @@
 |:-------|:---|:------|:----------|
 |show|`bool?`|`true`|Determines whether to show or hide the border.|
 |border|`Border?`|`Border.all()`|Determines which sides of the border are drawn, and how, see [`Border`](https://api.flutter.dev/flutter/painting/Border-class.html).|
+|dashArray|`List<int>?`|`null`|Draws the border as a dashed line when it is not null or empty.<br><br>It is a circular array of dash offsets and lengths. For example, the array `[5, 10]` would result in dashes 5 pixels long followed by blank spaces 10 pixels long.|
 <!-- /api -->
 
 
