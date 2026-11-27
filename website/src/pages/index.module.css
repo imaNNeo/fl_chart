@@ -59,56 +59,25 @@
   width: min(420px, calc(100vw - 4rem));
 }
 
-.supportText {
-  font-size: larger;
-  padding-left: 0.2rem;
-}
-
-.gameCard {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
+.gamesBanner {
+  display: block;
   width: 100%;
-  padding: 0.35rem;
   border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: 10px;
-  background: var(--ifm-background-surface-color);
-  color: inherit;
+  overflow: hidden;
+  line-height: 0;
   transition: border-color 0.2s;
 }
 
-.gameCard:hover {
+.gamesBanner:hover {
   border-color: var(--ifm-color-primary);
-  color: inherit;
-  text-decoration: none;
 }
 
-.gameCard > img {
-  width: 30%;
-  max-width: 110px;
-  flex-shrink: 0;
-  border-radius: 6px;
-}
-
-.gameInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-}
-
-.gameTitle {
-  font-size: 0.95rem;
-  font-weight: bold;
-}
-
-.gamePitch {
-  font-size: 0.8rem;
-  line-height: 1.25;
-}
-
-.gamePlay {
-  font-size: 0.8rem;
-  color: var(--ifm-color-primary);
+.gamesBanner > img {
+  width: 100%;
+  vertical-align: top;
+  height: auto;
+  aspect-ratio: 5 / 1;
 }
 
 .mailingList {
@@ -367,9 +336,5 @@
   .solidButton {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
-  }
-
-  .gameCard > img {
-    width: 30%;
   }
 }
