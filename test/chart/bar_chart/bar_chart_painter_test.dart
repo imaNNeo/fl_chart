@@ -1671,6 +1671,137 @@ void main() {
             'Stack items with equal data heights (1) should have equal pixel heights',
       );
     });
+
+    test(
+        "resolves a BorderRadiusDirectional against the holder's "
+        'textDirection, mirroring start/end between ltr and rtl', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: 10,
+              width: 10,
+              borderRadius: const BorderRadiusDirectional.only(
+                topStart: Radius.circular(3),
+                topEnd: Radius.circular(1),
+              ),
+            ),
+          ],
+        ),
+      ];
+
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
+      final data = BarChartData(
+        titlesData: const FlTitlesData(show: false),
+        barGroups: barGroups,
+        alignment: BarChartAlignment.center,
+        minY: minY,
+        maxY: maxY,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      RRect? captured;
+      when(mockCanvasWrapper.drawRRect(captureAny, any)).thenAnswer((inv) {
+        captured = inv.positionalArguments[0] as RRect;
+      });
+
+      barChartPainter.drawBars(
+        mockCanvasWrapper,
+        barGroupsPosition,
+        PaintHolder<BarChartData>(
+          data,
+          data,
+          TextScaler.noScaling,
+        ),
+      );
+      final ltrRRect = captured!;
+      expect(ltrRRect.tlRadius, const Radius.circular(3));
+      expect(ltrRRect.trRadius, const Radius.circular(1));
+
+      captured = null;
+      barChartPainter.drawBars(
+        mockCanvasWrapper,
+        barGroupsPosition,
+        PaintHolder<BarChartData>(
+          data,
+          data,
+          TextScaler.noScaling,
+          null,
+          TextDirection.rtl,
+        ),
+      );
+      final rtlRRect = captured!;
+      expect(rtlRRect.tlRadius, const Radius.circular(1));
+      expect(rtlRRect.trRadius, const Radius.circular(3));
+    });
+
+    test(
+        'clamps a resolved BorderRadiusDirectional to half the rod width, '
+        'same as a plain BorderRadius', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: 10,
+              width: 10,
+              // Both corners exceed width / 2 (5) and should be clamped.
+              borderRadius: const BorderRadiusDirectional.only(
+                topStart: Radius.circular(50),
+                topEnd: Radius.circular(50),
+              ),
+            ),
+          ],
+        ),
+      ];
+
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
+      final data = BarChartData(
+        titlesData: const FlTitlesData(show: false),
+        barGroups: barGroups,
+        alignment: BarChartAlignment.center,
+        minY: minY,
+        maxY: maxY,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      RRect? rRect;
+      when(mockCanvasWrapper.drawRRect(captureAny, any)).thenAnswer((inv) {
+        rRect = inv.positionalArguments[0] as RRect;
+      });
+
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+      barChartPainter.drawBars(mockCanvasWrapper, barGroupsPosition, holder);
+
+      expect(rRect!.tlRadius, const Radius.circular(5));
+      expect(rRect!.trRadius, const Radius.circular(5));
+    });
   });
 
   group('drawBars() - label tests', () {
