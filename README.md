@@ -17,7 +17,7 @@ I've been building and maintaining fl_chart for free since 2019, in my spare tim
 <a href="https://games.imanneo.dev/?utm_source=fl_chart&utm_medium=readme">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/projects/games_banner_dark.jpg">
-    <img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/projects/games_banner_light.jpg" width="100%" alt="I make games too. Come play a few at games.imanneo.dev">
+    <img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/projects/games_banner_light.jpg" width="100%" alt="Support fl_chart by playing my games at games.imanneo.dev">
   </picture>
 </a>
 
