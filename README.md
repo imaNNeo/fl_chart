@@ -14,24 +14,12 @@
 ### Support fl_chart 💙
 I've been building and maintaining fl_chart for free since 2019, in my spare time. These days I also make games. If fl_chart has saved you some time, the nicest way to say thanks is to play one of them for a minute. It costs you nothing and it means a lot to me. 💙
 
-<table>
-  <tr>
-    <td width="200"><a href="https://savethepotato.com/get/?utm_source=fl_chart&utm_medium=readme"><img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/projects/save_the_potato.jpg" width="200" alt="Save the Potato"></a></td>
-    <td>
-      <b>Save the Potato</b><br>
-      <sub>Keep the orbs away so the potato can enjoy its music in peace.</sub><br>
-      <a href="https://savethepotato.com/get/?utm_source=fl_chart&utm_medium=readme">▶ Play it now</a>
-    </td>
-  </tr>
-  <tr>
-    <td width="200"><a href="https://ttg.app2pack.dev/get/?utm_source=fl_chart&utm_medium=readme"><img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/projects/ttg.jpg" width="200" alt="TTG - Through The Galaxies"></a></td>
-    <td>
-      <b>TTG - Through The Galaxies</b><br>
-      <sub>Fly your rocket from planet to planet and see how far into space you can go.</sub><br>
-      <a href="https://ttg.app2pack.dev/get/?utm_source=fl_chart&utm_medium=readme">▶ Play it now</a>
-    </td>
-  </tr>
-</table>
+<a href="https://games.imanneo.dev/?utm_source=fl_chart&utm_medium=readme">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/projects/games_banner_dark.jpg">
+    <img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/projects/games_banner_light.jpg" width="100%" alt="I make games too. Come play a few at games.imanneo.dev">
+  </picture>
+</a>
 
 📬 Want to hear about my next game? [Join my mailing list](https://iman-khoshabi.kit.com/profile). Only a few emails a year, no spam.
 
