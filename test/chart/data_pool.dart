@@ -1469,6 +1469,20 @@ final HorizontalLine horizontalLine9 = HorizontalLine(
   strokeWidth: 21,
   label: horizontalLineLabel1,
 );
+final HorizontalLine horizontalLine10 = HorizontalLine(
+  y: 12,
+  gradient: const LinearGradient(colors: [Colors.red, Colors.blue]),
+  dashArray: [0, 1],
+  strokeWidth: 21,
+  label: horizontalLineLabel1,
+);
+final HorizontalLine horizontalLine11 = HorizontalLine(
+  y: 12,
+  gradient: const LinearGradient(colors: [Colors.green, Colors.yellow]),
+  dashArray: [0, 1],
+  strokeWidth: 21,
+  label: horizontalLineLabel1,
+);
 final HorizontalLineLabel horizontalLineLabel1 = HorizontalLineLabel(
   show: true,
   style: const TextStyle(color: Colors.green),
@@ -2835,6 +2849,22 @@ final VerticalLine verticalLine9 = VerticalLine(
   x: 12,
   color: Colors.red,
   dashArray: [0, 12, 44],
+  strokeWidth: 21,
+  label: verticalLineLabel1,
+);
+
+final VerticalLine verticalLine10 = VerticalLine(
+  x: 12,
+  gradient: const LinearGradient(colors: [Colors.red, Colors.blue]),
+  dashArray: [0, 1],
+  strokeWidth: 21,
+  label: verticalLineLabel1,
+);
+
+final VerticalLine verticalLine11 = VerticalLine(
+  x: 12,
+  gradient: const LinearGradient(colors: [Colors.green, Colors.yellow]),
+  dashArray: [0, 1],
   strokeWidth: 21,
   label: verticalLineLabel1,
 );
