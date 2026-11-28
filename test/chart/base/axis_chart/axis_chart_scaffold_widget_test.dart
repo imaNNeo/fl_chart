@@ -1554,4 +1554,389 @@ void main() {
       controller.addListener(() {}); // throws if disposed
     });
   });
+
+  group('axisNameWidget is centered on its titles range (#1847)', () {
+    const leftKey = Key('leftAxisName');
+    const topKey = Key('topAxisName');
+    const rightKey = Key('rightAxisName');
+    const bottomKey = Key('bottomAxisName');
+    const plotKey = Key('plot');
+    const longName = 'A very long axis name that keeps on going and going';
+
+    const nameKeys = {
+      AxisSide.left: leftKey,
+      AxisSide.top: topKey,
+      AxisSide.right: rightKey,
+      AxisSide.bottom: bottomKey,
+    };
+    final nameIcons = {
+      AxisSide.left: find.byIcon(Icons.arrow_left),
+      AxisSide.top: find.byIcon(Icons.arrow_drop_up),
+      AxisSide.right: find.byIcon(Icons.arrow_right),
+      AxisSide.bottom: find.byIcon(Icons.arrow_drop_down),
+    };
+
+    Map<AxisSide, double> alongAxisCenters(
+      WidgetTester tester,
+      Map<AxisSide, Finder> names,
+    ) =>
+        names.map((side, name) {
+          final center = tester.getCenter(name);
+          final isHorizontal = side == AxisSide.top || side == AxisSide.bottom;
+          return MapEntry(side, isHorizontal ? center.dx : center.dy);
+        });
+
+    Map<AxisSide, Finder> namesByKey([Iterable<AxisSide>? sides]) => {
+          for (final side in sides ?? AxisSide.values)
+            side: find.byKey(nameKeys[side]!),
+        };
+
+    AxisTitles sideTitles(
+      AxisSide side,
+      double reservedSize, {
+      SideTitleAlignment alignment = SideTitleAlignment.outside,
+      Widget? name,
+    }) =>
+        AxisTitles(
+          axisNameWidget:
+              name ?? SizedBox(key: nameKeys[side], width: 10, height: 10),
+          axisNameSize: 20,
+          sideTitleAlignment: alignment,
+          sideTitles: SideTitles(showTitles: true, reservedSize: reservedSize),
+        );
+
+    BarChartData barChartData({
+      int rotationQuarterTurns = 0,
+      FlBorderData? borderData,
+      SideTitleAlignment alignment = SideTitleAlignment.outside,
+      Widget? bottomName,
+    }) =>
+        BarChartData(
+          rotationQuarterTurns: rotationQuarterTurns,
+          borderData: borderData ?? FlBorderData(show: false),
+          barGroups: [
+            for (var i = 0; i < 5; i++)
+              BarChartGroupData(x: i, barRods: [BarChartRodData(toY: 5)]),
+          ],
+          titlesData: FlTitlesData(
+            leftTitles: sideTitles(AxisSide.left, 30, alignment: alignment),
+            topTitles: sideTitles(AxisSide.top, 10, alignment: alignment),
+            rightTitles: sideTitles(AxisSide.right, 50, alignment: alignment),
+            bottomTitles: sideTitles(
+              AxisSide.bottom,
+              40,
+              alignment: alignment,
+              name: bottomName,
+            ),
+          ),
+        );
+
+    Future<void> pumpBarChart(
+      WidgetTester tester,
+      BarChartData data, {
+      double width = 400,
+      double height = 400,
+      TextDirection textDirection = TextDirection.ltr,
+      FlTransformationConfig transformationConfig =
+          const FlTransformationConfig(),
+    }) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Directionality(
+            textDirection: textDirection,
+            child: Scaffold(
+              body: Align(
+                alignment: Alignment.topLeft,
+                child: SizedBox(
+                  width: width,
+                  height: height,
+                  child: BarChart(
+                    data,
+                    transformationConfig: transformationConfig,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump(const Duration(seconds: 1));
+    }
+
+    Future<void> pumpAllTitlesFixture(WidgetTester tester) => tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: SizedBox(
+                  width: viewSize.width,
+                  height: viewSize.height,
+                  child: AxisChartScaffoldWidget(
+                    chartBuilder: (context, chartVirtualRect) =>
+                        const SizedBox.expand(key: plotKey),
+                    data: lineChartDataWithAllTitles,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+
+    testWidgets('issue chart: left and bottom names', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SizedBox(
+              width: 400,
+              height: 400,
+              child: BarChart(
+                BarChartData(
+                  barGroups: [
+                    BarChartGroupData(
+                      x: 0,
+                      barRods: [BarChartRodData(toY: 5)],
+                    ),
+                  ],
+                  titlesData: FlTitlesData(
+                    topTitles: const AxisTitles(),
+                    rightTitles: const AxisTitles(),
+                    leftTitles: sideTitles(AxisSide.left, 30),
+                    bottomTitles: sideTitles(AxisSide.bottom, 40),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump(const Duration(seconds: 1));
+
+      expect(
+        alongAxisCenters(
+          tester,
+          namesByKey([AxisSide.left, AxisSide.bottom]),
+        ),
+        {AxisSide.left: 170, AxisSide.bottom: 225},
+      );
+    });
+
+    testWidgets('all four sides match the chart area center', (tester) async {
+      await pumpAllTitlesFixture(tester);
+
+      // Chart area center is (380, 280).
+      final plotCenter = tester.getRect(find.byKey(plotKey)).center;
+      expect(
+        alongAxisCenters(tester, nameIcons),
+        {
+          AxisSide.left: plotCenter.dy,
+          AxisSide.top: plotCenter.dx,
+          AxisSide.right: plotCenter.dy,
+          AxisSide.bottom: plotCenter.dx,
+        },
+      );
+    });
+
+    testWidgets('zoomed and panned: stays on the visible chart area center',
+        (tester) async {
+      final controller = TransformationController();
+      addTearDown(controller.dispose);
+      await pumpBarChart(
+        tester,
+        barChartData(),
+        transformationConfig: FlTransformationConfig(
+          scaleAxis: FlScaleAxis.free,
+          transformationController: controller,
+        ),
+      );
+      Rect? chartVirtualRect() => tester
+          .widget<SideTitlesWidget>(find.byType(SideTitlesWidget).first)
+          .chartVirtualRect;
+
+      controller.value = Matrix4.identity()..scaleByDouble(2, 2, 1, 1);
+      await tester.pump(const Duration(seconds: 1));
+      final zoomed = alongAxisCenters(tester, namesByKey());
+      final zoomedRect = chartVirtualRect();
+
+      controller.value = Matrix4.identity()
+        ..translateByDouble(-200, -150, 0, 1)
+        ..scaleByDouble(2, 2, 1, 1);
+      await tester.pump(const Duration(seconds: 1));
+      final panned = alongAxisCenters(tester, namesByKey());
+      final pannedRect = chartVirtualRect();
+
+      const visibleCenter = {
+        AxisSide.left: 185.0,
+        AxisSide.top: 190.0,
+        AxisSide.right: 185.0,
+        AxisSide.bottom: 190.0,
+      };
+      expect(
+        {
+          'zoomed': zoomed,
+          'panned': panned,
+          'rectChanged': zoomedRect != null &&
+              pannedRect != null &&
+              zoomedRect != pannedRect,
+        },
+        {
+          'zoomed': visibleCenter,
+          'panned': visibleCenter,
+          'rectChanged': true,
+        },
+      );
+    });
+
+    testWidgets('position across the axis is unchanged', (tester) async {
+      await pumpAllTitlesFixture(tester);
+
+      expect(
+        nameIcons.map((side, name) {
+          final center = tester.getCenter(name);
+          final isHorizontal = side == AxisSide.top || side == AxisSide.bottom;
+          return MapEntry(side, isHorizontal ? center.dy : center.dx);
+        }),
+        {
+          AxisSide.left: 205,
+          AxisSide.top: 110,
+          AxisSide.right: 585,
+          AxisSide.bottom: 480,
+        },
+      );
+    });
+
+    testWidgets('inside alignment is unchanged', (tester) async {
+      await pumpBarChart(
+        tester,
+        barChartData(alignment: SideTitleAlignment.inside),
+      );
+
+      expect(
+        namesByKey()
+            .map((side, name) => MapEntry(side, tester.getCenter(name))),
+        {
+          AxisSide.left: const Offset(10, 200),
+          AxisSide.top: const Offset(200, 10),
+          AxisSide.right: const Offset(390, 200),
+          AxisSide.bottom: const Offset(200, 390),
+        },
+      );
+    });
+
+    testWidgets('border alignment', (tester) async {
+      await pumpBarChart(
+        tester,
+        barChartData(alignment: SideTitleAlignment.border),
+      );
+
+      expect(
+        alongAxisCenters(tester, namesByKey()),
+        {
+          AxisSide.left: 192.5,
+          AxisSide.top: 195,
+          AxisSide.right: 192.5,
+          AxisSide.bottom: 195,
+        },
+      );
+    });
+
+    testWidgets('rotationQuarterTurns: 1', (tester) async {
+      await pumpBarChart(
+        tester,
+        barChartData(rotationQuarterTurns: 1),
+        width: 500,
+        height: 300,
+      );
+
+      // The RotatedBox transform leaves floating point noise (139.99999…).
+      const tolerance = 0.001;
+      expect(
+        namesByKey().map((side, name) {
+          final center = tester.getCenter(name);
+          return MapEntry(side, [center.dx, center.dy]);
+        }),
+        {
+          AxisSide.left: [closeTo(265, tolerance), closeTo(10, tolerance)],
+          AxisSide.top: [closeTo(490, tolerance), closeTo(140, tolerance)],
+          AxisSide.right: [closeTo(265, tolerance), closeTo(290, tolerance)],
+          AxisSide.bottom: [closeTo(10, tolerance), closeTo(140, tolerance)],
+        },
+      );
+    });
+
+    testWidgets('uneven border widths', (tester) async {
+      await pumpBarChart(
+        tester,
+        barChartData(
+          borderData: FlBorderData(
+            show: true,
+            border: const Border(
+              left: BorderSide(width: 2),
+              right: BorderSide(width: 30),
+              top: BorderSide(width: 4),
+              bottom: BorderSide(width: 24),
+            ),
+          ),
+        ),
+      );
+
+      expect(
+        alongAxisCenters(tester, namesByKey()),
+        {
+          AxisSide.left: 175,
+          AxisSide.top: 176,
+          AxisSide.right: 175,
+          AxisSide.bottom: 176,
+        },
+      );
+    });
+
+    testWidgets('RTL: centered along the axis', (tester) async {
+      await pumpBarChart(
+        tester,
+        barChartData(),
+        textDirection: TextDirection.rtl,
+      );
+
+      expect(
+        alongAxisCenters(tester, namesByKey()),
+        {
+          AxisSide.left: 185,
+          AxisSide.top: 190,
+          AxisSide.right: 185,
+          AxisSide.bottom: 190,
+        },
+      );
+    });
+
+    testWidgets('RTL: left and right names keep their x', (tester) async {
+      await pumpBarChart(
+        tester,
+        barChartData(),
+        textDirection: TextDirection.rtl,
+      );
+
+      expect(
+        {
+          for (final side in [AxisSide.left, AxisSide.right])
+            side: tester.getCenter(find.byKey(nameKeys[side]!)).dx,
+        },
+        {AxisSide.left: 40, AxisSide.right: 340},
+      );
+    });
+
+    testWidgets('long name gets the chart area length', (tester) async {
+      await pumpBarChart(
+        tester,
+        barChartData(bottomName: const Text(longName, key: bottomKey)),
+        width: 300,
+      );
+
+      expect(
+        (
+          tester.getSize(find.byKey(bottomKey)),
+          tester.getCenter(find.byKey(bottomKey)).dx,
+        ),
+        (const Size(180, 20), 140),
+      );
+    });
+  });
 }
