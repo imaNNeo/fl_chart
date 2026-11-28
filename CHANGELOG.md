@@ -1,3 +1,10 @@
+## 1.3.2
+* **BUGFIX** (by @a1573595) Clip the range annotations of a `LineChart` with its `clipData`, #2153, #1763
+* **BUGFIX** (by @a1573595) Keep rounded pie sections with `sectionsSpace` from vanishing, #2157, #2090
+* **BUGFIX** (by @Yasser-Ameur) Include `gradient` in the equality of `HorizontalLine` and `VerticalLine` and in `copyVerticalLineWith`, #2174
+* **BUGFIX** (by @ZainnQureshii) Draw the touched dots above the touch lines in `LineChart`, #2175, #1945
+* **IMPROVEMENT** (by @imaNNeo) Move off the deprecated `package:flutter/material.dart` and `cupertino.dart` imports for Flutter 3.50, #2167
+
 ## 1.3.1
 * **BUGFIX** (by @Dorian92) Draw `PieChartData.borderData` around the chart rectangle, #2137, #1182
 * **BUGFIX** (by @imaNNeo) Draw the extra lines on top of a `LineChart` only once, #2149
