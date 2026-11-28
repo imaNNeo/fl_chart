@@ -186,6 +186,20 @@ void main() {
     expect(Utils().getEfficientInterval(10, 0), 1);
   });
 
+  test('getEfficientInterval treats an inverted axis like a normal one (#1769)',
+      () {
+    expect(
+      Utils().getEfficientInterval(300, -6),
+      Utils().getEfficientInterval(300, 6),
+    );
+    expect(Utils().getEfficientInterval(300, -6), greaterThan(0));
+    // allowedCount <= 2 returns the interval without rounding.
+    expect(
+      Utils().getEfficientInterval(40, -6),
+      Utils().getEfficientInterval(40, 6),
+    );
+  });
+
   test('test getFractionDigits', () {
     expect(Utils().getFractionDigits(1), 1);
     expect(Utils().getFractionDigits(343), 1);

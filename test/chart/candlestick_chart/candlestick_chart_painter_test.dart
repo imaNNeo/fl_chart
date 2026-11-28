@@ -1126,4 +1126,72 @@ void main() {
       );
     });
   });
+
+  group('drawGrid()', () {
+    const viewSize = Size(300, 300);
+    final utilsMainInstance = Utils();
+
+    setUp(() {
+      Utils.changeInstance(utilsMainInstance);
+    });
+
+    CandlestickChartData gridChart({
+      required double minY,
+      required double maxY,
+      double? horizontalInterval,
+    }) =>
+        CandlestickChartData(
+          minX: 0,
+          maxX: 10,
+          minY: minY,
+          maxY: maxY,
+          titlesData: const FlTitlesData(show: false),
+          gridData: FlGridData(
+            drawVerticalLine: false,
+            horizontalInterval: horizontalInterval,
+          ),
+        );
+
+    PaintHolder<CandlestickChartData> holderOf(CandlestickChartData data) =>
+        PaintHolder<CandlestickChartData>(data, data, TextScaler.noScaling);
+
+    // Returns the y of every horizontal grid line, sorted.
+    List<double> drawGridYs(CandlestickChartData data) {
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final ys = <double>[];
+      when(mockCanvasWrapper.drawDashedLine(captureAny, any, any, any))
+          .thenAnswer(
+        (inv) => ys.add((inv.positionalArguments[0] as Offset).dy),
+      );
+      CandlestickChartPainter().drawGrid(mockCanvasWrapper, holderOf(data));
+      return ys..sort();
+    }
+
+    List<double> pixelYs(CandlestickChartData data, List<double> values) => [
+          for (final value in values)
+            CandlestickChartPainter()
+                .getPixelY(value, viewSize, holderOf(data)),
+        ]..sort();
+
+    test('inverted Y axis draws the horizontal lines at getPixelY (#1769)', () {
+      // 10..0 is not symmetric, so a line drawn at the mirrored y fails.
+      final given = gridChart(minY: 10, maxY: 0, horizontalInterval: 3);
+      final givenYs = drawGridYs(given);
+      expect(givenYs, pixelYs(given, [3, 6, 9]));
+      expect(givenYs, [
+        closeTo(90, 0.0001),
+        closeTo(180, 0.0001),
+        closeTo(270, 0.0001),
+      ]);
+
+      // Automatic interval: the lines of 0..10 on e60b4c13 are 1..9.
+      const normalValues = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0];
+      final normal = gridChart(minY: 0, maxY: 10);
+      expect(drawGridYs(normal), pixelYs(normal, normalValues));
+      final inverted = gridChart(minY: 10, maxY: 0);
+      expect(drawGridYs(inverted), pixelYs(inverted, normalValues));
+    });
+  });
 }
