@@ -645,6 +645,24 @@ void main() {
       when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
       when(mockCanvasWrapper.size).thenReturn(viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      when(
+        mockCanvasWrapper.drawRotated(
+          size: anyNamed('size'),
+          rotationOffset: anyNamed('rotationOffset'),
+          drawOffset: anyNamed('drawOffset'),
+          angle: anyNamed('angle'),
+          drawCallback: anyNamed('drawCallback'),
+        ),
+      ).thenAnswer((inv) {
+        final callback =
+            inv.namedArguments[const Symbol('drawCallback')] as DrawCallback;
+        callback();
+      });
+      final drawnTexts = <InlineSpan?>[];
+      when(mockCanvasWrapper.drawText(any, any)).thenAnswer((inv) {
+        final tp = inv.positionalArguments[0] as TextPainter;
+        drawnTexts.add(tp.text);
+      });
       candlestickChartPainter.drawTouchTooltip(
         mockBuildContext,
         mockCanvasWrapper,
@@ -654,20 +672,14 @@ void main() {
         holder,
       );
 
-      final verificationResult = verify(
+      verify(
         mockCanvasWrapper.drawRotated(
           size: anyNamed('size'),
           drawOffset: anyNamed('drawOffset'),
           angle: 18,
-          drawCallback: captureAnyNamed('drawCallback'),
+          drawCallback: anyNamed('drawCallback'),
         ),
-      );
-
-      final passedDrawCallback =
-          verificationResult.captured.first as DrawCallback;
-      passedDrawCallback();
-
-      verificationResult.called(1);
+      ).called(1);
 
       final captured2 = verifyInOrder([
         mockCanvasWrapper.drawRRect(captureAny, captureAny),
@@ -676,7 +688,6 @@ void main() {
 
       final rRect = captured2[0][0] as RRect;
       final bgPaint = captured2[0][1] as Paint;
-      final textPainter = captured2[1][0] as TextPainter;
 
       expect(rRect.blRadiusX, 0);
       expect(rRect.blRadiusY, 0);
@@ -685,7 +696,7 @@ void main() {
 
       expect(bgPaint.color, const Color(0xFF00FF00));
       expect(
-        textPainter.text,
+        drawnTexts[0],
         const TextSpan(
           style: textStyle2,
           text: 'faketext',
@@ -750,6 +761,24 @@ void main() {
       when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
       when(mockCanvasWrapper.size).thenReturn(viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      when(
+        mockCanvasWrapper.drawRotated(
+          size: anyNamed('size'),
+          rotationOffset: anyNamed('rotationOffset'),
+          drawOffset: anyNamed('drawOffset'),
+          angle: anyNamed('angle'),
+          drawCallback: anyNamed('drawCallback'),
+        ),
+      ).thenAnswer((inv) {
+        final callback =
+            inv.namedArguments[const Symbol('drawCallback')] as DrawCallback;
+        callback();
+      });
+      final drawnTexts = <InlineSpan?>[];
+      when(mockCanvasWrapper.drawText(any, any)).thenAnswer((inv) {
+        final tp = inv.positionalArguments[0] as TextPainter;
+        drawnTexts.add(tp.text);
+      });
       candlestickChartPainter.drawTouchTooltip(
         mockBuildContext,
         mockCanvasWrapper,
@@ -759,20 +788,14 @@ void main() {
         holder,
       );
 
-      final verificationResult = verify(
+      verify(
         mockCanvasWrapper.drawRotated(
           size: anyNamed('size'),
           drawOffset: anyNamed('drawOffset'),
           angle: 18,
-          drawCallback: captureAnyNamed('drawCallback'),
+          drawCallback: anyNamed('drawCallback'),
         ),
-      );
-
-      final passedDrawCallback =
-          verificationResult.captured.first as DrawCallback;
-      passedDrawCallback();
-
-      verificationResult.called(1);
+      ).called(1);
 
       final captured2 = verifyInOrder([
         mockCanvasWrapper.drawRRect(captureAny, captureAny),
@@ -781,7 +804,6 @@ void main() {
 
       final rRect = captured2[0][0] as RRect;
       final bgPaint = captured2[0][1] as Paint;
-      final textPainter = captured2[1][0] as TextPainter;
 
       expect(rRect.blRadiusX, 22);
       expect(rRect.tlRadiusY, 22);
@@ -790,7 +812,7 @@ void main() {
 
       expect(bgPaint.color, const Color(0xFFFFFF00));
       expect(
-        textPainter.text,
+        drawnTexts[0],
         const TextSpan(
           style: textStyle1,
           text: 'faketext',
@@ -855,6 +877,24 @@ void main() {
       when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
       when(mockCanvasWrapper.size).thenReturn(viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      when(
+        mockCanvasWrapper.drawRotated(
+          size: anyNamed('size'),
+          rotationOffset: anyNamed('rotationOffset'),
+          drawOffset: anyNamed('drawOffset'),
+          angle: anyNamed('angle'),
+          drawCallback: anyNamed('drawCallback'),
+        ),
+      ).thenAnswer((inv) {
+        final callback =
+            inv.namedArguments[const Symbol('drawCallback')] as DrawCallback;
+        callback();
+      });
+      final drawnTexts = <InlineSpan?>[];
+      when(mockCanvasWrapper.drawText(any, any)).thenAnswer((inv) {
+        final tp = inv.positionalArguments[0] as TextPainter;
+        drawnTexts.add(tp.text);
+      });
       candlestickChartPainter.drawTouchTooltip(
         mockBuildContext,
         mockCanvasWrapper,
@@ -864,20 +904,14 @@ void main() {
         holder,
       );
 
-      final verificationResult = verify(
+      verify(
         mockCanvasWrapper.drawRotated(
           size: anyNamed('size'),
           drawOffset: anyNamed('drawOffset'),
           angle: 18,
-          drawCallback: captureAnyNamed('drawCallback'),
+          drawCallback: anyNamed('drawCallback'),
         ),
-      );
-
-      final passedDrawCallback =
-          verificationResult.captured.first as DrawCallback;
-      passedDrawCallback();
-
-      verificationResult.called(1);
+      ).called(1);
 
       final captured2 = verifyInOrder([
         mockCanvasWrapper.drawRRect(captureAny, captureAny),
@@ -886,7 +920,6 @@ void main() {
 
       final rRect = captured2[0][0] as RRect;
       final bgPaint = captured2[0][1] as Paint;
-      final textPainter = captured2[1][0] as TextPainter;
 
       expect(rRect.blRadiusX, 22);
       expect(rRect.tlRadiusY, 22);
@@ -895,7 +928,7 @@ void main() {
 
       expect(bgPaint.color, const Color(0xFFFFFF00));
       expect(
-        textPainter.text,
+        drawnTexts[0],
         const TextSpan(
           style: textStyle1,
           text: 'faketext',
@@ -960,6 +993,24 @@ void main() {
       when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
       when(mockCanvasWrapper.size).thenReturn(viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      when(
+        mockCanvasWrapper.drawRotated(
+          size: anyNamed('size'),
+          rotationOffset: anyNamed('rotationOffset'),
+          drawOffset: anyNamed('drawOffset'),
+          angle: anyNamed('angle'),
+          drawCallback: anyNamed('drawCallback'),
+        ),
+      ).thenAnswer((inv) {
+        final callback =
+            inv.namedArguments[const Symbol('drawCallback')] as DrawCallback;
+        callback();
+      });
+      final drawnTexts = <InlineSpan?>[];
+      when(mockCanvasWrapper.drawText(any, any)).thenAnswer((inv) {
+        final tp = inv.positionalArguments[0] as TextPainter;
+        drawnTexts.add(tp.text);
+      });
       candlestickChartPainter.drawTouchTooltip(
         mockBuildContext,
         mockCanvasWrapper,
@@ -969,20 +1020,14 @@ void main() {
         holder,
       );
 
-      final verificationResult = verify(
+      verify(
         mockCanvasWrapper.drawRotated(
           size: anyNamed('size'),
           drawOffset: anyNamed('drawOffset'),
           angle: 18,
-          drawCallback: captureAnyNamed('drawCallback'),
+          drawCallback: anyNamed('drawCallback'),
         ),
-      );
-
-      final passedDrawCallback =
-          verificationResult.captured.first as DrawCallback;
-      passedDrawCallback();
-
-      verificationResult.called(1);
+      ).called(1);
 
       final captured2 = verifyInOrder([
         mockCanvasWrapper.drawRRect(captureAny, captureAny),
@@ -991,7 +1036,6 @@ void main() {
 
       final rRect = captured2[0][0] as RRect;
       final bgPaint = captured2[0][1] as Paint;
-      final textPainter = captured2[1][0] as TextPainter;
 
       expect(rRect.blRadiusX, 22);
       expect(rRect.tlRadiusY, 22);
@@ -1000,7 +1044,7 @@ void main() {
 
       expect(bgPaint.color, const Color(0xFFFFFF00));
       expect(
-        textPainter.text,
+        drawnTexts[0],
         const TextSpan(
           style: textStyle1,
           text: 'faketext',

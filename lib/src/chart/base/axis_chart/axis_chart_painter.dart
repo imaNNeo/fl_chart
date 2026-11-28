@@ -357,6 +357,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
                 -90,
               );
           }
+          tp.dispose();
         }
       }
     }
@@ -480,6 +481,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
                 -90,
               );
           }
+          tp.dispose();
         }
       }
     }

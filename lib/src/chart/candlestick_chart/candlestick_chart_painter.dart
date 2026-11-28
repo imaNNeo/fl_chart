@@ -175,134 +175,137 @@ class CandlestickChartPainter extends AxisChartPainter<CandlestickChartData> {
       textDirection: tooltipItem.textDirection,
       textScaler: holder.textScaler,
     )..layout(maxWidth: tooltipData.maxContentWidth);
+    try {
+      final width = drawingTextPainter.width;
+      final height = drawingTextPainter.height;
 
-    final width = drawingTextPainter.width;
-    final height = drawingTextPainter.height;
+      final tooltipOriginPoint = Offset(
+        getPixelX(showOnSpot.x, viewSize, holder),
+        getPixelY(
+          showOnSpot.high,
+          viewSize,
+          holder,
+        ),
+      );
 
-    final tooltipOriginPoint = Offset(
-      getPixelX(showOnSpot.x, viewSize, holder),
-      getPixelY(
-        showOnSpot.high,
-        viewSize,
-        holder,
-      ),
-    );
+      final tooltipWidth = width + tooltipData.tooltipPadding.horizontal;
+      final tooltipHeight = height + tooltipData.tooltipPadding.vertical;
 
-    final tooltipWidth = width + tooltipData.tooltipPadding.horizontal;
-    final tooltipHeight = height + tooltipData.tooltipPadding.vertical;
-
-    double tooltipTopPosition;
-    if (tooltipData.showOnTopOfTheChartBoxArea) {
-      tooltipTopPosition = 0 - tooltipHeight - tooltipItem.bottomMargin;
-    } else {
-      tooltipTopPosition =
-          tooltipOriginPoint.dy - tooltipHeight - tooltipItem.bottomMargin;
-    }
-
-    final tooltipLeftPosition = getTooltipLeft(
-      tooltipOriginPoint.dx,
-      tooltipWidth,
-      tooltipData.tooltipHorizontalAlignment,
-      tooltipData.tooltipHorizontalOffset,
-    );
-
-    /// draw the background rect with rounded radius
-    var rect = Rect.fromLTWH(
-      tooltipLeftPosition,
-      tooltipTopPosition,
-      tooltipWidth,
-      tooltipHeight,
-    );
-
-    if (tooltipData.fitInsideHorizontally) {
-      if (rect.left < 0) {
-        final shiftAmount = 0 - rect.left;
-        rect = Rect.fromLTRB(
-          rect.left + shiftAmount,
-          rect.top,
-          rect.right + shiftAmount,
-          rect.bottom,
-        );
+      double tooltipTopPosition;
+      if (tooltipData.showOnTopOfTheChartBoxArea) {
+        tooltipTopPosition = 0 - tooltipHeight - tooltipItem.bottomMargin;
+      } else {
+        tooltipTopPosition =
+            tooltipOriginPoint.dy - tooltipHeight - tooltipItem.bottomMargin;
       }
 
-      if (rect.right > viewSize.width) {
-        final shiftAmount = rect.right - viewSize.width;
-        rect = Rect.fromLTRB(
-          rect.left - shiftAmount,
-          rect.top,
-          rect.right - shiftAmount,
-          rect.bottom,
-        );
+      final tooltipLeftPosition = getTooltipLeft(
+        tooltipOriginPoint.dx,
+        tooltipWidth,
+        tooltipData.tooltipHorizontalAlignment,
+        tooltipData.tooltipHorizontalOffset,
+      );
+
+      /// draw the background rect with rounded radius
+      var rect = Rect.fromLTWH(
+        tooltipLeftPosition,
+        tooltipTopPosition,
+        tooltipWidth,
+        tooltipHeight,
+      );
+
+      if (tooltipData.fitInsideHorizontally) {
+        if (rect.left < 0) {
+          final shiftAmount = 0 - rect.left;
+          rect = Rect.fromLTRB(
+            rect.left + shiftAmount,
+            rect.top,
+            rect.right + shiftAmount,
+            rect.bottom,
+          );
+        }
+
+        if (rect.right > viewSize.width) {
+          final shiftAmount = rect.right - viewSize.width;
+          rect = Rect.fromLTRB(
+            rect.left - shiftAmount,
+            rect.top,
+            rect.right - shiftAmount,
+            rect.bottom,
+          );
+        }
       }
-    }
 
-    if (tooltipData.fitInsideVertically) {
-      if (rect.top < 0) {
-        final shiftAmount = 0 - rect.top;
-        rect = Rect.fromLTRB(
-          rect.left,
-          rect.top + shiftAmount,
-          rect.right,
-          rect.bottom + shiftAmount,
-        );
+      if (tooltipData.fitInsideVertically) {
+        if (rect.top < 0) {
+          final shiftAmount = 0 - rect.top;
+          rect = Rect.fromLTRB(
+            rect.left,
+            rect.top + shiftAmount,
+            rect.right,
+            rect.bottom + shiftAmount,
+          );
+        }
+
+        if (rect.bottom > viewSize.height) {
+          final shiftAmount = rect.bottom - viewSize.height;
+          rect = Rect.fromLTRB(
+            rect.left,
+            rect.top - shiftAmount,
+            rect.right,
+            rect.bottom - shiftAmount,
+          );
+        }
       }
 
-      if (rect.bottom > viewSize.height) {
-        final shiftAmount = rect.bottom - viewSize.height;
-        rect = Rect.fromLTRB(
-          rect.left,
-          rect.top - shiftAmount,
-          rect.right,
-          rect.bottom - shiftAmount,
-        );
+      final roundedRect = RRect.fromRectAndCorners(
+        rect,
+        topLeft: tooltipData.tooltipBorderRadius.topLeft,
+        topRight: tooltipData.tooltipBorderRadius.topRight,
+        bottomLeft: tooltipData.tooltipBorderRadius.bottomLeft,
+        bottomRight: tooltipData.tooltipBorderRadius.bottomRight,
+      );
+
+      _bgTouchTooltipPaint.color = tooltipData.getTooltipColor(showOnSpot);
+
+      final rotateAngle = tooltipData.rotateAngle;
+      final rectRotationOffset =
+          Offset(0, Utils().calculateRotationOffset(rect.size, rotateAngle).dy);
+      final rectDrawOffset = Offset(roundedRect.left, roundedRect.top);
+
+      final textRotationOffset =
+          Utils().calculateRotationOffset(drawingTextPainter.size, rotateAngle);
+
+      final drawOffset = Offset(
+        rect.center.dx - (drawingTextPainter.width / 2),
+        rect.topCenter.dy +
+            tooltipData.tooltipPadding.top -
+            textRotationOffset.dy +
+            rectRotationOffset.dy,
+      );
+
+      if (tooltipData.tooltipBorder != BorderSide.none) {
+        _borderTouchTooltipPaint
+          ..color = tooltipData.tooltipBorder.color
+          ..strokeWidth = tooltipData.tooltipBorder.width;
       }
+
+      final reverseQuarterTurnsAngle = -holder.data.rotationQuarterTurns * 90;
+      canvasWrapper.drawRotated(
+        size: rect.size,
+        rotationOffset: rectRotationOffset,
+        drawOffset: rectDrawOffset,
+        angle: reverseQuarterTurnsAngle + rotateAngle,
+        drawCallback: () {
+          canvasWrapper
+            ..drawRRect(roundedRect, _bgTouchTooltipPaint)
+            ..drawRRect(roundedRect, _borderTouchTooltipPaint)
+            ..drawText(drawingTextPainter, drawOffset);
+        },
+      );
+    } finally {
+      drawingTextPainter.dispose();
     }
-
-    final roundedRect = RRect.fromRectAndCorners(
-      rect,
-      topLeft: tooltipData.tooltipBorderRadius.topLeft,
-      topRight: tooltipData.tooltipBorderRadius.topRight,
-      bottomLeft: tooltipData.tooltipBorderRadius.bottomLeft,
-      bottomRight: tooltipData.tooltipBorderRadius.bottomRight,
-    );
-
-    _bgTouchTooltipPaint.color = tooltipData.getTooltipColor(showOnSpot);
-
-    final rotateAngle = tooltipData.rotateAngle;
-    final rectRotationOffset =
-        Offset(0, Utils().calculateRotationOffset(rect.size, rotateAngle).dy);
-    final rectDrawOffset = Offset(roundedRect.left, roundedRect.top);
-
-    final textRotationOffset =
-        Utils().calculateRotationOffset(drawingTextPainter.size, rotateAngle);
-
-    final drawOffset = Offset(
-      rect.center.dx - (drawingTextPainter.width / 2),
-      rect.topCenter.dy +
-          tooltipData.tooltipPadding.top -
-          textRotationOffset.dy +
-          rectRotationOffset.dy,
-    );
-
-    if (tooltipData.tooltipBorder != BorderSide.none) {
-      _borderTouchTooltipPaint
-        ..color = tooltipData.tooltipBorder.color
-        ..strokeWidth = tooltipData.tooltipBorder.width;
-    }
-
-    final reverseQuarterTurnsAngle = -holder.data.rotationQuarterTurns * 90;
-    canvasWrapper.drawRotated(
-      size: rect.size,
-      rotationOffset: rectRotationOffset,
-      drawOffset: rectDrawOffset,
-      angle: reverseQuarterTurnsAngle + rotateAngle,
-      drawCallback: () {
-        canvasWrapper
-          ..drawRRect(roundedRect, _bgTouchTooltipPaint)
-          ..drawRRect(roundedRect, _borderTouchTooltipPaint)
-          ..drawText(drawingTextPainter, drawOffset);
-      },
-    );
   }
 
   @visibleForTesting

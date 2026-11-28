@@ -374,6 +374,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
                   textPainter.paint(canvasWrapper.canvas, Offset.zero);
                   canvasWrapper.restore();
                 }
+                textPainter.dispose();
               }
 
               // draw border stroke for each stack item
@@ -459,7 +460,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
           ..translate(drawX, drawY + textPainter.height / 2)
           ..rotate(chartRotation + labelAngle)
           ..translate(-textPainter.width / 2, -textPainter.height / 2);
-        textPainter.paint(canvasWrapper.canvas, Offset.zero);
+        textPainter
+          ..paint(canvasWrapper.canvas, Offset.zero)
+          ..dispose();
         canvasWrapper.restore();
       }
     }
@@ -573,183 +576,187 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       textDirection: tooltipItem.textDirection,
       textScaler: holder.textScaler,
     )..layout(maxWidth: tooltipData.maxContentWidth);
+    try {
+      /// creating TextPainters to calculate the width and height of the tooltip
+      final drawingTextPainter = tp;
 
-    /// creating TextPainters to calculate the width and height of the tooltip
-    final drawingTextPainter = tp;
+      /// biggerWidth
+      /// some texts maybe larger, then we should
+      /// draw the tooltip' width as wide as biggerWidth
+      ///
+      /// sumTextsHeight
+      /// sum up all Texts height, then we should
+      /// draw the tooltip's height as tall as sumTextsHeight
+      final textWidth = drawingTextPainter.width;
+      final textHeight = drawingTextPainter.height + textsBelowMargin;
 
-    /// biggerWidth
-    /// some texts maybe larger, then we should
-    /// draw the tooltip' width as wide as biggerWidth
-    ///
-    /// sumTextsHeight
-    /// sum up all Texts height, then we should
-    /// draw the tooltip's height as tall as sumTextsHeight
-    final textWidth = drawingTextPainter.width;
-    final textHeight = drawingTextPainter.height + textsBelowMargin;
+      final barX = groupPositions[barGroupIndex].barsX[barRodIndex];
 
-    final barX = groupPositions[barGroupIndex].barsX[barRodIndex];
+      /// if we have multiple bar lines,
+      /// there are more than one FlCandidate on touch area,
+      /// we should get the most top FlSpot Offset to draw the tooltip on top of it
+      final barToYPixel = Offset(
+        barX,
+        getPixelY(showOnRodData.toY, viewSize, holder),
+      );
 
-    /// if we have multiple bar lines,
-    /// there are more than one FlCandidate on touch area,
-    /// we should get the most top FlSpot Offset to draw the tooltip on top of it
-    final barToYPixel = Offset(
-      barX,
-      getPixelY(showOnRodData.toY, viewSize, holder),
-    );
+      final barFromYPixel = Offset(
+        barX,
+        getPixelY(showOnRodData.fromY, viewSize, holder),
+      );
 
-    final barFromYPixel = Offset(
-      barX,
-      getPixelY(showOnRodData.fromY, viewSize, holder),
-    );
+      final tooltipWidth = textWidth + tooltipData.tooltipPadding.horizontal;
+      final tooltipHeight = textHeight + tooltipData.tooltipPadding.vertical;
 
-    final tooltipWidth = textWidth + tooltipData.tooltipPadding.horizontal;
-    final tooltipHeight = textHeight + tooltipData.tooltipPadding.vertical;
+      var barTopY = min(barToYPixel.dy, barFromYPixel.dy);
+      var barBottomY = max(barToYPixel.dy, barFromYPixel.dy);
+      final drawTooltipOnTop = tooltipData.direction == TooltipDirection.top ||
+          (tooltipData.direction == TooltipDirection.auto &&
+              showOnRodData.isUpward());
 
-    var barTopY = min(barToYPixel.dy, barFromYPixel.dy);
-    var barBottomY = max(barToYPixel.dy, barFromYPixel.dy);
-    final drawTooltipOnTop = tooltipData.direction == TooltipDirection.top ||
-        (tooltipData.direction == TooltipDirection.auto &&
-            showOnRodData.isUpward());
-
-    // Shift tooltip anchor to avoid overlapping with rod label
-    final rodLabel = showOnRodData.label;
-    if (rodLabel.show && rodLabel.text.isNotEmpty) {
-      final labelStyle =
-          Utils().getThemeAwareTextStyle(context, rodLabel.style);
-      final labelSpan = TextSpan(text: rodLabel.text, style: labelStyle);
-      final labelPainter = TextPainter(
-        text: labelSpan,
-        textAlign: TextAlign.center,
-        textDirection: rodLabel.textDirection,
-        textScaler: holder.textScaler,
-      )..layout();
-      final labelSpace = labelPainter.height + rodLabel.offset.dy;
-      if (drawTooltipOnTop) {
-        barTopY -= labelSpace;
-      } else {
-        barBottomY += labelSpace;
-      }
-    }
-
-    final tooltipOriginPoint = Offset(
-      barX,
-      drawTooltipOnTop ? barTopY : barBottomY,
-    );
-
-    final isZoomed = holder.chartVirtualRect != null;
-    if (isZoomed && !canvasWrapper.size.contains(tooltipOriginPoint)) {
-      return;
-    }
-
-    final tooltipTop = drawTooltipOnTop
-        ? barTopY - tooltipHeight - tooltipData.tooltipMargin
-        : barBottomY + tooltipData.tooltipMargin;
-
-    final tooltipLeft = getTooltipLeft(
-      barToYPixel.dx,
-      tooltipWidth,
-      tooltipData.tooltipHorizontalAlignment,
-      tooltipData.tooltipHorizontalOffset,
-    );
-
-    /// draw the background rect with rounded radius
-    // ignore: omit_local_variable_types
-    Rect rect = Rect.fromLTWH(
-      tooltipLeft,
-      tooltipTop,
-      tooltipWidth,
-      tooltipHeight,
-    );
-
-    if (tooltipData.fitInsideHorizontally) {
-      if (rect.left < 0) {
-        final shiftAmount = 0 - rect.left;
-        rect = Rect.fromLTRB(
-          rect.left + shiftAmount,
-          rect.top,
-          rect.right + shiftAmount,
-          rect.bottom,
-        );
+      // Shift tooltip anchor to avoid overlapping with rod label
+      final rodLabel = showOnRodData.label;
+      if (rodLabel.show && rodLabel.text.isNotEmpty) {
+        final labelStyle =
+            Utils().getThemeAwareTextStyle(context, rodLabel.style);
+        final labelSpan = TextSpan(text: rodLabel.text, style: labelStyle);
+        final labelPainter = TextPainter(
+          text: labelSpan,
+          textAlign: TextAlign.center,
+          textDirection: rodLabel.textDirection,
+          textScaler: holder.textScaler,
+        )..layout();
+        final labelSpace = labelPainter.height + rodLabel.offset.dy;
+        labelPainter.dispose();
+        if (drawTooltipOnTop) {
+          barTopY -= labelSpace;
+        } else {
+          barBottomY += labelSpace;
+        }
       }
 
-      if (rect.right > viewSize.width) {
-        final shiftAmount = rect.right - viewSize.width;
-        rect = Rect.fromLTRB(
-          rect.left - shiftAmount,
-          rect.top,
-          rect.right - shiftAmount,
-          rect.bottom,
-        );
-      }
-    }
+      final tooltipOriginPoint = Offset(
+        barX,
+        drawTooltipOnTop ? barTopY : barBottomY,
+      );
 
-    if (tooltipData.fitInsideVertically) {
-      if (rect.top < 0) {
-        final shiftAmount = 0 - rect.top;
-        rect = Rect.fromLTRB(
-          rect.left,
-          rect.top + shiftAmount,
-          rect.right,
-          rect.bottom + shiftAmount,
-        );
+      final isZoomed = holder.chartVirtualRect != null;
+      if (isZoomed && !canvasWrapper.size.contains(tooltipOriginPoint)) {
+        return;
       }
 
-      if (rect.bottom > viewSize.height) {
-        final shiftAmount = rect.bottom - viewSize.height;
-        rect = Rect.fromLTRB(
-          rect.left,
-          rect.top - shiftAmount,
-          rect.right,
-          rect.bottom - shiftAmount,
-        );
+      final tooltipTop = drawTooltipOnTop
+          ? barTopY - tooltipHeight - tooltipData.tooltipMargin
+          : barBottomY + tooltipData.tooltipMargin;
+
+      final tooltipLeft = getTooltipLeft(
+        barToYPixel.dx,
+        tooltipWidth,
+        tooltipData.tooltipHorizontalAlignment,
+        tooltipData.tooltipHorizontalOffset,
+      );
+
+      /// draw the background rect with rounded radius
+      // ignore: omit_local_variable_types
+      Rect rect = Rect.fromLTWH(
+        tooltipLeft,
+        tooltipTop,
+        tooltipWidth,
+        tooltipHeight,
+      );
+
+      if (tooltipData.fitInsideHorizontally) {
+        if (rect.left < 0) {
+          final shiftAmount = 0 - rect.left;
+          rect = Rect.fromLTRB(
+            rect.left + shiftAmount,
+            rect.top,
+            rect.right + shiftAmount,
+            rect.bottom,
+          );
+        }
+
+        if (rect.right > viewSize.width) {
+          final shiftAmount = rect.right - viewSize.width;
+          rect = Rect.fromLTRB(
+            rect.left - shiftAmount,
+            rect.top,
+            rect.right - shiftAmount,
+            rect.bottom,
+          );
+        }
       }
+
+      if (tooltipData.fitInsideVertically) {
+        if (rect.top < 0) {
+          final shiftAmount = 0 - rect.top;
+          rect = Rect.fromLTRB(
+            rect.left,
+            rect.top + shiftAmount,
+            rect.right,
+            rect.bottom + shiftAmount,
+          );
+        }
+
+        if (rect.bottom > viewSize.height) {
+          final shiftAmount = rect.bottom - viewSize.height;
+          rect = Rect.fromLTRB(
+            rect.left,
+            rect.top - shiftAmount,
+            rect.right,
+            rect.bottom - shiftAmount,
+          );
+        }
+      }
+
+      final roundedRect = RRect.fromRectAndCorners(
+        rect,
+        topLeft: tooltipData.tooltipBorderRadius.topLeft,
+        topRight: tooltipData.tooltipBorderRadius.topRight,
+        bottomLeft: tooltipData.tooltipBorderRadius.bottomLeft,
+        bottomRight: tooltipData.tooltipBorderRadius.bottomRight,
+      );
+
+      /// set tooltip's background color for each rod
+      _bgTouchTooltipPaint.color = tooltipData.getTooltipColor(showOnBarGroup);
+
+      final rotateAngle = tooltipData.rotateAngle;
+      final rectRotationOffset =
+          Offset(0, Utils().calculateRotationOffset(rect.size, rotateAngle).dy);
+      final rectDrawOffset = Offset(roundedRect.left, roundedRect.top);
+
+      final textRotationOffset =
+          Utils().calculateRotationOffset(tp.size, rotateAngle);
+
+      /// draw the texts one by one in below of each other
+      final top = tooltipData.tooltipPadding.top;
+      final drawOffset = Offset(
+        rect.center.dx - (tp.width / 2),
+        rect.topCenter.dy + top - textRotationOffset.dy + rectRotationOffset.dy,
+      );
+
+      if (tooltipData.tooltipBorder != BorderSide.none) {
+        _borderTouchTooltipPaint
+          ..color = tooltipData.tooltipBorder.color
+          ..strokeWidth = tooltipData.tooltipBorder.width;
+      }
+
+      final reverseQuarterTurnsAngle = -holder.data.rotationQuarterTurns * 90;
+      canvasWrapper.drawRotated(
+        size: rect.size,
+        rotationOffset: rectRotationOffset,
+        drawOffset: rectDrawOffset,
+        angle: reverseQuarterTurnsAngle + rotateAngle,
+        drawCallback: () {
+          canvasWrapper
+            ..drawRRect(roundedRect, _bgTouchTooltipPaint)
+            ..drawRRect(roundedRect, _borderTouchTooltipPaint)
+            ..drawText(tp, drawOffset);
+        },
+      );
+    } finally {
+      tp.dispose();
     }
-
-    final roundedRect = RRect.fromRectAndCorners(
-      rect,
-      topLeft: tooltipData.tooltipBorderRadius.topLeft,
-      topRight: tooltipData.tooltipBorderRadius.topRight,
-      bottomLeft: tooltipData.tooltipBorderRadius.bottomLeft,
-      bottomRight: tooltipData.tooltipBorderRadius.bottomRight,
-    );
-
-    /// set tooltip's background color for each rod
-    _bgTouchTooltipPaint.color = tooltipData.getTooltipColor(showOnBarGroup);
-
-    final rotateAngle = tooltipData.rotateAngle;
-    final rectRotationOffset =
-        Offset(0, Utils().calculateRotationOffset(rect.size, rotateAngle).dy);
-    final rectDrawOffset = Offset(roundedRect.left, roundedRect.top);
-
-    final textRotationOffset =
-        Utils().calculateRotationOffset(tp.size, rotateAngle);
-
-    /// draw the texts one by one in below of each other
-    final top = tooltipData.tooltipPadding.top;
-    final drawOffset = Offset(
-      rect.center.dx - (tp.width / 2),
-      rect.topCenter.dy + top - textRotationOffset.dy + rectRotationOffset.dy,
-    );
-
-    if (tooltipData.tooltipBorder != BorderSide.none) {
-      _borderTouchTooltipPaint
-        ..color = tooltipData.tooltipBorder.color
-        ..strokeWidth = tooltipData.tooltipBorder.width;
-    }
-
-    final reverseQuarterTurnsAngle = -holder.data.rotationQuarterTurns * 90;
-    canvasWrapper.drawRotated(
-      size: rect.size,
-      rotationOffset: rectRotationOffset,
-      drawOffset: rectDrawOffset,
-      angle: reverseQuarterTurnsAngle + rotateAngle,
-      drawCallback: () {
-        canvasWrapper
-          ..drawRRect(roundedRect, _bgTouchTooltipPaint)
-          ..drawRRect(roundedRect, _borderTouchTooltipPaint)
-          ..drawText(tp, drawOffset);
-      },
-    );
   }
 
   @visibleForTesting

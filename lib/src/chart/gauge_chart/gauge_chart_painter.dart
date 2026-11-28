@@ -473,6 +473,7 @@ class GaugeChartPainter extends BaseChartPainter<GaugeChartData> {
           tp,
           Offset(labelCenter.dx - tp.width / 2, labelCenter.dy - tp.height / 2),
         );
+        tp.dispose();
       }
     }
   }
