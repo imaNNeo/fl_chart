@@ -977,6 +977,102 @@ void main() {
       final withSpaceMetrics = pathWithSpace.computeMetrics().toList();
       expect(withSpaceMetrics.isNotEmpty, true);
     });
+
+    test(
+        'test 6 rounded sections with sectionsSpace keep their midpoint (#2090)',
+        () {
+      // Before the fix, a near-zero lineTo after the outer arc made
+      // Path.combine(difference) drop the whole section for these inputs.
+      // They were confirmed to fail before the fix on macOS flutter_tester,
+      // Flutter 3.47.9. Whether they fail depends on the floating-point
+      // behavior of the engine's PathOps, so on other platforms or versions
+      // they may pass even without the fix. No structural assertion (such as
+      // "no near-zero segment") is added on purpose.
+      //
+      // (a)#10-#14 are section #1 of the issue's animation (sections
+      // [4, 4, 3, 2, 2] -> [57, 20, 12, 11], startDegreeOffset -90, 900ms
+      // easeOutCubic) at 283.3333, 366.6667, 633.3333, 866.6667 and
+      // 883.3333ms. They were computed once with PieChartDataTween and
+      // calculateSectionsAngle before the fix (Flutter 3.47.9) and are
+      // kept as full-precision literals, so later changes to the tween
+      // cannot move them off the failing inputs.
+      final cases = <(String, Offset, double, double, double, double)>[
+        // label, center, centerRadius, radius, start, sweep
+        ('(a)#1', const Offset(50, 50), 10, 40, -170, 85),
+        ('(a)#2', const Offset(50, 50), 10, 40, -170, 90),
+        ('(a)#3', const Offset(50, 50), 10, 40, -160, 80),
+        ('(a)#4', const Offset(50, 50), 10, 40, -160, 350),
+        ('(a)#5', const Offset(50, 50), 10, 40, -150, 70),
+        ('(a)#6', const Offset(50, 50), 10, 40, -150, 340),
+        ('(a)#7', const Offset(50, 50), 10, 40, -140, 60),
+        ('(a)#8', const Offset(50, 50), 10, 40, 30, 160),
+        ('(a)#9', const Offset(50, 50), 10, 40, 30, 250),
+        (
+          '(a)#10',
+          const Offset(50, 50),
+          10,
+          40,
+          110.15849425486411,
+          74.06982640562764,
+        ),
+        (
+          '(a)#11',
+          const Offset(50, 50),
+          10,
+          40,
+          112.27738852890016,
+          73.19989913769493,
+        ),
+        (
+          '(a)#12',
+          const Offset(50, 50),
+          10,
+          40,
+          114.75386085686631,
+          72.18316563061207,
+        ),
+        (
+          '(a)#13',
+          const Offset(50, 50),
+          10,
+          40,
+          115.19453441334679,
+          72.00224393586934,
+        ),
+        (
+          '(a)#14',
+          const Offset(50, 50),
+          10,
+          40,
+          115.19863205620038,
+          72.00056161915526,
+        ),
+        ('(b)', const Offset(37.5, 37.5), 0, 37.5, -103, 20),
+        ('(c)', const Offset(50, 50), 10, 40, -170, 356.7000000000004),
+      ];
+
+      final pieChartPainter = PieChartPainter();
+      final missing = <String>[];
+      for (final (label, center, centerRadius, radius, start, sweep) in cases) {
+        final path = pieChartPainter.generateSectionPath(
+          PieChartSectionData(value: 1, radius: radius, cornerRadius: 8),
+          3,
+          start,
+          sweep,
+          center,
+          centerRadius,
+        );
+        final midAngle = (start + sweep / 2) * math.pi / 180;
+        final midpoint = center +
+            Offset(math.cos(midAngle), math.sin(midAngle)) *
+                (centerRadius + radius / 2);
+        if (!path.contains(midpoint)) {
+          missing.add('$label start=$start sweep=$sweep');
+        }
+      }
+
+      expect(missing, isEmpty);
+    });
   });
 
   group('generateRoundedSectionPath()', () {
